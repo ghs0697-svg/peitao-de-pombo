@@ -633,8 +633,10 @@
 <script>
 // ════════ CONFIG ════════
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
-// ⚠️ GH: cola aqui o link do CHECKOUT do order bump (+R$19,90) da Greenn
-const CHECKOUT_UPSELL = '#';
+// Links de checkout da Greenn
+const CHECKOUT_5X        = 'https://payfast.greenn.com.br/8t8kww9';  // produto "5x + dieta" → libera SEMANA + DIETA
+const CHECKOUT_VITALICIO = 'https://payfast.greenn.com.br/tewddsq';  // acesso vitalício → zera os 90 dias
+const CHECKOUT_SHAPE     = 'https://payfast.greenn.com.br/692pd5f';  // Shape de Elite
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
 
@@ -691,7 +693,7 @@ function showAuth(mode) {
   document.getElementById('authReset').classList.toggle('hidden', mode !== 'reset');
   document.getElementById('authExpired').classList.toggle('hidden', mode !== 'expired');
   if (mode === 'expired') {
-    document.getElementById('expiredCta').href = CHECKOUT_UPSELL;
+    document.getElementById('expiredCta').href = CHECKOUT_VITALICIO;
   }
 }
 async function doLogin() {
@@ -818,7 +820,7 @@ function enterApp() {
       ? 'Acesso expirado'
       : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'} — libera o vitalício`;
     sub.style.cursor = 'pointer';
-    sub.onclick = () => { if (CHECKOUT_UPSELL !== '#') window.open(CHECKOUT_UPSELL, '_blank'); };
+    sub.onclick = () => window.open(CHECKOUT_VITALICIO, '_blank');
   } else {
     sub.textContent = 'Treino direto. Sem enrolação.';
     sub.style.cursor = '';
@@ -869,8 +871,70 @@ const CONSULTORIA = {
     "Atualizações a cada 55 dias com reajuste e feedback"
   ],
   cta: "Quero migrar pro Método GH",
-  link: "https://wa.me/5520130783?text=" + encodeURIComponent("E aí GH, vim do Peitão de Pombo e quero saber mais sobre a consultoria individual.")
+  link: "https://wa.me/5520130783?text=" + encodeURIComponent("Olá, vim do Peitão de Pombo! Quero construir um corpo mais forte e definido com o Método GH.")
 };
+
+// ════════ 3 UPSELLS — em ordem ════════
+const UPSELLS = [
+  {
+    id: '5x',
+    badge: 'TREINO COMPLETO',
+    headline: 'Treino 5x + Dietas — pro resto do corpo não ficar fino',
+    sub: 'Tu já tá fazendo o peito crescer. Mas treinar só peito deixa o corpo desproporcional. Libera o treino completo da semana + as dietas e cresce parelho.',
+    bullets: [
+      'Treino 5x na semana — costas, ombro, braço e perna',
+      'Dietas pro corpo inteiro crescer sem encher de gordura',
+      '3 fases de progressão (1.0 → 2.0 → 3.0)',
+      'Tudo dentro do app, sem PDF perdido'
+    ],
+    cta: 'Liberar treino 5x + dietas',
+    link: CHECKOUT_5X,
+    hideIfUpsell: true
+  },
+  {
+    id: 'shape',
+    badge: 'O PRÓXIMO PASSO',
+    headline: 'Tô pronto pra construir um Shape de Elite',
+    sub: 'Quer ir além do peito e do shape proporcional? O Shape de Elite é o protocolo completo pra construir um físico de outro nível.',
+    bullets: [
+      'Protocolo de treino + dieta completo',
+      'Sistema de fases pra evolução contínua',
+      'Pra quem quer um shape que se destaca'
+    ],
+    cta: 'Quero o Shape de Elite',
+    link: CHECKOUT_SHAPE
+  },
+  {
+    id: 'consultoria',
+    badge: CONSULTORIA.badge,
+    headline: 'Quero atendimento individualizado — conhecer o Método GH',
+    sub: CONSULTORIA.subtitle,
+    bullets: CONSULTORIA.bullets,
+    cta: 'Falar sobre a consultoria',
+    link: CONSULTORIA.link
+  }
+];
+
+// Renderiza os 3 cards de upsell (esconde o "5x + dieta" pra quem já tem)
+function renderUpsells() {
+  return UPSELLS
+    .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
+    .map(u => `
+      <div class="mgh-card" style="margin-top:14px;">
+        <div class="mgh-head">
+          <div class="mgh-logo">GH</div>
+          <div>
+            <div class="mgh-marca">MÉTODO GH</div>
+            <div class="mgh-badge">${u.badge}</div>
+          </div>
+        </div>
+        <div class="mgh-headline">${u.headline}</div>
+        <div class="mgh-sub">${u.sub}</div>
+        <ul class="mgh-bullets">${u.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
+      </div>
+    `).join('');
+}
 
 // ════════ PARCEIROS ════════
 const PARCEIROS = {
@@ -915,22 +979,8 @@ const PARCEIROS = {
 
 function renderParceiros() {
   const c = document.getElementById('screen-parc');
-  // Card de upsell consultoria no topo
-  let html = `
-    <div class="mgh-card">
-      <div class="mgh-head">
-        <div class="mgh-logo">GH</div>
-        <div>
-          <div class="mgh-marca">MÉTODO GH</div>
-          <div class="mgh-badge">${CONSULTORIA.badge}</div>
-        </div>
-      </div>
-      <div class="mgh-headline">${CONSULTORIA.headline}</div>
-      <div class="mgh-sub">${CONSULTORIA.subtitle}</div>
-      <ul class="mgh-bullets">${CONSULTORIA.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-      <a class="mgh-cta" href="${CONSULTORIA.link}" target="_blank" rel="noopener">${CONSULTORIA.cta} →</a>
-    </div>
-  `;
+  // 3 cards de upsell no topo
+  let html = renderUpsells();
   for (const [cat, itens] of Object.entries(PARCEIROS)) {
     html += `<div class="parc-cat">${cat}</div>`;
     html += itens.map(p => `
@@ -1094,7 +1144,7 @@ function renderPeito() {
     </div>
     ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
     ${exs}
-    ${mghCard()}
+    ${renderUpsells()}
   `;
 }
 function setPeitoVer(v) { state.peitoVer = v; renderPeito(); }
@@ -1187,7 +1237,7 @@ function paywall(kind) {
         ${perks.map(p => `<div>${p}</div>`).join('')}
       </div>
       <div class="price">de <s>R$49,80</s> por apenas <b>+R$19,90</b></div>
-      <a class="cta" href="${CHECKOUT_UPSELL}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
+      <a class="cta" href="${CHECKOUT_5X}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
     </div>
   `;
 }
