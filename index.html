@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Peitão de Pombo — Método GH</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #0A0A0B;
+    --surface: #161618;
+    --surface-2: #1F1F22;
+    --border: #2C2C30;
+    --text: #F2F2F2;
+    --text-dim: #9A9A9E;
+    --text-mute: #6A6A6E;
+    --accent: #FF6B1A;
+    --accent-hi: #FF8642;
+    --gold: #E8B84B;
+    --safe-top: env(safe-area-inset-top);
+    --safe-bottom: env(safe-area-inset-bottom);
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 600px; margin: 0 auto; min-height: 100vh; padding-bottom: calc(30px + var(--safe-bottom)); }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: calc(20px + var(--safe-top)) 20px 16px;
+    background: linear-gradient(180deg, #141416 0%, var(--bg) 100%);
+  }
+  .logo { font-size: 13px; letter-spacing: 4px; color: var(--text-mute); font-weight: 600; }
+  .title {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .title span { color: var(--accent); }
+  .sub { font-size: 12px; color: var(--text-dim); margin-top: 6px; letter-spacing: .5px; }
+
+  /* Tabs — grandes, no-brain */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 16px 0;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 20;
+  }
+  .tab {
+    flex: 1;
+    padding: 14px 6px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s;
+    font-family: inherit;
+    line-height: 1.25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .tab .tab-ic { font-size: 18px; }
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0A0A0B;
+  }
+  .tab.locked { opacity: .7; }
+  .tab .lock { font-size: 10px; }
+
+  main { padding: 18px 16px 0; }
+  .screen { display: none; animation: fade .2s; }
+  .screen.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .hint { font-size: 13px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5; }
+
+  /* Version selector — big chunky buttons */
+  .ver-row { display: flex; gap: 8px; margin-bottom: 18px; }
+  .ver-btn {
+    flex: 1;
+    padding: 16px 8px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+    text-align: center;
+  }
+  .ver-btn .ver-lbl { font-size: 9px; letter-spacing: 1px; color: var(--text-mute); display: block; margin-bottom: 2px; }
+  .ver-btn.active {
+    background: var(--surface-2);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .ver-btn.active .ver-lbl { color: var(--accent); }
+
+  /* Day selector (5x) */
+  .day-row { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .day-row::-webkit-scrollbar { display: none; }
+  .day-btn {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .day-btn.active { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
+  .day-name { font-size: 12px; color: var(--text-mute); margin-bottom: 14px; letter-spacing: .5px; font-weight: 600; }
+
+  /* Exercise card — clean, big tap targets */
+  .ex {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .ex-name {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .ex-name .play {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    background: var(--accent);
+    color: #0A0A0B;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+  }
+  .ex-name.no-video .play { background: var(--surface-2); color: var(--text-mute); }
+  .ex-meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .ex-meta div {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 9px 6px;
+    text-align: center;
+  }
+  .ex-meta .lbl { font-size: 9px; color: var(--text-mute); letter-spacing: .8px; margin-bottom: 3px; }
+  .ex-meta .val { font-size: 13px; font-weight: 800; }
+  .ex-obs {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 10px;
+    line-height: 1.5;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Diet */
+  .meal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .meal-name { font-size: 15px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+  .meal-obs { font-size: 12px; color: var(--text-dim); font-style: italic; margin: 4px 0 8px; line-height: 1.4; }
+  .opc { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .opc:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .opc-name { font-size: 12px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+  .food { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--surface-2); }
+  .food:last-child { border-bottom: none; }
+  .food-q { color: var(--text-dim); white-space: nowrap; }
+  .food-obs { font-size: 11px; color: var(--text-mute); font-style: italic; }
+  .macros { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-mute); }
+
+  /* Paywall — locked screen */
+  .paywall {
+    text-align: center;
+    padding: 30px 20px 50px;
+  }
+  .paywall .lock-ic {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .paywall h3 { font-size: 22px; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+  .paywall p { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+  .paywall .perks {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 22px;
+  }
+  .paywall .perks div {
+    font-size: 14px;
+    padding: 6px 0 6px 26px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .paywall .perks div::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 900;
+  }
+  .paywall .price {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .paywall .price b { color: var(--accent); font-size: 26px; }
+  .cta {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #0A0A0B;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: .3px;
+    text-decoration: none;
+    text-align: center;
+  }
+  .cta:active { transform: scale(.98); }
+
+  .footer {
+    text-align: center;
+    color: var(--text-mute);
+    font-size: 11px;
+    margin-top: 28px;
+    padding: 16px;
+    letter-spacing: .5px;
+  }
+
+  /* Exercise checkbox */
+  .ex-check {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    color: var(--text);
+    font-size: 15px; font-weight: 900;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+    font-family: inherit;
+  }
+  .ex-check.on { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
+  .ex.done { opacity: .5; }
+  .ex.done .ex-name { text-decoration: line-through; }
+  .ex-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .ex-head .ex-name { margin-bottom: 0; flex: 1; }
+
+  /* Conclude bar */
+  .conclude {
+    background: linear-gradient(135deg, #2A1505 0%, var(--surface) 100%);
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .conclude-info { font-size: 13px; line-height: 1.3; flex: 1; }
+  .conclude-info b { color: var(--accent); }
+  .conclude-btn {
+    background: var(--accent); color: #0A0A0B; border: none;
+    padding: 11px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 900; cursor: pointer;
+    font-family: inherit; white-space: nowrap;
+  }
+  .conclude-btn:disabled { background: var(--border); color: var(--text-mute); cursor: not-allowed; }
+
+  /* Achievement / share overlay */
+  .ach-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.94);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px; overflow-y: auto;
+  }
+  .ach-overlay.show { display: flex; }
+  .ach-box {
+    width: 100%; max-width: 460px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px; text-align: center;
+  }
+  .ach-title { font-size: 16px; font-weight: 900; margin-bottom: 10px; }
+  #achCanvas {
+    width: 100%; height: auto; max-height: 54vh;
+    object-fit: contain; border-radius: 10px;
+    background: #000; margin: 8px 0;
+  }
+  .ach-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .ach-btn {
+    flex: 1; min-width: 90px;
+    padding: 13px 10px; border-radius: 10px;
+    font-size: 12px; font-weight: 800; cursor: pointer;
+    font-family: inherit; border: 1.5px solid var(--border);
+    background: var(--surface-2); color: var(--text);
+  }
+  .ach-btn.primary { background: var(--accent); color: #0A0A0B; border-color: var(--accent); }
+  .ach-btn.ghost { background: transparent; color: var(--text-mute); }
+
+  /* Video modal */
+  .vmodal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.94);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .vmodal.show { display: flex; }
+  .vmodal-inner { width: 100%; max-width: 760px; }
+  .vmodal-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .vmodal-title { font-size: 14px; font-weight: 800; flex: 1; }
+  .vmodal-close {
+    background: var(--accent); color: #0A0A0B; border: none;
+    width: 34px; height: 34px; border-radius: 50%;
+    font-size: 16px; font-weight: 900; cursor: pointer; flex-shrink: 0;
+  }
+  .vwrap { position: relative; padding-bottom: 56.25%; background: #000; border-radius: 12px; overflow: hidden; }
+  .vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* Auth screen */
+  .auth-screen {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: calc(24px + var(--safe-top)) 20px calc(24px + var(--safe-bottom));
+  }
+  .auth-box { width: 100%; max-width: 380px; text-align: center; }
+  .auth-box .logo { font-size: 13px; letter-spacing: 4px; color: var(--text-mute); font-weight: 600; }
+  .auth-box .title { font-size: 30px; font-weight: 900; letter-spacing: -0.5px; margin-top: 4px; line-height: 1; }
+  .auth-box .title span { color: var(--accent); }
+  .auth-screen input {
+    width: 100%; padding: 15px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 12px; color: var(--text); font-size: 16px;
+    font-family: inherit; margin-bottom: 10px;
+  }
+  .auth-screen input:focus { outline: none; border-color: var(--accent); }
+  .auth-btn {
+    width: 100%; padding: 16px;
+    background: var(--accent); color: #0A0A0B;
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 900; cursor: pointer;
+    font-family: inherit; margin-top: 4px;
+  }
+  .auth-btn:active { transform: scale(.98); }
+  .auth-btn.ghost { background: transparent; color: var(--text-dim); font-weight: 600; margin-top: 8px; }
+  .auth-msg { font-size: 13px; color: var(--accent-hi); margin-top: 14px; line-height: 1.5; min-height: 1px; }
+  .hidden { display: none !important; }
+  .empty { text-align: center; color: var(--text-mute); padding: 40px 20px; font-size: 14px; }
+
+  /* Parceiros */
+  .parc-cat {
+    font-size: 13px; font-weight: 800; letter-spacing: .5px;
+    color: var(--accent); margin: 22px 0 10px;
+  }
+  .parc-cat:first-of-type { margin-top: 4px; }
+  .parc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 9px;
+  }
+  .parc-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
+  .parc-name { font-weight: 800; font-size: 14px; flex: 1; min-width: 55%; }
+  .parc-tag {
+    font-size: 9px; font-weight: 800; padding: 2px 7px;
+    border-radius: 4px; letter-spacing: .4px; white-space: nowrap;
+  }
+  .parc-tag.off { background: #14331a; color: #4caf50; }
+  .parc-tag.shopee { background: #3a2e1f; color: #ffa726; }
+  .parc-tag.yang { background: #1f2a3a; color: #4d9fff; }
+  .parc-tag.wpp { background: #14331a; color: #25d366; }
+  .parc-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; margin: 3px 0 9px; }
+  .parc-link {
+    display: inline-block; padding: 9px 16px;
+    background: var(--accent); color: #0A0A0B;
+    border-radius: 8px; font-size: 12px; font-weight: 800;
+    text-decoration: none; letter-spacing: .3px;
+  }
+  .parc-link.wpp { background: #25d366; color: #fff; }
+  .parc-store {
+    margin-top: 10px; padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    font-size: 10px; color: #ffa726; font-weight: 700;
+    letter-spacing: .5px; text-align: center;
+  }
+
+  /* Card Método GH (upsell consultoria) */
+  .mgh-card {
+    background: linear-gradient(135deg, #14110A 0%, #0B0B0C 100%);
+    border: 1.5px solid #C9A24B;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .mgh-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .mgh-logo {
+    width: 48px; height: 48px;
+    border: 1.5px solid #C9A24B; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 900; color: #C9A24B; flex-shrink: 0;
+  }
+  .mgh-marca { font-size: 16px; font-weight: 900; color: #C9A24B; letter-spacing: 1.5px; }
+  .mgh-badge { font-size: 9px; letter-spacing: 1.5px; color: #E8C97A; font-weight: 800; }
+  .mgh-headline { font-size: 18px; font-weight: 900; line-height: 1.25; margin-bottom: 8px; }
+  .mgh-sub { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 12px; }
+  .mgh-bullets { list-style: none; margin: 0 0 14px; padding: 0; }
+  .mgh-bullets li {
+    font-size: 12px; color: var(--text); line-height: 1.5;
+    padding-left: 18px; position: relative; margin-bottom: 3px;
+  }
+  .mgh-bullets li::before { content: "✦"; position: absolute; left: 0; color: #C9A24B; }
+  .mgh-cta {
+    display: block; width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #C9A24B 0%, #E8C97A 100%);
+    color: #1a1505; border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 900; text-decoration: none;
+    text-align: center; letter-spacing: .3px;
+  }
+
+  /* Banner Método GH compacto (topo) */
+  .mgh-banner {
+    background: linear-gradient(135deg, #14110A 0%, #0B0B0C 100%);
+    border: 1.5px solid #C9A24B;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; text-decoration: none;
+  }
+  .mgh-banner-logo {
+    width: 40px; height: 40px;
+    border: 1.5px solid #C9A24B; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; color: #C9A24B; flex-shrink: 0;
+  }
+  .mgh-banner-body { flex: 1; min-width: 0; }
+  .mgh-banner-badge { font-size: 9px; letter-spacing: 1.5px; color: #C9A24B; font-weight: 800; margin-bottom: 1px; }
+  .mgh-banner-headline { font-size: 13px; font-weight: 800; color: var(--text); line-height: 1.25; }
+  .mgh-banner-arrow { color: #C9A24B; font-size: 18px; font-weight: 800; flex-shrink: 0; }
+
+  /* Linha de vídeo (aula do método) */
+  .video-line {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .video-line:active { transform: scale(.99); }
+  .vl-play {
+    width: 42px; height: 42px;
+    background: var(--accent); color: #0A0A0B;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 900; flex-shrink: 0;
+  }
+  .vl-text { flex: 1; min-width: 0; }
+  .vl-title { font-weight: 800; font-size: 14px; line-height: 1.25; }
+  .vl-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  /* Material de apoio (PDFs) */
+  .mat-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .mat-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: border-color .15s;
+  }
+  .mat-card:active { transform: scale(.98); }
+  .mat-card:hover { border-color: var(--accent); }
+  .mat-ic { font-size: 26px; }
+  .mat-title { font-size: 13px; font-weight: 800; color: var(--text); margin-top: 6px; line-height: 1.2; }
+  .mat-sub { font-size: 10px; color: var(--text-dim); margin-top: 3px; line-height: 1.3; }
+</style>
+</head>
+<body>
+
+<!-- ════════ LOGIN ════════ -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-box">
+    <div class="logo">MÉTODO GH</div>
+    <div class="title">PEITÃO DE <span>POMBO</span></div>
+
+    <div id="authLogin">
+      <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">Entrar</h2>
+      <p class="hint" style="margin-bottom:16px;">Use o e-mail que cadastrou na compra.</p>
+      <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+      <input type="password" id="loginPwd" placeholder="Senha" autocomplete="current-password">
+      <button class="auth-btn" onclick="doLogin()">Entrar</button>
+      <button class="auth-btn ghost" onclick="showAuth('first')">Primeiro acesso? Criar senha</button>
+      <div id="authMsg" class="auth-msg"></div>
+    </div>
+
+    <div id="authFirst" class="hidden">
+      <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">Primeiro acesso</h2>
+      <p class="hint" style="margin-bottom:16px;">Digita o e-mail que usaste na compra e cria tua senha.</p>
+      <input type="email" id="firstEmail" placeholder="E-mail da compra" autocomplete="email" inputmode="email">
+      <input type="password" id="firstPwd" placeholder="Nova senha (mín. 6)" autocomplete="new-password">
+      <input type="password" id="firstPwd2" placeholder="Confirmar senha" autocomplete="new-password">
+      <button class="auth-btn" onclick="doFirstAccess()">Criar senha</button>
+      <button class="auth-btn ghost" onclick="showAuth('login')">Já tenho senha · Voltar</button>
+      <div id="firstMsg" class="auth-msg"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap hidden" id="appWrap">
+  <header>
+    <div class="logo">MÉTODO GH</div>
+    <div class="title">PEITÃO DE <span>POMBO</span></div>
+    <div class="sub" id="appSub">Treino direto. Sem enrolação.</div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <main>
+    <div class="screen active" id="screen-peito"></div>
+    <div class="screen" id="screen-semana"></div>
+    <div class="screen" id="screen-dieta"></div>
+    <div class="screen" id="screen-parc"></div>
+  </main>
+
+  <div class="footer">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
+</div>
+
+<!-- Achievement / share -->
+<div class="ach-overlay" id="achOverlay" onclick="if(event.target.id==='achOverlay')achClose()">
+  <div class="ach-box">
+    <div class="ach-title">🏆 Treino concluído!</div>
+    <input type="text" id="achUserText" maxlength="60" placeholder="Escreve aqui: ex. meu supino hoje foi 80kg" oninput="drawAch()"
+      style="width:100%;padding:13px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:inherit;margin-bottom:8px;">
+    <canvas id="achCanvas" width="1080" height="1920"></canvas>
+    <input type="file" id="achPhotoInput" accept="image/*" style="display:none;">
+    <div class="ach-actions">
+      <button class="ach-btn" onclick="achPickPhoto()" id="achPhotoBtn">📷 Foto do pump</button>
+    </div>
+    <div class="ach-actions" style="margin-top:6px;">
+      <button class="ach-btn primary" onclick="achShare()">📤 Compartilhar</button>
+      <button class="ach-btn" onclick="achSave()">💾 Salvar</button>
+      <button class="ach-btn ghost" onclick="achClose()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Video modal -->
+<div class="vmodal" id="vmodal" onclick="if(event.target.id==='vmodal')closeVideo()">
+  <div class="vmodal-inner">
+    <div class="vmodal-bar">
+      <div class="vmodal-title" id="vtitle">Vídeo</div>
+      <button class="vmodal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <div class="vwrap" id="vwrap"></div>
+  </div>
+</div>
+
+<script>
+// ════════ CONFIG ════════
+const API_BASE = 'https://peitao-de-pombo-api.vercel.app';
+// ⚠️ GH: cola aqui o link do CHECKOUT do order bump (+R$19,90) da Greenn
+const CHECKOUT_UPSELL = '#';
+const STORAGE_KEY = 'peitao_session';
+let DATA = null;
+
+// Estado
+let state = {
+  tab: 'peito',
+  peitoVer: '1.0',
+  semanaVer: '1.0',
+  semanaDay: 0,
+  upsellUnlocked: false,  // vem do backend (flag upsell da compra)
+  user: null              // { email, token, name }
+};
+
+// ─── Sessão (localStorage) ───
+function loadSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (s && s.token) state.user = s;
+  } catch (e) {}
+}
+function saveSession() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.user)); } catch (e) {}
+}
+
+// ─── API helper ───
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+  if (state.user?.token) headers['Authorization'] = 'Bearer ' + state.user.token;
+  const res = await fetch(API_BASE + path, { ...opts, headers });
+  if (res.status === 401) {
+    alert('Sua sessão expirou (ou alguém entrou nessa conta em outro aparelho). Entra de novo.');
+    logout();
+    throw new Error('401');
+  }
+  if (res.status === 403) {
+    const d = await res.json().catch(() => ({}));
+    alert('⛔ ' + (d.error || 'Acesso negado.'));
+    logout();
+    throw new Error('403');
+  }
+  return res.json();
+}
+
+// ─── AUTH ───
+function showAuth(mode) {
+  document.getElementById('authLogin').classList.toggle('hidden', mode !== 'login');
+  document.getElementById('authFirst').classList.toggle('hidden', mode !== 'first');
+}
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('loginPwd').value;
+  const msg = document.getElementById('authMsg');
+  if (!email || !pwd) { msg.textContent = 'Preenche e-mail e senha.'; return; }
+  msg.textContent = 'Entrando...';
+  try {
+    const res = await fetch(API_BASE + '/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pwd })
+    });
+    const d = await res.json();
+    if (!res.ok) { msg.textContent = d.error || 'E-mail ou senha incorretos.'; return; }
+    state.user = { email: d.email, token: d.token, name: d.name };
+    state.upsellUnlocked = !!d.upsell;
+    saveSession();
+    enterApp();
+  } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
+}
+async function doFirstAccess() {
+  const email = document.getElementById('firstEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('firstPwd').value;
+  const pwd2 = document.getElementById('firstPwd2').value;
+  const msg = document.getElementById('firstMsg');
+  if (!email || !pwd) { msg.textContent = 'Preenche todos os campos.'; return; }
+  if (pwd.length < 6) { msg.textContent = 'Senha precisa de no mínimo 6 caracteres.'; return; }
+  if (pwd !== pwd2) { msg.textContent = 'As senhas não conferem.'; return; }
+  msg.textContent = 'Criando senha...';
+  try {
+    const res = await fetch(API_BASE + '/api/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pwd })
+    });
+    const d = await res.json();
+    if (!res.ok) { msg.textContent = d.error || 'Não consegui criar tua senha. Verifica se é o e-mail da compra.'; return; }
+    state.user = { email: d.email, token: d.token, name: d.name };
+    state.upsellUnlocked = !!d.upsell;
+    saveSession();
+    enterApp();
+  } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
+}
+function logout() {
+  stopHeartbeat();
+  state.user = null;
+  state.upsellUnlocked = false;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  document.getElementById('appWrap').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  showAuth('login');
+}
+
+// ════════ BOOT ════════
+async function boot() {
+  loadSession();
+  DATA = await fetch('data/peitao-data.json').then(r => r.json());
+  if (state.user && state.user.token) {
+    try {
+      const v = await api('/api/auth/verify');
+      if (v && v.ok) {
+        state.upsellUnlocked = !!v.upsell;
+        enterApp();
+        return;
+      }
+    } catch (e) { return; } // api() já mandou pro login em 401/403
+  }
+  document.getElementById('authScreen').classList.remove('hidden');
+  showAuth('login');
+}
+
+function enterApp() {
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('appWrap').classList.remove('hidden');
+  renderTabs();
+  renderPeito();
+  renderSemana();
+  renderDieta();
+  renderParceiros();
+  startHeartbeat();
+}
+
+// ─── Heartbeat: re-checa sessão + upsell a cada 5 min ───
+let _hb = null;
+function startHeartbeat() {
+  if (_hb) return;
+  _hb = setInterval(async () => {
+    try {
+      const v = await api('/api/auth/verify');
+      if (v && v.ok && state.upsellUnlocked !== !!v.upsell) {
+        state.upsellUnlocked = !!v.upsell;
+        renderTabs(); renderSemana(); renderDieta();
+      }
+    } catch (e) {}
+  }, 5 * 60 * 1000);
+}
+function stopHeartbeat() { if (_hb) { clearInterval(_hb); _hb = null; } }
+
+// ════════ AULA DO MÉTODO (vídeo YouTube) ════════
+// ⚠️ Cola aqui o ID do vídeo do YouTube (ex: pra https://youtu.be/ABC123 → 'ABC123')
+const AULA_METODO = {
+  youtube: '',  // ← GH manda o link da aula
+  titulo: 'Como funciona o Método',
+  sub: 'Assiste antes de começar — explico tudo em 2 min'
+};
+
+// ════════ UPSELL CONSULTORIA — Método GH ════════
+const CONSULTORIA = {
+  badge: "O PRÓXIMO NÍVEL",
+  headline: "Tá na hora de migrar pro Método GH",
+  subtitle: "Pegou o Peitão de Pombo e quer ir além? A consultoria individual é o protocolo 100% personalizado, com acompanhamento direto comigo, anamnese, exames e ajustes sempre que precisar.",
+  bullets: [
+    "Protocolo 100% individualizado pra ti",
+    "Acompanhamento direto do GH",
+    "Interpretação de exames + suplementação personalizada",
+    "Ajustes finos sempre que necessário",
+    "Atualizações a cada 55 dias com reajuste e feedback"
+  ],
+  cta: "Quero migrar pro Método GH",
+  link: "https://wa.me/5520130783?text=" + encodeURIComponent("E aí GH, vim do Peitão de Pombo e quero saber mais sobre a consultoria individual.")
+};
+
+// ════════ PARCEIROS ════════
+const PARCEIROS = {
+  "💊 Suplementos (FTW)": [
+    { nome: "Whey Protein Concentrado 1kg", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · refil · R$ 64,90 (62% OFF). Proteína de soro do leite.", link: "https://s.shopee.com.br/6VKciJh60W?share_channel_code=1" },
+    { nome: "Creatina Monoidratada 300g", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · pura · R$ 33,85 (50% OFF). 5-10g/dia, todos os dias.", link: "https://s.shopee.com.br/4LG889ON4C?share_channel_code=1" },
+    { nome: "Pré Treino Diabo Verde 300g", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · pre-workout · R$ 66,40 (65% OFF). Energia e foco pré-treino.", link: "https://s.shopee.com.br/8KmGtTfMrh?share_channel_code=1" },
+    { nome: "Thermo Caps Termogênico 90 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW Diabo Verde · com cafeína · R$ 29,00 (67% OFF). Termogênico em cápsulas.", link: "https://s.shopee.com.br/8KmGtSOAoq?share_channel_code=1" },
+    { nome: "Ômega 3 MEG-3 90 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · 660mg EPA + 440mg DHA · R$ 69,25 (19% OFF). Anti-inflamatório.", link: "https://s.shopee.com.br/6fe2uNMflR?share_channel_code=1" },
+    { nome: "Vitamina B12 60 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · R$ 48,40 (17% OFF). Energia, neuro, hemácias.", link: "https://s.shopee.com.br/4qCOilywN9?share_channel_code=1" },
+    { nome: "Vitamina D3 2.000 UI · 60 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · alta concentração · R$ 38,70 (20% OFF). Imunidade, ossos, testosterona.", link: "https://s.shopee.com.br/901xgVQd3D?share_channel_code=1" },
+    { nome: "Coenzima Q10 100mg · 30 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · R$ 38,70 (66% OFF). Antioxidante, energia celular, coração.", link: "https://s.shopee.com.br/7KtjhUeYqM?share_channel_code=1" },
+    { nome: "NAC (N-Acetil L-Cisteína) 60 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · R$ 38,70 (38% OFF). Antioxidante, fígado, detox.", link: "https://s.shopee.com.br/1qYn9QfWHK?share_channel_code=1" },
+    { nome: "Tri-Magnésio 60 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · 3 formas de magnésio · R$ 56,16 (45% OFF). Sono, músculo, sensibilidade à insulina.", link: "https://s.shopee.com.br/4VZYKNPkxQ?share_channel_code=1" }
+  ],
+  "🛒 Shopee (econômico)": [
+    { nome: "Balança de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Balança digital — pesar carne crua, arroz, suplementos. Fundamental pra ser preciso na dieta.", link: "https://s.shopee.com.br/W3DVo4Iae?share_channel_code=1" },
+    { nome: "Colher de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Doseadora — pesar suplementos, manteiga, azeite, pasta de amendoim.", link: "https://s.shopee.com.br/1LcKVMvIfI?share_channel_code=1" },
+    { nome: "Faixa de joelho", tag: "SHOPEE", tagcls: "shopee", desc: "Faixa elástica de pressão — alternativa econômica à joelheira.", link: "https://s.shopee.com.br/7KtXeHgEgZ?share_channel_code=1" },
+    { nome: "Luva aderente", tag: "SHOPEE", tagcls: "shopee", desc: "Pegada extra com palma de borracha — útil pra exercícios de cabo.", link: "https://s.shopee.com.br/5flJfN50qn?share_channel_code=1" }
+  ],
+  "💪 Pegada & Suporte": [
+    { nome: "Strap (luva grip)", tag: "YANGFIT", tagcls: "yang", desc: "Pra puxadas, remadas e levantamento terra. Aumenta a pegada.", link: "https://www.yangfit.com.br/luva-strap-hand-grip-para-cross-training-e-musculacao?variant_id=651" },
+    { nome: "Strap 8 (alta performance)", tag: "YANGFIT", tagcls: "yang", desc: "Strap profissional pra cargas pesadas — stiff, terra, remada.", link: "https://www.yangfit.com.br/strap-8-grip-alta-perfomance-para-musculacao-stiff-yangfit" },
+    { nome: "Cinturão de musculação", tag: "YANGFIT", tagcls: "yang", desc: "Couro sintético — proteção lombar em agachamento, terra, desenvolvimento pesado.", link: "https://www.yangfit.com.br/cinturao-musculacao-cross-training-couro-sintetico?variant_id=211" },
+    { nome: "Munhequeira", tag: "YANGFIT", tagcls: "yang", desc: "Faixa de pulso pra desenvolvimento, supino e elevação lateral pesada.", link: "https://www.yangfit.com.br/munhequeira-profissional-cross-training-powerlifting-lpo-pulso?variant_id=545" },
+    { nome: "Joelheira de contenção", tag: "YANGFIT", tagcls: "yang", desc: "Neoprene 7mm — estabilidade no joelho em agachamento e leg press.", link: "https://www.yangfit.com.br/joelheira-compressao-neoprene-7mm-para-lpo-cross-training-par?variant_id=305" }
+  ],
+  "🎯 Faixas Elásticas": [
+    { nome: "Kit Mini-band (4 intensidades)", tag: "YANGFIT", tagcls: "yang", desc: "Pacote completo de 4 mini-bands de tecido — leve até extra-forte. Glúteos, ombros, aquecimento.", link: "https://www.yangfit.com.br/kit-mini-band-tecido-4-intensidades-faixa-elastica-circular" },
+    { nome: "Mini-band leve (iniciante)", tag: "YANGFIT", tagcls: "yang", desc: "Pra começar — ativação de glúteo médio sem sobrecarga.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-leve" },
+    { nome: "Mini-band extra-forte (avançada)", tag: "YANGFIT", tagcls: "yang", desc: "Resistência máxima — pra quem já tem condicionamento.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-extra-forte" },
+    { nome: "Kit Super-band", tag: "YANGFIT", tagcls: "yang", desc: "4 elásticos extensores — exercícios em casa, alongamento, mobilidade.", link: "https://www.yangfit.com.br/kit-super-band-4-intensidades-elastico-extensor-borracha-treino" }
+  ],
+  "🤝 Parceiros com desconto": [
+    { nome: "👕 AlphaCo", tag: "5% OFF", tagcls: "off", desc: "Linha de roupas esportivas. Desconto aplicado automaticamente no checkout.", link: "https://usealphaco.com.br/discount/GH" },
+    { nome: "🏋️ YangFit", tag: "10% OFF", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Desconto via link de afiliado.", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
+    { nome: "💉 Biotech (Aquiles)", tag: "DESCONTO", tagcls: "wpp", desc: "Ergogênicos e peptídeos. Atendimento direto no WhatsApp pra desconto exclusivo.", link: "https://w.app/m4akut", wpp: true },
+    { nome: "💊 Arte e Ciência (Renato)", tag: "DESCONTO", tagcls: "wpp", desc: "Farmácia de manipulação. GH usa há mais de 7 anos.", link: "https://api.whatsapp.com/send?phone=5516997693445&text=" + encodeURIComponent("Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH."), wpp: true }
+  ]
+};
+
+function renderParceiros() {
+  const c = document.getElementById('screen-parc');
+  // Card de upsell consultoria no topo
+  let html = `
+    <div class="mgh-card">
+      <div class="mgh-head">
+        <div class="mgh-logo">GH</div>
+        <div>
+          <div class="mgh-marca">MÉTODO GH</div>
+          <div class="mgh-badge">${CONSULTORIA.badge}</div>
+        </div>
+      </div>
+      <div class="mgh-headline">${CONSULTORIA.headline}</div>
+      <div class="mgh-sub">${CONSULTORIA.subtitle}</div>
+      <ul class="mgh-bullets">${CONSULTORIA.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      <a class="mgh-cta" href="${CONSULTORIA.link}" target="_blank" rel="noopener">${CONSULTORIA.cta} →</a>
+    </div>
+  `;
+  for (const [cat, itens] of Object.entries(PARCEIROS)) {
+    html += `<div class="parc-cat">${cat}</div>`;
+    html += itens.map(p => `
+      <div class="parc-card">
+        <div class="parc-head">
+          <span class="parc-name">${p.nome}</span>
+          <span class="parc-tag ${p.tagcls}">${p.tag}</span>
+        </div>
+        <div class="parc-desc">${p.desc}</div>
+        <a class="parc-link ${p.wpp?'wpp':''}" href="${p.link}" target="_blank" rel="noopener">${p.wpp?'Falar no WhatsApp':'Acessar'} →</a>
+        ${p.store ? `<div class="parc-store">✓ ${p.store}</div>` : ''}
+      </div>
+    `).join('');
+  }
+  c.innerHTML = html;
+}
+
+// ════════ TABS ════════
+function renderTabs() {
+  const locked = !state.upsellUnlocked;
+  document.getElementById('tabs').innerHTML = `
+    <button class="tab ${state.tab==='peito'?'active':''}" onclick="showTab('peito')">
+      <span class="tab-ic">💪</span>PEITO
+    </button>
+    <button class="tab ${state.tab==='semana'?'active':''} ${locked?'locked':''}" onclick="showTab('semana')">
+      <span class="tab-ic">📅</span>SEMANA ${locked?'<span class="lock">🔒</span>':''}
+    </button>
+    <button class="tab ${state.tab==='dieta'?'active':''} ${locked?'locked':''}" onclick="showTab('dieta')">
+      <span class="tab-ic">🍽️</span>DIETA ${locked?'<span class="lock">🔒</span>':''}
+    </button>
+    <button class="tab ${state.tab==='parc'?'active':''}" onclick="showTab('parc')">
+      <span class="tab-ic">🤝</span>PARCEIROS
+    </button>
+  `;
+}
+function showTab(t) {
+  state.tab = t;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + t).classList.add('active');
+  renderTabs();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// ════════ HELPERS ════════
+function ytId(url) {
+  const m = String(url || '').match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+function esc(s) { return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+
+function exerciseCard(ex, ctxKey, idx) {
+  const url = DATA.videos[ex.video_key];
+  const hasVid = !!url;
+  const done = isChecked(ctxKey, idx);
+  return `
+    <div class="ex${done?' done':''}">
+      <div class="ex-head">
+        <button class="ex-check${done?' on':''}" onclick="toggleCheck('${ctxKey}',${idx})" aria-label="Marcar exercício">${done?'✓':''}</button>
+        <div class="ex-name ${hasVid?'':'no-video'}" ${hasVid?`onclick="openVideo('${esc(url)}','${esc(ex.exercicio)}')"`:''}>
+          <span class="play">▶</span>${ex.exercicio}
+        </div>
+      </div>
+      <div class="ex-meta">
+        <div><div class="lbl">SÉRIES</div><div class="val">${ex.series||'—'}</div></div>
+        <div><div class="lbl">REPS</div><div class="val">${ex.reps||'—'}</div></div>
+        <div><div class="lbl">DESCANSO</div><div class="val">${ex.intervalo||'—'}</div></div>
+      </div>
+      ${ex.obs ? `<div class="ex-obs">${ex.obs}</div>` : ''}
+    </div>
+  `;
+}
+
+// Conclude bar — progresso + botão compartilhar
+function concludeBar(ctxKey, exList, contextLabel) {
+  const total = exList.length;
+  const done = exList.reduce((a, _, i) => a + (isChecked(ctxKey, i) ? 1 : 0), 0);
+  const allDone = done === total && total > 0;
+  return `
+    <div class="conclude">
+      <div class="conclude-info">${allDone ? '🎉 <b>Treino completo!</b>' : `<b>${done}/${total}</b> exercícios feitos`}</div>
+      <button class="conclude-btn" onclick="openAchievement('${esc(contextLabel)}', ${done})" ${done===0?'disabled':''}>🏆 Compartilhar</button>
+    </div>
+  `;
+}
+
+// ════════ TREINO DE PEITO (base) ════════
+// Banner compacto Método GH (topo)
+function mghBanner() {
+  return `
+    <a class="mgh-banner" href="${CONSULTORIA.link}" target="_blank" rel="noopener">
+      <div class="mgh-banner-logo">GH</div>
+      <div class="mgh-banner-body">
+        <div class="mgh-banner-badge">${CONSULTORIA.badge}</div>
+        <div class="mgh-banner-headline">${CONSULTORIA.headline}</div>
+      </div>
+      <div class="mgh-banner-arrow">→</div>
+    </a>
+  `;
+}
+// Card completo Método GH (fim)
+function mghCard() {
+  return `
+    <div class="mgh-card" style="margin-top:18px;">
+      <div class="mgh-head">
+        <div class="mgh-logo">GH</div>
+        <div>
+          <div class="mgh-marca">MÉTODO GH</div>
+          <div class="mgh-badge">${CONSULTORIA.badge}</div>
+        </div>
+      </div>
+      <div class="mgh-headline">${CONSULTORIA.headline}</div>
+      <div class="mgh-sub">${CONSULTORIA.subtitle}</div>
+      <ul class="mgh-bullets">${CONSULTORIA.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      <a class="mgh-cta" href="${CONSULTORIA.link}" target="_blank" rel="noopener">${CONSULTORIA.cta} →</a>
+    </div>
+  `;
+}
+// Linha de vídeo — aula do método
+function videoLine() {
+  if (!AULA_METODO.youtube) return '';
+  return `
+    <div class="video-line" onclick="openVideo('https://www.youtube.com/watch?v=${AULA_METODO.youtube}','${esc(AULA_METODO.titulo)}')">
+      <div class="vl-play">▶</div>
+      <div class="vl-text">
+        <div class="vl-title">${AULA_METODO.titulo}</div>
+        <div class="vl-sub">${AULA_METODO.sub}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPeito() {
+  const c = document.getElementById('screen-peito');
+  const t = DATA.treinoPeito[state.peitoVer];
+  if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
+  const ctxKey = 'peito_' + state.peitoVer;
+  const exList = t.dias[0]?.exercicios || [];
+  const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
+  c.innerHTML = `
+    ${videoLine()}
+    <h2>Treino de Peito</h2>
+    <p class="hint">Teu treino completo de peito. Escolhe a fase e começa.</p>
+    <div class="mat-row">
+      <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
+        <div class="mat-ic">📐</div>
+        <div class="mat-title">Régua do Peito</div>
+        <div class="mat-sub">Protocolo de medição — 4 semanas</div>
+      </a>
+      <a class="mat-card" href="pdfs/engenharia-do-peito.pdf" target="_blank" rel="noopener">
+        <div class="mat-ic">🔧</div>
+        <div class="mat-title">Engenharia do Peito</div>
+        <div class="mat-sub">Manual de reconstrução — 4 semanas</div>
+      </a>
+    </div>
+    <div class="ver-row">
+      ${['1.0','2.0','3.0'].map(v => `
+        <button class="ver-btn ${state.peitoVer===v?'active':''}" onclick="setPeitoVer('${v}')">
+          <span class="ver-lbl">FASE</span>${v}
+        </button>
+      `).join('')}
+    </div>
+    ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
+    ${exs}
+    ${mghCard()}
+  `;
+}
+function setPeitoVer(v) { state.peitoVer = v; renderPeito(); }
+
+// ════════ SEMANA COMPLETA (upsell) ════════
+function renderSemana() {
+  const c = document.getElementById('screen-semana');
+  if (!state.upsellUnlocked) {
+    c.innerHTML = paywall('semana');
+    return;
+  }
+  const t = DATA.treino5x[state.semanaVer];
+  if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
+  const dias = t.dias;
+  const dayBtns = dias.map((d, i) => `
+    <button class="day-btn ${state.semanaDay===i?'active':''}" onclick="setSemanaDay(${i})">DIA ${i+1}</button>
+  `).join('');
+  const day = dias[state.semanaDay] || dias[0];
+  const ctxKey = 'semana_' + state.semanaVer + '_' + state.semanaDay;
+  const exList = day.exercicios || [];
+  const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
+  const dayLabel = day.nome || ('DIA ' + (state.semanaDay+1));
+  c.innerHTML = `
+    <h2>Semana Completa</h2>
+    <p class="hint">Treino 5x na semana. Escolhe a fase e o dia.</p>
+    <div class="ver-row">
+      ${['1.0','2.0','3.0'].map(v => `
+        <button class="ver-btn ${state.semanaVer===v?'active':''}" onclick="setSemanaVer('${v}')">
+          <span class="ver-lbl">FASE</span>${v}
+        </button>
+      `).join('')}
+    </div>
+    <div class="day-row">${dayBtns}</div>
+    <div class="day-name">${dayLabel}</div>
+    ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
+    ${exs}
+  `;
+}
+function setSemanaVer(v) { state.semanaVer = v; state.semanaDay = 0; renderSemana(); }
+function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
+
+// ════════ DIETA (upsell) ════════
+function renderDieta() {
+  const c = document.getElementById('screen-dieta');
+  if (!state.upsellUnlocked) {
+    c.innerHTML = paywall('dieta');
+    return;
+  }
+  // Dieta única — sem seletor de caloria (no-brain)
+  const d = DATA.dietas['3K'] || DATA.dietas[Object.keys(DATA.dietas)[0]];
+  if (!d) { c.innerHTML = '<div class="empty">Dieta não encontrada.</div>'; return; }
+  const refs = d.refeicoes.map(ref => {
+    const obs = (ref.obs || []).map(o => `<div class="meal-obs">${o}</div>`).join('');
+    const opcs = ref.opcoes.map(opc => {
+      const foods = opc.alimentos.map(f => `
+        <div class="food">
+          <span>${f.alimento}${f.obs?`<div class="food-obs">${f.obs}</div>`:''}</span>
+          <span class="food-q">${f.quantidade||''}</span>
+        </div>
+      `).join('');
+      return `
+        <div class="opc">
+          ${opc.nome ? `<div class="opc-name">${opc.nome}</div>` : ''}
+          ${foods}
+          ${opc.macros ? `<div class="macros">${opc.macros.split('|').map(m=>`<span>${m.trim()}</span>`).join('')}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+    return `<div class="meal"><div class="meal-name">${ref.nome}</div>${obs}${opcs}</div>`;
+  }).join('');
+  c.innerHTML = `
+    <h2>Dieta</h2>
+    <p class="hint">Tua dieta pra ficar com o peito de pombo. Pronta pra seguir.</p>
+    ${refs}
+  `;
+}
+
+// ════════ PAYWALL ════════
+function paywall(kind) {
+  const perks = kind === 'semana'
+    ? ['Treino completo 5x na semana', 'Peito, costas, pernas, ombro e braço', '3 fases de progressão (1.0 → 2.0 → 3.0)', 'Mais de 38 exercícios com vídeo']
+    : ['Dieta completa pra secar e crescer', 'Refeições com opções e equivalências', 'Macros calculados por refeição', 'Pronta pra seguir, sem complicação'];
+  const titulo = kind === 'semana' ? 'Libera a Semana Completa' : 'Libera a Dieta';
+  return `
+    <div class="paywall">
+      <div class="lock-ic">🔒</div>
+      <h3>${titulo}</h3>
+      <p>Tu pegou só o treino de peito. Por <b>+R$19,90</b> tu desbloqueia a semana completa <u>e</u> a dieta.</p>
+      <div class="perks">
+        ${perks.map(p => `<div>${p}</div>`).join('')}
+      </div>
+      <div class="price">de <s>R$49,80</s> por apenas <b>+R$19,90</b></div>
+      <a class="cta" href="${CHECKOUT_UPSELL}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
+    </div>
+  `;
+}
+
+// ════════ VIDEO MODAL ════════
+function openVideo(url, title) {
+  const id = ytId(url);
+  if (!id) { window.open(url, '_blank'); return; }
+  document.getElementById('vtitle').textContent = title || 'Vídeo';
+  document.getElementById('vwrap').innerHTML =
+    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  document.getElementById('vmodal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideo() {
+  document.getElementById('vmodal').classList.remove('show');
+  document.getElementById('vwrap').innerHTML = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); } });
+
+// ════════ CHECKBOXES (reset diário) ════════
+const CHECK_KEY = 'peitao_checks';
+let _checks = {};
+(function loadChecks() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(CHECK_KEY) || '{}');
+    const today = new Date().toISOString().slice(0, 10);
+    _checks = (raw.date === today) ? (raw.data || {}) : {};
+  } catch (e) { _checks = {}; }
+})();
+function saveChecks() {
+  try {
+    localStorage.setItem(CHECK_KEY, JSON.stringify({
+      date: new Date().toISOString().slice(0, 10), data: _checks
+    }));
+  } catch (e) {}
+}
+function isChecked(ctxKey, idx) { return !!(_checks[ctxKey] && _checks[ctxKey][idx]); }
+function toggleCheck(ctxKey, idx) {
+  _checks[ctxKey] = _checks[ctxKey] || {};
+  _checks[ctxKey][idx] = !_checks[ctxKey][idx];
+  saveChecks();
+  if (state.tab === 'peito') renderPeito();
+  else if (state.tab === 'semana') renderSemana();
+}
+
+// ════════ ACHIEVEMENT CARD (compartilhável) ════════
+const ACH_FONT = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+let _achPhoto = null, _achData = null;
+
+function openAchievement(label, count) {
+  _achData = { label, count };
+  _achPhoto = null;
+  document.getElementById('achPhotoBtn').textContent = '📷 Foto do pump';
+  document.getElementById('achUserText').value = '';
+  drawAch();
+  document.getElementById('achOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function achClose() {
+  document.getElementById('achOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function spaced(ctx, text, x, y, sp) {
+  const prev = ctx.textAlign; ctx.textAlign = 'left';
+  const ch = String(text).split('');
+  const w = ch.map(c => ctx.measureText(c).width);
+  const tot = w.reduce((a, b) => a + b, 0) + sp * Math.max(0, ch.length - 1);
+  let cx = x - tot / 2;
+  for (let i = 0; i < ch.length; i++) { ctx.fillText(ch[i], cx, y); cx += w[i] + sp; }
+  ctx.textAlign = prev;
+}
+function drawAch() {
+  if (!_achData) return;
+  const ut = document.getElementById('achUserText');
+  if (ut) _achData.userText = ut.value;
+  const cv = document.getElementById('achCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+
+  // Fundo
+  if (_achPhoto) {
+    const img = _achPhoto;
+    const sc = Math.max(W / img.width, H / img.height);
+    const w = img.width * sc, h = img.height * sc;
+    ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h);
+    const ov = ctx.createLinearGradient(0, 0, 0, H);
+    ov.addColorStop(0, 'rgba(0,0,0,.8)'); ov.addColorStop(.4, 'rgba(0,0,0,.35)');
+    ov.addColorStop(.65, 'rgba(0,0,0,.5)'); ov.addColorStop(1, 'rgba(0,0,0,.92)');
+    ctx.fillStyle = ov; ctx.fillRect(0, 0, W, H);
+  } else {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#000000'); g.addColorStop(.5, '#0A0A0B'); g.addColorStop(1, '#000000');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+
+  // Cantos
+  ctx.strokeStyle = '#FF6B1A'; ctx.lineWidth = 4;
+  const m = 60, ln = 90;
+  ctx.beginPath();
+  ctx.moveTo(m, m+ln); ctx.lineTo(m, m); ctx.lineTo(m+ln, m);
+  ctx.moveTo(W-m-ln, m); ctx.lineTo(W-m, m); ctx.lineTo(W-m, m+ln);
+  ctx.moveTo(m, H-m-ln); ctx.lineTo(m, H-m); ctx.lineTo(m+ln, H-m);
+  ctx.moveTo(W-m-ln, H-m); ctx.lineTo(W-m, H-m); ctx.lineTo(W-m, H-m-ln);
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  // Header
+  ctx.font = `300 32px ${ACH_FONT}`;
+  ctx.fillStyle = 'rgba(255,107,26,.85)';
+  spaced(ctx, 'TREINO  CONCLUÍDO', W/2, 200, 6);
+
+  // CHEST DAY — uma linha só, lado a lado, menor e mais embaixo
+  ctx.font = `900 68px ${ACH_FONT}`;
+  const w1 = ctx.measureText('CHEST ').width;
+  const w2 = ctx.measureText('DAY').width;
+  const startX = W/2 - (w1 + w2) / 2;
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#F2F2F2';
+  ctx.fillText('CHEST ', startX, 1240);
+  ctx.fillStyle = '#FF6B1A';
+  ctx.fillText('DAY', startX + w1, 1240);
+  ctx.textAlign = 'center';
+
+  // Divider
+  ctx.strokeStyle = '#FF6B1A'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W/2-70, 1285); ctx.lineTo(W/2+70, 1285); ctx.stroke();
+
+  // Frase do aluno (ex: "Meu supino hoje foi 80kg")
+  const userText = (_achData.userText || '').trim();
+  if (userText) {
+    let fs = 40;
+    ctx.font = `italic 700 ${fs}px ${ACH_FONT}`;
+    while (ctx.measureText('"' + userText + '"').width > W - 180 && fs > 24) {
+      fs -= 2; ctx.font = `italic 700 ${fs}px ${ACH_FONT}`;
+    }
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('"' + userText + '"', W/2, 1360);
+  }
+
+  // Card exercícios
+  ctx.fillStyle = 'rgba(255,255,255,.05)';
+  ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 1;
+  const cw = 260, ch = 150, cx = W/2 - cw/2, cy = userText ? 1420 : 1360;
+  ctx.beginPath();
+  ctx.roundRect(cx, cy, cw, ch, 10);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#F2F2F2'; ctx.font = `900 80px ${ACH_FONT}`;
+  ctx.fillText(String(_achData.count), W/2, cy + 92);
+  ctx.fillStyle = '#888'; ctx.font = `600 18px ${ACH_FONT}`;
+  spaced(ctx, 'EXERCÍCIOS FEITOS', W/2, cy + 128, 2);
+
+  // Footer
+  ctx.strokeStyle = '#FF6B1A'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W/2-100, H-290); ctx.lineTo(W/2+100, H-290); ctx.stroke();
+  ctx.font = `300 30px ${ACH_FONT}`; ctx.fillStyle = '#999';
+  ctx.fillText('Treina com', W/2, H-240);
+  ctx.font = `900 48px ${ACH_FONT}`; ctx.fillStyle = '#FF6B1A';
+  ctx.fillText('@gh.scheuermann', W/2, H-175);
+}
+function achPickPhoto() {
+  const inp = document.getElementById('achPhotoInput');
+  inp.onchange = e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const rd = new FileReader();
+    rd.onload = ev => {
+      const img = new Image();
+      img.onload = () => { _achPhoto = img; document.getElementById('achPhotoBtn').textContent = '🔁 Trocar foto'; drawAch(); };
+      img.src = ev.target.result;
+    };
+    rd.readAsDataURL(file);
+  };
+  inp.click();
+}
+async function achShare() {
+  const cv = document.getElementById('achCanvas');
+  cv.toBlob(async blob => {
+    if (!blob) return achSave();
+    const file = new File([blob], 'peitao-de-pombo.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'Peitão de Pombo — Treino concluído', text: 'Mais um treino na conta. @gh.scheuermann' });
+      } catch (e) { if (e.name !== 'AbortError') achSave(); }
+    } else { achSave(); }
+  }, 'image/png');
+}
+function achSave() {
+  const cv = document.getElementById('achCanvas');
+  cv.toBlob(blob => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'peitao-de-pombo.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+}
+
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+boot();
+</script>
+</body>
+</html>
