@@ -545,6 +545,7 @@
       <input type="password" id="loginPwd" placeholder="Senha" autocomplete="current-password">
       <button class="auth-btn" onclick="doLogin()">Entrar</button>
       <button class="auth-btn ghost" onclick="showAuth('first')">Primeiro acesso? Criar senha</button>
+      <button class="auth-btn ghost" onclick="showAuth('reset')">Esqueci a senha</button>
       <div id="authMsg" class="auth-msg"></div>
     </div>
 
@@ -557,6 +558,25 @@
       <button class="auth-btn" onclick="doFirstAccess()">Criar senha</button>
       <button class="auth-btn ghost" onclick="showAuth('login')">Já tenho senha · Voltar</button>
       <div id="firstMsg" class="auth-msg"></div>
+    </div>
+
+    <div id="authReset" class="hidden">
+      <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">Redefinir senha</h2>
+      <p class="hint" style="margin-bottom:16px;">Digita o e-mail da compra e cria uma senha nova. A senha antiga deixa de valer.</p>
+      <input type="email" id="resetEmail" placeholder="E-mail da compra" autocomplete="email" inputmode="email">
+      <input type="password" id="resetPwd" placeholder="Nova senha (mín. 6)" autocomplete="new-password">
+      <input type="password" id="resetPwd2" placeholder="Confirmar senha" autocomplete="new-password">
+      <button class="auth-btn" onclick="doReset()">Redefinir senha</button>
+      <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
+      <div id="resetMsg" class="auth-msg"></div>
+    </div>
+
+    <div id="authExpired" class="hidden">
+      <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">⏳ Teu acesso expirou</h2>
+      <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Libera o <b>acesso vitalício</b> e ainda ganha o <b>treino da semana completo + dieta</b> — paga uma vez, é teu pra sempre.</p>
+      <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Liberar vitalício +R$19,90</a>
+      <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
+      <div class="auth-msg" style="opacity:.7;">Já liberou? Faz login de novo.</div>
     </div>
   </div>
 </div>
@@ -625,6 +645,7 @@ let state = {
   semanaVer: '1.0',
   semanaDay: 0,
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
+  daysLeft: null,         // dias restantes do acesso base (null = vitalício/upsell)
   user: null              // { email, token, name }
 };
 
@@ -651,6 +672,11 @@ async function api(path, opts = {}) {
   }
   if (res.status === 403) {
     const d = await res.json().catch(() => ({}));
+    if (d.code === 'EXPIRED') {
+      // Acesso base de 90 dias expirou — tela de upsell, não loga fora "seco"
+      logoutToExpired();
+      throw new Error('EXPIRED');
+    }
     alert('⛔ ' + (d.error || 'Acesso negado.'));
     logout();
     throw new Error('403');
@@ -662,6 +688,11 @@ async function api(path, opts = {}) {
 function showAuth(mode) {
   document.getElementById('authLogin').classList.toggle('hidden', mode !== 'login');
   document.getElementById('authFirst').classList.toggle('hidden', mode !== 'first');
+  document.getElementById('authReset').classList.toggle('hidden', mode !== 'reset');
+  document.getElementById('authExpired').classList.toggle('hidden', mode !== 'expired');
+  if (mode === 'expired') {
+    document.getElementById('expiredCta').href = CHECKOUT_UPSELL;
+  }
 }
 async function doLogin() {
   const email = document.getElementById('loginEmail').value.trim().toLowerCase();
@@ -675,9 +706,13 @@ async function doLogin() {
       body: JSON.stringify({ email, password: pwd })
     });
     const d = await res.json();
-    if (!res.ok) { msg.textContent = d.error || 'E-mail ou senha incorretos.'; return; }
+    if (!res.ok) {
+      if (d.code === 'EXPIRED') { showAuth('expired'); return; }
+      msg.textContent = d.error || 'E-mail ou senha incorretos.'; return;
+    }
     state.user = { email: d.email, token: d.token, name: d.name };
     state.upsellUnlocked = !!d.upsell;
+    state.daysLeft = d.daysLeft ?? null;
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -697,9 +732,39 @@ async function doFirstAccess() {
       body: JSON.stringify({ email, password: pwd })
     });
     const d = await res.json();
-    if (!res.ok) { msg.textContent = d.error || 'Não consegui criar tua senha. Verifica se é o e-mail da compra.'; return; }
+    if (!res.ok) {
+      if (d.code === 'EXPIRED') { showAuth('expired'); return; }
+      msg.textContent = d.error || 'Não consegui criar tua senha. Verifica se é o e-mail da compra.'; return;
+    }
     state.user = { email: d.email, token: d.token, name: d.name };
     state.upsellUnlocked = !!d.upsell;
+    state.daysLeft = d.daysLeft ?? null;
+    saveSession();
+    enterApp();
+  } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
+}
+async function doReset() {
+  const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('resetPwd').value;
+  const pwd2 = document.getElementById('resetPwd2').value;
+  const msg = document.getElementById('resetMsg');
+  if (!email || !pwd) { msg.textContent = 'Preenche todos os campos.'; return; }
+  if (pwd.length < 6) { msg.textContent = 'Senha precisa de no mínimo 6 caracteres.'; return; }
+  if (pwd !== pwd2) { msg.textContent = 'As senhas não conferem.'; return; }
+  msg.textContent = 'Redefinindo...';
+  try {
+    const res = await fetch(API_BASE + '/api/auth/reset', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pwd })
+    });
+    const d = await res.json();
+    if (!res.ok) {
+      if (d.code === 'EXPIRED') { showAuth('expired'); return; }
+      msg.textContent = d.error || 'Não consegui redefinir. Verifica se é o e-mail da compra.'; return;
+    }
+    state.user = { email: d.email, token: d.token, name: d.name };
+    state.upsellUnlocked = !!d.upsell;
+    state.daysLeft = d.daysLeft ?? null;
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -713,6 +778,16 @@ function logout() {
   document.getElementById('authScreen').classList.remove('hidden');
   showAuth('login');
 }
+// Acesso de 3 meses expirou — sai do app e mostra a tela de upsell vitalício
+function logoutToExpired() {
+  stopHeartbeat();
+  state.user = null;
+  state.upsellUnlocked = false;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  document.getElementById('appWrap').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  showAuth('expired');
+}
 
 // ════════ BOOT ════════
 async function boot() {
@@ -723,6 +798,7 @@ async function boot() {
       const v = await api('/api/auth/verify');
       if (v && v.ok) {
         state.upsellUnlocked = !!v.upsell;
+        state.daysLeft = v.daysLeft ?? null;
         enterApp();
         return;
       }
@@ -735,6 +811,19 @@ async function boot() {
 function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('appWrap').classList.remove('hidden');
+  // Aviso de acesso prestes a expirar (base, ≤14 dias) — upsell é vitalício (daysLeft null)
+  const sub = document.getElementById('appSub');
+  if (typeof state.daysLeft === 'number' && state.daysLeft <= 14) {
+    sub.innerHTML = state.daysLeft <= 0
+      ? 'Acesso expirado'
+      : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'} — libera o vitalício`;
+    sub.style.cursor = 'pointer';
+    sub.onclick = () => { if (CHECKOUT_UPSELL !== '#') window.open(CHECKOUT_UPSELL, '_blank'); };
+  } else {
+    sub.textContent = 'Treino direto. Sem enrolação.';
+    sub.style.cursor = '';
+    sub.onclick = null;
+  }
   renderTabs();
   renderPeito();
   renderSemana();
