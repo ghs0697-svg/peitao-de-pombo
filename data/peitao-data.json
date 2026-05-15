@@ -3,7 +3,7 @@
     "1.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -14,11 +14,19 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
+              "exercicio": "Crucifixo inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+              "video_key": "CRUCIFIXO INCLINADO"
+            },
+            {
               "exercicio": "Supino reto na máquina",
-              "series": "3X",
-              "reps": "3+3+3 cluster",
+              "series": "4X",
+              "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos. Carga 5RM. Músculo prioritário",
+              "obs": "Supino — progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
@@ -26,32 +34,32 @@
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga (piramidal)",
+              "obs": "Supino — piramidal, peso sobe a cada série",
               "video_key": "SUPINO INCLINADO COM HALTERES"
-            },
-            {
-              "exercicio": "Crucifixo inclinado",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; alongar e nunca encostar os halteres na contração",
-              "video_key": "CRUCIFIXO INCLINADO"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Fly — progressão de carga; isometria 1 seg na contração",
               "video_key": "VOADOR"
             },
             {
               "exercicio": "Crossover",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Fly — progressão de carga",
               "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -60,14 +68,6 @@
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg",
               "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
             }
           ]
         }
@@ -76,7 +76,7 @@
     "2.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -87,60 +87,68 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
-              "exercicio": "Supino inclinado na máquina",
+              "exercicio": "Crucifixo inclinado",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
-              "intervalo": "90 seg",
-              "obs": "Piramidal — peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO NA MAQUINA"
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
+              "video_key": "CRUCIFIXO INCLINADO"
             },
             {
               "exercicio": "Supino reto na máquina",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; drop-set na última série (reduzir 20-30% e ir à falha)",
+              "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
-              "exercicio": "Crucifixo inclinado no cross",
+              "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg na contração",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "intervalo": "90 seg",
+              "obs": "Supino — piramidal, peso sobe a cada série",
+              "video_key": "SUPINO INCLINADO COM HALTERES"
             },
             {
-              "exercicio": "Crossover polia média",
+              "exercicio": "Supino inclinado na máquina",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Voador — sem descanso entre eles",
-              "video_key": "CROSSOVER POLIA MEDIA"
+              "intervalo": "90 seg",
+              "obs": "Supino — progressão de carga",
+              "video_key": "SUPINO INCLINADO NA MAQUINA"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Bi-set com Crossover polia média; descansa só ao terminar os dois",
+              "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
               "video_key": "VOADOR"
+            },
+            {
+              "exercicio": "Crossover",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "60 seg",
+              "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
+              "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
               "series": "3X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Mais de 10 kg",
+              "obs": "Mais de 10 kg; isometria 2 seg no topo",
               "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
             }
           ]
         }
@@ -149,7 +157,7 @@
     "3.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -160,68 +168,68 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
+              "exercicio": "Crucifixo inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
+              "video_key": "CRUCIFIXO INCLINADO"
+            },
+            {
+              "exercicio": "Supino reto na máquina",
+              "series": "3X",
+              "reps": "3+3+3 cluster",
+              "intervalo": "90 seg",
+              "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
+              "video_key": "SUPINO RETO NA MAQUINA"
+            },
+            {
               "exercicio": "Supino inclinado na máquina",
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Piramidal; drop-set na última série (reduzir 25% e ir à falha)",
+              "obs": "Supino — piramidal; drop-set na última série (reduzir 25% e ir à falha)",
               "video_key": "SUPINO INCLINADO NA MAQUINA"
-            },
-            {
-              "exercicio": "Supino reto na máquina",
-              "series": "4X",
-              "reps": "6 a 10",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
-              "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg na descida — terceiro ângulo de supino",
+              "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
               "video_key": "SUPINO INCLINADO COM HALTERES"
-            },
-            {
-              "exercicio": "Crucifixo inclinado no cross",
-              "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Voador — pré-exaustão, sem descanso entre eles",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Bi-set com Crucifixo inclinado no cross; descansa só ao terminar os dois",
+              "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
               "video_key": "VOADOR"
             },
             {
-              "exercicio": "Crossover polia média",
+              "exercicio": "Crossover",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; drop-set na última série (reduzir 25% e ir à falha)",
-              "video_key": "CROSSOVER POLIA MEDIA"
+              "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
+              "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; drop-set na última série",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
               "series": "3X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Mais de 10 kg",
+              "obs": "Mais de 10 kg; isometria 2 seg no topo",
               "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
             }
           ]
         }
@@ -232,7 +240,7 @@
     "1.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -243,11 +251,19 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
+              "exercicio": "Crucifixo inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+              "video_key": "CRUCIFIXO INCLINADO"
+            },
+            {
               "exercicio": "Supino reto na máquina",
-              "series": "3X",
-              "reps": "3+3+3 cluster",
+              "series": "4X",
+              "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos. Carga 5RM. Músculo prioritário",
+              "obs": "Supino — progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
@@ -255,69 +271,61 @@
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga (piramidal)",
+              "obs": "Supino — piramidal, peso sobe a cada série",
               "video_key": "SUPINO INCLINADO COM HALTERES"
-            },
-            {
-              "exercicio": "Crucifixo inclinado",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; alongar e nunca encostar os halteres na contração",
-              "video_key": "CRUCIFIXO INCLINADO"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Fly — progressão de carga; isometria 1 seg na contração",
               "video_key": "VOADOR"
             },
             {
               "exercicio": "Crossover",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Fly — progressão de carga",
               "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+            },
+            {
+              "exercicio": "Abdominal elevação de pernas com halter",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Mais de 10 kg",
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
             }
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / LOMBAR / PANTURRILHA",
+          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
-            {
-              "exercicio": "Panturrilha em pé",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-              "video_key": "PANTURRILHA EM PE"
-            },
             {
               "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Remada curvada pronada",
-              "series": "5X",
+              "series": "4X",
               "reps": "10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga",
               "video_key": "REMADA CURVADA PRONADA"
-            },
-            {
-              "exercicio": "Remada baixa com triângulo",
-              "series": "4X",
-              "reps": "10-10-10",
-              "intervalo": "90 seg",
-              "obs": "Drop mecânico: 10 curtas, 10 médias, 10 longas",
-              "video_key": "REMADA BAIXA COM TRIANGULO"
             },
             {
               "exercicio": "Puxada alta pronada",
@@ -326,6 +334,14 @@
               "intervalo": "90 seg",
               "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando",
               "video_key": "PUXADA ALTA PRONADA"
+            },
+            {
+              "exercicio": "Remada baixa com triângulo",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "REMADA BAIXA COM TRIANGULO"
             },
             {
               "exercicio": "Pulldown com corda",
@@ -339,9 +355,17 @@
               "exercicio": "Crucifixo inverso no voador",
               "series": "4X",
               "reps": "15",
-              "intervalo": "90 seg",
+              "intervalo": "60 seg",
               "obs": "Progressão de carga; cotovelos e mãos na altura do ombro",
               "video_key": "CRUCIFIXO INVERSO NO VOADOR"
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "ROSCA DIRETA NO CROSS"
             },
             {
               "exercicio": "Hiperextensão de lombar",
@@ -354,7 +378,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNAS / ABDÔMEN",
+          "nome": "DIA 3 — PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -369,16 +393,8 @@
               "series": "3X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Muito peso — zerar",
+              "obs": "Muito peso — ativação de glúteo",
               "video_key": "CADEIRA ABDUTORA"
-            },
-            {
-              "exercicio": "Elevação pélvica na máquina",
-              "series": "3X",
-              "reps": "6 a 10",
-              "intervalo": "60 seg",
-              "obs": "Muito peso",
-              "video_key": "ELEVACAO PELVICA NA MAQUINA"
             },
             {
               "exercicio": "Agachamento hack",
@@ -405,33 +421,33 @@
               "video_key": "CADEIRA EXTENSORA"
             },
             {
-              "exercicio": "Cadeira flexora",
+              "exercicio": "Mesa flexora",
               "series": "4X",
               "reps": "10",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; isometria 3 seg",
+              "video_key": "MESA FLEXORA"
+            },
+            {
+              "exercicio": "Cadeira flexora",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
               "video_key": "CADEIRA FLEXORA"
             },
             {
-              "exercicio": "Abdominal elevação de pernas com halter",
-              "series": "3X",
+              "exercicio": "Panturrilha em pé",
+              "series": "4X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Mais de 10 kg",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
+              "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
+              "video_key": "PANTURRILHA EM PE"
             }
           ]
         },
         {
-          "nome": "DIA 4 — OMBROS + ESTÍMULO DE PEITO",
+          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -439,7 +455,7 @@
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Desenvolvimento com halteres",
@@ -461,7 +477,7 @@
               "exercicio": "Elevação lateral",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
+              "intervalo": "60 seg",
               "obs": "Progressão de carga; não descer até a coxa, subir cotovelo na altura do ombro",
               "video_key": "ELEVACAO LATERAL"
             },
@@ -469,7 +485,7 @@
               "exercicio": "Crucifixo inverso com halteres",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
+              "intervalo": "60 seg",
               "obs": "Progressão de carga; cotovelo e peso do lado do ombro",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES"
             },
@@ -478,22 +494,9 @@
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga (piramidal) — estímulo de peito",
+              "obs": "Piramidal — estímulo de peito",
               "video_key": "SUPINO INCLINADO NA MAQUINA"
             },
-            {
-              "exercicio": "Voador",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg — estímulo de peito",
-              "video_key": "VOADOR"
-            }
-          ]
-        },
-        {
-          "nome": "DIA 5 — BRAÇOS / ABDÔMEN",
-          "exercicios": [
             {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
@@ -501,14 +504,19 @@
               "intervalo": "60 seg",
               "obs": "Segurar anilha no peito (pelo menos 10 kg)",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
-            },
+            }
+          ]
+        },
+        {
+          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "exercicios": [
             {
-              "exercicio": "Prancha para abdômen com retroversão",
+              "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
-              "reps": "60 seg",
-              "intervalo": "30 seg",
-              "obs": "",
-              "video_key": "PRANCHA PARA ABDOMEN COM RETROVERSAO"
+              "reps": "15",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -557,6 +565,14 @@
               "intervalo": "90 seg",
               "obs": "Progressão de carga; isometria 1 seg",
               "video_key": "ROSCA CONCENTRADA NO CROSS"
+            },
+            {
+              "exercicio": "Voador",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Progressão de carga; isometria 1 seg — estímulo de peito",
+              "video_key": "VOADOR"
             }
           ]
         }
@@ -565,7 +581,7 @@
     "2.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -576,81 +592,89 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
-              "exercicio": "Supino inclinado na máquina",
+              "exercicio": "Crucifixo inclinado",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
-              "intervalo": "90 seg",
-              "obs": "Piramidal — peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO NA MAQUINA"
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
+              "video_key": "CRUCIFIXO INCLINADO"
             },
             {
               "exercicio": "Supino reto na máquina",
               "series": "4X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; drop-set na última série (reduzir 20-30% e ir à falha)",
+              "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
-              "exercicio": "Crucifixo inclinado no cross",
+              "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg na contração",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "intervalo": "90 seg",
+              "obs": "Supino — piramidal, peso sobe a cada série",
+              "video_key": "SUPINO INCLINADO COM HALTERES"
             },
             {
-              "exercicio": "Crossover polia média",
+              "exercicio": "Supino inclinado na máquina",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Voador — sem descanso entre eles",
-              "video_key": "CROSSOVER POLIA MEDIA"
+              "intervalo": "90 seg",
+              "obs": "Supino — progressão de carga",
+              "video_key": "SUPINO INCLINADO NA MAQUINA"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Bi-set com Crossover polia média; descansa só ao terminar os dois",
+              "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
               "video_key": "VOADOR"
+            },
+            {
+              "exercicio": "Crossover",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "60 seg",
+              "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
+              "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+            },
+            {
+              "exercicio": "Abdominal elevação de pernas com halter",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Mais de 10 kg; isometria 2 seg no topo",
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
             }
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / LOMBAR / PANTURRILHA",
+          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
-            {
-              "exercicio": "Panturrilha em pé",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-              "video_key": "PANTURRILHA EM PE"
-            },
             {
               "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Remada curvada pronada",
               "series": "5X",
               "reps": "10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; fase positiva explosiva",
               "video_key": "REMADA CURVADA PRONADA"
-            },
-            {
-              "exercicio": "Remada baixa com triângulo",
-              "series": "4X",
-              "reps": "10-10-10",
-              "intervalo": "90 seg",
-              "obs": "Drop mecânico: 10 curtas, 10 médias, 10 longas",
-              "video_key": "REMADA BAIXA COM TRIANGULO"
             },
             {
               "exercicio": "Puxada alta pronada",
@@ -661,20 +685,44 @@
               "video_key": "PUXADA ALTA PRONADA"
             },
             {
+              "exercicio": "Remada baixa com triângulo",
+              "series": "4X",
+              "reps": "10-10-10",
+              "intervalo": "90 seg",
+              "obs": "Drop mecânico: 10 curtas, 10 médias, 10 longas",
+              "video_key": "REMADA BAIXA COM TRIANGULO"
+            },
+            {
+              "exercicio": "Remada cavalinho",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "REMADA CAVALINHO"
+            },
+            {
               "exercicio": "Pulldown com corda",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; pêndulo",
+              "obs": "Bi-set com Crucifixo inverso no voador, sem descanso entre eles",
               "video_key": "PULLDOWN COM CORDA"
             },
             {
               "exercicio": "Crucifixo inverso no voador",
               "series": "4X",
               "reps": "15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; cotovelos e mãos na altura do ombro",
+              "intervalo": "60 seg",
+              "obs": "Bi-set com Pulldown com corda; descansa só ao terminar os dois",
               "video_key": "CRUCIFIXO INVERSO NO VOADOR"
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+              "video_key": "ROSCA DIRETA NO CROSS"
             },
             {
               "exercicio": "Hiperextensão de lombar",
@@ -687,7 +735,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNAS / ABDÔMEN",
+          "nome": "DIA 3 — PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -702,15 +750,15 @@
               "series": "3X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Muito peso — zerar",
+              "obs": "Muito peso — ativação de glúteo",
               "video_key": "CADEIRA ABDUTORA"
             },
             {
               "exercicio": "Elevação pélvica na máquina",
               "series": "3X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Muito peso",
+              "obs": "Progressão de carga; isometria 1 seg no topo",
               "video_key": "ELEVACAO PELVICA NA MAQUINA"
             },
             {
@@ -718,7 +766,7 @@
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
+              "obs": "Piramidal; fase positiva explosiva; descer além dos 90°",
               "video_key": "AGACHAMENTO HACK"
             },
             {
@@ -726,7 +774,7 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; força na ponta do pé, não no calcanhar",
+              "obs": "Progressão de carga; drop-set na última série (reduzir 20-30% e ir à falha)",
               "video_key": "LEG PRESS 45"
             },
             {
@@ -734,37 +782,29 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; girar ponta do pé pra fora",
+              "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
               "video_key": "CADEIRA EXTENSORA"
             },
             {
-              "exercicio": "Cadeira flexora",
+              "exercicio": "Mesa flexora",
               "series": "4X",
               "reps": "10",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; isometria 3 seg",
+              "video_key": "MESA FLEXORA"
+            },
+            {
+              "exercicio": "Cadeira flexora",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa",
               "video_key": "CADEIRA FLEXORA"
-            },
-            {
-              "exercicio": "Abdominal elevação de pernas com halter",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Mais de 10 kg",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
             }
           ]
         },
         {
-          "nome": "DIA 4 — OMBROS + ESTÍMULO DE PEITO",
+          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -772,14 +812,14 @@
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Desenvolvimento com halteres",
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; fase positiva explosiva",
               "video_key": "DESENVOLVIMENTO COM HALTERES"
             },
             {
@@ -787,68 +827,68 @@
               "series": "4X",
               "reps": "15",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga",
+              "obs": "Bi-set com Elevação lateral, sem descanso entre eles",
               "video_key": "ELEVACAO LATERAL NO CROSS"
             },
             {
               "exercicio": "Elevação lateral",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; não descer até a coxa, subir cotovelo na altura do ombro",
+              "intervalo": "60 seg",
+              "obs": "Bi-set com Elevação lateral no cross; descansa só ao terminar os dois",
               "video_key": "ELEVACAO LATERAL"
+            },
+            {
+              "exercicio": "Elevação frontal no cross",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga",
+              "video_key": "ELEVACAO FRONTAL NO CROSS"
             },
             {
               "exercicio": "Crucifixo inverso com halteres",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; cotovelo e peso do lado do ombro",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES"
             },
             {
-              "exercicio": "Crucifixo inclinado no cross",
+              "exercicio": "Supino inclinado na máquina",
               "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 1 seg — estímulo de peito",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "intervalo": "90 seg",
+              "obs": "Piramidal; drop-set na última série (reduzir 25% e ir à falha) — estímulo de peito",
+              "video_key": "SUPINO INCLINADO NA MAQUINA"
             },
-            {
-              "exercicio": "Crossover polia média",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga — estímulo de peito",
-              "video_key": "CROSSOVER POLIA MEDIA"
-            }
-          ]
-        },
-        {
-          "nome": "DIA 5 — BRAÇOS / ABDÔMEN",
-          "exercicios": [
             {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
               "reps": "15",
               "intervalo": "60 seg",
-              "obs": "Segurar anilha no peito (pelo menos 10 kg)",
+              "obs": "Segurar anilha no peito (pelo menos 10 kg); isometria 2 seg na contração",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
-            },
+            }
+          ]
+        },
+        {
+          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "exercicios": [
             {
-              "exercicio": "Prancha para abdômen com retroversão",
+              "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
-              "reps": "60 seg",
-              "intervalo": "30 seg",
-              "obs": "",
-              "video_key": "PRANCHA PARA ABDOMEN COM RETROVERSAO"
+              "reps": "15",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
               "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
             },
             {
@@ -856,7 +896,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Bi-set com Tríceps francês no cross, sem descanso entre eles",
               "video_key": "TRICEPS PULLEY COM CORDA"
             },
             {
@@ -864,7 +904,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
+              "obs": "Bi-set com Tríceps pulley com corda; descansa só ao terminar os dois",
               "video_key": "TRICEPS FRANCES NO CROSS"
             },
             {
@@ -872,7 +912,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; ênfase na fase negativa",
               "video_key": "ROSCA DIRETA NO CROSS"
             },
             {
@@ -880,7 +920,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Bi-set com Rosca concentrada no cross, sem descanso entre eles",
               "video_key": "ROSCA SCOTT FECHADA"
             },
             {
@@ -888,8 +928,16 @@
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Bi-set com Rosca scott fechada; descansa só ao terminar os dois; isometria 1 seg",
               "video_key": "ROSCA CONCENTRADA NO CROSS"
+            },
+            {
+              "exercicio": "Voador",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Progressão de carga; isometria 2 seg na contração — estímulo de peito",
+              "video_key": "VOADOR"
             }
           ]
         }
@@ -898,7 +946,7 @@
     "3.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -909,81 +957,97 @@
               "video_key": "ALONGAMENTO PEITORAL MENOR"
             },
             {
+              "exercicio": "Crucifixo inclinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
+              "video_key": "CRUCIFIXO INCLINADO"
+            },
+            {
+              "exercicio": "Supino reto na máquina",
+              "series": "3X",
+              "reps": "3+3+3 cluster",
+              "intervalo": "90 seg",
+              "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
+              "video_key": "SUPINO RETO NA MAQUINA"
+            },
+            {
               "exercicio": "Supino inclinado na máquina",
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Piramidal; drop-set na última série (reduzir 25% e ir à falha)",
+              "obs": "Supino — piramidal; drop-set na última série (reduzir 25% e ir à falha)",
               "video_key": "SUPINO INCLINADO NA MAQUINA"
-            },
-            {
-              "exercicio": "Supino reto na máquina",
-              "series": "4X",
-              "reps": "6 a 10",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
-              "video_key": "SUPINO RETO NA MAQUINA"
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg na descida — terceiro ângulo de supino",
+              "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
               "video_key": "SUPINO INCLINADO COM HALTERES"
-            },
-            {
-              "exercicio": "Crucifixo inclinado no cross",
-              "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Voador — pré-exaustão, sem descanso entre eles",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
             },
             {
               "exercicio": "Voador",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Bi-set com Crucifixo inclinado no cross; descansa só ao terminar os dois",
+              "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
               "video_key": "VOADOR"
             },
             {
-              "exercicio": "Crossover polia média",
+              "exercicio": "Crossover",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; drop-set na última série (reduzir 25% e ir à falha)",
-              "video_key": "CROSSOVER POLIA MEDIA"
+              "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
+              "video_key": "CROSSOVER"
+            },
+            {
+              "exercicio": "Tríceps testa no banco inclinado",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; drop-set na última série",
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+            },
+            {
+              "exercicio": "Abdominal elevação de pernas com halter",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Mais de 10 kg; isometria 2 seg no topo",
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
             }
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / LOMBAR / PANTURRILHA",
+          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
-            {
-              "exercicio": "Panturrilha em pé",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-              "video_key": "PANTURRILHA EM PE"
-            },
             {
               "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Remada curvada pronada",
               "series": "5X",
               "reps": "10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; fase positiva explosiva; drop-set na última série",
               "video_key": "REMADA CURVADA PRONADA"
+            },
+            {
+              "exercicio": "Puxada alta pronada",
+              "series": "4X",
+              "reps": "6 a 10",
+              "intervalo": "90 seg",
+              "obs": "Progressão de carga; após falhar + 5 reps roubando; drop-set na última série",
+              "video_key": "PUXADA ALTA PRONADA"
             },
             {
               "exercicio": "Remada baixa com triângulo",
@@ -994,28 +1058,36 @@
               "video_key": "REMADA BAIXA COM TRIANGULO"
             },
             {
-              "exercicio": "Puxada alta pronada",
+              "exercicio": "Remada cavalinho",
               "series": "4X",
-              "reps": "6 a 10",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando",
-              "video_key": "PUXADA ALTA PRONADA"
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa",
+              "video_key": "REMADA CAVALINHO"
             },
             {
               "exercicio": "Pulldown com corda",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; pêndulo",
+              "obs": "Bi-set com Crucifixo inverso no voador, pré-exaustão, sem descanso entre eles",
               "video_key": "PULLDOWN COM CORDA"
             },
             {
               "exercicio": "Crucifixo inverso no voador",
               "series": "4X",
               "reps": "15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; cotovelos e mãos na altura do ombro",
+              "intervalo": "60 seg",
+              "obs": "Bi-set com Pulldown com corda; descansa só ao terminar os dois",
               "video_key": "CRUCIFIXO INVERSO NO VOADOR"
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; drop-set na última série",
+              "video_key": "ROSCA DIRETA NO CROSS"
             },
             {
               "exercicio": "Hiperextensão de lombar",
@@ -1028,7 +1100,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNAS / ABDÔMEN",
+          "nome": "DIA 3 — PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -1043,15 +1115,15 @@
               "series": "3X",
               "reps": "12 a 15",
               "intervalo": "60 seg",
-              "obs": "Muito peso — zerar",
+              "obs": "Muito peso — ativação de glúteo",
               "video_key": "CADEIRA ABDUTORA"
             },
             {
               "exercicio": "Elevação pélvica na máquina",
               "series": "3X",
-              "reps": "6 a 10",
+              "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Muito peso",
+              "obs": "Progressão de carga; isometria 1 seg no topo",
               "video_key": "ELEVACAO PELVICA NA MAQUINA"
             },
             {
@@ -1059,7 +1131,7 @@
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
-              "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
+              "obs": "Piramidal; drop-set na última série (reduzir 20-30% e ir à falha)",
               "video_key": "AGACHAMENTO HACK"
             },
             {
@@ -1067,7 +1139,7 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; força na ponta do pé, não no calcanhar",
+              "obs": "Progressão de carga; drop-set na última série (reduzir 20-30% e ir à falha)",
               "video_key": "LEG PRESS 45"
             },
             {
@@ -1075,37 +1147,29 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; girar ponta do pé pra fora",
+              "obs": "Progressão de carga; drop-set na última série (reduzir 25% e ir à falha)",
               "video_key": "CADEIRA EXTENSORA"
+            },
+            {
+              "exercicio": "Mesa flexora",
+              "series": "4X",
+              "reps": "10",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; isometria 3 seg; ênfase na fase negativa",
+              "video_key": "MESA FLEXORA"
             },
             {
               "exercicio": "Cadeira flexora",
               "series": "4X",
-              "reps": "10",
+              "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga; isometria 3 seg",
+              "obs": "Progressão de carga; drop-set na última série",
               "video_key": "CADEIRA FLEXORA"
-            },
-            {
-              "exercicio": "Abdominal elevação de pernas com halter",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Mais de 10 kg",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
-            },
-            {
-              "exercicio": "Abdominal na remada baixa / cross",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "",
-              "video_key": "ABDOMINAL NA REMADA BAIXA CROSS"
             }
           ]
         },
         {
-          "nome": "DIA 4 — OMBROS + ESTÍMULO DE PEITO",
+          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1113,14 +1177,14 @@
               "reps": "15",
               "intervalo": "15 seg",
               "obs": "Aquecimento",
-              "video_key": "ALONGAMENTO ESCAPULAS OMBRO"
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Desenvolvimento com halteres",
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; fase positiva explosiva; drop-set na última série",
               "video_key": "DESENVOLVIMENTO COM HALTERES"
             },
             {
@@ -1128,23 +1192,31 @@
               "series": "4X",
               "reps": "15",
               "intervalo": "60 seg",
-              "obs": "Progressão de carga",
+              "obs": "Bi-set com Elevação lateral, sem descanso entre eles",
               "video_key": "ELEVACAO LATERAL NO CROSS"
             },
             {
               "exercicio": "Elevação lateral",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; não descer até a coxa, subir cotovelo na altura do ombro",
+              "intervalo": "60 seg",
+              "obs": "Bi-set com Elevação lateral no cross; descansa só ao terminar os dois",
               "video_key": "ELEVACAO LATERAL"
+            },
+            {
+              "exercicio": "Elevação frontal no cross",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; ênfase na fase negativa",
+              "video_key": "ELEVACAO FRONTAL NO CROSS"
             },
             {
               "exercicio": "Crucifixo inverso com halteres",
               "series": "4X",
               "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; cotovelo e peso do lado do ombro",
+              "intervalo": "60 seg",
+              "obs": "Progressão de carga; drop-set na última série",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES"
             },
             {
@@ -1152,52 +1224,36 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga — estímulo de peito",
+              "obs": "Progressão de carga; drop mecânico na última série — estímulo de peito",
               "video_key": "SUPINO INCLINADO NA MAQUINA"
             },
-            {
-              "exercicio": "Crucifixo inclinado no cross",
-              "series": "4X",
-              "reps": "10 a 15",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Crossover polia média — estímulo de peito",
-              "video_key": "CRUCIFIXO INCLINADO NO CROSS"
-            },
-            {
-              "exercicio": "Crossover polia média",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Bi-set com Crucifixo inclinado no cross; descansa só ao terminar os dois — estímulo de peito",
-              "video_key": "CROSSOVER POLIA MEDIA"
-            }
-          ]
-        },
-        {
-          "nome": "DIA 5 — BRAÇOS / ABDÔMEN",
-          "exercicios": [
             {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
               "reps": "15",
               "intervalo": "60 seg",
-              "obs": "Segurar anilha no peito (pelo menos 10 kg)",
+              "obs": "Segurar anilha no peito (pelo menos 10 kg); isometria 2 seg na contração",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
-            },
+            }
+          ]
+        },
+        {
+          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "exercicios": [
             {
-              "exercicio": "Prancha para abdômen com retroversão",
+              "exercicio": "Alongamento escápulas / ombro",
               "series": "2X",
-              "reps": "60 seg",
-              "intervalo": "30 seg",
-              "obs": "",
-              "video_key": "PRANCHA PARA ABDOMEN COM RETROVERSAO"
+              "reps": "15",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; drop-set na última série",
               "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
             },
             {
@@ -1205,7 +1261,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Bi-set com Tríceps francês no cross, sem descanso entre eles",
               "video_key": "TRICEPS PULLEY COM CORDA"
             },
             {
@@ -1213,7 +1269,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
+              "obs": "Bi-set com Tríceps pulley com corda; descansa só ao terminar os dois",
               "video_key": "TRICEPS FRANCES NO CROSS"
             },
             {
@@ -1221,7 +1277,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Progressão de carga; drop-set na última série",
               "video_key": "ROSCA DIRETA NO CROSS"
             },
             {
@@ -1229,7 +1285,7 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Bi-set com Rosca concentrada no cross, sem descanso entre eles",
               "video_key": "ROSCA SCOTT FECHADA"
             },
             {
@@ -1237,8 +1293,16 @@
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga; isometria 1 seg",
+              "obs": "Bi-set com Rosca scott fechada; descansa só ao terminar os dois; isometria 1 seg",
               "video_key": "ROSCA CONCENTRADA NO CROSS"
+            },
+            {
+              "exercicio": "Voador",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Progressão de carga; isometria 2 seg na contração; drop-set na última série — estímulo de peito",
+              "video_key": "VOADOR"
             }
           ]
         }
@@ -1246,263 +1310,22 @@
     }
   },
   "dietas": {
-    "3K": {
-      "regras": "◆  Sal: fragmentar 8g ao longo do dia (ex: 4 refeições = 2g cada)\n◆  Café: somente até às 16h, sem açúcar\n◆  Vinagre de maçã: 1 colher antes do almoço e janta\n◆  Refeição livre: 1x por semana\n◆  Gordura para preparo: utilizar apenas sprays ou limpar a panela com guardanapo após derreter manteiga/margarina\n◆  Permitidos: adoçantes zero calorias, refrigerantes zero, sucos/chás zero, gelatina zero, condimentos (cacau, canela, temperos)\n◆  Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado\n\nM É T O D O   GH",
-      "refeicoes": [
-        {
-          "nome": "1ª REFEIÇÃO — DESJEJUM",
-          "opcoes": [
-            {
-              "nome": "Opção 1",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "4 fatias",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "150g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "03 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "5 fatias",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Requeijão light",
-                  "quantidade": "50g",
-                  "obs": "Ou ricota (100g) ou queijo muçarela (01 fatia)"
-                }
-              ],
-              "macros": "PROTEÍNA  34g | CARBO  78g | GORDURA  24g | CALORIAS  615 kcal"
-            }
-          ],
-          "obs": [
-            "Escolher uma das duas opções:"
-          ]
-        },
-        {
-          "nome": "2ª REFEIÇÃO — ALMOÇO",
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "250g",
-                  "obs": "Carne bovina, frango, carne de porco ou peixe"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "350g",
-                  "obs": "Arroz, massa, mandioca ou batata"
-                },
-                {
-                  "alimento": "Feijão",
-                  "quantidade": "100g (grãos)",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "150g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": "PROTEÍNA  94g | CARBO  134g | GORDURA  9g | CALORIAS  1.033 kcal"
-            }
-          ],
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato.",
-            "Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca.",
-            "M É T O D O   GH"
-          ]
-        },
-        {
-          "nome": "3ª REFEIÇÃO — LANCHE",
-          "opcoes": [
-            {
-              "nome": "Opção 1 — Iogurte/Leite com Whey",
-              "alimentos": [
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1.5 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "60g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Iogurte zero",
-                  "quantidade": "100g",
-                  "obs": "Ou leite desnatado (200ml)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "150g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2 — Mingau",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "70g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Leite desnatado",
-                  "quantidade": "200ml",
-                  "obs": "Ou iogurte zero (100g)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "200g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 3 — Panqueca/Bolinho com frutas",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "60g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "150g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 4 — Repeteco do almoço",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "220g",
-                  "obs": "Carne bovina, frango, carne de porco ou peixe"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "300g",
-                  "obs": "Arroz, massa, mandioca ou batata"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": "PROTEÍNA  49g | CARBO  68g | GORDURA  6g | CALORIAS  529 kcal"
-            }
-          ],
-          "obs": [
-            "Escolher uma das quatro opções:",
-            "M É T O D O   GH"
-          ]
-        },
-        {
-          "nome": "4ª REFEIÇÃO — JANTAR",
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "280g",
-                  "obs": "Carne bovina, frango, carne de porco ou peixe"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "450g",
-                  "obs": "Batata inglesa/doce, arroz, mandioca ou massa"
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "150g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": "PROTEÍNA  96g | CARBO  100g | GORDURA  10g | CALORIAS  885 kcal"
-            }
-          ],
-          "obs": []
-        },
-        {
-          "nome": "TOTAL DIÁRIO",
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [],
-              "macros": "PROTEÍNA  273g | CARBO  380g | GORDURA  49g | CALORIAS  3.062 kcal"
-            }
-          ],
-          "obs": []
-        }
-      ]
-    },
     "2.8K": {
-      "regras": "◆  Sal: fragmentar 8g ao longo do dia (ex: 4 refeições = 2g cada)\n\n◆  Café: somente até às 16h, sem açúcar\n\n◆  Vinagre de maçã: 1 colher antes do almoço e janta\n\n◆  Refeição livre: 1x por semana\n\n◆  Gordura para preparo: utilizar apenas sprays ou limpar a panela com guardanapo após derreter manteiga/margarina\n\n◆  Permitidos: adoçantes zero calorias, refrigerantes zero, sucos/chás zero, gelatina zero, condimentos (cacau, canela, temperos)\n\n◆  Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado",
+      "kcal": "2.800 kcal",
+      "regras": [
+        "Sal: fragmentar 8g ao longo do dia",
+        "Café: somente até às 16h, sem açúcar",
+        "Vinagre de maçã: 1 colher antes do almoço e janta",
+        "Refeição livre: 1x por semana",
+        "Hidratação: 3 a 5 litros de água por dia",
+        "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
+      ],
       "refeicoes": [
         {
-          "nome": "1ª REFEIÇÃO — DESJEJUM",
+          "nome": "1ª Refeição — Desjejum",
+          "obs": [
+            "Escolher uma das duas opções."
+          ],
           "opcoes": [
             {
               "nome": "Opção 1",
@@ -1544,15 +1367,15 @@
                   "obs": "Ou ricota (100g) ou queijo muçarela (01 fatia)"
                 }
               ],
-              "macros": "PROTEÍNA\n31g | CARBO\n65g | GORDURA\n23g | CALORIAS\n592 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Escolher uma das duas opções:"
           ]
         },
         {
-          "nome": "2ª REFEIÇÃO — ALMOÇO",
+          "nome": "2ª Refeição — Almoço",
+          "obs": [
+            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
+          ],
           "opcoes": [
             {
               "nome": "",
@@ -1588,15 +1411,15 @@
                   "obs": "Livre escolha"
                 }
               ],
-              "macros": "PROTEÍNA\n94g | CARBO\n112g | GORDURA\n9g | CALORIAS\n905 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
           ]
         },
         {
-          "nome": "3ª REFEIÇÃO — LANCHE",
+          "nome": "3ª Refeição — Lanche",
+          "obs": [
+            "Escolher uma das quatro opções."
+          ],
           "opcoes": [
             {
               "nome": "Opção 1 — Iogurte/Leite com Whey",
@@ -1695,15 +1518,13 @@
                   "obs": ""
                 }
               ],
-              "macros": "PROTEÍNA\n49g | CARBO\n68g | GORDURA\n6g | CALORIAS\n529 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Escolher uma das quatro opções:"
           ]
         },
         {
-          "nome": "4ª REFEIÇÃO — JANTAR",
+          "nome": "4ª Refeição — Jantar",
+          "obs": [],
           "opcoes": [
             {
               "nome": "",
@@ -1729,29 +1550,28 @@
                   "obs": ""
                 }
               ],
-              "macros": "PROTEÍNA\n96g | CARBO\n78g | GORDURA\n10g | CALORIAS\n786 kcal"
+              "macros": ""
             }
-          ],
-          "obs": []
-        },
-        {
-          "nome": "TOTAL DIÁRIO",
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [],
-              "macros": "PROTEÍNA\n270g | CARBO\n323g | GORDURA\n48g | CALORIAS\n2.812 kcal"
-            }
-          ],
-          "obs": []
+          ]
         }
       ]
     },
     "3.2K": {
-      "regras": "◆  Sal: fragmentar 8g ao longo do dia (ex: 4 refeições = 2g cada)\n\n◆  Café: somente até às 16h, sem açúcar\n\n◆  Vinagre de maçã: 1 colher antes do almoço e janta\n\n◆  Refeição livre: 1x por semana\n\n◆  Gordura para preparo: utilizar apenas sprays ou limpar a panela com guardanapo após derreter manteiga/margarina\n\n◆  Permitidos: adoçantes zero calorias, refrigerantes zero, sucos/chás zero, gelatina zero, condimentos (cacau, canela, temperos)\n\n◆  Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado",
+      "kcal": "3.200 kcal",
+      "regras": [
+        "Sal: fragmentar 8g ao longo do dia",
+        "Café: somente até às 16h, sem açúcar",
+        "Vinagre de maçã: 1 colher antes do almoço e janta",
+        "Refeição livre: 1x por semana",
+        "Hidratação: 3 a 5 litros de água por dia",
+        "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
+      ],
       "refeicoes": [
         {
-          "nome": "1ª REFEIÇÃO — DESJEJUM",
+          "nome": "1ª Refeição — Desjejum",
+          "obs": [
+            "Escolher uma das duas opções."
+          ],
           "opcoes": [
             {
               "nome": "Opção 1",
@@ -1793,15 +1613,15 @@
                   "obs": "Ou ricota (100g) ou queijo muçarela (01 fatia)"
                 }
               ],
-              "macros": "PROTEÍNA\n34g | CARBO\n78g | GORDURA\n24g | CALORIAS\n615 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Escolher uma das duas opções:"
           ]
         },
         {
-          "nome": "2ª REFEIÇÃO — ALMOÇO",
+          "nome": "2ª Refeição — Almoço",
+          "obs": [
+            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
+          ],
           "opcoes": [
             {
               "nome": "",
@@ -1837,15 +1657,15 @@
                   "obs": "Livre escolha"
                 }
               ],
-              "macros": "PROTEÍNA\n94g | CARBO\n159g | GORDURA\n9g | CALORIAS\n1.093 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
           ]
         },
         {
-          "nome": "3ª REFEIÇÃO — LANCHE",
+          "nome": "3ª Refeição — Lanche",
+          "obs": [
+            "Escolher uma das quatro opções."
+          ],
           "opcoes": [
             {
               "nome": "Opção 1 — Iogurte/Leite com Whey",
@@ -1944,15 +1764,13 @@
                   "obs": ""
                 }
               ],
-              "macros": "PROTEÍNA\n49g | CARBO\n68g | GORDURA\n6g | CALORIAS\n529 kcal"
+              "macros": ""
             }
-          ],
-          "obs": [
-            "Escolher uma das quatro opções:"
           ]
         },
         {
-          "nome": "4ª REFEIÇÃO — JANTAR",
+          "nome": "4ª Refeição — Jantar",
+          "obs": [],
           "opcoes": [
             {
               "nome": "",
@@ -1978,109 +1796,50 @@
                   "obs": ""
                 }
               ],
-              "macros": "PROTEÍNA\n96g | CARBO\n125g | GORDURA\n10g | CALORIAS\n974 kcal"
+              "macros": ""
             }
-          ],
-          "obs": []
-        },
-        {
-          "nome": "TOTAL DIÁRIO",
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [],
-              "macros": "PROTEÍNA\n273g | CARBO\n430g | GORDURA\n49g | CALORIAS\n3.211 kcal"
-            }
-          ],
-          "obs": []
+          ]
         }
       ]
     }
   },
   "videos": {
-    "ALONGAMENTO PEITORAL MENOR": "https://www.youtube.com/watch?v=1yElQu1suCg",
-    "CRUCIFIXO INCLINADO": "https://www.youtube.com/watch?v=UIymowMf_mQ",
-    "SUPINO INCLINADO COM HALTERES": "https://www.youtube.com/watch?v=po59ol1qYlE",
-    "SUPINO RETO NA MAQUINA": "https://www.youtube.com/watch?v=8DJp91_SPEQ",
-    "VOADOR": "https://www.youtube.com/watch?v=uCZpbObSBJs",
-    "CROSSOVER": "https://www.youtube.com/watch?v=JOM0DuJuDVs",
-    "ABDOMINAL ELEVACAO DE PERNAS COM HALTER": "https://www.youtube.com/watch?v=-WLhmbfwyQg",
-    "ABDOMINAL NA REMADA BAIXA CROSS": "https://www.youtube.com/watch?v=AhMVxJHPfkg",
-    "PANTURRILHA EM PE": "https://www.youtube.com/watch?v=yTSIxa08AeI",
-    "ALONGAMENTO ESCAPULAS OMBRO": "https://www.youtube.com/watch?v=AwA7fzu8ajE",
-    "REMADA CURVADA PRONADA": "https://www.youtube.com/watch?v=RwF1Jsv3unk",
-    "REMADA BAIXA COM TRIANGULO": "https://www.youtube.com/watch?v=qGN_9GEygRs",
-    "PUXADA ALTA PRONADA": "https://www.youtube.com/watch?v=LXlAU1-_RhY",
-    "PULLDOWN COM CORDA": "https://www.youtube.com/watch?v=1PIPwlo69NM",
-    "CRUCIFIXO INVERSO NO VOADOR": "https://www.youtube.com/watch?v=vkCpTcRkqgo",
-    "HIPEREXTENSAO DE LOMBAR": "https://www.youtube.com/watch?v=Z7hyX51F3Ck",
-    "MOBILIDADE DE TORNOZELO": "https://www.youtube.com/watch?v=PPoaqzaHtwc",
-    "CADEIRA ABDUTORA": "https://www.youtube.com/watch?v=cW18gc3wx_k",
-    "ELEVACAO PELVICA NA MAQUINA": "https://www.youtube.com/watch?v=qYQJ0cvN4H0",
-    "AGACHAMENTO HACK": "https://www.youtube.com/watch?v=642LpaA8Adw",
-    "LEG PRESS 45": "https://www.youtube.com/watch?v=DmKU4vtcM9Q",
-    "CADEIRA EXTENSORA": "https://www.youtube.com/watch?v=2-8tresyGQc",
-    "CADEIRA FLEXORA": "https://www.youtube.com/watch?v=2O3fXUKThjo",
-    "DESENVOLVIMENTO COM HALTERES": "https://www.youtube.com/watch?v=9I9qII_slzU",
-    "ELEVACAO LATERAL NO CROSS": "https://www.youtube.com/watch?v=iRIwlKOV59U",
-    "ELEVACAO LATERAL": "https://www.youtube.com/watch?v=KIVorxeYHAU",
-    "CRUCIFIXO INVERSO COM HALTERES": "https://www.youtube.com/watch?v=PYWiiyFnOW0",
-    "SUPINO INCLINADO NA MAQUINA": "https://www.youtube.com/watch?v=8OfwYeVpDm4",
-    "ABDOMINAL NO BANCO DECLINADO COM PESO": "https://www.youtube.com/watch?v=N_oBFXyHGN4",
-    "PRANCHA PARA ABDOMEN COM RETROVERSAO": "https://www.youtube.com/watch?v=iezFE_8B6o4",
-    "TRICEPS TESTA NO BANCO INCLINADO": "https://www.youtube.com/watch?v=RJDT2ctx9zw",
-    "TRICEPS PULLEY COM CORDA": "https://www.youtube.com/watch?v=TdW6eieU898",
-    "TRICEPS FRANCES NO CROSS": "https://www.youtube.com/watch?v=dLeCaN8cBLY",
-    "ROSCA DIRETA NO CROSS": "https://www.youtube.com/watch?v=nwVV9ZMCAoM",
-    "ROSCA SCOTT FECHADA": "https://www.youtube.com/watch?v=XVVyiWW8tA0",
-    "ROSCA CONCENTRADA NO CROSS": "https://www.youtube.com/watch?v=NXbMzeBo0fw",
-    "AGACHAMENTO SMITH": "https://www.youtube.com/watch?v=RT323uhyyuI",
-    "LEG PRESS 45º": "https://www.youtube.com/watch?v=DmKU4vtcM9Q",
-    "ABDOMINAL NO BANCO DECLINADO": "https://www.youtube.com/watch?v=N_oBFXyHGN4",
-    "CRUCIFIXO INCLINADO NO CROSS": "https://www.youtube.com/watch?v=P4ze24csIeQ",
-    "PUXADA ALTA SUPINADA": "https://www.youtube.com/watch?v=9p6QRcn1Pzg",
-    "REMADA BAIXA ABERTA": "https://www.youtube.com/watch?v=hTo03b6Umk0",
-    "MEIO TERRA": "https://www.youtube.com/watch?v=X9vR-VAoG-0",
-    "ROSCA MARTELO COM HALTERES": "https://www.youtube.com/watch?v=PJWmS6ga2CI",
-    "ALONGAMENTO POSTERIOR": "https://www.youtube.com/watch?v=MOb1N4IDl3Q",
-    "ALONGAMENTO GLUTEO": "https://www.youtube.com/watch?v=zByNfWpvlOI",
-    "MESA FLEXORA": "https://www.youtube.com/watch?v=kNxuZFtpVlY",
-    "STIFF": "https://www.youtube.com/watch?v=WZR-tDmSMa4",
-    "MESA FLEXORA LIVRE COM HALTER": "https://www.youtube.com/watch?v=9R8zy_W_CmA",
-    "CADEIRA ADUTORA": "https://www.youtube.com/watch?v=zCn_XLCxOqA",
-    "TERRA SUMO": "https://www.youtube.com/watch?v=Gj0MLcCkcWg",
-    "PANTURRILHA NO LEG HORIZONTAL": "https://www.youtube.com/watch?v=vYBK0QO7mvw",
-    "ELEVACAO LATERAL PARCIAL NO CROSS": "https://www.youtube.com/watch?v=iEwEvPNysms",
-    "ELEVACAO LATERAL NO BANCO INCLINADO": "https://www.youtube.com/watch?v=kkQvKWzjjlU",
-    "ELEVACAO FRONTAL NEUTRA COM HALTERES": "https://www.youtube.com/watch?v=I0j5DRnY8Wk",
-    "ROSCA ALTERNADA COM HALTERES": "https://www.youtube.com/watch?v=fVy4_Hgw9CM",
-    "AFUNDO SMITH COM STEP": "https://www.youtube.com/watch?v=6jcrJYSEMtc",
-    "ABDOMINAL NA BARRA FIXA": "https://www.youtube.com/watch?v=byZkls1DsKU",
-    "CROSSOVER POLIA MEDIA": "https://www.youtube.com/watch?v=56jUxwnxJK4",
-    "REMADA PRONADA NA MAQUINA": "https://www.youtube.com/watch?v=fO9eHoAlz38",
-    "REMADA UNILATERAL NA MAQUINA": "https://www.youtube.com/watch?v=nad_kNRs_8s",
-    "SERROTE PENDULO COM HALTER": "https://www.youtube.com/watch?v=AaqHrQPe5sk",
-    "PULLDOWN": "https://www.youtube.com/watch?v=1PIPwlo69NM",
-    "ROSCA SCOTT ABERTA": "https://www.youtube.com/watch?v=r4uHi0T76g0",
-    "FLEXOR UNILATERAL EM PE": "https://www.youtube.com/watch?v=T6-6VaqqlZY",
-    "BULGARO": "https://www.youtube.com/watch?v=-2UCcZthi9U",
-    "AQUECIMENTO MANGUITO": "https://www.youtube.com/watch?v=GKIVZdpBAEY",
-    "ELEVACAO FRONTAL CORDA NO CROSS": "https://www.youtube.com/watch?v=uiMFu44ae14",
-    "TRICEPS TESTA EM PE": "https://www.youtube.com/watch?v=4XE0hdem1X0",
-    "LEVANTAMENTO TERRA": "https://www.youtube.com/watch?v=4clvqnx_8t4",
-    "ABDOMINAL ELEVACAO DE PERNAS COM HALTER CANELEIRA": "https://www.youtube.com/watch?v=-WLhmbfwyQg",
-    "ELEVACAO FRONTAL NO CROSS": "https://www.youtube.com/watch?v=A9cXWQhb6RI",
-    "CADEIRA ABDUTORA 45º EM PE": "https://www.youtube.com/watch?v=IWk-t5VaOLs",
-    "COICE COM CANELEIRA": "https://www.youtube.com/watch?v=Hn9_p5qR7iI",
-    "COICE NO CROSS COM POLIA ALTA": "https://www.youtube.com/watch?v=AvrWOYR7Vsg",
-    "ABDUCAO DEITADO COM MINI BAND": "https://www.youtube.com/watch?v=U9WMiP277bM",
-    "OSTRA COM MINI BAND": "https://www.youtube.com/watch?v=SgGRmVNoSvA",
-    "ABDUCAO NO CROSS": "https://www.youtube.com/watch?v=aVzxUvOs_U8",
-    "REMADA CAVALINHO": "https://www.youtube.com/watch?v=ScJip_fX2FE",
-    "TRICEPS PULLEY COM BARRA": "https://www.youtube.com/watch?v=IrS8LbWYsjk",
-    "STIFF COM HALTERES": "https://www.youtube.com/watch?v=syB72raznhk",
-    "AGACHAMENTO SUMO SMITH": "https://www.youtube.com/watch?v=DiSgWmM6s48",
-    "ROSCA DIRETA NA PUXADA ALTA": "https://www.youtube.com/watch?v=bW9ZnVA6FMY",
-    "ELEVACAO FRONTAL COM HALTERES EM ISOMETRIA": "https://www.youtube.com/watch?v=k2DWpjybVmU"
+    "ALONGAMENTO PEITORAL MENOR": "https://www.youtube.com/shorts/1yElQu1suCg",
+    "CRUCIFIXO INCLINADO": "https://www.youtube.com/watch?v=UIymowMf_mQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=8",
+    "SUPINO RETO NA MAQUINA": "https://www.youtube.com/watch?v=8DJp91_SPEQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=3",
+    "SUPINO INCLINADO COM HALTERES": "https://www.youtube.com/watch?v=po59ol1qYlE&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=9",
+    "VOADOR": "https://www.youtube.com/watch?v=uCZpbObSBJs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=4",
+    "CROSSOVER": "https://www.youtube.com/watch?v=JOM0DuJuDVs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=1",
+    "TRICEPS TESTA NO BANCO INCLINADO": "https://www.youtube.com/watch?v=RJDT2ctx9zw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=7",
+    "ABDOMINAL ELEVACAO DE PERNAS COM HALTER": "https://www.youtube.com/watch?v=-WLhmbfwyQg&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR",
+    "ALONGAMENTO ESCAPULAS / OMBRO": "https://www.youtube.com/shorts/AwA7fzu8ajE?feature=share",
+    "REMADA CURVADA PRONADA": "https://www.youtube.com/watch?v=RwF1Jsv3unk&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=6",
+    "PUXADA ALTA PRONADA": "https://www.youtube.com/watch?v=LXlAU1-_RhY&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=5",
+    "REMADA BAIXA COM TRIANGULO": "https://www.youtube.com/watch?v=qGN_9GEygRs&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=15",
+    "PULLDOWN COM CORDA": "https://www.youtube.com/watch?v=1PIPwlo69NM&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5",
+    "CRUCIFIXO INVERSO NO VOADOR": "https://www.youtube.com/watch?v=vkCpTcRkqgo&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=20",
+    "ROSCA DIRETA NO CROSS": "https://www.youtube.com/watch?v=nwVV9ZMCAoM&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=13",
+    "HIPEREXTENSAO DE LOMBAR": "https://www.youtube.com/watch?v=Z7hyX51F3Ck&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=19",
+    "MOBILIDADE DE TORNOZELO": "https://www.youtube.com/shorts/PPoaqzaHtwc?feature=share",
+    "CADEIRA ABDUTORA": "https://www.youtube.com/watch?v=cW18gc3wx_k&list=PLi70DQtLbXHyffLCKhVTNxKrr6OB43iax&index=13",
+    "AGACHAMENTO HACK": "https://www.youtube.com/watch?v=642LpaA8Adw&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=4",
+    "LEG PRESS 45": "https://www.youtube.com/watch?v=DmKU4vtcM9Q&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=7",
+    "CADEIRA EXTENSORA": "https://www.youtube.com/watch?v=2-8tresyGQc&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=2",
+    "MESA FLEXORA": "https://www.youtube.com/watch?v=kNxuZFtpVlY&list=PLi70DQtLbXHwBh0yfwWCCSL-e2ikhGBZB&index=8",
+    "CADEIRA FLEXORA": "https://www.youtube.com/watch?v=2O3fXUKThjo&list=PLi70DQtLbXHwBh0yfwWCCSL-e2ikhGBZB&index=2",
+    "PANTURRILHA EM PE": "https://www.youtube.com/watch?v=yTSIxa08AeI&list=PLi70DQtLbXHyXyB0QnGnkqGiipD-1zF0Z&index=3",
+    "DESENVOLVIMENTO COM HALTERES": "https://www.youtube.com/watch?v=9I9qII_slzU&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=3",
+    "ELEVACAO LATERAL NO CROSS": "https://www.youtube.com/watch?v=iRIwlKOV59U&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR",
+    "ELEVACAO LATERAL": "https://www.youtube.com/watch?v=KIVorxeYHAU&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=7",
+    "CRUCIFIXO INVERSO COM HALTERES": "https://www.youtube.com/watch?v=PYWiiyFnOW0&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=20",
+    "SUPINO INCLINADO NA MAQUINA": "https://www.youtube.com/watch?v=8OfwYeVpDm4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=2",
+    "ABDOMINAL NO BANCO DECLINADO COM PESO": "https://www.youtube.com/watch?v=N_oBFXyHGN4&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR&index=5",
+    "TRICEPS PULLEY COM CORDA": "https://www.youtube.com/watch?v=TdW6eieU898&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=8",
+    "TRICEPS FRANCES NO CROSS": "https://www.youtube.com/watch?v=dLeCaN8cBLY&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=11",
+    "ROSCA SCOTT FECHADA": "https://www.youtube.com/watch?v=XVVyiWW8tA0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=9",
+    "ROSCA CONCENTRADA NO CROSS": "https://www.youtube.com/watch?v=NXbMzeBo0fw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=5",
+    "REMADA CAVALINHO": "https://www.youtube.com/watch?v=ScJip_fX2FE&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=7",
+    "ELEVACAO PELVICA NA MAQUINA": "https://www.youtube.com/watch?v=qYQJ0cvN4H0&list=PLi70DQtLbXHyffLCKhVTNxKrr6OB43iax&index=15",
+    "ELEVACAO FRONTAL NO CROSS": "https://www.youtube.com/watch?v=A9cXWQhb6RI&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=4"
   }
 }
