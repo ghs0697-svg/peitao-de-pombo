@@ -645,6 +645,7 @@ let state = {
   tab: 'peito',
   peitoVer: '1.0',
   semanaVer: '1.0',
+  dietaVer: '2.8K',
   semanaDay: 0,
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/upsell)
@@ -1193,8 +1194,10 @@ function renderDieta() {
     c.innerHTML = paywall('dieta');
     return;
   }
-  // Dieta única — sem seletor de caloria (no-brain)
-  const d = DATA.dietas['3K'] || DATA.dietas[Object.keys(DATA.dietas)[0]];
+  // Seletor de faixa calórica
+  const vers = Object.keys(DATA.dietas);
+  if (!vers.includes(state.dietaVer)) state.dietaVer = vers[0];
+  const d = DATA.dietas[state.dietaVer];
   if (!d) { c.innerHTML = '<div class="empty">Dieta não encontrada.</div>'; return; }
   const refs = d.refeicoes.map(ref => {
     const obs = (ref.obs || []).map(o => `<div class="meal-obs">${o}</div>`).join('');
@@ -1217,10 +1220,18 @@ function renderDieta() {
   }).join('');
   c.innerHTML = `
     <h2>Dieta</h2>
-    <p class="hint">Tua dieta pra ficar com o peito de pombo. Pronta pra seguir.</p>
+    <p class="hint">Tua dieta pra ficar com o peito de pombo. Escolhe a faixa de calorias e segue.</p>
+    <div class="ver-row">
+      ${vers.map(v => `
+        <button class="ver-btn ${state.dietaVer===v?'active':''}" onclick="setDietaVer('${v}')">
+          <span class="ver-lbl">DIETA</span>${v}
+        </button>
+      `).join('')}
+    </div>
     ${refs}
   `;
 }
+function setDietaVer(v) { state.dietaVer = v; renderDieta(); }
 
 // ════════ PAYWALL ════════
 function paywall(kind) {
