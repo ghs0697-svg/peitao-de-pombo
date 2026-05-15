@@ -528,6 +528,26 @@
   .mat-ic { font-size: 26px; }
   .mat-title { font-size: 13px; font-weight: 800; color: var(--text); margin-top: 6px; line-height: 1.2; }
   .mat-sub { font-size: 10px; color: var(--text-dim); margin-top: 3px; line-height: 1.3; }
+
+  /* Botão de download de PDF (treino/dieta da fase atual) */
+  .dl-pdf {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(232,184,75,0.12) 0%, rgba(232,184,75,0.04) 100%);
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    padding: 13px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 10px 0 16px;
+    transition: all 0.15s;
+  }
+  .dl-pdf:hover, .dl-pdf:active { background: var(--gold); color: #000; }
+  .dl-pdf .dl-ic { font-size: 16px; }
 </style>
 </head>
 <body>
@@ -1143,6 +1163,9 @@ function renderPeito() {
         </button>
       `).join('')}
     </div>
+    <a class="dl-pdf" href="pdfs/treino-peito-${state.peitoVer}.pdf" download="Treino Peito ${state.peitoVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+      <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
+    </a>
     ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
     ${exs}
     ${renderUpsells()}
@@ -1178,6 +1201,9 @@ function renderSemana() {
         </button>
       `).join('')}
     </div>
+    <a class="dl-pdf" href="pdfs/treino-5x-${state.semanaVer}.pdf" download="Treino 5x ${state.semanaVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+      <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
+    </a>
     <div class="day-row">${dayBtns}</div>
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
@@ -1228,6 +1254,9 @@ function renderDieta() {
         </button>
       `).join('')}
     </div>
+    <a class="dl-pdf" href="pdfs/dieta-${state.dietaVer.toLowerCase()}.pdf" download="Dieta ${state.dietaVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+      <span class="dl-ic">⬇</span> Baixar PDF da dieta · ${state.dietaVer}
+    </a>
     ${refs}
   `;
 }
