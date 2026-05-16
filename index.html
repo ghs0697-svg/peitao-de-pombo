@@ -468,6 +468,34 @@
     text-align: center; letter-spacing: .3px;
   }
 
+  /* Tema PP (Peitão de Pombo — laranja + branco) */
+  .mgh-card.theme-pp {
+    background: linear-gradient(135deg, #1a0e08 0%, #0B0B0C 100%);
+    border-color: #FF6B1A;
+  }
+  .mgh-card.theme-pp .mgh-logo { border-color: #FF6B1A; color: #FF8642; }
+  .mgh-card.theme-pp .mgh-marca { color: #FF8642; }
+  .mgh-card.theme-pp .mgh-badge { color: #FFB587; }
+  .mgh-card.theme-pp .mgh-bullets li::before { color: #FF8642; }
+  .mgh-card.theme-pp .mgh-cta {
+    background: linear-gradient(135deg, #FF6B1A 0%, #FF8642 100%);
+    color: #FFFFFF;
+  }
+
+  /* Tema SE (Shape de Elite — vermelho + branco) */
+  .mgh-card.theme-se {
+    background: linear-gradient(135deg, #1a0808 0%, #0B0B0C 100%);
+    border-color: #D32F2F;
+  }
+  .mgh-card.theme-se .mgh-logo { border-color: #D32F2F; color: #EF5350; }
+  .mgh-card.theme-se .mgh-marca { color: #EF5350; }
+  .mgh-card.theme-se .mgh-badge { color: #F39793; }
+  .mgh-card.theme-se .mgh-bullets li::before { color: #EF5350; }
+  .mgh-card.theme-se .mgh-cta {
+    background: linear-gradient(135deg, #D32F2F 0%, #EF5350 100%);
+    color: #FFFFFF;
+  }
+
   /* Banner Método GH compacto (topo) */
   .mgh-banner {
     background: linear-gradient(135deg, #14110A 0%, #0B0B0C 100%);
@@ -668,7 +696,8 @@ let state = {
   dietaVer: '2.8K',
   semanaDay: 0,
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
-  daysLeft: null,         // dias restantes do acesso base (null = vitalício/upsell)
+  lifetime: false,        // vem do backend (flag de acesso vitalício)
+  daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
   user: null              // { email, token, name }
 };
 
@@ -735,6 +764,7 @@ async function doLogin() {
     }
     state.user = { email: d.email, token: d.token, name: d.name };
     state.upsellUnlocked = !!d.upsell;
+    state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     saveSession();
     enterApp();
@@ -761,6 +791,7 @@ async function doFirstAccess() {
     }
     state.user = { email: d.email, token: d.token, name: d.name };
     state.upsellUnlocked = !!d.upsell;
+    state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     saveSession();
     enterApp();
@@ -787,6 +818,7 @@ async function doReset() {
     }
     state.user = { email: d.email, token: d.token, name: d.name };
     state.upsellUnlocked = !!d.upsell;
+    state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     saveSession();
     enterApp();
@@ -796,6 +828,7 @@ function logout() {
   stopHeartbeat();
   state.user = null;
   state.upsellUnlocked = false;
+  state.lifetime = false;
   try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
   document.getElementById('appWrap').classList.add('hidden');
   document.getElementById('authScreen').classList.remove('hidden');
@@ -806,6 +839,7 @@ function logoutToExpired() {
   stopHeartbeat();
   state.user = null;
   state.upsellUnlocked = false;
+  state.lifetime = false;
   try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
   document.getElementById('appWrap').classList.add('hidden');
   document.getElementById('authScreen').classList.remove('hidden');
@@ -821,6 +855,7 @@ async function boot() {
       const v = await api('/api/auth/verify');
       if (v && v.ok) {
         state.upsellUnlocked = !!v.upsell;
+        state.lifetime = !!v.lifetime;
         state.daysLeft = v.daysLeft ?? null;
         enterApp();
         return;
@@ -862,9 +897,10 @@ function startHeartbeat() {
   _hb = setInterval(async () => {
     try {
       const v = await api('/api/auth/verify');
-      if (v && v.ok && state.upsellUnlocked !== !!v.upsell) {
+      if (v && v.ok && (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime)) {
         state.upsellUnlocked = !!v.upsell;
-        renderTabs(); renderSemana(); renderDieta();
+        state.lifetime = !!v.lifetime;
+        renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderParceiros();
       }
     } catch (e) {}
   }, 5 * 60 * 1000);
@@ -899,6 +935,9 @@ const CONSULTORIA = {
 const UPSELLS = [
   {
     id: '5x',
+    theme: 'pp',
+    logo: 'PP',
+    marca: 'PEITÃO DE POMBO',
     badge: 'TREINO COMPLETO',
     headline: 'Treino 5x + Dietas — pro resto do corpo não ficar fino',
     sub: 'Tu já tá fazendo o peito crescer. Mas treinar só peito deixa o corpo desproporcional. Libera o treino completo da semana + as dietas e cresce parelho.',
@@ -913,7 +952,28 @@ const UPSELLS = [
     hideIfUpsell: true
   },
   {
+    id: 'vitalicio',
+    theme: 'pp',
+    logo: 'PP',
+    marca: 'PEITÃO DE POMBO',
+    badge: 'ACESSO PRA SEMPRE',
+    headline: 'Acesso vitalício — paga uma vez, é teu pra sempre',
+    sub: 'Por padrão o acesso do Peitão é de 3 meses. Com o acesso vitalício tu nunca perde — abre o app daqui a 1 ano e tá tudo lá, treino, dieta, vídeos.',
+    bullets: [
+      'Acesso pra sempre — sem renovar, sem expirar',
+      'Atrelado à tua conta — vale pro base e pro 5x + dieta',
+      'Apenas R$ 9,90, paga uma vez e acabou',
+      'Atualizações futuras já incluídas'
+    ],
+    cta: 'Liberar vitalício · R$9,90',
+    link: CHECKOUT_VITALICIO,
+    hideIfLifetime: true
+  },
+  {
     id: 'shape',
+    theme: 'se',
+    logo: 'SE',
+    marca: 'SHAPE DE ELITE',
     badge: 'O PRÓXIMO PASSO',
     headline: 'Tô pronto pra construir um Shape de Elite',
     sub: 'Quer ir além do peito e do shape proporcional? O Shape de Elite é o protocolo completo pra construir um físico de outro nível.',
@@ -927,6 +987,9 @@ const UPSELLS = [
   },
   {
     id: 'consultoria',
+    theme: 'gh',
+    logo: 'GH',
+    marca: 'MÉTODO GH',
     badge: CONSULTORIA.badge,
     headline: 'Quero atendimento individualizado — conhecer o Método GH',
     sub: CONSULTORIA.subtitle,
@@ -936,16 +999,17 @@ const UPSELLS = [
   }
 ];
 
-// Renderiza os 3 cards de upsell (esconde o "5x + dieta" pra quem já tem)
+// Renderiza os cards de upsell — esconde 5x pra quem já tem, vitalício pra quem já tem
 function renderUpsells() {
   return UPSELLS
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
+    .filter(u => !(u.hideIfLifetime && state.lifetime))
     .map(u => `
-      <div class="mgh-card" style="margin-top:14px;">
+      <div class="mgh-card theme-${u.theme}" style="margin-top:14px;">
         <div class="mgh-head">
-          <div class="mgh-logo">GH</div>
+          <div class="mgh-logo">${u.logo}</div>
           <div>
-            <div class="mgh-marca">MÉTODO GH</div>
+            <div class="mgh-marca">${u.marca}</div>
             <div class="mgh-badge">${u.badge}</div>
           </div>
         </div>
