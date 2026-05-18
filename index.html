@@ -576,7 +576,27 @@
   }
   .dl-pdf:hover, .dl-pdf:active { background: var(--gold); color: #000; }
   .dl-pdf .dl-ic { font-size: 16px; }
+  button.dl-pdf { font-family: inherit; cursor: pointer; }
+
+  /* Botão "Trocar exercício" no card */
+  .ex-swap {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-dim); font-family: inherit;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    text-transform: uppercase; margin-left: auto; flex-shrink: 0;
+  }
+  .ex-swap:active { transform: scale(.97); }
+  .ex.is-sub .ex-swap { color: var(--accent); border-color: var(--accent); }
+  .ex.is-sub { border-color: rgba(255, 107, 26, 0.45); }
+  .ex-sub-badge {
+    font-size: 9px; font-weight: 900; letter-spacing: 1px;
+    color: var(--accent); margin-top: 2px;
+  }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
 </head>
 <body>
 
@@ -849,6 +869,7 @@ function logoutToExpired() {
 // ════════ BOOT ════════
 async function boot() {
   loadSession();
+  loadSubs();
   DATA = await fetch('data/peitao-data.json').then(r => r.json());
   if (state.user && state.user.token) {
     try {
@@ -1116,26 +1137,158 @@ function ytId(url) {
 }
 function esc(s) { return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 
+// Substitutos — persistido por exercício (ctxKey + idx)
+const SUBS_KEY = 'peitao_subs';
+function loadSubs() {
+  try { state.subs = JSON.parse(localStorage.getItem(SUBS_KEY) || '{}'); }
+  catch (e) { state.subs = {}; }
+}
+function saveSubs() {
+  try { localStorage.setItem(SUBS_KEY, JSON.stringify(state.subs || {})); } catch (e) {}
+}
+function isSubbed(ctxKey, idx) { return !!(state.subs && state.subs[ctxKey + '_' + idx]); }
+function toggleSub(ctxKey, idx) {
+  const k = ctxKey + '_' + idx;
+  state.subs = state.subs || {};
+  state.subs[k] = !state.subs[k];
+  saveSubs();
+  if (state.tab === 'peito') renderPeito();
+  else if (state.tab === 'semana') renderSemana();
+}
+
+// Devolve o exercício "ativo" (original ou substituto) levando em conta a escolha do aluno
+function activeExercise(ex, ctxKey, idx) {
+  return (ex.sub && isSubbed(ctxKey, idx)) ? ex.sub : ex;
+}
+
 function exerciseCard(ex, ctxKey, idx) {
-  const url = DATA.videos[ex.video_key];
+  const active = activeExercise(ex, ctxKey, idx);
+  const url = DATA.videos[active.video_key];
   const hasVid = !!url;
   const done = isChecked(ctxKey, idx);
+  const subbed = ex.sub && isSubbed(ctxKey, idx);
+  const swapBtn = ex.sub
+    ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
+    : '';
   return `
-    <div class="ex${done?' done':''}">
+    <div class="ex${done?' done':''}${subbed?' is-sub':''}">
       <div class="ex-head">
         <button class="ex-check${done?' on':''}" onclick="toggleCheck('${ctxKey}',${idx})" aria-label="Marcar exercício">${done?'✓':''}</button>
-        <div class="ex-name ${hasVid?'':'no-video'}" ${hasVid?`onclick="openVideo('${esc(url)}','${esc(ex.exercicio)}')"`:''}>
-          <span class="play">▶</span>${ex.exercicio}
+        <div class="ex-name ${hasVid?'':'no-video'}" ${hasVid?`onclick="openVideo('${esc(url)}','${esc(active.exercicio)}')"`:''}>
+          <span class="play">▶</span>${active.exercicio}
+          ${subbed?'<div class="ex-sub-badge">SUBSTITUTO</div>':''}
         </div>
+        ${swapBtn}
       </div>
       <div class="ex-meta">
-        <div><div class="lbl">SÉRIES</div><div class="val">${ex.series||'—'}</div></div>
-        <div><div class="lbl">REPS</div><div class="val">${ex.reps||'—'}</div></div>
-        <div><div class="lbl">DESCANSO</div><div class="val">${ex.intervalo||'—'}</div></div>
+        <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'—'}</div></div>
+        <div><div class="lbl">REPS</div><div class="val">${active.reps||'—'}</div></div>
+        <div><div class="lbl">DESCANSO</div><div class="val">${active.intervalo||'—'}</div></div>
       </div>
-      ${ex.obs ? `<div class="ex-obs">${ex.obs}</div>` : ''}
+      ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
     </div>
   `;
+}
+
+// ════════ PDF DINÂMICO DO TREINO ════════
+// Gera o PDF na hora com os substitutos que o aluno escolheu.
+async function downloadTreinoPDF(kind) {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert('Aguarda um segundo, ainda tô carregando o gerador de PDF…');
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const w = doc.internal.pageSize.getWidth();
+  const h = doc.internal.pageSize.getHeight();
+
+  const GOLD = [201, 162, 75];
+  const DARK = [20, 17, 10];
+  const TEXT = [40, 40, 40];
+  const GREY = [110, 110, 110];
+
+  // Header bar
+  doc.setFillColor(...DARK);
+  doc.rect(0, 0, w, 28, 'F');
+  doc.setTextColor(...GOLD);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('M É T O D O   G H', w/2, 11, { align: 'center' });
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(20);
+  const titulo = kind === 'peito' ? 'TREINO DE PEITO' : 'TREINO 5X NA SEMANA';
+  doc.text(titulo, w/2, 21, { align: 'center' });
+
+  let y = 36;
+  const ver = kind === 'peito' ? state.peitoVer : state.semanaVer;
+  doc.setTextColor(...GOLD);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`Fase ${ver}`, w/2, y, { align: 'center' });
+  y += 5;
+  doc.setTextColor(...GREY);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.text('PEITAO DE POMBO  -  @gh.scheuermann', w/2, y, { align: 'center' });
+  y += 8;
+
+  const t = (kind === 'peito') ? DATA.treinoPeito[state.peitoVer] : DATA.treino5x[state.semanaVer];
+  const dias = t.dias;
+  for (let di = 0; di < dias.length; di++) {
+    const dia = dias[di];
+    const ctxKey = (kind === 'peito')
+      ? ('peito_' + state.peitoVer)
+      : ('semana_' + state.semanaVer + '_' + di);
+    if (y > h - 30) { doc.addPage(); y = 16; }
+    doc.setFillColor(...GOLD);
+    doc.rect(10, y, w - 20, 7, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text(dia.nome, 13, y + 4.8);
+    y += 9;
+
+    const rows = dia.exercicios.map((ex, idx) => {
+      const a = activeExercise(ex, ctxKey, idx);
+      const marker = (ex.sub && isSubbed(ctxKey, idx)) ? '* ' : '';
+      return [marker + a.exercicio, a.series || '', a.reps || '', a.intervalo || '', a.obs || ''];
+    });
+    doc.autoTable({
+      startY: y,
+      head: [['EXERCICIO', 'SERIES', 'REPS', 'DESCANSO', 'OBSERVACAO']],
+      body: rows,
+      theme: 'grid',
+      styles: { fontSize: 7.5, cellPadding: 2, textColor: TEXT, lineColor: [220,220,220] },
+      headStyles: { fillColor: DARK, textColor: GOLD, fontStyle: 'bold', fontSize: 7.5, halign: 'center' },
+      columnStyles: {
+        0: { cellWidth: 55, fontStyle: 'bold' },
+        1: { cellWidth: 18, halign: 'center' },
+        2: { cellWidth: 28, halign: 'center' },
+        3: { cellWidth: 22, halign: 'center' },
+        4: { cellWidth: 'auto', textColor: GREY, fontStyle: 'italic' }
+      },
+      margin: { left: 10, right: 10 }
+    });
+    y = doc.lastAutoTable.finalY + 6;
+  }
+
+  // Nota de substitutos + footer em cada página
+  const subsAtivos = Object.values(state.subs || {}).filter(Boolean).length;
+  const pages = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pages; p++) {
+    doc.setPage(p);
+    doc.setTextColor(...GREY);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'italic');
+    if (p === pages && subsAtivos > 0) {
+      doc.text('* exercicio com substituicao ativa', 12, h - 12);
+    }
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Pagina ${p} de ${pages}`, w - 12, h - 6, { align: 'right' });
+    doc.text('Peitao de Pombo - Metodo GH - @gh.scheuermann', 12, h - 6);
+  }
+
+  doc.save(`${kind === 'peito' ? 'Treino-Peito' : 'Treino-5x'}-Fase-${ver}-MetodoGH.pdf`);
 }
 
 // Conclude bar — progresso + botão compartilhar
@@ -1227,9 +1380,9 @@ function renderPeito() {
         </button>
       `).join('')}
     </div>
-    <a class="dl-pdf" href="pdfs/treino-peito-${state.peitoVer}.pdf" download="Treino Peito ${state.peitoVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+    <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
-    </a>
+    </button>
     ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
     ${exs}
     ${renderUpsells()}
@@ -1265,9 +1418,9 @@ function renderSemana() {
         </button>
       `).join('')}
     </div>
-    <a class="dl-pdf" href="pdfs/treino-5x-${state.semanaVer}.pdf" download="Treino 5x ${state.semanaVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+    <button class="dl-pdf" onclick="downloadTreinoPDF('semana')">
       <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
-    </a>
+    </button>
     <div class="day-row">${dayBtns}</div>
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
