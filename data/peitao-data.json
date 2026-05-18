@@ -19,7 +19,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -27,7 +35,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado com halteres",
@@ -35,7 +51,15 @@
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Supino — piramidal, peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "intervalo": "90 seg",
+                "obs": "Supino — piramidal, peso sobe a cada série",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Voador",
@@ -43,7 +67,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga; isometria 1 seg na contração",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga; isometria 1 seg na contração",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -51,7 +83,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -59,7 +99,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -67,7 +115,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         }
@@ -92,7 +148,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -100,7 +164,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado com halteres",
@@ -108,7 +180,15 @@
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Supino — piramidal, peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "intervalo": "90 seg",
+                "obs": "Supino — piramidal, peso sobe a cada série",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Supino inclinado na máquina",
@@ -124,7 +204,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -132,7 +220,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -140,7 +236,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -148,7 +252,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg; isometria 2 seg no topo",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg; isometria 2 seg no topo",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         }
@@ -173,7 +285,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -181,7 +301,15 @@
               "reps": "3+3+3 cluster",
               "intervalo": "90 seg",
               "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "3X",
+                "reps": "3+3+3 cluster",
+                "intervalo": "90 seg",
+                "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado na máquina",
@@ -197,7 +325,15 @@
               "reps": "6 a 10",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Voador",
@@ -205,7 +341,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -213,7 +357,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -221,7 +373,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; drop-set na última série",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga; drop-set na última série",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -229,7 +389,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg; isometria 2 seg no topo",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg; isometria 2 seg no topo",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         }
@@ -256,7 +424,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -264,7 +440,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado com halteres",
@@ -272,7 +456,15 @@
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Supino — piramidal, peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "intervalo": "90 seg",
+                "obs": "Supino — piramidal, peso sobe a cada série",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Voador",
@@ -280,7 +472,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga; isometria 1 seg na contração",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga; isometria 1 seg na contração",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -288,7 +488,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — progressão de carga",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -296,7 +504,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -304,7 +520,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         },
@@ -524,7 +748,15 @@
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Tríceps pulley com corda",
@@ -572,7 +804,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Progressão de carga; isometria 1 seg — estímulo de peito",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga; isometria 1 seg — estímulo de peito",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             }
           ]
         }
@@ -597,7 +837,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — ênfase na fase negativa: descida controlada em 3 seg, alongando ao máximo",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -605,7 +853,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; fase positiva explosiva (subida em 1 seg); músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado com halteres",
@@ -613,7 +869,15 @@
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Supino — piramidal, peso sobe a cada série",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "intervalo": "90 seg",
+                "obs": "Supino — piramidal, peso sobe a cada série",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Supino inclinado na máquina",
@@ -629,7 +893,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Crossover, sem descanso entre eles",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -637,7 +909,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -645,7 +925,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -653,7 +941,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg; isometria 2 seg no topo",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg; isometria 2 seg no topo",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         },
@@ -889,7 +1185,15 @@
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga; ênfase na fase negativa (descida em 3 seg)",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Tríceps pulley com corda",
@@ -937,7 +1241,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Progressão de carga; isometria 2 seg na contração — estímulo de peito",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga; isometria 2 seg na contração — estímulo de peito",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             }
           ]
         }
@@ -962,7 +1274,15 @@
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
-              "video_key": "CRUCIFIXO INCLINADO"
+              "video_key": "CRUCIFIXO INCLINADO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fly — pré-exaustão: ênfase na negativa 3 seg, alongando ao máximo",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
             },
             {
               "exercicio": "Supino reto na máquina",
@@ -970,7 +1290,15 @@
               "reps": "3+3+3 cluster",
               "intervalo": "90 seg",
               "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
-              "video_key": "SUPINO RETO NA MAQUINA"
+              "video_key": "SUPINO RETO NA MAQUINA",
+              "sub": {
+                "exercicio": "Supino reto com halteres",
+                "series": "3X",
+                "reps": "3+3+3 cluster",
+                "intervalo": "90 seg",
+                "obs": "Supino — cluster-set: 3 blocos de 3 reps, 15-20 seg entre blocos, carga 5RM; músculo prioritário",
+                "video_key": "SUPINO RETO COM HALTERES"
+              }
             },
             {
               "exercicio": "Supino inclinado na máquina",
@@ -986,7 +1314,15 @@
               "reps": "6 a 10",
               "intervalo": "90 seg",
               "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
-              "video_key": "SUPINO INCLINADO COM HALTERES"
+              "video_key": "SUPINO INCLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Supino — progressão de carga; drop mecânico na última série (falha → mudar levemente a pegada → reps extras com a mesma carga)",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
             },
             {
               "exercicio": "Voador",
@@ -994,7 +1330,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Crossover, pré-exaustão, sem descanso entre eles",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             },
             {
               "exercicio": "Crossover",
@@ -1002,7 +1346,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
-              "video_key": "CROSSOVER"
+              "video_key": "CROSSOVER",
+              "sub": {
+                "exercicio": "Crucifixo declinado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Fly — bi-set com Voador; descansa só ao terminar os dois; drop-set na última série",
+                "video_key": "CRUCIFIXO DECLINADO"
+              }
             },
             {
               "exercicio": "Tríceps testa no banco inclinado",
@@ -1010,7 +1362,15 @@
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Progressão de carga; drop-set na última série",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga; drop-set na última série",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Abdominal elevação de pernas com halter",
@@ -1018,7 +1378,15 @@
               "reps": "12 a 15",
               "intervalo": "60 seg",
               "obs": "Mais de 10 kg; isometria 2 seg no topo",
-              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER"
+              "video_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+              "sub": {
+                "exercicio": "Abdominal elevação de pernas na paralela",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Mais de 10 kg; isometria 2 seg no topo",
+                "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
             }
           ]
         },
@@ -1254,7 +1622,15 @@
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga; drop-set na última série",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga; drop-set na última série",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             },
             {
               "exercicio": "Tríceps pulley com corda",
@@ -1302,7 +1678,15 @@
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Progressão de carga; isometria 2 seg na contração; drop-set na última série — estímulo de peito",
-              "video_key": "VOADOR"
+              "video_key": "VOADOR",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Progressão de carga; isometria 2 seg na contração; drop-set na última série — estímulo de peito",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
             }
           ]
         }
@@ -1806,12 +2190,17 @@
   "videos": {
     "ALONGAMENTO PEITORAL MENOR": "https://www.youtube.com/shorts/1yElQu1suCg",
     "CRUCIFIXO INCLINADO": "https://www.youtube.com/watch?v=UIymowMf_mQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=8",
+    "CRUCIFIXO INCLINADO NO CROSS": "https://www.youtube.com/watch?v=P4ze24csIeQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=5",
     "SUPINO RETO NA MAQUINA": "https://www.youtube.com/watch?v=8DJp91_SPEQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=3",
     "SUPINO INCLINADO COM HALTERES": "https://www.youtube.com/watch?v=po59ol1qYlE&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=9",
+    "SUPINO INCLINADO NA MAQUINA": "https://www.youtube.com/watch?v=8OfwYeVpDm4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=2",
     "VOADOR": "https://www.youtube.com/watch?v=uCZpbObSBJs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=4",
+    "CROSSOVER POLIA MEDIA": "https://www.youtube.com/watch?v=56jUxwnxJK4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs",
     "CROSSOVER": "https://www.youtube.com/watch?v=JOM0DuJuDVs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=1",
     "TRICEPS TESTA NO BANCO INCLINADO": "https://www.youtube.com/watch?v=RJDT2ctx9zw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=7",
+    "TRICEPS TESTA EM PE": "https://www.youtube.com/watch?v=4XE0hdem1X0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=2",
     "ABDOMINAL ELEVACAO DE PERNAS COM HALTER": "https://www.youtube.com/watch?v=-WLhmbfwyQg&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR",
+    "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA": "https://www.youtube.com/watch?v=mvIsE84O71g&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR&index=9",
     "ALONGAMENTO ESCAPULAS / OMBRO": "https://www.youtube.com/shorts/AwA7fzu8ajE?feature=share",
     "REMADA CURVADA PRONADA": "https://www.youtube.com/watch?v=RwF1Jsv3unk&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=6",
     "PUXADA ALTA PRONADA": "https://www.youtube.com/watch?v=LXlAU1-_RhY&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=5",
@@ -1832,7 +2221,6 @@
     "ELEVACAO LATERAL NO CROSS": "https://www.youtube.com/watch?v=iRIwlKOV59U&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR",
     "ELEVACAO LATERAL": "https://www.youtube.com/watch?v=KIVorxeYHAU&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=7",
     "CRUCIFIXO INVERSO COM HALTERES": "https://www.youtube.com/watch?v=PYWiiyFnOW0&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=20",
-    "SUPINO INCLINADO NA MAQUINA": "https://www.youtube.com/watch?v=8OfwYeVpDm4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=2",
     "ABDOMINAL NO BANCO DECLINADO COM PESO": "https://www.youtube.com/watch?v=N_oBFXyHGN4&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR&index=5",
     "TRICEPS PULLEY COM CORDA": "https://www.youtube.com/watch?v=TdW6eieU898&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=8",
     "TRICEPS FRANCES NO CROSS": "https://www.youtube.com/watch?v=dLeCaN8cBLY&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=11",
