@@ -159,6 +159,18 @@
     align-items: center;
     gap: 8px;
   }
+  .ex-name:not(.no-video) { cursor: pointer; }
+  .ex-name .play {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    background: var(--accent);
+    color: #0A0A0B;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+  }
+  .ex-name.no-video .play { background: var(--surface-2); color: var(--text-mute); }
   .ex-meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
   .ex-meta div {
     background: var(--bg);
@@ -676,6 +688,17 @@
   </div>
 </div>
 
+<!-- Video modal -->
+<div class="vmodal" id="vmodal" onclick="if(event.target.id==='vmodal')closeVideo()">
+  <div class="vmodal-inner">
+    <div class="vmodal-bar">
+      <div class="vmodal-title" id="vtitle">Vídeo</div>
+      <button class="vmodal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <div class="vwrap" id="vwrap"></div>
+  </div>
+</div>
+
 <script>
 // ════════ CONFIG ════════
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
@@ -1134,12 +1157,16 @@ function exerciseCard(ex, ctxKey, idx) {
   const swapBtn = ex.sub
     ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
     : '';
+  // Vídeos SÓ na aba PEITO (treinoPeito). Treino 5x da semana não tem vídeo.
+  const showVideo = ctxKey.startsWith('peito_');
+  const url = showVideo ? DATA.videos[active.video_key] : null;
+  const hasVid = !!url;
   return `
     <div class="ex${done?' done':''}${subbed?' is-sub':''}">
       <div class="ex-head">
         <button class="ex-check${done?' on':''}" onclick="toggleCheck('${ctxKey}',${idx})" aria-label="Marcar exercício">${done?'✓':''}</button>
-        <div class="ex-name no-video">
-          ${active.exercicio}
+        <div class="ex-name ${hasVid?'':'no-video'}" ${hasVid?`onclick="openVideo('${esc(url)}','${esc(active.exercicio)}')"`:''}>
+          ${showVideo ? '<span class="play">▶</span>' : ''}${active.exercicio}
           ${subbed?'<div class="ex-sub-badge">SUBSTITUTO</div>':''}
         </div>
         ${swapBtn}
@@ -1449,7 +1476,26 @@ function paywall(kind) {
   `;
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { achClose(); } });
+// Video modal
+function ytId(url) {
+  const m = String(url || '').match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+function openVideo(url, title) {
+  const id = ytId(url);
+  if (!id) { window.open(url, '_blank'); return; }
+  document.getElementById('vtitle').textContent = title || 'Vídeo';
+  document.getElementById('vwrap').innerHTML =
+    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  document.getElementById('vmodal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideo() {
+  document.getElementById('vmodal').classList.remove('show');
+  document.getElementById('vwrap').innerHTML = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); } });
 
 // ════════ CHECKBOXES (reset diário) ════════
 const CHECK_KEY = 'peitao_checks';
