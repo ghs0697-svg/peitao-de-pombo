@@ -1157,8 +1157,9 @@ function exerciseCard(ex, ctxKey, idx) {
   const swapBtn = ex.sub
     ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
     : '';
-  // Vídeos SÓ na aba PEITO (treinoPeito). Treino 5x da semana não tem vídeo.
-  const showVideo = ctxKey.startsWith('peito_');
+  // Vídeos no PEITO (sempre) e no DIA 1 do treino 5x (que é o mesmo dia de peito).
+  // DIAS 2-5 do 5x (costas/perna/ombro/braço) não têm vídeo.
+  const showVideo = ctxKey.startsWith('peito_') || /^semana_\d\.\d_0$/.test(ctxKey);
   const url = showVideo ? DATA.videos[active.video_key] : null;
   const hasVid = !!url;
   return `
