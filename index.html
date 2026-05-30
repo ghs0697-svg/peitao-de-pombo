@@ -122,6 +122,12 @@
     color: var(--text);
   }
   .ver-btn.active .ver-lbl { color: var(--accent); }
+  .ver-btn.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-style: dashed;
+  }
+  .ver-btn.locked:hover { opacity: 0.75; }
 
   /* Day selector (5x) */
   .day-row { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
@@ -719,6 +725,7 @@ let state = {
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
   lifetime: false,        // vem do backend (flag de acesso vitalício)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
+  daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
   user: null              // { email, token, name }
 };
 
@@ -787,6 +794,7 @@ async function doLogin() {
     state.upsellUnlocked = !!d.upsell;
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
+    state.daysSincePurchase = d.daysSincePurchase ?? null;
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -814,6 +822,7 @@ async function doFirstAccess() {
     state.upsellUnlocked = !!d.upsell;
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
+    state.daysSincePurchase = d.daysSincePurchase ?? null;
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -841,6 +850,7 @@ async function doReset() {
     state.upsellUnlocked = !!d.upsell;
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
+    state.daysSincePurchase = d.daysSincePurchase ?? null;
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -879,6 +889,7 @@ async function boot() {
         state.upsellUnlocked = !!v.upsell;
         state.lifetime = !!v.lifetime;
         state.daysLeft = v.daysLeft ?? null;
+        state.daysSincePurchase = v.daysSincePurchase ?? null;
         enterApp();
         return;
       }
@@ -1352,11 +1363,13 @@ function renderPeito() {
       </a>
     </div>
     <div class="ver-row">
-      ${['1.0','2.0','3.0'].map(v => `
-        <button class="ver-btn ${state.peitoVer===v?'active':''}" onclick="setPeitoVer('${v}')">
-          <span class="ver-lbl">FASE</span>${v}
-        </button>
-      `).join('')}
+      ${['1.0','2.0','3.0'].map(v => {
+        const locked = isPhaseLocked(v);
+        return `
+        <button class="ver-btn ${state.peitoVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setPeitoVer,'${v}')">
+          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
+        </button>`;
+      }).join('')}
     </div>
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
@@ -1365,6 +1378,28 @@ function renderPeito() {
     ${exs}
     ${renderUpsells()}
   `;
+}
+// ════════ PHASE LOCK ════════
+// Fases 2.0 e 3.0 só destravam APÓS 7 dias da compra (fora da janela de reembolso CDC).
+// Vitalício segue a regra — só afeta longevidade do acesso, não unlock de fase.
+// Allowlist / sem compra (daysSincePurchase=null) → tudo destravado (admin/teste).
+const PHASE_UNLOCK_DAYS = 7;
+function isPhaseLocked(v) {
+  if (v === '1.0') return false;
+  if (state.daysSincePurchase === null || state.daysSincePurchase === undefined) return false;
+  return state.daysSincePurchase < PHASE_UNLOCK_DAYS;
+}
+function daysUntilPhaseUnlock() {
+  if (state.daysSincePurchase === null || state.daysSincePurchase === undefined) return 0;
+  return Math.max(0, PHASE_UNLOCK_DAYS - state.daysSincePurchase);
+}
+function tryPhaseChange(setter, v) {
+  if (isPhaseLocked(v)) {
+    const d = daysUntilPhaseUnlock();
+    alert(`🔒 Fase ${v} libera em ${d} dia${d===1?'':'s'}.\n\nFoca em executar a fase 1.0 — a ${v} já tá te esperando.`);
+    return;
+  }
+  setter(v);
 }
 function setPeitoVer(v) { state.peitoVer = v; renderPeito(); }
 
@@ -1390,11 +1425,13 @@ function renderSemana() {
     <h2>Semana Completa</h2>
     <p class="hint">Treino 5x na semana. Escolhe a fase e o dia.</p>
     <div class="ver-row">
-      ${['1.0','2.0','3.0'].map(v => `
-        <button class="ver-btn ${state.semanaVer===v?'active':''}" onclick="setSemanaVer('${v}')">
-          <span class="ver-lbl">FASE</span>${v}
-        </button>
-      `).join('')}
+      ${['1.0','2.0','3.0'].map(v => {
+        const locked = isPhaseLocked(v);
+        return `
+        <button class="ver-btn ${state.semanaVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setSemanaVer,'${v}')">
+          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
+        </button>`;
+      }).join('')}
     </div>
     <button class="dl-pdf" onclick="downloadTreinoPDF('semana')">
       <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
