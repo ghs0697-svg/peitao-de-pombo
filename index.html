@@ -753,6 +753,7 @@ let state = {
   semanaDay: 0,
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
   lifetime: false,        // vem do backend (flag de acesso vitalício)
+  ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
   daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
   user: null              // { email, token, name }
@@ -824,6 +825,7 @@ async function doLogin() {
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
+    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -852,6 +854,7 @@ async function doFirstAccess() {
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
+    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -880,6 +883,7 @@ async function doReset() {
     state.lifetime = !!d.lifetime;
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
+    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -919,6 +923,7 @@ async function boot() {
         state.lifetime = !!v.lifetime;
         state.daysLeft = v.daysLeft ?? null;
         state.daysSincePurchase = v.daysSincePurchase ?? null;
+        state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
         enterApp();
         return;
       }
@@ -961,10 +966,14 @@ function startHeartbeat() {
   _hb = setInterval(async () => {
     try {
       const v = await api('/api/auth/verify');
-      if (v && v.ok && (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime)) {
+      if (!v || !v.ok) return;
+      const newEbooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
+      const ebooksChanged = JSON.stringify(state.ebooks) !== JSON.stringify(newEbooks);
+      if (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged) {
         state.upsellUnlocked = !!v.upsell;
         state.lifetime = !!v.lifetime;
-        renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderParceiros();
+        state.ebooks = newEbooks;
+        renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderErgo(); renderPept(); renderParceiros();
       }
     } catch (e) {}
   }, 5 * 60 * 1000);
@@ -974,14 +983,17 @@ function stopHeartbeat() { if (_hb) { clearInterval(_hb); _hb = null; } }
 // ════════ UPSELL CONSULTORIA — Método GH ════════
 const CONSULTORIA = {
   badge: "O PRÓXIMO NÍVEL",
-  headline: "Tá na hora de migrar pro Método GH",
-  subtitle: "Pegou o Peitão de Pombo e quer ir além? A consultoria individual é o protocolo 100% personalizado, com acompanhamento direto comigo, anamnese, exames e ajustes sempre que precisar.",
+  headline: "Na minha consultoria Método GH tu vai ter:",
+  subtitle: "Pegou o Peitão de Pombo e quer ir além? A consultoria individual é o método completo, comigo no teu pé.",
   bullets: [
-    "Protocolo 100% individualizado pra ti",
-    "Acompanhamento direto do GH",
-    "Interpretação de exames + suplementação personalizada",
-    "Ajustes finos sempre que necessário",
-    "Atualizações a cada 55 dias com reajuste e feedback"
+    "Aplicativo personalizado",
+    "Vídeos explicativos",
+    "Treino individualizado",
+    "Dieta e suplementação",
+    "Recursos ergogênicos e peptídeos",
+    "Ajustes adaptativos — sempre que necessário",
+    "Ajustes evolutivos — pra continuar o progresso",
+    "Suporte via WhatsApp"
   ],
   cta: "Quero migrar pro Método GH",
   link: "https://wa.me/5520130783?text=" + encodeURIComponent("Olá, vim do Peitão de Pombo! Quero construir um corpo mais forte e definido com o Método GH.")
@@ -1062,24 +1074,30 @@ function renderUpsells() {
 }
 
 // ════════ EBOOKS (order bumps) ════════
+// id = chave do flag em state.ebooks. PDF (quando comprado) em pdfs/ebooks/*.pdf.
 const EBOOKS_ERGO = [
   {
+    id: 'ergo1',
     titulo: 'Ergogênicos · Parte 1',
     preco: 'R$ 15',
     desc: 'Tudo que tu precisa saber pra começar a usar ergogênicos com segurança. Princípios, mecanismo, primeiras escolhas. Material denso, sem enrolação.',
     bullets: ['Fundamentos de cada classe', 'Doses iniciais seguras', 'O que esperar de cada ciclo'],
     cta: 'Quero a Parte 1 · R$15',
     link: CHECKOUT_ERGO_1,
+    pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
   },
   {
+    id: 'ergo2',
     titulo: 'Ergogênicos · Parte 2',
     preco: 'R$ 15',
     desc: 'Avança do básico pro intermediário. Stacks, ciclagem, suporte hormonal, ajuste de doses. Pra quem já fez 1+ ciclo e quer evoluir.',
     bullets: ['Stacks que funcionam', 'Suporte hormonal e PCT', 'Ajuste de doses por objetivo'],
     cta: 'Quero a Parte 2 · R$15',
     link: CHECKOUT_ERGO_2,
+    pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
   },
   {
+    id: 'combo',
     titulo: 'Super Combo · 3 ebooks',
     preco: 'R$ 37',
     desc: 'Ergogênicos pt 1 + pt 2 + Peptídeos. Tudo num pacote só — mais barato que comprar separado.',
@@ -1092,14 +1110,17 @@ const EBOOKS_ERGO = [
 
 const EBOOKS_PEPT = [
   {
+    id: 'pept',
     titulo: 'Peptídeos',
     preco: 'R$ 27',
     desc: 'O ebook completo de peptídeos. O que cada um faz, dose, via, sinergias. O guia que eu uso pra recomendar peptídeo nos meus alunos da consultoria.',
     bullets: ['Todos os peptídeos relevantes', 'Doses, vias e horários', 'Stacks por objetivo', 'Monitoramento e exames'],
     cta: 'Quero os Peptídeos · R$27',
     link: CHECKOUT_PEPT,
+    pdf: 'pdfs/ebooks/peptideos.pdf',
   },
   {
+    id: 'combo',
     titulo: 'Super Combo · 3 ebooks',
     preco: 'R$ 37',
     desc: 'Peptídeos + Ergogênicos pt 1 + pt 2. Pacote completo, mais barato que separado.',
@@ -1110,7 +1131,31 @@ const EBOOKS_PEPT = [
   },
 ];
 
+// Combo = todos os 3 ebooks owned. Demais: state.ebooks[id].
+function ebookOwned(id) {
+  if (id === 'combo') return !!(state.ebooks?.ergo1 && state.ebooks?.ergo2 && state.ebooks?.pept);
+  return !!state.ebooks?.[id];
+}
+
 function ebookCard(e) {
+  const owned = ebookOwned(e.id);
+  // Combo "owned" não renderiza (não tem PDF próprio, ebooks individuais aparecem como liberados)
+  if (e.id === 'combo' && owned) return '';
+  if (owned && e.pdf) {
+    return `
+      <div class="mgh-card theme-pp" style="margin-top:14px;">
+        <div class="mgh-head">
+          <div class="mgh-logo">📥</div>
+          <div>
+            <div class="mgh-marca">${e.titulo.toUpperCase()}</div>
+            <div class="mgh-badge" style="color:#2DD881;">✓ LIBERADO</div>
+          </div>
+        </div>
+        <div class="mgh-sub">${e.desc}</div>
+        <a class="mgh-cta" href="${e.pdf}" download target="_blank" rel="noopener">📥 Baixar PDF →</a>
+      </div>
+    `;
+  }
   return `
     <div class="mgh-card theme-pp ${e.highlight ? 'ebook-highlight' : ''}" style="margin-top:14px;">
       <div class="mgh-head">
@@ -1129,20 +1174,19 @@ function ebookCard(e) {
 
 function renderErgo() {
   const c = document.getElementById('screen-ergo');
-  c.innerHTML = `
-    <h2>📚 Ergogênicos</h2>
-    <p class="hint">Ebooks pra entender e usar ergogênicos com segurança. Material da minha consultoria, agora disponível avulso.</p>
-    ${EBOOKS_ERGO.map(ebookCard).join('')}
-  `;
+  const hasAny = state.ebooks?.ergo1 || state.ebooks?.ergo2;
+  const sub = hasAny
+    ? 'Teus ebooks liberados. Clica em "Baixar PDF" pra abrir.'
+    : 'Ebooks pra entender e usar ergogênicos com segurança. Material da minha consultoria, agora disponível avulso.';
+  c.innerHTML = `<h2>📚 Ergogênicos</h2><p class="hint">${sub}</p>${EBOOKS_ERGO.map(ebookCard).filter(Boolean).join('')}`;
 }
 
 function renderPept() {
   const c = document.getElementById('screen-pept');
-  c.innerHTML = `
-    <h2>💉 Peptídeos</h2>
-    <p class="hint">O ebook que eu uso na minha consultoria pra recomendar peptídeo. Doses, vias, stacks, monitoramento.</p>
-    ${EBOOKS_PEPT.map(ebookCard).join('')}
-  `;
+  const sub = state.ebooks?.pept
+    ? 'Teu ebook liberado. Clica em "Baixar PDF" pra abrir.'
+    : 'O ebook que eu uso na minha consultoria pra recomendar peptídeo. Doses, vias, stacks, monitoramento.';
+  c.innerHTML = `<h2>💉 Peptídeos</h2><p class="hint">${sub}</p>${EBOOKS_PEPT.map(ebookCard).filter(Boolean).join('')}`;
 }
 
 // ════════ PARCEIROS ════════
@@ -1273,9 +1317,9 @@ function exerciseCard(ex, ctxKey, idx) {
   const swapBtn = ex.sub
     ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
     : '';
-  // Vídeos no PEITO (sempre) e no DIA 1 do treino 5x (que é o mesmo dia de peito).
-  // DIAS 2-5 do 5x (costas/perna/ombro/braço) não têm vídeo.
-  const showVideo = ctxKey.startsWith('peito_') || /^semana_\d\.\d_0$/.test(ctxKey);
+  // Vídeos em todos os exercícios da aba PEITO e da aba SEMANA (treino 5x).
+  // Cards sem URL em DATA.videos viram automaticamente "no-video" (sem botão de play).
+  const showVideo = ctxKey.startsWith('peito_') || ctxKey.startsWith('semana_');
   const url = showVideo ? DATA.videos[active.video_key] : null;
   const hasVid = !!url;
   return `
