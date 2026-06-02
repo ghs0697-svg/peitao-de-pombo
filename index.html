@@ -191,6 +191,31 @@
   }
   .ex-meta .lbl { font-size: 9px; color: var(--text-mute); letter-spacing: .8px; margin-bottom: 3px; }
   .ex-meta .val { font-size: 13px; font-weight: 800; }
+  /* Timer de descanso — célula clicável + estados */
+  .ex-meta .timer-cell { cursor: pointer; user-select: none; transition: all .15s; position: relative; }
+  .ex-meta .timer-cell:hover { background: var(--surface-2); }
+  .ex-meta .timer-cell:active { transform: scale(.97); }
+  .ex-meta .timer-cell::after {
+    content: '▶'; position: absolute; top: 4px; right: 5px;
+    font-size: 8px; color: var(--accent); opacity: .7;
+  }
+  .ex-meta .timer-cell.running {
+    background: linear-gradient(135deg, rgba(255,107,26,.18) 0%, rgba(255,107,26,.05) 100%);
+    border: 1px solid var(--accent);
+    animation: timer-pulse 1s ease-in-out infinite;
+  }
+  .ex-meta .timer-cell.running .val { color: var(--accent); font-size: 16px; }
+  .ex-meta .timer-cell.running::after { content: '⏸'; color: var(--accent); opacity: 1; }
+  .ex-meta .timer-cell.done {
+    background: linear-gradient(135deg, rgba(45,216,129,.2) 0%, rgba(45,216,129,.05) 100%);
+    border: 1px solid #2DD881;
+  }
+  .ex-meta .timer-cell.done .val { color: #2DD881; }
+  .ex-meta .timer-cell.done::after { content: '✓'; color: #2DD881; opacity: 1; }
+  @keyframes timer-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,26,.4); }
+    50% { box-shadow: 0 0 0 6px rgba(255,107,26,0); }
+  }
   .ex-obs {
     font-size: 12px;
     color: var(--text-dim);
@@ -1346,6 +1371,85 @@ function showTab(t) {
 // ════════ HELPERS ════════
 function esc(s) { return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 
+// ════════ TIMER DE DESCANSO ════════
+// Extrai os segundos de strings tipo "60 seg", "90 seg", "1 min", "1 min 30 seg"
+function parseIntervalSeconds(s) {
+  if (!s) return 0;
+  const t = String(s).toLowerCase();
+  let total = 0;
+  const m = t.match(/(\d+(?:\.\d+)?)\s*min/);   if (m) total += Math.round(parseFloat(m[1]) * 60);
+  const sg = t.match(/(\d+)\s*s(?:eg|ec)?\b/);  if (sg) total += parseInt(sg[1], 10);
+  if (total === 0) { const n = t.match(/^\s*(\d+)\s*$/); if (n) total = parseInt(n[1], 10); }
+  return total;
+}
+function fmtMMSS(s) {
+  const m = Math.floor(s / 60), r = s % 60;
+  return m + ':' + String(r).padStart(2, '0');
+}
+// Estado dos timers ativos: { "ctxKey_idx": { intervalId, remaining } }
+const _timers = {};
+function timerKey(el) { return el.dataset.ctx + '_' + el.dataset.idx; }
+function toggleTimer(el) {
+  const k = timerKey(el);
+  const total = parseInt(el.dataset.seconds, 10) || 0;
+  if (!total) return; // sem tempo definido — não faz nada
+  // Se tá rodando ou já completou → reseta pro estado original
+  if (_timers[k]) {
+    clearInterval(_timers[k].intervalId);
+    delete _timers[k];
+    el.classList.remove('running','done');
+    el.querySelector('.timer-val').textContent = el.dataset.original;
+    return;
+  }
+  // Salva valor original (1ª vez)
+  if (!el.dataset.original) el.dataset.original = el.querySelector('.timer-val').textContent;
+  let rem = total;
+  el.classList.add('running');
+  el.classList.remove('done');
+  el.querySelector('.timer-val').textContent = fmtMMSS(rem);
+  _timers[k] = {
+    intervalId: setInterval(() => {
+      rem--;
+      if (rem <= 0) {
+        clearInterval(_timers[k].intervalId);
+        delete _timers[k];
+        el.classList.remove('running');
+        el.classList.add('done');
+        el.querySelector('.timer-val').textContent = '✓ vai!';
+        try { navigator.vibrate && navigator.vibrate([200, 100, 200, 100, 400]); } catch(e){}
+        playBeep();
+        // Volta pro estado original depois de 4 seg
+        setTimeout(() => {
+          if (!_timers[k]) { // só reseta se não foi reiniciado nesse meio tempo
+            el.classList.remove('done');
+            el.querySelector('.timer-val').textContent = el.dataset.original;
+          }
+        }, 4000);
+        return;
+      }
+      el.querySelector('.timer-val').textContent = fmtMMSS(rem);
+    }, 1000),
+    remaining: rem,
+  };
+}
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const beep = (freq, when, dur) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0, ctx.currentTime + when);
+      g.gain.linearRampToValueAtTime(0.3, ctx.currentTime + when + 0.01);
+      g.gain.linearRampToValueAtTime(0, ctx.currentTime + when + dur);
+      o.start(ctx.currentTime + when); o.stop(ctx.currentTime + when + dur);
+    };
+    beep(880, 0, 0.15);
+    beep(880, 0.2, 0.15);
+    beep(1175, 0.4, 0.3);
+  } catch (e) {}
+}
+
 // Substitutos — persistido por exercício (ctxKey + idx)
 const SUBS_KEY = 'peitao_subs';
 function loadSubs() {
@@ -1395,7 +1499,10 @@ function exerciseCard(ex, ctxKey, idx) {
       <div class="ex-meta">
         <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'—'}</div></div>
         <div><div class="lbl">REPS</div><div class="val">${active.reps||'—'}</div></div>
-        <div><div class="lbl">DESCANSO</div><div class="val">${active.intervalo||'—'}</div></div>
+        <div class="timer-cell" data-ctx="${ctxKey}" data-idx="${idx}" data-seconds="${parseIntervalSeconds(active.intervalo)}" onclick="toggleTimer(this)">
+          <div class="lbl">DESCANSO</div>
+          <div class="val timer-val">${active.intervalo||'—'}</div>
+        </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
     </div>
