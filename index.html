@@ -1170,30 +1170,30 @@ const EBOOKS_ERGO = [
   {
     id: 'ergo1',
     titulo: 'Ergogênicos · Parte 1',
-    preco: 'R$ 15',
+    badge: 'EBOOK',
     desc: 'Tudo que tu precisa saber pra começar a usar ergogênicos com segurança. Princípios, mecanismo, primeiras escolhas. Material denso, sem enrolação.',
     bullets: ['Fundamentos de cada classe', 'Doses iniciais seguras', 'O que esperar de cada ciclo'],
-    cta: 'Quero a Parte 1 · R$15',
+    cta: 'Quero a Parte 1',
     link: CHECKOUT_ERGO_1,
     pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
   },
   {
     id: 'ergo2',
     titulo: 'Ergogênicos · Parte 2',
-    preco: 'R$ 15',
+    badge: 'EBOOK',
     desc: 'Avança do básico pro intermediário. Stacks, ciclagem, suporte hormonal, ajuste de doses. Pra quem já fez 1+ ciclo e quer evoluir.',
     bullets: ['Stacks que funcionam', 'Suporte hormonal e PCT', 'Ajuste de doses por objetivo'],
-    cta: 'Quero a Parte 2 · R$15',
+    cta: 'Quero a Parte 2',
     link: CHECKOUT_ERGO_2,
     pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
   },
   {
     id: 'combo',
     titulo: 'Super Combo · 3 ebooks',
-    preco: 'R$ 37',
+    badge: 'PACOTE COMPLETO',
     desc: 'Ergogênicos pt 1 + pt 2 + Peptídeos. Tudo num pacote só — mais barato que comprar separado.',
-    bullets: ['Ergogênicos pt 1 (R$15)', 'Ergogênicos pt 2 (R$15)', 'Peptídeos (R$27)', 'Total avulso: R$57 → Combo: R$37'],
-    cta: 'Quero o Combo · R$37',
+    bullets: ['Ergogênicos pt 1', 'Ergogênicos pt 2', 'Peptídeos', 'Mais em conta que comprar separado'],
+    cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
     highlight: true,
   },
@@ -1203,20 +1203,20 @@ const EBOOKS_PEPT = [
   {
     id: 'pept',
     titulo: 'Peptídeos',
-    preco: 'R$ 27',
+    badge: 'EBOOK',
     desc: 'O ebook completo de peptídeos. O que cada um faz, dose, via, sinergias. O guia que eu uso pra recomendar peptídeo nos meus alunos da consultoria.',
     bullets: ['Todos os peptídeos relevantes', 'Doses, vias e horários', 'Stacks por objetivo', 'Monitoramento e exames'],
-    cta: 'Quero os Peptídeos · R$27',
+    cta: 'Quero os Peptídeos',
     link: CHECKOUT_PEPT,
     pdf: 'pdfs/ebooks/peptideos.pdf',
   },
   {
     id: 'combo',
     titulo: 'Super Combo · 3 ebooks',
-    preco: 'R$ 37',
+    badge: 'PACOTE COMPLETO',
     desc: 'Peptídeos + Ergogênicos pt 1 + pt 2. Pacote completo, mais barato que separado.',
-    bullets: ['Peptídeos (R$27)', 'Ergogênicos pt 1 (R$15)', 'Ergogênicos pt 2 (R$15)', 'Total avulso: R$57 → Combo: R$37'],
-    cta: 'Quero o Combo · R$37',
+    bullets: ['Peptídeos', 'Ergogênicos pt 1', 'Ergogênicos pt 2', 'Mais em conta que comprar separado'],
+    cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
     highlight: true,
   },
@@ -1253,7 +1253,7 @@ function ebookCard(e) {
         <div class="mgh-logo">PP</div>
         <div>
           <div class="mgh-marca">${e.titulo.toUpperCase()}</div>
-          <div class="mgh-badge">${e.preco}</div>
+          <div class="mgh-badge">${e.badge || ''}</div>
         </div>
       </div>
       <div class="mgh-sub">${e.desc}</div>
