@@ -1410,6 +1410,9 @@ function renderParceiros() {
 // ════════ TABS ════════
 function renderTabs() {
   const locked = !state.upsellUnlocked;
+  // Ergogênicos travada se NÃO tem nenhuma das duas partes; Peptídeos se não tem o ebook.
+  const ergoLocked = !state.ebooks?.ergo1 && !state.ebooks?.ergo2;
+  const peptLocked = !state.ebooks?.pept;
   document.getElementById('tabs').innerHTML = `
     <button class="tab ${state.tab==='peito'?'active':''}" onclick="showTab('peito')">
       <span class="tab-ic">💪</span>PEITO
@@ -1420,11 +1423,11 @@ function renderTabs() {
     <button class="tab ${state.tab==='dieta'?'active':''} ${locked?'locked':''}" onclick="showTab('dieta')">
       <span class="tab-ic">🍽️</span>DIETA ${locked?'<span class="lock">🔒</span>':''}
     </button>
-    <button class="tab ${state.tab==='ergo'?'active':''}" onclick="showTab('ergo')">
-      <span class="tab-ic">📚</span>ERGOGÊNICOS
+    <button class="tab ${state.tab==='ergo'?'active':''} ${ergoLocked?'locked':''}" onclick="showTab('ergo')">
+      <span class="tab-ic">📚</span>ERGOGÊNICOS ${ergoLocked?'<span class="lock">🔒</span>':''}
     </button>
-    <button class="tab ${state.tab==='pept'?'active':''}" onclick="showTab('pept')">
-      <span class="tab-ic">💉</span>PEPTÍDEOS
+    <button class="tab ${state.tab==='pept'?'active':''} ${peptLocked?'locked':''}" onclick="showTab('pept')">
+      <span class="tab-ic">💉</span>PEPTÍDEOS ${peptLocked?'<span class="lock">🔒</span>':''}
     </button>
     <button class="tab ${state.tab==='parc'?'active':''}" onclick="showTab('parc')">
       <span class="tab-ic">🤝</span>PARCEIROS
