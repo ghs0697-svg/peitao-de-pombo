@@ -277,11 +277,17 @@
     font-weight: 900;
   }
   .paywall .price {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-dim);
-    margin-bottom: 6px;
+    margin-bottom: 2px;
   }
-  .paywall .price b { color: var(--accent); font-size: 26px; }
+  .paywall .price b { color: var(--accent); font-size: 30px; }
+  .paywall .price-avista {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-bottom: 14px;
+    letter-spacing: .5px;
+  }
   .cta {
     display: block;
     width: 100%;
@@ -741,7 +747,7 @@
     <div id="authExpired" class="hidden">
       <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">⏳ Teu acesso expirou</h2>
       <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Libera o <b>acesso vitalício</b> — paga uma vez, é teu pra sempre, sem prazo pra acabar.</p>
-      <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Liberar acesso vitalício · R$9,90</a>
+      <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Liberar acesso vitalício</a>
       <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
       <div class="auth-msg" style="opacity:.7;">Já liberou? Faz login de novo.</div>
     </div>
@@ -821,7 +827,7 @@
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
 // Links de checkout — Hotmart
 const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // 5x + dieta R$47 → libera SEMANA + DIETA
-const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // vitalício R$9,90 → zera os 90 dias
+const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // vitalício R$14 → zera os 90 dias
 const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Ergogênicos pt 1 R$15
 const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Ergogênicos pt 2 R$15
 const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$27
@@ -1841,11 +1847,12 @@ function paywall(kind) {
     <div class="paywall">
       <div class="lock-ic">🔒</div>
       <h3>${titulo}</h3>
-      <p>Tu pegou só o treino de peito. Por <b>+R$47</b> tu desbloqueia a semana completa <u>e</u> a dieta.</p>
+      <p>Tu pegou só o treino de peito. Libera a semana completa <u>e</u> a dieta.</p>
       <div class="perks">
         ${perks.map(p => `<div>${p}</div>`).join('')}
       </div>
-      <div class="price">por apenas <b>+R$47</b></div>
+      <div class="price">por apenas <b>4x R$12,79</b></div>
+      <div class="price-avista">ou R$47 à vista</div>
       <a class="cta" href="${CHECKOUT_5X}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
     </div>
   `;
