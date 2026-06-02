@@ -1775,6 +1775,7 @@ function renderSemana() {
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
     ${exs}
+    ${renderUpsells()}
   `;
 }
 function setSemanaVer(v) { state.semanaVer = v; state.semanaDay = 0; renderSemana(); }
@@ -1825,6 +1826,7 @@ function renderDieta() {
       <span class="dl-ic">⬇</span> Baixar PDF da dieta · ${state.dietaVer}
     </a>
     ${refs}
+    ${renderUpsells()}
   `;
 }
 function setDietaVer(v) { state.dietaVer = v; renderDieta(); }
