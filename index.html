@@ -711,7 +711,6 @@ const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
 // Links de checkout — order bumps agora na Hotmart, Shape de Elite ainda na Greenn
 const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // produto "5x + dieta" → libera SEMANA + DIETA
 const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // acesso vitalício → zera os 90 dias
-const CHECKOUT_SHAPE     = 'https://payfast.greenn.com.br/692pd5f';             // Shape de Elite (Greenn)
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
 
@@ -993,22 +992,6 @@ const UPSELLS = [
     cta: 'Liberar vitalício · R$9,90',
     link: CHECKOUT_VITALICIO,
     hideIfLifetime: true
-  },
-  {
-    id: 'shape',
-    theme: 'se',
-    logo: 'SE',
-    marca: 'SHAPE DE ELITE',
-    badge: 'O PRÓXIMO PASSO',
-    headline: 'Tô pronto pra construir um Shape de Elite',
-    sub: 'Quer ir além do peito e do shape proporcional? O Shape de Elite é o protocolo completo pra construir um físico de outro nível.',
-    bullets: [
-      'Protocolo de treino + dieta completo',
-      'Sistema de fases pra evolução contínua',
-      'Pra quem quer um shape que se destaca'
-    ],
-    cta: 'Quero o Shape de Elite',
-    link: CHECKOUT_SHAPE
   },
   {
     id: 'consultoria',
