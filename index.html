@@ -61,10 +61,15 @@
     top: 0;
     background: var(--bg);
     z-index: 20;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab {
-    flex: 1;
-    padding: 14px 6px;
+    flex: 0 0 auto;
+    min-width: 90px;
+    padding: 14px 8px;
     background: var(--surface);
     border: 1.5px solid var(--border);
     border-radius: 12px;
@@ -488,6 +493,25 @@
     color: #FFFFFF;
   }
 
+  /* Ebook highlight (Super Combo) */
+  .mgh-card.ebook-highlight {
+    box-shadow: 0 0 0 2px var(--accent), 0 12px 36px rgba(255, 107, 26, 0.18);
+    position: relative;
+  }
+  .mgh-card.ebook-highlight::before {
+    content: "🔥 MAIS VENDIDO";
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
   /* Tema SE (Shape de Elite — vermelho + branco) */
   .mgh-card.theme-se {
     background: linear-gradient(135deg, #1a0808 0%, #0B0B0C 100%);
@@ -669,6 +693,8 @@
     <div class="screen active" id="screen-peito"></div>
     <div class="screen" id="screen-semana"></div>
     <div class="screen" id="screen-dieta"></div>
+    <div class="screen" id="screen-ergo"></div>
+    <div class="screen" id="screen-pept"></div>
     <div class="screen" id="screen-parc"></div>
   </main>
 
@@ -708,9 +734,13 @@
 <script>
 // ════════ CONFIG ════════
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
-// Links de checkout — order bumps agora na Hotmart, Shape de Elite ainda na Greenn
-const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // produto "5x + dieta" → libera SEMANA + DIETA
-const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // acesso vitalício → zera os 90 dias
+// Links de checkout — Hotmart
+const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // 5x + dieta R$47 → libera SEMANA + DIETA
+const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // vitalício R$9,90 → zera os 90 dias
+const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Ergogênicos pt 1 R$15
+const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Ergogênicos pt 2 R$15
+const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$27
+const CHECKOUT_COMBO     = 'https://pay.hotmart.com/J106027528H?off=xw1mmse5';  // Super Combo (3 ebooks) R$37
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
 
@@ -918,6 +948,8 @@ function enterApp() {
   renderPeito();
   renderSemana();
   renderDieta();
+  renderErgo();
+  renderPept();
   renderParceiros();
   startHeartbeat();
 }
@@ -1029,8 +1061,98 @@ function renderUpsells() {
     `).join('');
 }
 
+// ════════ EBOOKS (order bumps) ════════
+const EBOOKS_ERGO = [
+  {
+    titulo: 'Ergogênicos · Parte 1',
+    preco: 'R$ 15',
+    desc: 'Tudo que tu precisa saber pra começar a usar ergogênicos com segurança. Princípios, mecanismo, primeiras escolhas. Material denso, sem enrolação.',
+    bullets: ['Fundamentos de cada classe', 'Doses iniciais seguras', 'O que esperar de cada ciclo'],
+    cta: 'Quero a Parte 1 · R$15',
+    link: CHECKOUT_ERGO_1,
+  },
+  {
+    titulo: 'Ergogênicos · Parte 2',
+    preco: 'R$ 15',
+    desc: 'Avança do básico pro intermediário. Stacks, ciclagem, suporte hormonal, ajuste de doses. Pra quem já fez 1+ ciclo e quer evoluir.',
+    bullets: ['Stacks que funcionam', 'Suporte hormonal e PCT', 'Ajuste de doses por objetivo'],
+    cta: 'Quero a Parte 2 · R$15',
+    link: CHECKOUT_ERGO_2,
+  },
+  {
+    titulo: 'Super Combo · 3 ebooks',
+    preco: 'R$ 37',
+    desc: 'Ergogênicos pt 1 + pt 2 + Peptídeos. Tudo num pacote só — mais barato que comprar separado.',
+    bullets: ['Ergogênicos pt 1 (R$15)', 'Ergogênicos pt 2 (R$15)', 'Peptídeos (R$27)', 'Total avulso: R$57 → Combo: R$37'],
+    cta: 'Quero o Combo · R$37',
+    link: CHECKOUT_COMBO,
+    highlight: true,
+  },
+];
+
+const EBOOKS_PEPT = [
+  {
+    titulo: 'Peptídeos',
+    preco: 'R$ 27',
+    desc: 'O ebook completo de peptídeos. O que cada um faz, dose, via, sinergias. O guia que eu uso pra recomendar peptídeo nos meus alunos da consultoria.',
+    bullets: ['Todos os peptídeos relevantes', 'Doses, vias e horários', 'Stacks por objetivo', 'Monitoramento e exames'],
+    cta: 'Quero os Peptídeos · R$27',
+    link: CHECKOUT_PEPT,
+  },
+  {
+    titulo: 'Super Combo · 3 ebooks',
+    preco: 'R$ 37',
+    desc: 'Peptídeos + Ergogênicos pt 1 + pt 2. Pacote completo, mais barato que separado.',
+    bullets: ['Peptídeos (R$27)', 'Ergogênicos pt 1 (R$15)', 'Ergogênicos pt 2 (R$15)', 'Total avulso: R$57 → Combo: R$37'],
+    cta: 'Quero o Combo · R$37',
+    link: CHECKOUT_COMBO,
+    highlight: true,
+  },
+];
+
+function ebookCard(e) {
+  return `
+    <div class="mgh-card theme-pp ${e.highlight ? 'ebook-highlight' : ''}" style="margin-top:14px;">
+      <div class="mgh-head">
+        <div class="mgh-logo">PP</div>
+        <div>
+          <div class="mgh-marca">${e.titulo.toUpperCase()}</div>
+          <div class="mgh-badge">${e.preco}</div>
+        </div>
+      </div>
+      <div class="mgh-sub">${e.desc}</div>
+      <ul class="mgh-bullets">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      <a class="mgh-cta" href="${e.link}" target="_blank" rel="noopener">${e.cta} →</a>
+    </div>
+  `;
+}
+
+function renderErgo() {
+  const c = document.getElementById('screen-ergo');
+  c.innerHTML = `
+    <h2>📚 Ergogênicos</h2>
+    <p class="hint">Ebooks pra entender e usar ergogênicos com segurança. Material da minha consultoria, agora disponível avulso.</p>
+    ${EBOOKS_ERGO.map(ebookCard).join('')}
+  `;
+}
+
+function renderPept() {
+  const c = document.getElementById('screen-pept');
+  c.innerHTML = `
+    <h2>💉 Peptídeos</h2>
+    <p class="hint">O ebook que eu uso na minha consultoria pra recomendar peptídeo. Doses, vias, stacks, monitoramento.</p>
+    ${EBOOKS_PEPT.map(ebookCard).join('')}
+  `;
+}
+
 // ════════ PARCEIROS ════════
 const PARCEIROS = {
+  "🤝 Parceiros com desconto": [
+    { nome: "👕 AlphaCo", tag: "5% OFF", tagcls: "off", desc: "Linha de roupas esportivas. Desconto aplicado automaticamente no checkout.", link: "https://usealphaco.com.br/discount/GH" },
+    { nome: "🏋️ YangFit", tag: "10% OFF", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Desconto via link de afiliado.", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
+    { nome: "💉 Biotech (Aquiles)", tag: "DESCONTO", tagcls: "wpp", desc: "Ergogênicos e peptídeos. Atendimento direto no WhatsApp pra desconto exclusivo.", link: "https://w.app/m4akut", wpp: true },
+    { nome: "💊 Arte e Ciência (Renato)", tag: "DESCONTO", tagcls: "wpp", desc: "Farmácia de manipulação. GH usa há mais de 7 anos.", link: "https://api.whatsapp.com/send?phone=5516997693445&text=" + encodeURIComponent("Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH."), wpp: true }
+  ],
   "💊 Suplementos (FTW)": [
     { nome: "Whey Protein Concentrado 1kg", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · refil · R$ 64,90 (62% OFF). Proteína de soro do leite.", link: "https://s.shopee.com.br/6VKciJh60W?share_channel_code=1" },
     { nome: "Creatina Monoidratada 300g", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · pura · R$ 33,85 (50% OFF). 5-10g/dia, todos os dias.", link: "https://s.shopee.com.br/4LG889ON4C?share_channel_code=1" },
@@ -1062,12 +1184,6 @@ const PARCEIROS = {
     { nome: "Mini-band extra-forte (avançada)", tag: "YANGFIT", tagcls: "yang", desc: "Resistência máxima — pra quem já tem condicionamento.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-extra-forte" },
     { nome: "Kit Super-band", tag: "YANGFIT", tagcls: "yang", desc: "4 elásticos extensores — exercícios em casa, alongamento, mobilidade.", link: "https://www.yangfit.com.br/kit-super-band-4-intensidades-elastico-extensor-borracha-treino" }
   ],
-  "🤝 Parceiros com desconto": [
-    { nome: "👕 AlphaCo", tag: "5% OFF", tagcls: "off", desc: "Linha de roupas esportivas. Desconto aplicado automaticamente no checkout.", link: "https://usealphaco.com.br/discount/GH" },
-    { nome: "🏋️ YangFit", tag: "10% OFF", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Desconto via link de afiliado.", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
-    { nome: "💉 Biotech (Aquiles)", tag: "DESCONTO", tagcls: "wpp", desc: "Ergogênicos e peptídeos. Atendimento direto no WhatsApp pra desconto exclusivo.", link: "https://w.app/m4akut", wpp: true },
-    { nome: "💊 Arte e Ciência (Renato)", tag: "DESCONTO", tagcls: "wpp", desc: "Farmácia de manipulação. GH usa há mais de 7 anos.", link: "https://api.whatsapp.com/send?phone=5516997693445&text=" + encodeURIComponent("Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH."), wpp: true }
-  ]
 };
 
 function renderParceiros() {
@@ -1103,6 +1219,12 @@ function renderTabs() {
     </button>
     <button class="tab ${state.tab==='dieta'?'active':''} ${locked?'locked':''}" onclick="showTab('dieta')">
       <span class="tab-ic">🍽️</span>DIETA ${locked?'<span class="lock">🔒</span>':''}
+    </button>
+    <button class="tab ${state.tab==='ergo'?'active':''}" onclick="showTab('ergo')">
+      <span class="tab-ic">📚</span>ERGOGÊNICOS
+    </button>
+    <button class="tab ${state.tab==='pept'?'active':''}" onclick="showTab('pept')">
+      <span class="tab-ic">💉</span>PEPTÍDEOS
     </button>
     <button class="tab ${state.tab==='parc'?'active':''}" onclick="showTab('parc')">
       <span class="tab-ic">🤝</span>PARCEIROS
@@ -1487,11 +1609,11 @@ function paywall(kind) {
     <div class="paywall">
       <div class="lock-ic">🔒</div>
       <h3>${titulo}</h3>
-      <p>Tu pegou só o treino de peito. Por <b>+R$19,90</b> tu desbloqueia a semana completa <u>e</u> a dieta.</p>
+      <p>Tu pegou só o treino de peito. Por <b>+R$47</b> tu desbloqueia a semana completa <u>e</u> a dieta.</p>
       <div class="perks">
         ${perks.map(p => `<div>${p}</div>`).join('')}
       </div>
-      <div class="price">de <s>R$49,80</s> por apenas <b>+R$19,90</b></div>
+      <div class="price">por apenas <b>+R$47</b></div>
       <a class="cta" href="${CHECKOUT_5X}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
     </div>
   `;
