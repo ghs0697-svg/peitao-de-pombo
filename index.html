@@ -608,6 +608,49 @@
   .dl-pdf .dl-ic { font-size: 16px; }
   button.dl-pdf { font-family: inherit; cursor: pointer; }
 
+  /* Botão flutuante "Instalar app" (PWA) */
+  .install-fab {
+    position: fixed; right: 16px; bottom: 16px;
+    z-index: 50;
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 32px;
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255, 107, 26, 0.4), 0 2px 6px rgba(0,0,0,.3);
+    animation: install-fab-in .4s ease-out;
+  }
+  .install-fab:active { transform: scale(.96); }
+  .install-fab .install-fab-ic { font-size: 18px; }
+  @keyframes install-fab-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 380px) {
+    .install-fab-text { display: none; }
+    .install-fab { padding: 14px; border-radius: 50%; }
+  }
+  .install-step {
+    display: flex; gap: 12px; padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .install-step:first-of-type { border-top: 0; }
+  .install-step-num {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--surface-2); border: 1.5px solid var(--accent);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 13px;
+  }
+  .install-step-body { flex: 1; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .install-step-body b { color: var(--text); }
+
   /* Botão "Trocar exercício" no card */
   .ex-swap {
     display: inline-flex; align-items: center; gap: 4px;
@@ -717,6 +760,23 @@
       <button class="ach-btn" onclick="achSave()">💾 Salvar</button>
       <button class="ach-btn ghost" onclick="achClose()">Fechar</button>
     </div>
+  </div>
+</div>
+
+<!-- Botão flutuante "Instalar app" -->
+<button id="installBtn" class="install-fab hidden" onclick="openInstallModal()" aria-label="Instalar app">
+  <span class="install-fab-ic">📲</span>
+  <span class="install-fab-text">Instalar app</span>
+</button>
+
+<!-- Modal instalar PWA -->
+<div class="vmodal" id="installModal" onclick="if(event.target.id==='installModal')closeInstallModal()">
+  <div class="vmodal-inner" style="max-width:480px;">
+    <div class="vmodal-bar">
+      <div class="vmodal-title">📲 Instalar na tela inicial</div>
+      <button class="vmodal-close" onclick="closeInstallModal()">✕</button>
+    </div>
+    <div id="installBody" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;color:var(--text);font-size:14px;line-height:1.55;"></div>
   </div>
 </div>
 
@@ -1382,7 +1442,12 @@ async function downloadTreinoPDF(kind) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.text('PEITAO DE POMBO  -  @gh.scheuermann', w/2, y, { align: 'center' });
-  y += 8;
+  y += 5;
+  doc.setTextColor(...GOLD);
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'italic');
+  doc.text('Clica no nome do exercicio (em dourado) pra abrir o video de execucao', w/2, y, { align: 'center' });
+  y += 6;
 
   const t = (kind === 'peito') ? DATA.treinoPeito[state.peitoVer] : DATA.treino5x[state.semanaVer];
   const dias = t.dias;
@@ -1400,9 +1465,12 @@ async function downloadTreinoPDF(kind) {
     doc.text(dia.nome, 13, y + 4.8);
     y += 9;
 
+    // Coleta URLs paralelas pra adicionar hyperlinks via didDrawCell
+    const rowUrls = [];
     const rows = dia.exercicios.map((ex, idx) => {
       const a = activeExercise(ex, ctxKey, idx);
       const marker = (ex.sub && isSubbed(ctxKey, idx)) ? '* ' : '';
+      rowUrls.push(DATA.videos[a.video_key] || null);
       return [marker + a.exercicio, a.series || '', a.reps || '', a.intervalo || '', a.obs || ''];
     });
     doc.autoTable({
@@ -1419,7 +1487,18 @@ async function downloadTreinoPDF(kind) {
         3: { cellWidth: 22, halign: 'center' },
         4: { cellWidth: 'auto', textColor: GREY, fontStyle: 'italic' }
       },
-      margin: { left: 10, right: 10 }
+      margin: { left: 10, right: 10 },
+      // Hyperlink no nome do exercício (coluna 0) quando tem vídeo
+      didParseCell: (data) => {
+        if (data.section === 'body' && data.column.index === 0 && rowUrls[data.row.index]) {
+          data.cell.styles.textColor = [201, 162, 75]; // dourado pra sinalizar link
+        }
+      },
+      didDrawCell: (data) => {
+        if (data.section === 'body' && data.column.index === 0 && rowUrls[data.row.index]) {
+          doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url: rowUrls[data.row.index] });
+        }
+      },
     });
     y = doc.lastAutoTable.finalY + 6;
   }
@@ -1682,7 +1761,110 @@ function closeVideo() {
   document.getElementById('vwrap').innerHTML = '';
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); closeInstallModal(); } });
+
+// ════════ INSTALL PWA — Botão flutuante + modal por plataforma ════════
+let _deferredInstallPrompt = null;
+
+function isPwaInstalled() {
+  // Standalone (iOS Safari) ou display-mode standalone (Chrome/Android/desktop)
+  if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+  if (window.navigator.standalone === true) return true;
+  return false;
+}
+function detectDevice() {
+  const ua = navigator.userAgent || '';
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+  if (/Android/.test(ua)) return 'android';
+  return 'desktop';
+}
+function updateInstallFab() {
+  const btn = document.getElementById('installBtn');
+  if (!btn) return;
+  if (isPwaInstalled()) { btn.classList.add('hidden'); return; }
+  btn.classList.remove('hidden');
+}
+function openInstallModal() {
+  const dev = detectDevice();
+  // Se já tem prompt nativo guardado (Chrome/Android), tenta usar direto
+  if (dev !== 'ios' && _deferredInstallPrompt) {
+    _deferredInstallPrompt.prompt();
+    _deferredInstallPrompt.userChoice.finally(() => {
+      _deferredInstallPrompt = null;
+      updateInstallFab();
+    });
+    return;
+  }
+  const body = document.getElementById('installBody');
+  let html = '';
+  if (dev === 'ios') {
+    html = `
+      <p style="margin-bottom:14px;color:var(--text-dim);">Pra usar o Peitão como um app no teu iPhone/iPad:</p>
+      <div class="install-step">
+        <div class="install-step-num">1</div>
+        <div class="install-step-body">Toca no botão <b>Compartilhar</b> do Safari (o ícone <b>⬆</b> no centro/baixo da tela).</div>
+      </div>
+      <div class="install-step">
+        <div class="install-step-num">2</div>
+        <div class="install-step-body">Rola e toca em <b>"Adicionar à Tela de Início"</b>.</div>
+      </div>
+      <div class="install-step">
+        <div class="install-step-num">3</div>
+        <div class="install-step-body">Confirma em <b>"Adicionar"</b>. Pronto — abre direto pelo ícone na tela, igual qualquer app.</div>
+      </div>
+      <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">⚠️ Só funciona no <b>Safari</b>. Se tá no Chrome, copia o link e abre no Safari primeiro.</p>
+    `;
+  } else if (dev === 'android') {
+    html = `
+      <p style="margin-bottom:14px;color:var(--text-dim);">Pra usar o Peitão como um app no teu Android:</p>
+      <div class="install-step">
+        <div class="install-step-num">1</div>
+        <div class="install-step-body">Toca no <b>menu (⋮)</b> no canto superior direito do Chrome.</div>
+      </div>
+      <div class="install-step">
+        <div class="install-step-num">2</div>
+        <div class="install-step-body">Escolhe <b>"Instalar app"</b> ou <b>"Adicionar à tela inicial"</b>.</div>
+      </div>
+      <div class="install-step">
+        <div class="install-step-num">3</div>
+        <div class="install-step-body">Confirma em <b>"Instalar"</b>. Vai aparecer um ícone na tela inicial — abre direto, sem barra de endereço.</div>
+      </div>
+    `;
+  } else {
+    html = `
+      <p style="margin-bottom:14px;color:var(--text-dim);">Pra usar o Peitão como app no computador:</p>
+      <div class="install-step">
+        <div class="install-step-num">1</div>
+        <div class="install-step-body">Procura o ícone <b>⊕ (instalar)</b> na barra de endereço do Chrome/Edge, ao lado do favorito.</div>
+      </div>
+      <div class="install-step">
+        <div class="install-step-num">2</div>
+        <div class="install-step-body">Clica e confirma em <b>"Instalar"</b>.</div>
+      </div>
+      <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">No celular o ícone abre em tela cheia e fica disponível offline.</p>
+    `;
+  }
+  body.innerHTML = html;
+  document.getElementById('installModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeInstallModal() {
+  const m = document.getElementById('installModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+}
+// Captura o prompt nativo do Chrome/Android (não usar imediatamente — guarda pra quando user clicar)
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  updateInstallFab();
+});
+window.addEventListener('appinstalled', () => {
+  _deferredInstallPrompt = null;
+  updateInstallFab();
+});
+// Mostra/esconde no boot
+updateInstallFab();
 
 // ════════ CHECKBOXES (reset diário) ════════
 const CHECK_KEY = 'peitao_checks';
