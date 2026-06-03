@@ -322,6 +322,25 @@
     margin-bottom: 14px;
     letter-spacing: .5px;
   }
+  /* Bloco de preço dentro dos cards de upsell/ebook (parcela grande + à vista pequeno) */
+  .card-price {
+    text-align: center;
+    padding: 12px 0 6px;
+    margin: 6px 0 14px;
+    border-top: 1px dashed var(--border);
+  }
+  .card-price-main {
+    font-size: 22px; font-weight: 900;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .card-price-cash {
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: .4px;
+    margin-top: 2px;
+  }
   .cta {
     display: inline-flex; align-items: center; justify-content: center;
     width: 100%;
@@ -1173,6 +1192,8 @@ const UPSELLS = [
     ],
     cta: 'Liberar treino 5x + dietas',
     link: CHECKOUT_5X,
+    priceParcel: '4x R$10,07',
+    priceAvista: 'R$37 à vista',
     hideIfUpsell: true
   },
   {
@@ -1191,6 +1212,8 @@ const UPSELLS = [
     ],
     cta: 'Liberar vitalício',
     link: CHECKOUT_VITALICIO,
+    priceParcel: '2x R$7,37',
+    priceAvista: 'R$14 à vista',
     hideIfLifetime: true
   },
   {
@@ -1208,6 +1231,15 @@ const UPSELLS = [
 ];
 
 // Renderiza os cards de upsell — esconde 5x pra quem já tem, vitalício pra quem já tem
+function priceBlock(p) {
+  if (!p || !p.priceParcel) return '';
+  return `
+    <div class="card-price">
+      <div class="card-price-main">${p.priceParcel}</div>
+      <div class="card-price-cash">ou ${p.priceAvista || ''}</div>
+    </div>
+  `;
+}
 function renderUpsells() {
   return UPSELLS
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
@@ -1224,6 +1256,7 @@ function renderUpsells() {
         <div class="mgh-headline">${u.headline}</div>
         <div class="mgh-sub">${u.sub}</div>
         <ul class="mgh-bullets">${u.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        ${priceBlock(u)}
         <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
       </div>
     `).join('');
@@ -1241,6 +1274,8 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 1',
     link: CHECKOUT_ERGO_1,
     pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
+    priceParcel: '2x R$7,89',
+    priceAvista: 'R$15 à vista',
   },
   {
     id: 'ergo2',
@@ -1251,6 +1286,8 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 2',
     link: CHECKOUT_ERGO_2,
     pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
+    priceParcel: '2x R$7,89',
+    priceAvista: 'R$15 à vista',
   },
   {
     id: 'combo',
@@ -1260,6 +1297,8 @@ const EBOOKS_ERGO = [
     bullets: ['Ergogênicos pt 1', 'Ergogênicos pt 2', 'Peptídeos', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
+    priceParcel: '5x R$8,19',
+    priceAvista: 'R$37 à vista',
     highlight: true,
   },
 ];
@@ -1274,6 +1313,8 @@ const EBOOKS_PEPT = [
     cta: 'Quero os Peptídeos',
     link: CHECKOUT_PEPT,
     pdf: 'pdfs/ebooks/peptideos.pdf',
+    priceParcel: '3x R$9,64',
+    priceAvista: 'R$27 à vista',
   },
   {
     id: 'combo',
@@ -1283,6 +1324,8 @@ const EBOOKS_PEPT = [
     bullets: ['Peptídeos', 'Ergogênicos pt 1', 'Ergogênicos pt 2', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
+    priceParcel: '5x R$8,19',
+    priceAvista: 'R$37 à vista',
     highlight: true,
   },
 ];
@@ -1323,6 +1366,7 @@ function ebookCard(e) {
       </div>
       <div class="mgh-sub">${e.desc}</div>
       <ul class="mgh-bullets">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      ${priceBlock(e)}
       <a class="mgh-cta" href="${e.link}" target="_blank" rel="noopener">${e.cta} →</a>
     </div>
   `;
@@ -1919,8 +1963,8 @@ function paywall(kind) {
       <div class="perks">
         ${perks.map(p => `<div>${p}</div>`).join('')}
       </div>
-      <div class="price">por apenas <b>4x R$12,79</b></div>
-      <div class="price-avista">ou R$47 à vista</div>
+      <div class="price">por apenas <b>4x R$10,07</b></div>
+      <div class="price-avista">ou R$37 à vista</div>
       <a class="cta" href="${CHECKOUT_5X}" target="_blank" rel="noopener">DESBLOQUEAR AGORA →</a>
     </div>
   `;
