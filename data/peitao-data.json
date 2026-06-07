@@ -191,35 +191,35 @@
               }
             },
             {
-              "exercicio": "Voador",
+              "exercicio": "Crossover polia média",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "VOADOR",
+              "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
-                "exercicio": "Crossover polia média",
+                "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER POLIA MEDIA"
+                "video_key": "VOADOR"
               }
             },
             {
-              "exercicio": "Crossover",
+              "exercicio": "Supino declinado na máquina",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "CROSSOVER",
+              "video_key": "SUPINO DECLINADO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino declinado na máquina",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -336,19 +336,19 @@
               }
             },
             {
-              "exercicio": "Crossover",
+              "exercicio": "Crossover polia média",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CROSSOVER",
+              "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
-                "exercicio": "Supino declinado na máquina",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -567,12 +567,12 @@
               "obs": "Progressão de carga",
               "video_key": "REMADA BAIXA COM TRIANGULO",
               "sub": {
-                "exercicio": "Remada cavalinho",
+                "exercicio": "Remada baixa aberta",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga",
-                "video_key": "REMADA CAVALINHO"
+                "video_key": "REMADA BAIXA ABERTA"
               }
             },
             {
@@ -732,12 +732,12 @@
               "obs": "Progressão de carga",
               "video_key": "CADEIRA FLEXORA",
               "sub": {
-                "exercicio": "Mesa flexora",
+                "exercicio": "Mesa flexora livre com halter",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga",
-                "video_key": "MESA FLEXORA"
+                "video_key": "MESA FLEXORA LIVRE COM HALTER"
               }
             },
             {
@@ -793,12 +793,12 @@
               "obs": "Progressão de carga",
               "video_key": "ELEVACAO LATERAL NO CROSS",
               "sub": {
-                "exercicio": "Elevação lateral sentado",
+                "exercicio": "Elevação lateral no banco inclinado",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ELEVACAO LATERAL SENTADO"
+                "video_key": "ELEVACAO LATERAL NO BANCO INCLINADO"
               }
             },
             {
@@ -982,12 +982,12 @@
               "obs": "Progressão de carga— estímulo de peito",
               "video_key": "VOADOR",
               "sub": {
-                "exercicio": "Crucifixo inclinado",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito",
-                "video_key": "CRUCIFIXO INCLINADO"
+                "video_key": "CROSSOVER"
               }
             }
           ]
@@ -1056,35 +1056,35 @@
               }
             },
             {
-              "exercicio": "Voador",
+              "exercicio": "Crossover polia média",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "VOADOR",
+              "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
-                "exercicio": "Crossover polia média",
+                "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER POLIA MEDIA"
+                "video_key": "VOADOR"
               }
             },
             {
-              "exercicio": "Crossover",
+              "exercicio": "Supino declinado na máquina",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "CROSSOVER",
+              "video_key": "SUPINO DECLINADO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino declinado na máquina",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -1133,19 +1133,19 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
-              "exercicio": "Remada curvada pronada",
+              "exercicio": "Remada unilateral na máquina",
               "series": "4X",
               "reps": "10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "REMADA CURVADA PRONADA",
+              "video_key": "REMADA UNILATERAL NA MAQUINA",
               "sub": {
-                "exercicio": "Remada pronada na máquina",
+                "exercicio": "Remada curvada pronada",
                 "series": "4X",
                 "reps": "10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "REMADA PRONADA NA MAQUINA"
+                "video_key": "REMADA CURVADA PRONADA"
               }
             },
             {
@@ -1165,19 +1165,19 @@
               }
             },
             {
-              "exercicio": "Remada baixa com triângulo",
+              "exercicio": "Remada cavalinho",
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "REMADA BAIXA COM TRIANGULO",
+              "video_key": "REMADA CAVALINHO",
               "sub": {
-                "exercicio": "Remada cavalinho",
+                "exercicio": "Remada baixa com triângulo",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "REMADA CAVALINHO"
+                "video_key": "REMADA BAIXA COM TRIANGULO"
               }
             },
             {
@@ -1274,19 +1274,19 @@
               }
             },
             {
-              "exercicio": "Agachamento hack",
+              "exercicio": "Agachamento Smith",
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
-              "video_key": "AGACHAMENTO HACK",
+              "video_key": "AGACHAMENTO SMITH",
               "sub": {
-                "exercicio": "Agachamento Smith",
+                "exercicio": "Agachamento hack",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
-                "video_key": "AGACHAMENTO SMITH"
+                "video_key": "AGACHAMENTO HACK"
               }
             },
             {
@@ -1330,19 +1330,19 @@
               "video_key": "MESA FLEXORA"
             },
             {
-              "exercicio": "Cadeira flexora",
+              "exercicio": "Mesa flexora livre com halter",
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "CADEIRA FLEXORA",
+              "video_key": "MESA FLEXORA LIVRE COM HALTER",
               "sub": {
-                "exercicio": "Mesa flexora",
+                "exercicio": "Cadeira flexora",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "MESA FLEXORA"
+                "video_key": "CADEIRA FLEXORA"
               }
             },
             {
@@ -1391,19 +1391,19 @@
               }
             },
             {
-              "exercicio": "Elevação lateral no cross",
+              "exercicio": "Elevação lateral parcial no cross",
               "series": "4X",
               "reps": "15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ELEVACAO LATERAL NO CROSS",
+              "video_key": "ELEVACAO LATERAL PARCIAL NO CROSS",
               "sub": {
-                "exercicio": "Elevação lateral sentado",
+                "exercicio": "Elevação lateral no cross",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ELEVACAO LATERAL SENTADO"
+                "video_key": "ELEVACAO LATERAL NO CROSS"
               }
             },
             {
@@ -1439,19 +1439,19 @@
               }
             },
             {
-              "exercicio": "Supino inclinado na máquina",
+              "exercicio": "Supino inclinado com halteres",
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg)",
-              "video_key": "SUPINO INCLINADO NA MAQUINA",
+              "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
-                "exercicio": "Supino inclinado com halteres",
+                "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg)",
-                "video_key": "SUPINO INCLINADO COM HALTERES"
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
             {
@@ -1500,19 +1500,19 @@
               }
             },
             {
-              "exercicio": "Tríceps pulley com corda",
+              "exercicio": "Tríceps pulley com barra",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "TRICEPS PULLEY COM CORDA",
+              "video_key": "TRICEPS PULLEY COM BARRA",
               "sub": {
-                "exercicio": "Tríceps na paralela",
+                "exercicio": "Tríceps pulley com corda",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "TRICEPS NA PARALELA"
+                "video_key": "TRICEPS PULLEY COM CORDA"
               }
             },
             {
@@ -1580,19 +1580,19 @@
               }
             },
             {
-              "exercicio": "Voador",
+              "exercicio": "Crossover",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
-              "video_key": "VOADOR",
+              "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo inclinado",
+                "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO INCLINADO"
+                "video_key": "VOADOR"
               }
             }
           ]
@@ -1677,19 +1677,19 @@
               }
             },
             {
-              "exercicio": "Crossover",
+              "exercicio": "Crossover polia média",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
               "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CROSSOVER",
+              "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
-                "exercicio": "Supino declinado na máquina",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -1738,19 +1738,19 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
-              "exercicio": "Remada curvada pronada",
+              "exercicio": "Remada pronada na máquina",
               "series": "4X",
               "reps": "10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "REMADA CURVADA PRONADA",
+              "video_key": "REMADA PRONADA NA MAQUINA",
               "sub": {
-                "exercicio": "Remada pronada na máquina",
+                "exercicio": "Remada curvada pronada",
                 "series": "4X",
                 "reps": "10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "REMADA PRONADA NA MAQUINA"
+                "video_key": "REMADA CURVADA PRONADA"
               }
             },
             {
@@ -1770,19 +1770,19 @@
               }
             },
             {
-              "exercicio": "Remada baixa com triângulo",
+              "exercicio": "Remada baixa aberta",
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "REMADA BAIXA COM TRIANGULO",
+              "video_key": "REMADA BAIXA ABERTA",
               "sub": {
-                "exercicio": "Remada cavalinho",
+                "exercicio": "Remada baixa com triângulo",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "REMADA CAVALINHO"
+                "video_key": "REMADA BAIXA COM TRIANGULO"
               }
             },
             {
@@ -1879,19 +1879,19 @@
               }
             },
             {
-              "exercicio": "Agachamento hack",
+              "exercicio": "Hack articulado",
               "series": "4X",
               "reps": "15-20 | 10-15 | 8-12 | 6-10",
               "intervalo": "90 seg",
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "AGACHAMENTO HACK",
+              "video_key": "HACK ARTICULADO",
               "sub": {
-                "exercicio": "Agachamento Smith",
+                "exercicio": "Agachamento hack",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "AGACHAMENTO SMITH"
+                "video_key": "AGACHAMENTO HACK"
               }
             },
             {
@@ -1935,19 +1935,19 @@
               "video_key": "MESA FLEXORA"
             },
             {
-              "exercicio": "Cadeira flexora",
+              "exercicio": "Flexora unilateral em pé",
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CADEIRA FLEXORA",
+              "video_key": "FLEXORA UNILATERAL EM PE",
               "sub": {
-                "exercicio": "Mesa flexora",
+                "exercicio": "Cadeira flexora",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "MESA FLEXORA"
+                "video_key": "CADEIRA FLEXORA"
               }
             },
             {
@@ -1996,19 +1996,19 @@
               }
             },
             {
-              "exercicio": "Elevação lateral no cross",
+              "exercicio": "Elevação lateral no banco inclinado",
               "series": "4X",
               "reps": "15",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ELEVACAO LATERAL NO CROSS",
+              "video_key": "ELEVACAO LATERAL NO BANCO INCLINADO",
               "sub": {
-                "exercicio": "Elevação lateral sentado",
+                "exercicio": "Elevação lateral no cross",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ELEVACAO LATERAL SENTADO"
+                "video_key": "ELEVACAO LATERAL NO CROSS"
               }
             },
             {
@@ -2105,19 +2105,19 @@
               }
             },
             {
-              "exercicio": "Tríceps pulley com corda",
+              "exercicio": "Tríceps supinado",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "TRICEPS PULLEY COM CORDA",
+              "video_key": "TRICEPS SUPINADO",
               "sub": {
-                "exercicio": "Tríceps na paralela",
+                "exercicio": "Tríceps pulley com corda",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "TRICEPS NA PARALELA"
+                "video_key": "TRICEPS PULLEY COM CORDA"
               }
             },
             {
@@ -2185,19 +2185,19 @@
               }
             },
             {
-              "exercicio": "Voador",
+              "exercicio": "Crucifixo inclinado",
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
               "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "VOADOR",
+              "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
-                "exercicio": "Crucifixo inclinado",
+                "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO INCLINADO"
+                "video_key": "VOADOR"
               }
             }
           ]
@@ -2756,6 +2756,14 @@
     "ABDOMINAL NA REMADA BAIXA / CROSS": "https://www.youtube.com/watch?v=AhMVxJHPfkg&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR&index=4",
     "TRICEPS NA PARALELA": "https://www.youtube.com/watch?v=Zg9ggX8aX7I&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=18",
     "TRICEPS PULLEY COM BARRA": "https://www.youtube.com/watch?v=IrS8LbWYsjk&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=4",
-    "ROSCA ALTERNADA COM HALTERES": "https://www.youtube.com/watch?v=fVy4_Hgw9CM&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=12"
+    "ROSCA ALTERNADA COM HALTERES": "https://www.youtube.com/watch?v=fVy4_Hgw9CM&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=12",
+    "REMADA BAIXA ABERTA": "https://www.youtube.com/watch?v=hTo03b6Umk0&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=12",
+    "REMADA UNILATERAL NA MAQUINA": "https://www.youtube.com/watch?v=nad_kNRs_8s&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=14",
+    "MESA FLEXORA LIVRE COM HALTER": "https://www.youtube.com/watch?v=9R8zy_W_CmA&list=PLi70DQtLbXHwBh0yfwWCCSL-e2ikhGBZB",
+    "HACK ARTICULADO": "https://www.youtube.com/watch?v=QeuVPcZHovo&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=10",
+    "FLEXORA UNILATERAL EM PE": "https://www.youtube.com/watch?v=T6-6VaqqlZY&list=PLi70DQtLbXHwBh0yfwWCCSL-e2ikhGBZB&index=3",
+    "ELEVACAO LATERAL NO BANCO INCLINADO": "https://www.youtube.com/watch?v=kkQvKWzjjlU&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=12",
+    "ELEVACAO LATERAL PARCIAL NO CROSS": "https://www.youtube.com/watch?v=iEwEvPNysms&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=2",
+    "TRICEPS SUPINADO": "https://www.youtube.com/watch?v=EfZsFyZpmW0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=3"
   }
 }
