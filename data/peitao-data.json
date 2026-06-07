@@ -37,12 +37,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -85,12 +85,12 @@
               "obs": "Fly — progressão de carga",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -166,12 +166,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -214,12 +214,12 @@
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -295,12 +295,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -343,12 +343,12 @@
               "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -426,12 +426,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -474,12 +474,12 @@
               "obs": "Fly — progressão de carga",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -535,12 +535,12 @@
               "obs": "Progressão de carga",
               "video_key": "REMADA CURVADA PRONADA",
               "sub": {
-                "exercicio": "Remada curvada na máquina",
+                "exercicio": "Remada pronada na máquina",
                 "series": "4X",
                 "reps": "10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "REMADA CURVADA NA MAQUINA"
+                "video_key": "REMADA PRONADA NA MAQUINA"
               }
             },
             {
@@ -551,12 +551,12 @@
               "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando",
               "video_key": "PUXADA ALTA PRONADA",
               "sub": {
-                "exercicio": "Barra fixa no graviton",
+                "exercicio": "Barra fixa",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando",
-                "video_key": "BARRA FIXA NO GRAVITON"
+                "video_key": "BARRA FIXA"
               }
             },
             {
@@ -583,12 +583,12 @@
               "obs": "Progressão de carga; pêndulo",
               "video_key": "PULLDOWN COM CORDA",
               "sub": {
-                "exercicio": "Pullover com anilha",
+                "exercicio": "Puxada pegada neutra",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; pêndulo",
-                "video_key": "PULLOVER COM ANILHA"
+                "video_key": "PUXADA PEGADA NEUTRA"
               }
             },
             {
@@ -615,12 +615,12 @@
               "obs": "Progressão de carga",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -676,12 +676,12 @@
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
               "video_key": "AGACHAMENTO HACK",
               "sub": {
-                "exercicio": "Agachamento livre",
+                "exercicio": "Agachamento Smith",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
-                "video_key": "AGACHAMENTO LIVRE"
+                "video_key": "AGACHAMENTO SMITH"
               }
             },
             {
@@ -692,12 +692,12 @@
               "obs": "Progressão de carga; força na ponta do pé, não no calcanhar",
               "video_key": "LEG PRESS 45",
               "sub": {
-                "exercicio": "Leg Press horizontal",
+                "exercicio": "Leg horizontal",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; força na ponta do pé, não no calcanhar",
-                "video_key": "LEG PRESS HORIZONTAL"
+                "video_key": "LEG HORIZONTAL"
               }
             },
             {
@@ -708,12 +708,12 @@
               "obs": "Progressão de carga; girar ponta do pé pra fora",
               "video_key": "CADEIRA EXTENSORA",
               "sub": {
-                "exercicio": "Afundo",
+                "exercicio": "Afundo Smith",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; girar ponta do pé pra fora",
-                "video_key": "AFUNDO"
+                "video_key": "AFUNDO SMITH"
               }
             },
             {
@@ -748,12 +748,12 @@
               "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
               "video_key": "PANTURRILHA EM PE",
               "sub": {
-                "exercicio": "Panturrilha no leg 45°",
+                "exercicio": "Panturrilha no leg horizontal",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "60 seg",
                 "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-                "video_key": "PANTURRILHA NO LEG 45"
+                "video_key": "PANTURRILHA NO LEG HORIZONTAL"
               }
             }
           ]
@@ -793,12 +793,12 @@
               "obs": "Progressão de carga",
               "video_key": "ELEVACAO LATERAL NO CROSS",
               "sub": {
-                "exercicio": "Elevação lateral na máquina",
+                "exercicio": "Elevação lateral sentado",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ELEVACAO LATERAL NA MAQUINA"
+                "video_key": "ELEVACAO LATERAL SENTADO"
               }
             },
             {
@@ -825,12 +825,12 @@
               "obs": "Progressão de carga; cotovelo e peso do lado do ombro",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES",
               "sub": {
-                "exercicio": "Voador invertido",
+                "exercicio": "Crucifixo inverso no voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; cotovelo e peso do lado do ombro",
-                "video_key": "VOADOR INVERTIDO"
+                "video_key": "CRUCIFIXO INVERSO NO VOADOR"
               }
             },
             {
@@ -857,12 +857,12 @@
               "obs": "Segurar anilha no peito (pelo menos 10 kg)",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
               "sub": {
-                "exercicio": "Abdominal na máquina",
+                "exercicio": "Abdominal na remada baixa/cross",
                 "series": "3X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Segurar anilha no peito (pelo menos 10 kg)",
-                "video_key": "ABDOMINAL NA MAQUINA"
+                "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS"
               }
             }
           ]
@@ -902,12 +902,12 @@
               "obs": "Progressão de carga",
               "video_key": "TRICEPS PULLEY COM CORDA",
               "sub": {
-                "exercicio": "Tríceps mergulho",
+                "exercicio": "Tríceps na paralela",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "TRICEPS MERGULHO"
+                "video_key": "TRICEPS NA PARALELA"
               }
             },
             {
@@ -918,12 +918,12 @@
               "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
               "video_key": "TRICEPS FRANCES NO CROSS",
               "sub": {
-                "exercicio": "Tríceps francês com halter",
+                "exercicio": "Tríceps pulley com barra",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
-                "video_key": "TRICEPS FRANCES COM HALTER"
+                "video_key": "TRICEPS PULLEY COM BARRA"
               }
             },
             {
@@ -934,12 +934,12 @@
               "obs": "Progressão de carga",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -950,12 +950,12 @@
               "obs": "Progressão de carga",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca direta barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -966,12 +966,12 @@
               "obs": "Progressão de carga",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca concentrada com halter",
+                "exercicio": "Rosca alternada com halteres",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ROSCA CONCENTRADA COM HALTER"
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
             },
             {
@@ -982,12 +982,12 @@
               "obs": "Progressão de carga— estímulo de peito",
               "video_key": "VOADOR",
               "sub": {
-                "exercicio": "Crucifixo com halteres banco reto",
+                "exercicio": "Crucifixo inclinado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito",
-                "video_key": "CRUCIFIXO COM HALTERES BANCO RETO"
+                "video_key": "CRUCIFIXO INCLINADO"
               }
             }
           ]
@@ -1031,12 +1031,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -1079,12 +1079,12 @@
               "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -1140,12 +1140,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "REMADA CURVADA PRONADA",
               "sub": {
-                "exercicio": "Remada curvada na máquina",
+                "exercicio": "Remada pronada na máquina",
                 "series": "4X",
                 "reps": "10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "REMADA CURVADA NA MAQUINA"
+                "video_key": "REMADA PRONADA NA MAQUINA"
               }
             },
             {
@@ -1156,12 +1156,12 @@
               "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando · cadência na descida (3 seg)",
               "video_key": "PUXADA ALTA PRONADA",
               "sub": {
-                "exercicio": "Barra fixa no graviton",
+                "exercicio": "Barra fixa",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando · cadência na descida (3 seg)",
-                "video_key": "BARRA FIXA NO GRAVITON"
+                "video_key": "BARRA FIXA"
               }
             },
             {
@@ -1188,12 +1188,12 @@
               "obs": "Progressão de carga; pêndulo · cadência na descida (3 seg)",
               "video_key": "PULLDOWN COM CORDA",
               "sub": {
-                "exercicio": "Pullover com anilha",
+                "exercicio": "Puxada pegada neutra",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; pêndulo · cadência na descida (3 seg)",
-                "video_key": "PULLOVER COM ANILHA"
+                "video_key": "PUXADA PEGADA NEUTRA"
               }
             },
             {
@@ -1220,12 +1220,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1281,12 +1281,12 @@
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
               "video_key": "AGACHAMENTO HACK",
               "sub": {
-                "exercicio": "Agachamento livre",
+                "exercicio": "Agachamento Smith",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
-                "video_key": "AGACHAMENTO LIVRE"
+                "video_key": "AGACHAMENTO SMITH"
               }
             },
             {
@@ -1297,12 +1297,12 @@
               "obs": "Progressão de carga; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
               "video_key": "LEG PRESS 45",
               "sub": {
-                "exercicio": "Leg Press horizontal",
+                "exercicio": "Leg horizontal",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
-                "video_key": "LEG PRESS HORIZONTAL"
+                "video_key": "LEG HORIZONTAL"
               }
             },
             {
@@ -1313,12 +1313,12 @@
               "obs": "Progressão de carga; girar ponta do pé pra fora · cadência na descida (3 seg)",
               "video_key": "CADEIRA EXTENSORA",
               "sub": {
-                "exercicio": "Afundo",
+                "exercicio": "Afundo Smith",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; girar ponta do pé pra fora · cadência na descida (3 seg)",
-                "video_key": "AFUNDO"
+                "video_key": "AFUNDO SMITH"
               }
             },
             {
@@ -1353,12 +1353,12 @@
               "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
               "video_key": "PANTURRILHA EM PE",
               "sub": {
-                "exercicio": "Panturrilha no leg 45°",
+                "exercicio": "Panturrilha no leg horizontal",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "60 seg",
                 "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-                "video_key": "PANTURRILHA NO LEG 45"
+                "video_key": "PANTURRILHA NO LEG HORIZONTAL"
               }
             }
           ]
@@ -1398,12 +1398,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "ELEVACAO LATERAL NO CROSS",
               "sub": {
-                "exercicio": "Elevação lateral na máquina",
+                "exercicio": "Elevação lateral sentado",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ELEVACAO LATERAL NA MAQUINA"
+                "video_key": "ELEVACAO LATERAL SENTADO"
               }
             },
             {
@@ -1430,12 +1430,12 @@
               "obs": "Progressão de carga; cotovelo e peso do lado do ombro · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES",
               "sub": {
-                "exercicio": "Voador invertido",
+                "exercicio": "Crucifixo inverso no voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; cotovelo e peso do lado do ombro · cadência na descida (3 seg)",
-                "video_key": "VOADOR INVERTIDO"
+                "video_key": "CRUCIFIXO INVERSO NO VOADOR"
               }
             },
             {
@@ -1462,12 +1462,12 @@
               "obs": "Segurar anilha no peito (pelo menos 10 kg) · cadência na descida (3 seg)",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
               "sub": {
-                "exercicio": "Abdominal na máquina",
+                "exercicio": "Abdominal na remada baixa/cross",
                 "series": "3X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Segurar anilha no peito (pelo menos 10 kg) · cadência na descida (3 seg)",
-                "video_key": "ABDOMINAL NA MAQUINA"
+                "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS"
               }
             }
           ]
@@ -1507,12 +1507,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "TRICEPS PULLEY COM CORDA",
               "sub": {
-                "exercicio": "Tríceps mergulho",
+                "exercicio": "Tríceps na paralela",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "TRICEPS MERGULHO"
+                "video_key": "TRICEPS NA PARALELA"
               }
             },
             {
@@ -1523,12 +1523,12 @@
               "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
               "video_key": "TRICEPS FRANCES NO CROSS",
               "sub": {
-                "exercicio": "Tríceps francês com halter",
+                "exercicio": "Tríceps pulley com barra",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
-                "video_key": "TRICEPS FRANCES COM HALTER"
+                "video_key": "TRICEPS PULLEY COM BARRA"
               }
             },
             {
@@ -1539,12 +1539,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1555,12 +1555,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca direta barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1571,12 +1571,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg)",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca concentrada com halter",
+                "exercicio": "Rosca alternada com halteres",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA CONCENTRADA COM HALTER"
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
             },
             {
@@ -1587,12 +1587,12 @@
               "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
               "video_key": "VOADOR",
               "sub": {
-                "exercicio": "Crucifixo com halteres banco reto",
+                "exercicio": "Crucifixo inclinado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO COM HALTERES BANCO RETO"
+                "video_key": "CRUCIFIXO INCLINADO"
               }
             }
           ]
@@ -1636,12 +1636,12 @@
               "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto com halteres",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO RETO COM HALTERES"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -1684,12 +1684,12 @@
               "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CROSSOVER",
               "sub": {
-                "exercicio": "Crucifixo declinado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO DECLINADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -1745,12 +1745,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "REMADA CURVADA PRONADA",
               "sub": {
-                "exercicio": "Remada curvada na máquina",
+                "exercicio": "Remada pronada na máquina",
                 "series": "4X",
                 "reps": "10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "REMADA CURVADA NA MAQUINA"
+                "video_key": "REMADA PRONADA NA MAQUINA"
               }
             },
             {
@@ -1761,12 +1761,12 @@
               "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "PUXADA ALTA PRONADA",
               "sub": {
-                "exercicio": "Barra fixa no graviton",
+                "exercicio": "Barra fixa",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; controle escapular; após falhar + 5 reps roubando · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "BARRA FIXA NO GRAVITON"
+                "video_key": "BARRA FIXA"
               }
             },
             {
@@ -1793,12 +1793,12 @@
               "obs": "Progressão de carga; pêndulo · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "PULLDOWN COM CORDA",
               "sub": {
-                "exercicio": "Pullover com anilha",
+                "exercicio": "Puxada pegada neutra",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; pêndulo · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "PULLOVER COM ANILHA"
+                "video_key": "PUXADA PEGADA NEUTRA"
               }
             },
             {
@@ -1825,12 +1825,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1886,12 +1886,12 @@
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "AGACHAMENTO HACK",
               "sub": {
-                "exercicio": "Agachamento livre",
+                "exercicio": "Agachamento Smith",
                 "series": "4X",
                 "reps": "15-20 | 10-15 | 8-12 | 6-10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "AGACHAMENTO LIVRE"
+                "video_key": "AGACHAMENTO SMITH"
               }
             },
             {
@@ -1902,12 +1902,12 @@
               "obs": "Progressão de carga; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "LEG PRESS 45",
               "sub": {
-                "exercicio": "Leg Press horizontal",
+                "exercicio": "Leg horizontal",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "LEG PRESS HORIZONTAL"
+                "video_key": "LEG HORIZONTAL"
               }
             },
             {
@@ -1918,12 +1918,12 @@
               "obs": "Progressão de carga; girar ponta do pé pra fora · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CADEIRA EXTENSORA",
               "sub": {
-                "exercicio": "Afundo",
+                "exercicio": "Afundo Smith",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; girar ponta do pé pra fora · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "AFUNDO"
+                "video_key": "AFUNDO SMITH"
               }
             },
             {
@@ -1958,12 +1958,12 @@
               "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
               "video_key": "PANTURRILHA EM PE",
               "sub": {
-                "exercicio": "Panturrilha no leg 45°",
+                "exercicio": "Panturrilha no leg horizontal",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "60 seg",
                 "obs": "Máxima contração; alonga tudo só na última rep e segura 10 seg",
-                "video_key": "PANTURRILHA NO LEG 45"
+                "video_key": "PANTURRILHA NO LEG HORIZONTAL"
               }
             }
           ]
@@ -2003,12 +2003,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ELEVACAO LATERAL NO CROSS",
               "sub": {
-                "exercicio": "Elevação lateral na máquina",
+                "exercicio": "Elevação lateral sentado",
                 "series": "4X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ELEVACAO LATERAL NA MAQUINA"
+                "video_key": "ELEVACAO LATERAL SENTADO"
               }
             },
             {
@@ -2035,12 +2035,12 @@
               "obs": "Progressão de carga; cotovelo e peso do lado do ombro · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO INVERSO COM HALTERES",
               "sub": {
-                "exercicio": "Voador invertido",
+                "exercicio": "Crucifixo inverso no voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
                 "obs": "Progressão de carga; cotovelo e peso do lado do ombro · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "VOADOR INVERTIDO"
+                "video_key": "CRUCIFIXO INVERSO NO VOADOR"
               }
             },
             {
@@ -2067,12 +2067,12 @@
               "obs": "Segurar anilha no peito (pelo menos 10 kg) · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
               "sub": {
-                "exercicio": "Abdominal na máquina",
+                "exercicio": "Abdominal na remada baixa/cross",
                 "series": "3X",
                 "reps": "15",
                 "intervalo": "60 seg",
                 "obs": "Segurar anilha no peito (pelo menos 10 kg) · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ABDOMINAL NA MAQUINA"
+                "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS"
               }
             }
           ]
@@ -2112,12 +2112,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "TRICEPS PULLEY COM CORDA",
               "sub": {
-                "exercicio": "Tríceps mergulho",
+                "exercicio": "Tríceps na paralela",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "TRICEPS MERGULHO"
+                "video_key": "TRICEPS NA PARALELA"
               }
             },
             {
@@ -2128,12 +2128,12 @@
               "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "TRICEPS FRANCES NO CROSS",
               "sub": {
-                "exercicio": "Tríceps francês com halter",
+                "exercicio": "Tríceps pulley com barra",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "TRICEPS FRANCES COM HALTER"
+                "video_key": "TRICEPS PULLEY COM BARRA"
               }
             },
             {
@@ -2144,12 +2144,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA DIRETA NO CROSS",
               "sub": {
-                "exercicio": "Rosca direta na barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA NA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -2160,12 +2160,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca direta barra W",
+                "exercicio": "Rosca direta com barra W",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA BARRA W"
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -2176,12 +2176,12 @@
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca concentrada com halter",
+                "exercicio": "Rosca alternada com halteres",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA CONCENTRADA COM HALTER"
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
             },
             {
@@ -2192,12 +2192,12 @@
               "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "VOADOR",
               "sub": {
-                "exercicio": "Crucifixo com halteres banco reto",
+                "exercicio": "Crucifixo inclinado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO COM HALTERES BANCO RETO"
+                "video_key": "CRUCIFIXO INCLINADO"
               }
             }
           ]
@@ -2700,15 +2700,15 @@
     }
   },
   "videos": {
-    "ALONGAMENTO PEITORAL MENOR": "https://www.youtube.com/shorts/1yElQu1suCg",
-    "CRUCIFIXO INCLINADO": "https://www.youtube.com/watch?v=UIymowMf_mQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=8",
-    "CRUCIFIXO INCLINADO NO CROSS": "https://www.youtube.com/watch?v=P4ze24csIeQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=5",
-    "SUPINO RETO NA MAQUINA": "https://www.youtube.com/watch?v=8DJp91_SPEQ&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=3",
-    "SUPINO INCLINADO COM HALTERES": "https://www.youtube.com/watch?v=po59ol1qYlE&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=9",
-    "SUPINO INCLINADO NA MAQUINA": "https://www.youtube.com/watch?v=8OfwYeVpDm4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=2",
-    "VOADOR": "https://www.youtube.com/watch?v=uCZpbObSBJs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=4",
-    "CROSSOVER POLIA MEDIA": "https://www.youtube.com/watch?v=56jUxwnxJK4&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs",
-    "CROSSOVER": "https://www.youtube.com/watch?v=JOM0DuJuDVs&list=PLi70DQtLbXHzoK2yVQupY9IHoNj-vTnqs&index=1",
+    "ALONGAMENTO PEITORAL MENOR": "https://youtube.com/shorts/i79A_9AtEvU?feature=share",
+    "CRUCIFIXO INCLINADO": "https://youtube.com/shorts/TDbrCjGA684?feature=share",
+    "CRUCIFIXO INCLINADO NO CROSS": "https://www.youtube.com/shorts/nVOhlOZleYU",
+    "SUPINO RETO NA MAQUINA": "https://youtube.com/shorts/5OyPWO2WLWY?feature=share",
+    "SUPINO INCLINADO COM HALTERES": "https://youtube.com/shorts/KH1I8eWYIFk?feature=share",
+    "SUPINO INCLINADO NA MAQUINA": "https://youtube.com/shorts/7E9d83utgeQ?feature=share",
+    "VOADOR": "https://youtube.com/shorts/OOEOxr_q45I?feature=share",
+    "CROSSOVER POLIA MEDIA": "https://youtube.com/shorts/r4sQ08_vWSA?feature=share",
+    "CROSSOVER": "https://youtube.com/shorts/r7OPVZeAzjg?feature=share",
     "TRICEPS TESTA NO BANCO INCLINADO": "https://www.youtube.com/watch?v=RJDT2ctx9zw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=7",
     "TRICEPS TESTA EM PE": "https://www.youtube.com/watch?v=4XE0hdem1X0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=2",
     "ABDOMINAL ELEVACAO DE PERNAS COM HALTER": "https://www.youtube.com/watch?v=-WLhmbfwyQg&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR",
@@ -2719,7 +2719,7 @@
     "REMADA BAIXA COM TRIANGULO": "https://www.youtube.com/watch?v=qGN_9GEygRs&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=15",
     "REMADA CAVALINHO": "https://www.youtube.com/watch?v=ScJip_fX2FE&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=7",
     "PULLDOWN COM CORDA": "https://www.youtube.com/watch?v=1PIPwlo69NM&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5",
-    "CRUCIFIXO INVERSO NO VOADOR": "https://www.youtube.com/watch?v=vkCpTcRkqgo&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=20",
+    "CRUCIFIXO INVERSO NO VOADOR": "https://www.youtube.com/watch?v=ht-mzKR8nSo&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=10",
     "CRUCIFIXO INVERSO COM HALTERES": "https://www.youtube.com/watch?v=PYWiiyFnOW0&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=20",
     "ROSCA DIRETA NO CROSS": "https://www.youtube.com/watch?v=nwVV9ZMCAoM&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=13",
     "HIPEREXTENSAO DE LOMBAR": "https://www.youtube.com/watch?v=Z7hyX51F3Ck&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=19",
@@ -2742,6 +2742,20 @@
     "TRICEPS PULLEY COM CORDA": "https://www.youtube.com/watch?v=TdW6eieU898&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=8",
     "TRICEPS FRANCES NO CROSS": "https://www.youtube.com/watch?v=dLeCaN8cBLY&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=11",
     "ROSCA SCOTT FECHADA": "https://www.youtube.com/watch?v=XVVyiWW8tA0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=9",
-    "ROSCA CONCENTRADA NO CROSS": "https://www.youtube.com/watch?v=NXbMzeBo0fw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=5"
+    "ROSCA CONCENTRADA NO CROSS": "https://www.youtube.com/watch?v=NXbMzeBo0fw&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=5",
+    "SUPINO RETO NA MAQUINA SENTADO": "https://youtube.com/shorts/rzXz_sEGG54?feature=share",
+    "SUPINO DECLINADO NA MAQUINA": "https://youtube.com/shorts/GQLcl2lN7hg?feature=share",
+    "REMADA PRONADA NA MAQUINA": "https://www.youtube.com/watch?v=fO9eHoAlz38&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=11",
+    "BARRA FIXA": "https://www.youtube.com/watch?v=WQNQYbsc-ec&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=8",
+    "PUXADA PEGADA NEUTRA": "https://www.youtube.com/watch?v=Jt03gRJNHLg&list=PLi70DQtLbXHxNamvsCCzqJkyRcoVQEuH5&index=4",
+    "ROSCA DIRETA COM BARRA W": "https://www.youtube.com/watch?v=LmfcS9PsSjE&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=17",
+    "AGACHAMENTO SMITH": "https://www.youtube.com/watch?v=RT323uhyyuI&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=11",
+    "LEG HORIZONTAL": "https://www.youtube.com/watch?v=v8SwsYftua4&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi&index=13",
+    "AFUNDO SMITH": "https://www.youtube.com/watch?v=0YpKgFKhurk&list=PLi70DQtLbXHyMuev6r9OOABzNHGNK5qxi",
+    "PANTURRILHA NO LEG HORIZONTAL": "https://www.youtube.com/watch?v=vYBK0QO7mvw&list=PLi70DQtLbXHyXyB0QnGnkqGiipD-1zF0Z&index=2",
+    "ABDOMINAL NA REMADA BAIXA / CROSS": "https://www.youtube.com/watch?v=AhMVxJHPfkg&list=PLi70DQtLbXHyhquXx8hJCf8c72XFYeCzR&index=4",
+    "TRICEPS NA PARALELA": "https://www.youtube.com/watch?v=Zg9ggX8aX7I&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=18",
+    "TRICEPS PULLEY COM BARRA": "https://www.youtube.com/watch?v=IrS8LbWYsjk&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=4",
+    "ROSCA ALTERNADA COM HALTERES": "https://www.youtube.com/watch?v=fVy4_Hgw9CM&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=12"
   }
 }
