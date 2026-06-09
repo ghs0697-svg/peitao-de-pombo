@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0A0A0B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Peitão de Pombo — Método GH</title>
+<title>Peitão de Pombo · Método GH</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -976,7 +976,7 @@
 
     <div id="authExpired" class="hidden">
       <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">⏳ Teu acesso expirou</h2>
-      <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Libera o <b>acesso vitalício</b> — paga uma vez, é teu pra sempre, sem prazo pra acabar.</p>
+      <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Libera o <b>acesso vitalício</b>, paga uma vez, é teu pra sempre, sem prazo pra acabar.</p>
       <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Liberar acesso vitalício</a>
       <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
       <div class="auth-msg" style="opacity:.7;">Já liberou? Faz login de novo.</div>
@@ -1285,7 +1285,7 @@ function enterApp() {
   if (typeof state.daysLeft === 'number' && state.daysLeft <= 14) {
     sub.innerHTML = state.daysLeft <= 0
       ? 'Acesso expirado'
-      : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'} — libera o vitalício`;
+      : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'}, libera o vitalício`;
     sub.style.cursor = 'pointer';
     sub.onclick = () => window.open(CHECKOUT_VITALICIO, '_blank');
   } else {
@@ -1352,10 +1352,10 @@ const UPSELLS = [
     logo: 'PP',
     marca: 'PEITÃO DE POMBO',
     badge: 'TREINO COMPLETO',
-    headline: 'Treino 5x + Dietas — pro resto do corpo não ficar fino',
+    headline: 'Treino 5x + Dietas, pro resto do corpo não ficar fino',
     sub: 'Tu já tá fazendo o peito crescer. Mas treinar só peito deixa o corpo desproporcional. Libera o treino completo da semana + as dietas e cresce parelho.',
     bullets: [
-      'Treino 5x na semana — costas, ombro, braço e perna',
+      'Treino 5x na semana, costas, ombro, braço e perna',
       'Dietas pro corpo inteiro crescer sem encher de gordura',
       '3 fases de progressão (1.0 → 2.0 → 3.0)',
       'Tudo dentro do app, sem PDF perdido'
@@ -1372,11 +1372,11 @@ const UPSELLS = [
     logo: 'PP',
     marca: 'PEITÃO DE POMBO',
     badge: 'ACESSO PRA SEMPRE',
-    headline: 'Acesso vitalício — paga uma vez, é teu pra sempre',
-    sub: 'Por padrão o acesso do Peitão é de 3 meses. Com o acesso vitalício tu nunca perde — abre o app daqui a 1 ano e tá tudo lá, treino, dieta, vídeos.',
+    headline: 'Acesso vitalício, paga uma vez, é teu pra sempre',
+    sub: 'Por padrão o acesso do Peitão é de 3 meses. Com o acesso vitalício tu nunca perde, abre o app daqui a 1 ano e tá tudo lá, treino, dieta, vídeos.',
     bullets: [
-      'Acesso pra sempre — sem renovar, sem expirar',
-      'Atrelado à tua conta — vale pro base e pro 5x + dieta',
+      'Acesso pra sempre, sem renovar, sem expirar',
+      'Atrelado à tua conta, vale pro base e pro 5x + dieta',
       'Paga uma vez e acabou',
       'Atualizações futuras já incluídas'
     ],
@@ -1463,7 +1463,7 @@ const EBOOKS_ERGO = [
     id: 'combo',
     titulo: 'Super Combo · 3 ebooks',
     badge: 'PACOTE COMPLETO',
-    desc: 'Ergogênicos pt 1 + pt 2 + Peptídeos. Tudo num pacote só — mais barato que comprar separado.',
+    desc: 'Ergogênicos pt 1 + pt 2 + Peptídeos. Tudo num pacote só, mais barato que comprar separado.',
     bullets: ['Ergogênicos pt 1', 'Ergogênicos pt 2', 'Peptídeos', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
@@ -1580,23 +1580,23 @@ const PARCEIROS = {
     { nome: "Tri-Magnésio 60 cáps", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · 3 formas de magnésio · R$ 56,16 (45% OFF). Sono, músculo, sensibilidade à insulina.", link: "https://s.shopee.com.br/4VZYKNPkxQ?share_channel_code=1" }
   ],
   "🛒 Shopee (econômico)": [
-    { nome: "Balança de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Balança digital — pesar carne crua, arroz, suplementos. Fundamental pra ser preciso na dieta.", link: "https://s.shopee.com.br/W3DVo4Iae?share_channel_code=1" },
-    { nome: "Colher de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Doseadora — pesar suplementos, manteiga, azeite, pasta de amendoim.", link: "https://s.shopee.com.br/1LcKVMvIfI?share_channel_code=1" },
-    { nome: "Faixa de joelho", tag: "SHOPEE", tagcls: "shopee", desc: "Faixa elástica de pressão — alternativa econômica à joelheira.", link: "https://s.shopee.com.br/7KtXeHgEgZ?share_channel_code=1" },
-    { nome: "Luva aderente", tag: "SHOPEE", tagcls: "shopee", desc: "Pegada extra com palma de borracha — útil pra exercícios de cabo.", link: "https://s.shopee.com.br/5flJfN50qn?share_channel_code=1" }
+    { nome: "Balança de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Balança digital, pesar carne crua, arroz, suplementos. Fundamental pra ser preciso na dieta.", link: "https://s.shopee.com.br/W3DVo4Iae?share_channel_code=1" },
+    { nome: "Colher de precisão", tag: "SHOPEE", tagcls: "shopee", desc: "Doseadora, pesar suplementos, manteiga, azeite, pasta de amendoim.", link: "https://s.shopee.com.br/1LcKVMvIfI?share_channel_code=1" },
+    { nome: "Faixa de joelho", tag: "SHOPEE", tagcls: "shopee", desc: "Faixa elástica de pressão, alternativa econômica à joelheira.", link: "https://s.shopee.com.br/7KtXeHgEgZ?share_channel_code=1" },
+    { nome: "Luva aderente", tag: "SHOPEE", tagcls: "shopee", desc: "Pegada extra com palma de borracha, útil pra exercícios de cabo.", link: "https://s.shopee.com.br/5flJfN50qn?share_channel_code=1" }
   ],
   "💪 Pegada & Suporte": [
     { nome: "Strap (luva grip)", tag: "YANGFIT", tagcls: "yang", desc: "Pra puxadas, remadas e levantamento terra. Aumenta a pegada.", link: "https://www.yangfit.com.br/luva-strap-hand-grip-para-cross-training-e-musculacao?variant_id=651" },
-    { nome: "Strap 8 (alta performance)", tag: "YANGFIT", tagcls: "yang", desc: "Strap profissional pra cargas pesadas — stiff, terra, remada.", link: "https://www.yangfit.com.br/strap-8-grip-alta-perfomance-para-musculacao-stiff-yangfit" },
-    { nome: "Cinturão de musculação", tag: "YANGFIT", tagcls: "yang", desc: "Couro sintético — proteção lombar em agachamento, terra, desenvolvimento pesado.", link: "https://www.yangfit.com.br/cinturao-musculacao-cross-training-couro-sintetico?variant_id=211" },
+    { nome: "Strap 8 (alta performance)", tag: "YANGFIT", tagcls: "yang", desc: "Strap profissional pra cargas pesadas, stiff, terra, remada.", link: "https://www.yangfit.com.br/strap-8-grip-alta-perfomance-para-musculacao-stiff-yangfit" },
+    { nome: "Cinturão de musculação", tag: "YANGFIT", tagcls: "yang", desc: "Couro sintético, proteção lombar em agachamento, terra, desenvolvimento pesado.", link: "https://www.yangfit.com.br/cinturao-musculacao-cross-training-couro-sintetico?variant_id=211" },
     { nome: "Munhequeira", tag: "YANGFIT", tagcls: "yang", desc: "Faixa de pulso pra desenvolvimento, supino e elevação lateral pesada.", link: "https://www.yangfit.com.br/munhequeira-profissional-cross-training-powerlifting-lpo-pulso?variant_id=545" },
-    { nome: "Joelheira de contenção", tag: "YANGFIT", tagcls: "yang", desc: "Neoprene 7mm — estabilidade no joelho em agachamento e leg press.", link: "https://www.yangfit.com.br/joelheira-compressao-neoprene-7mm-para-lpo-cross-training-par?variant_id=305" }
+    { nome: "Joelheira de contenção", tag: "YANGFIT", tagcls: "yang", desc: "Neoprene 7mm, estabilidade no joelho em agachamento e leg press.", link: "https://www.yangfit.com.br/joelheira-compressao-neoprene-7mm-para-lpo-cross-training-par?variant_id=305" }
   ],
   "🎯 Faixas Elásticas": [
-    { nome: "Kit Mini-band (4 intensidades)", tag: "YANGFIT", tagcls: "yang", desc: "Pacote completo de 4 mini-bands de tecido — leve até extra-forte. Glúteos, ombros, aquecimento.", link: "https://www.yangfit.com.br/kit-mini-band-tecido-4-intensidades-faixa-elastica-circular" },
-    { nome: "Mini-band leve (iniciante)", tag: "YANGFIT", tagcls: "yang", desc: "Pra começar — ativação de glúteo médio sem sobrecarga.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-leve" },
-    { nome: "Mini-band extra-forte (avançada)", tag: "YANGFIT", tagcls: "yang", desc: "Resistência máxima — pra quem já tem condicionamento.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-extra-forte" },
-    { nome: "Kit Super-band", tag: "YANGFIT", tagcls: "yang", desc: "4 elásticos extensores — exercícios em casa, alongamento, mobilidade.", link: "https://www.yangfit.com.br/kit-super-band-4-intensidades-elastico-extensor-borracha-treino" }
+    { nome: "Kit Mini-band (4 intensidades)", tag: "YANGFIT", tagcls: "yang", desc: "Pacote completo de 4 mini-bands de tecido, leve até extra-forte. Glúteos, ombros, aquecimento.", link: "https://www.yangfit.com.br/kit-mini-band-tecido-4-intensidades-faixa-elastica-circular" },
+    { nome: "Mini-band leve (iniciante)", tag: "YANGFIT", tagcls: "yang", desc: "Pra começar, ativação de glúteo médio sem sobrecarga.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-leve" },
+    { nome: "Mini-band extra-forte (avançada)", tag: "YANGFIT", tagcls: "yang", desc: "Resistência máxima, pra quem já tem condicionamento.", link: "https://www.yangfit.com.br/mini-band-de-tecido-faixa-elastica-circular-intensidade-extra-forte" },
+    { nome: "Kit Super-band", tag: "YANGFIT", tagcls: "yang", desc: "4 elásticos extensores, exercícios em casa, alongamento, mobilidade.", link: "https://www.yangfit.com.br/kit-super-band-4-intensidades-elastico-extensor-borracha-treino" }
   ],
 };
 
@@ -1785,11 +1785,11 @@ function exerciseCard(ex, ctxKey, idx) {
         ${swapBtn}
       </div>
       <div class="ex-meta">
-        <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'—'}</div></div>
-        <div><div class="lbl">REPS</div><div class="val">${active.reps||'—'}</div></div>
+        <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'-'}</div></div>
+        <div><div class="lbl">REPS</div><div class="val">${active.reps||'-'}</div></div>
         <div class="timer-cell" data-ctx="${ctxKey}" data-idx="${idx}" data-seconds="${parseIntervalSeconds(active.intervalo)}" onclick="toggleTimer(this)">
           <div class="lbl">DESCANSO</div>
-          <div class="val timer-val">${active.intervalo||'—'}</div>
+          <div class="val timer-val">${active.intervalo||'-'}</div>
         </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
@@ -1977,12 +1977,12 @@ function renderPeito() {
       <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
         <div class="mat-ic">📐</div>
         <div class="mat-title">Régua do Peito</div>
-        <div class="mat-sub">Protocolo de medição — 4 semanas</div>
+        <div class="mat-sub">Protocolo de medição, 4 semanas</div>
       </a>
       <a class="mat-card" href="pdfs/engenharia-do-peito.pdf" target="_blank" rel="noopener">
         <div class="mat-ic">🔧</div>
         <div class="mat-title">Engenharia do Peito</div>
-        <div class="mat-sub">Manual de reconstrução — 4 semanas</div>
+        <div class="mat-sub">Manual de reconstrução, 4 semanas</div>
       </a>
     </div>
     <div class="ver-row">
@@ -2019,7 +2019,7 @@ function daysUntilPhaseUnlock() {
 function tryPhaseChange(setter, v) {
   if (isPhaseLocked(v)) {
     const d = daysUntilPhaseUnlock();
-    alert(`🔒 Fase ${v} libera em ${d} dia${d===1?'':'s'}.\n\nFoca em executar a fase 1.0 — a ${v} já tá te esperando.`);
+    alert(`🔒 Fase ${v} libera em ${d} dia${d===1?'':'s'}.\n\nFoca em executar a fase 1.0, a ${v} já tá te esperando.`);
     return;
   }
   setter(v);
@@ -2208,7 +2208,7 @@ function openInstallModal() {
       </div>
       <div class="install-step">
         <div class="install-step-num">3</div>
-        <div class="install-step-body">Confirma em <b>"Adicionar"</b>. Pronto — abre direto pelo ícone na tela, igual qualquer app.</div>
+        <div class="install-step-body">Confirma em <b>"Adicionar"</b>. Pronto, abre direto pelo ícone na tela, igual qualquer app.</div>
       </div>
       <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">⚠️ Só funciona no <b>Safari</b>. Se tá no Chrome, copia o link e abre no Safari primeiro.</p>
     `;
@@ -2225,7 +2225,7 @@ function openInstallModal() {
       </div>
       <div class="install-step">
         <div class="install-step-num">3</div>
-        <div class="install-step-body">Confirma em <b>"Instalar"</b>. Vai aparecer um ícone na tela inicial — abre direto, sem barra de endereço.</div>
+        <div class="install-step-body">Confirma em <b>"Instalar"</b>. Vai aparecer um ícone na tela inicial, abre direto, sem barra de endereço.</div>
       </div>
     `;
   } else {
@@ -2426,7 +2426,7 @@ async function achShare() {
     const file = new File([blob], 'peitao-de-pombo.png', { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], title: 'Peitão de Pombo — Treino concluído', text: 'Mais um treino na conta. @gh.scheuermann' });
+        await navigator.share({ files: [file], title: 'Peitão de Pombo · Treino concluído', text: 'Mais um treino na conta. @gh.scheuermann' });
       } catch (e) { if (e.name !== 'AbortError') achSave(); }
     } else { achSave(); }
   }, 'image/png');
