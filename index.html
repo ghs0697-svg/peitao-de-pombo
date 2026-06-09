@@ -512,6 +512,150 @@
   .hidden { display: none !important; }
   .empty { text-align: center; color: var(--text-mute); padding: 40px 20px; font-size: 14px; }
 
+  /* ════════ Assistente do app (chat) ════════ */
+  #installBtn.install-fab { bottom: calc(88px + var(--safe-bottom)); }
+
+  .ghchat-fab {
+    position: fixed; z-index: 60;
+    right: 16px; bottom: calc(16px + var(--safe-bottom));
+    width: 60px; height: 60px; border-radius: 50%;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff;
+    box-shadow: 0 10px 28px var(--accent-glow), 0 2px 6px rgba(0,0,0,.35);
+    transition: transform .18s ease, filter .18s ease;
+    animation: ghchat-fab-in .4s ease-out;
+  }
+  .ghchat-fab:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .ghchat-fab:active { transform: scale(.94); }
+  .ghchat-fab svg { width: 28px; height: 28px; }
+  .ghchat-fab.is-open { transform: scale(.9); opacity: 0; pointer-events: none; }
+  @keyframes ghchat-fab-in { from { transform: scale(0) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  .ghchat-fab::after {
+    content: ''; position: absolute; top: -3px; right: -3px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--ok); border: 2px solid var(--bg);
+  }
+
+  .ghchat-panel {
+    position: fixed; z-index: 90;
+    right: 16px; bottom: calc(16px + var(--safe-bottom));
+    width: min(384px, calc(100vw - 24px));
+    height: min(580px, calc(100dvh - 90px));
+    display: flex; flex-direction: column;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-light);
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.4);
+    opacity: 0; transform: translateY(16px) scale(.97);
+    pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease;
+  }
+  .ghchat-panel.is-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+  .ghchat-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 14px 12px;
+    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+    color: #fff;
+  }
+  .ghchat-head-ic {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(255,255,255,.16);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ghchat-head-ic svg { width: 20px; height: 20px; }
+  .ghchat-head-info { flex: 1; min-width: 0; }
+  .ghchat-title { font-size: 15px; font-weight: 800; line-height: 1.1; }
+  .ghchat-status { font-size: 11px; font-weight: 600; opacity: .9; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+  .ghchat-status .ghchat-dot { width: 7px; height: 7px; border-radius: 50%; background: #1FE08A; box-shadow: 0 0 6px #1FE08A; }
+  .ghchat-close {
+    background: rgba(255,255,255,.16); border: none; color: #fff;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+    font-size: 15px; line-height: 1; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .ghchat-close:hover { background: rgba(255,255,255,.28); }
+
+  .ghchat-aviso {
+    padding: 9px 14px; font-size: 11.5px; line-height: 1.45;
+    color: var(--text-dim); background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .ghchat-aviso b { color: var(--text); font-weight: 700; }
+  .ghchat-aviso a { color: var(--accent-hi); font-weight: 700; text-decoration: none; }
+  .ghchat-aviso a:hover { text-decoration: underline; }
+
+  .ghchat-body {
+    flex: 1; overflow-y: auto; padding: 16px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--bg);
+    -webkit-overflow-scrolling: touch;
+  }
+  .ghchat-msg {
+    max-width: 86%; padding: 10px 13px; font-size: 13.5px; line-height: 1.5;
+    border-radius: 14px; word-wrap: break-word; white-space: pre-wrap;
+    animation: ghchat-msg-in .25s ease-out;
+  }
+  @keyframes ghchat-msg-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .ghchat-msg.bot {
+    align-self: flex-start; background: var(--card);
+    border: 1px solid var(--border); color: var(--text);
+    border-bottom-left-radius: 5px;
+  }
+  .ghchat-msg.user {
+    align-self: flex-end; color: #fff;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    border-bottom-right-radius: 5px;
+  }
+  .ghchat-msg.bot.consultoria { border-color: var(--accent-border); background: var(--accent-soft); }
+  .ghchat-msg a { color: var(--accent-hi); font-weight: 700; text-decoration: underline; }
+  .ghchat-msg.user a { color: #fff; }
+
+  .ghchat-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; border-bottom-left-radius: 5px; }
+  .ghchat-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--text-mute); animation: ghchat-blink 1.2s infinite both; }
+  .ghchat-typing span:nth-child(2) { animation-delay: .2s; }
+  .ghchat-typing span:nth-child(3) { animation-delay: .4s; }
+  @keyframes ghchat-blink { 0%, 60%, 100% { opacity: .25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+  .ghchat-foot {
+    display: flex; gap: 8px; align-items: flex-end;
+    padding: 10px 12px calc(10px + var(--safe-bottom));
+    background: var(--surface); border-top: 1px solid var(--border);
+  }
+  .ghchat-input {
+    flex: 1; resize: none; max-height: 96px;
+    background: var(--bg-dark); border: 1.5px solid var(--border-light);
+    color: var(--text); font-family: inherit; font-size: 14px; line-height: 1.4;
+    border-radius: 12px; padding: 11px 13px; outline: none;
+    transition: border-color .15s;
+  }
+  .ghchat-input:focus { border-color: var(--accent); }
+  .ghchat-input::placeholder { color: var(--text-mute); }
+  .ghchat-send {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff; font-size: 18px; cursor: pointer; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: filter .15s, transform .1s;
+  }
+  .ghchat-send:hover { filter: brightness(1.06); }
+  .ghchat-send:active { transform: scale(.92); }
+  .ghchat-send:disabled { opacity: .4; cursor: default; filter: none; transform: none; }
+
+  @media (max-width: 420px) {
+    .ghchat-panel {
+      right: 0; left: 0; bottom: 0;
+      width: 100vw; height: 88dvh; max-height: 88dvh;
+      border-radius: 18px 18px 0 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ghchat-fab, .ghchat-panel, .ghchat-msg, .ghchat-typing span { animation: none !important; transition: opacity .15s ease !important; }
+  }
+
   /* Parceiros */
   .parc-cat {
     font-size: 13px; font-weight: 800; letter-spacing: .5px;
@@ -883,6 +1027,29 @@
   <span class="install-fab-ic">📲</span>
   <span class="install-fab-text">Instalar app</span>
 </button>
+
+<!-- ════════ Assistente do app (chat) ════════ -->
+<button id="ghchatFab" class="ghchat-fab" aria-label="Abrir assistente do app" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.38 9.06 9.06 0 0 1-3.9-.88L3 21l1.9-5.1A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="11.5" r="1" fill="currentColor"/><circle cx="12.5" cy="11.5" r="1" fill="currentColor"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/></svg>
+</button>
+<div id="ghchatPanel" class="ghchat-panel" role="dialog" aria-label="Assistente do app">
+  <div class="ghchat-head">
+    <div class="ghchat-head-ic">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.38 9.06 9.06 0 0 1-3.9-.88L3 21l1.9-5.1A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="ghchat-head-info">
+      <div class="ghchat-title">Assistente do app</div>
+      <div class="ghchat-status"><span class="ghchat-dot"></span> Online agora</div>
+    </div>
+    <button class="ghchat-close" id="ghchatClose" type="button" aria-label="Fechar assistente">✕</button>
+  </div>
+  <div class="ghchat-aviso">Tiro dúvida do <b>acesso ao app</b> e do <b>treino de peito</b>. Pra plano completo (dieta, suplementação, corpo todo), conhece a <a href="https://metodogh.com.br" target="_blank" rel="noopener">consultoria</a>.</div>
+  <div class="ghchat-body" id="ghchatBody" aria-live="polite"></div>
+  <form class="ghchat-foot" id="ghchatForm" autocomplete="off">
+    <textarea id="ghchatInput" class="ghchat-input" rows="1" placeholder="Escreve tua dúvida..." maxlength="500" aria-label="Tua mensagem"></textarea>
+    <button class="ghchat-send" id="ghchatSend" type="submit" aria-label="Enviar mensagem">➤</button>
+  </form>
+</div>
 
 <!-- Modal instalar PWA -->
 <div class="vmodal" id="installModal" onclick="if(event.target.id==='installModal')closeInstallModal()">
@@ -2275,6 +2442,131 @@ function achSave() {
 
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 boot();
+</script>
+
+<!-- ════════ Assistente do app (chat) — lógica ════════ -->
+<script>
+(function () {
+  var ENDPOINT = 'https://chat.peitaodepombo.com.br/chat';
+  var GREETING = 'Opa! Sou o assistente do Peitão. Posso te ajudar com o acesso ao app (login, senha) e com o treino de peito (execução, ordem dos exercícios, versões). Manda tua dúvida.';
+
+  var fab   = document.getElementById('ghchatFab');
+  var panel = document.getElementById('ghchatPanel');
+  var body  = document.getElementById('ghchatBody');
+  var form  = document.getElementById('ghchatForm');
+  var input = document.getElementById('ghchatInput');
+  var send  = document.getElementById('ghchatSend');
+  var closeBtn = document.getElementById('ghchatClose');
+  if (!fab || !panel) return;
+
+  var historico = [];   // [{role, content}] — turnos anteriores
+  var busy = false;
+  var greeted = false;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  // escapa e transforma metodogh.com.br (com ou sem https/www/caminho) em link clicável
+  function render(text) {
+    var html = esc(text);
+    html = html.replace(/(https?:\/\/)?(www\.)?metodogh\.com\.br(\/[^\s)]*)?/gi, function (m) {
+      var href = /^https?:\/\//i.test(m) ? m : 'https://' + m.replace(/^www\./i, '');
+      return '<a href="' + href + '" target="_blank" rel="noopener">' + m + '</a>';
+    });
+    return html;
+  }
+
+  function scrollDown() { body.scrollTop = body.scrollHeight; }
+
+  function addMsg(text, who, isConsultoria) {
+    var d = document.createElement('div');
+    d.className = 'ghchat-msg ' + (who === 'user' ? 'user' : 'bot') + (isConsultoria ? ' consultoria' : '');
+    if (who === 'user') d.textContent = text;
+    else d.innerHTML = render(text);
+    body.appendChild(d);
+    scrollDown();
+  }
+
+  function showTyping() {
+    var t = document.createElement('div');
+    t.className = 'ghchat-typing'; t.id = 'ghchatTyping';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t); scrollDown();
+  }
+  function hideTyping() {
+    var t = document.getElementById('ghchatTyping');
+    if (t) t.remove();
+  }
+
+  function setBusy(b) {
+    busy = b; send.disabled = b; input.disabled = b;
+  }
+
+  function autoGrow() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 96) + 'px';
+  }
+
+  function openPanel() {
+    panel.classList.add('is-open');
+    fab.classList.add('is-open');
+    fab.setAttribute('aria-expanded', 'true');
+    if (!greeted) { addMsg(GREETING, 'bot'); greeted = true; }
+    setTimeout(function () { input.focus(); }, 240);
+  }
+  function closePanel() {
+    panel.classList.remove('is-open');
+    fab.classList.remove('is-open');
+    fab.setAttribute('aria-expanded', 'false');
+  }
+
+  async function enviar(msg) {
+    if (busy) return;
+    msg = (msg || '').trim();
+    if (!msg) return;
+
+    addMsg(msg, 'user');
+    input.value = ''; autoGrow();
+    var hist = historico.slice(-20);   // ~10 trocas
+    setBusy(true); showTyping();
+
+    var ctrl = new AbortController();
+    var to = setTimeout(function () { ctrl.abort(); }, 35000);
+    try {
+      var r = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensagem: msg, historico: hist }),
+        signal: ctrl.signal
+      });
+      clearTimeout(to);
+      var data = await r.json();
+      hideTyping();
+      var resp = (data && data.resposta) ? data.resposta : 'Deu um probleminha aqui. Tenta de novo daqui a pouco.';
+      addMsg(resp, 'bot', data && data.tipo === 'consultoria');
+      historico.push({ role: 'user', content: msg }, { role: 'assistant', content: resp });
+    } catch (e) {
+      clearTimeout(to); hideTyping();
+      addMsg('Tô sem conexão com o assistente agora. Confere tua internet e tenta de novo em instantes. Se for sobre acesso, dá uma olhada na caixa de SPAM do e-mail da compra.', 'bot');
+    } finally {
+      setBusy(false);
+      input.focus();
+    }
+  }
+
+  fab.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  form.addEventListener('submit', function (e) { e.preventDefault(); enviar(input.value); });
+  input.addEventListener('input', autoGrow);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(input.value); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+  });
+})();
 </script>
 </body>
 </html>
