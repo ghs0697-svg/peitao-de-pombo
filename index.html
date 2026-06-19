@@ -513,29 +513,17 @@
   .hidden { display: none !important; }
   .empty { text-align: center; color: var(--text-mute); padding: 40px 20px; font-size: 14px; }
 
-  /* ════════ VSL Método GH (abaixo do upsell de consultoria) ════════ */
-  .vsl-mgh {
-    margin: 12px 0 2px; padding: 14px 14px 16px;
-    background: var(--card); border: 1px solid var(--gold);
-    border-radius: 16px; text-align: center;
-  }
+  /* ════════ VSL Método GH (dentro do card de consultoria) ════════ */
   .vsl-label {
     font-size: 12px; font-weight: 800; color: var(--gold);
-    letter-spacing: .4px; text-transform: uppercase; margin-bottom: 10px;
+    letter-spacing: .4px; text-transform: uppercase; text-align: center;
+    margin: 16px 0 10px;
   }
   .vsl-video {
     width: 100%; max-width: 300px; aspect-ratio: 9 / 16;
-    border-radius: 12px; background: #000; display: block; margin: 0 auto;
+    border-radius: 12px; background: #000; display: block; margin: 0 auto 14px;
     box-shadow: 0 8px 28px rgba(0,0,0,.5);
   }
-  .vsl-cta {
-    display: block; max-width: 300px; margin: 12px auto 0;
-    background: linear-gradient(135deg, var(--gold) 0%, #C99A2E 100%);
-    color: #1A1206; font-weight: 800; font-size: 14px; letter-spacing: .3px;
-    text-transform: uppercase; padding: 13px 14px; border-radius: 12px;
-    text-decoration: none; box-shadow: 0 6px 20px rgba(232,184,75,.28);
-  }
-  .vsl-cta:active { filter: brightness(.94); }
 
   /* ════════ Assistente do app (chat) ════════ */
   #installBtn.install-fab { bottom: calc(88px + var(--safe-bottom)); }
@@ -1452,16 +1440,13 @@ function renderUpsells() {
         <div class="mgh-sub">${u.sub}</div>
         <ul class="mgh-bullets">${u.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
         ${priceBlock(u)}
-        <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
-      </div>
-      ${u.id === 'consultoria' ? `
-      <div class="vsl-mgh">
+        ${u.id === 'consultoria' ? `
         <div class="vsl-label">Por que migrar pro Método GH</div>
         <video class="vsl-video" controls playsinline preload="none" poster="assets/vsl-poster.jpg">
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
-        </video>
-        <a class="vsl-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
-      </div>` : ''}
+        </video>` : ''}
+        <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
+      </div>
     `).join('');
 }
 
