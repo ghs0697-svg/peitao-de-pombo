@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  @page { size: 210mm 297mm; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0A0908; --bg2: #12100E; --card: #1F1B17; --border: #2C2620; --border-hi: #3A322A;
+    --tx: #F4F6F4; --dim: #9AA19C; --mute: #5C615D;
+    --or: #FF6A1A; --or-hi: #FF8C42; --or-soft: rgba(255,106,26,.12); --or-bd: rgba(255,106,26,.34);
+    --ok: #2DD881; --gold: #E8B84B;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--tx); }
+  .page {
+    width: 210mm; height: 296mm; page-break-after: always; position: relative; overflow: hidden;
+    background: var(--bg); padding: 18mm 16mm 20mm; display: flex; flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+  /* régua decorativa nas bordas */
+  .page::before, .page::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 4mm; opacity: .35;
+    background-image: repeating-linear-gradient(90deg, var(--mute) 0 .4mm, transparent .4mm 5mm);
+  }
+  .page::before { top: 0; } .page::after { bottom: 0; }
+  .brand { position: absolute; bottom: 7mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--mute); font-weight: 700; letter-spacing: .5px; }
+  .brand b { color: var(--or); }
+  .kick { display: inline-block; font-size: 9pt; font-weight: 800; letter-spacing: 2px; color: var(--or-hi); text-transform: uppercase; border: 1px solid var(--or-bd); background: var(--or-soft); border-radius: 6px; padding: 2mm 4mm; margin-bottom: 6mm; }
+  h1 { font-size: 34pt; font-weight: 900; line-height: 1.02; text-transform: uppercase; letter-spacing: -.5px; }
+  h1 span { color: var(--or); }
+  h2 { font-size: 19pt; font-weight: 900; text-transform: uppercase; margin-bottom: 6mm; line-height: 1.1; }
+  h2 span { color: var(--or); }
+  .sub { font-size: 12pt; color: var(--dim); line-height: 1.45; margin-top: 5mm; max-width: 150mm; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 5mm; padding: 6mm; }
+  .rule { height: 1.2mm; width: 42mm; background: linear-gradient(90deg, var(--or), var(--or-hi)); border-radius: 2mm; margin: 7mm 0; }
+  .alert { background: linear-gradient(135deg, var(--or) 0%, #E2540A 100%); color: #1A0A00; font-weight: 800; border-radius: 4mm; padding: 4.5mm 6mm; font-size: 11.5pt; }
+  .alert.dark { background: var(--or-soft); border: 1.5px solid var(--or-bd); color: var(--or-hi); }
+  .grid3 { display: flex; gap: 5mm; }
+  .grid3 > div { flex: 1; }
+  .tag { font-size: 8.5pt; font-weight: 800; letter-spacing: 1.5px; color: var(--or-hi); text-transform: uppercase; margin-bottom: 2.5mm; }
+  .big { font-size: 15pt; font-weight: 900; text-transform: uppercase; }
+  .txt { font-size: 10.5pt; color: var(--dim); line-height: 1.5; }
+  .txt b { color: var(--tx); }
+  .num { font-size: 26pt; font-weight: 900; color: var(--or); width: 14mm; flex-shrink: 0; text-align: center; }
+  .law { display: flex; align-items: center; gap: 5mm; background: var(--card); border: 1px solid var(--border); border-radius: 4mm; padding: 4.5mm 5mm; margin-bottom: 4mm; }
+  .law .big { font-size: 12.5pt; margin-bottom: 1mm; }
+  .law.danger { border-color: var(--or-bd); background: var(--or-soft); }
+  .law.danger .num { color: var(--or-hi); }
+  .check { display: flex; align-items: center; gap: 4mm; padding: 4.5mm 0; border-bottom: 1px dashed var(--border-hi); }
+  .check:last-child { border-bottom: none; }
+  .box { width: 6.5mm; height: 6.5mm; border: 2px solid var(--or); border-radius: 2mm; flex-shrink: 0; }
+  .fill { border-bottom: 2px dotted var(--mute); display: inline-block; min-width: 26mm; }
+  .foot-note { margin-top: auto; font-size: 9.5pt; color: var(--mute); line-height: 1.5; }
+  .foot-note b { color: var(--or-hi); }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+  th { text-align: left; font-size: 8.5pt; letter-spacing: 1.5px; text-transform: uppercase; color: var(--or-hi); padding: 3mm 4mm; border-bottom: 2px solid var(--or-bd); }
+  td { padding: 4mm; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+  td b { color: var(--tx); }
+  .pill { display: inline-block; background: var(--or-soft); border: 1px solid var(--or-bd); color: var(--or-hi); font-weight: 800; font-size: 9pt; border-radius: 10mm; padding: 1.5mm 4mm; }
+  .fase-bar { display: flex; gap: 3mm; align-items: flex-end; height: 52mm; margin: 8mm 0 4mm; }
+  .fase-bar .bar { flex: 1; border-radius: 2.5mm 2.5mm 0 0; background: linear-gradient(180deg, var(--or-hi), var(--or)); }
+  .fase-bar .bar.g { background: var(--border-hi); }
+  .weekcap { display: flex; gap: 3mm; font-size: 8.5pt; color: var(--mute); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+  .weekcap span { flex: 1; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ═══ PÁG 1: CAPA ═══ -->
+<div class="page" style="justify-content: center; align-items: flex-start;">
+  <div class="kick">Peitão de Pombo · Material oficial</div>
+  <h1>Engenharia<br>do <span>Peito</span></h1>
+  <div class="rule"></div>
+  <div class="sub" style="font-size: 14pt;">O manual de <b style="color:var(--tx)">4 semanas</b> pra reconstruir teu peitoral: uma fase por semana, uma regra por fase, zero achismo.</div>
+  <div style="margin-top: 14mm;" class="card">
+    <table style="font-size: 11pt;">
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Status</td><td style="border:none; padding: 2mm 0;"><b>Ativo</b></td></tr>
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Duração</td><td style="border:none; padding: 2mm 0;"><b>4 semanas por ciclo (repete até fechar as 12 do protocolo)</b></td></tr>
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Fases</td><td style="border:none; padding: 2mm 0;"><b>3 + 1 de integração: Esticar, Contrair, Sustentar, Integrar</b></td></tr>
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Registro</td><td style="border:none; padding: 2mm 0;"><b>cargas anotadas direto no app: app.peitaodepombo.com.br</b></td></tr>
+    </table>
+  </div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>MÉTODO GH · @gh.scheuermann</span></div>
+</div>
+
+<!-- ═══ PÁG 2: ARQUITETURA ═══ -->
+<div class="page">
+  <h2>A arquitetura da <span>hipertrofia</span></h2>
+  <div class="txt" style="margin-bottom: 7mm;">O peito cresce por 3 caminhos diferentes. Cada fase da Engenharia ataca um deles:</div>
+  <table>
+    <tr><th style="width:22%"></th><th>Fase 1 (Esticar)</th><th>Fase 2 (Contrair)</th><th>Fase 3 (Sustentar)</th></tr>
+    <tr><td><b>Alvo</b></td><td><b>Fibra alongada</b><br>(onde o peito CRESCE)</td><td><b>Fibra encurtada</b><br>(densidade do peitoral)</td><td><b>Espessura estrutural</b></td></tr>
+    <tr><td><b>Mecânica</b></td><td>Extensão máxima sob carga pesada.</td><td>Esmagamento absoluto no pico concêntrico.</td><td>Tempo contínuo embaixo de tensão.</td></tr>
+    <tr><td><b>Regra de ouro</b></td><td><span class="pill">3s de descida</span><br><br>Controle excêntrico extremo.</td><td><span class="pill">1 a 2s no pico</span><br><br>Isometria cravada.</td><td><span class="pill">Falha total</span><br><br>Absoluta na última série.</td></tr>
+  </table>
+  <div class="alert dark" style="margin-top: 8mm;">A Semana 4 integra as 3 fases num único estímulo de choque. É aí que o peito entende o recado.</div>
+  <div class="foot-note">Uma fase por semana. Não mistura, não pula, não inventa.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 2/8</span></div>
+</div>
+
+<!-- ═══ PÁG 3: CALIBRAÇÃO ═══ -->
+<div class="page">
+  <h2>Calibração <span>inicial</span></h2>
+  <div class="txt" style="margin-bottom: 7mm; font-size: 12pt;">Se tu não pode medir, não pode melhorar. Antes da Semana 1, registra os 3 dados de base:</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="tag">Dado 1</div>
+      <div class="big" style="margin-bottom: 3mm;">Foto de lado</div>
+      <div class="txt">Iluminação consistente. Braços relaxados ao lado do corpo.</div>
+    </div>
+    <div class="card">
+      <div class="tag">Dado 2</div>
+      <div class="big" style="margin-bottom: 3mm;">Camiseta-régua</div>
+      <div class="txt">Foto de frente usando uma <b>camiseta justa</b> pra marcar a expansão do volume no tecido.</div>
+    </div>
+    <div class="card">
+      <div class="tag">Dado 3</div>
+      <div class="big" style="margin-bottom: 3mm;">Circunferência</div>
+      <div class="txt">Medida exata na <b>linha dos mamilos</b>. Anota o valor milimetricamente.</div>
+    </div>
+  </div>
+  <div class="alert" style="margin-top: 8mm;">A REGRA: MARCA A RÉGUA. Não inicia a Semana 1 sem estes três dados registrados.</div>
+  <div class="card" style="margin-top: 6mm; border-color: var(--or-bd);">
+    <div class="tag">Como registrar</div>
+    <div class="txt" style="font-size: 11.5pt;">O protocolo completo de medição tá no material <b>Régua do Peito</b>. O registro semanal (fotos feitas + centímetros) tu marca na seção <b>Régua do Peito</b> do app.</div>
+  </div>
+  <div class="foot-note">Calibrou? Agora sim: Semana 1.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 3/8</span></div>
+</div>
+
+<!-- ═══ PÁG 4: SEMANA 1 ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semana 1: <span>Esticar</span></h2>
+    <div class="pill">FASE 1</div>
+  </div>
+  <div class="txt" style="margin-bottom: 6mm; font-size: 12pt;"><b>Objetivo:</b> ativar a fibra alongada (onde o peito CRESCE).</div>
+  <table>
+    <tr><th>Foco da semana</th><th style="width: 24%;">Séries x Reps</th><th>Execução</th></tr>
+    <tr><td><b>Crucifixo inclinado</b></td><td>4x 8 a 12</td><td>Alongamento total na descida.</td></tr>
+    <tr><td><b>Supino inclinado com halteres</b></td><td>4x piramidal</td><td>Progressão de carga pesada.</td></tr>
+    <tr><td><b>Cross alto pra baixo</b></td><td>3x 12 a 15</td><td>Sente a abertura máxima da fibra.</td></tr>
+  </table>
+  <div class="alert" style="margin-top: 8mm;">REGRA ÚNICA: na descida, conta 3 segundos. Nunca encosta um halter no outro na contração. Mantém a tensão.</div>
+  <div class="foot-note">Anota carga e reps de cada série na grade <b>Progressão de carga</b> do app. É ela que prova tua evolução.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 4/8</span></div>
+</div>
+
+<!-- ═══ PÁG 5: SEMANA 2 ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semana 2: <span>Contrair</span></h2>
+    <div class="pill">FASE 2</div>
+  </div>
+  <div class="txt" style="margin-bottom: 6mm; font-size: 12pt;"><b>Objetivo:</b> ativar a fibra encurtada (densidade do peitoral).</div>
+  <table>
+    <tr><th>Foco da semana</th><th style="width: 24%;">Séries x Reps</th><th>Execução</th></tr>
+    <tr><td><b>Cross médio</b></td><td>4x 12 a 15</td><td>Isometria de 1s no pico.</td></tr>
+    <tr><td><b>Supino reto na máquina</b></td><td>4x 8 a 12</td><td>Foco em contração pura.</td></tr>
+    <tr><td><b>Voador</b></td><td>4x 12 a 15</td><td>Isometria de 2s no pico de tensão.</td></tr>
+  </table>
+  <div class="alert" style="margin-top: 8mm;">REGRA ÚNICA: em cada repetição, segura 1 segundo no pico. Esmaga o peito de forma absoluta.</div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="check" style="border:none;"><div class="box"></div><div class="txt">Fotos e medidas da semana mantidas (Régua do Peito, no app).</div></div>
+  </div>
+  <div class="foot-note">O pump dessa semana engana o espelho. Por isso a régua existe.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 5/8</span></div>
+</div>
+
+<!-- ═══ PÁG 6: SEMANA 3 ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semana 3: <span>Sustentar</span></h2>
+    <div class="pill">FASE 3</div>
+  </div>
+  <div class="txt" style="margin-bottom: 6mm; font-size: 12pt;"><b>Objetivo:</b> tempo embaixo de tensão pesada (forjar espessura).</div>
+  <table>
+    <tr><th>Foco da semana</th><th style="width: 24%;">Séries x Reps</th><th>Execução</th></tr>
+    <tr><td><b>Supino inclinado com halteres</b></td><td>4x 6 a 10</td><td>Carga PESADA, descida controlada de 3s.</td></tr>
+    <tr><td><b>Crucifixo no banco</b></td><td>3x até a falha</td><td>Adiciona drop set de 30% na última série.</td></tr>
+    <tr><td><b>Cross alto</b></td><td>3x 10</td><td>Isometria final sustentada por 10s.</td></tr>
+  </table>
+  <div class="alert" style="margin-top: 8mm;">REGRA ÚNICA: a última série de cada exercício exige falha total e absoluta. Anota a carga na grade do app.</div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="check" style="border:none;"><div class="box"></div><div class="txt">Cargas registradas no app (kg ou placa + reps, série por série).</div></div>
+  </div>
+  <div class="foot-note">Falha de verdade é quando a barra não sobe. Desconforto não é falha.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 6/8</span></div>
+</div>
+
+<!-- ═══ PÁG 7: SEMANA 4 ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semana 4: <span>Integrar</span></h2>
+    <div class="pill">CHOQUE</div>
+  </div>
+  <div class="txt" style="margin-bottom: 6mm; font-size: 12pt;"><b>Objetivo:</b> a convergência das 3 fases em um único estímulo de choque.</div>
+  <table>
+    <tr><th>Exercício</th><th style="width: 34%;">Fase de origem</th></tr>
+    <tr><td><b>Crucifixo inclinado</b></td><td><span class="pill">Fase 1: Esticar</span></td></tr>
+    <tr><td><b>Supino inclinado com halteres</b></td><td><span class="pill">Fase 2: Contrair</span></td></tr>
+    <tr><td><b>Cross alto</b></td><td><span class="pill">Fase 1: Esticar</span></td></tr>
+    <tr><td><b>Voador</b></td><td><span class="pill">Fase 2: Contrair</span></td></tr>
+    <tr><td><b>Supino reto na máquina</b></td><td><span class="pill">Fase 3: Sustentar</span></td></tr>
+  </table>
+  <div class="card" style="margin-top: 7mm; border-color: var(--or-bd);">
+    <div class="tag">A cadência integrada (1-1-3)</div>
+    <div class="txt" style="font-size: 11.5pt;"><b>Subida: 1s</b> · <b>Pico: 1s</b> · <b>Descida: 3s</b>. Cada repetição, do primeiro ao último exercício.</div>
+  </div>
+  <div class="alert" style="margin-top: 6mm;">REGRA ÚNICA: cada exercício respeita sua fase de origem. Impõe a cadência 1-1-3 rigorosamente.</div>
+  <div class="foot-note">Fecha a semana preparando as fotos finais da Régua.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 7/8</span></div>
+</div>
+
+<!-- ═══ PÁG 8: AUDITORIA ═══ -->
+<div class="page">
+  <h2>A auditoria <span>final</span></h2>
+  <div class="txt" style="margin-bottom: 7mm; font-size: 12pt;">O veredito de 4 semanas. A matemática não mente.</div>
+  <div style="display: flex; gap: 5mm;">
+    <div class="card" style="flex: 1;">
+      <div class="tag">O inventário métrico</div>
+      <div class="check"><div class="box"></div><div class="txt"><b>4 fotos de lado</b> (comparadas).</div></div>
+      <div class="check"><div class="box"></div><div class="txt"><b>4 fotos de frente</b> com camiseta-régua (comparadas).</div></div>
+      <div class="check"><div class="box"></div><div class="txt"><b>4 medidas</b> de circunferência (comparadas).</div></div>
+    </div>
+  </div>
+  <div style="margin-top: 6mm;">
+    <div class="law"><div class="num" style="font-size: 16pt;">A</div><div><div class="big">Diferença visível clara?</div><div class="txt"><b>Repete o protocolo</b> subindo as cargas entre 5 e 10%.</div></div></div>
+    <div class="law"><div class="num" style="font-size: 16pt;">B</div><div><div class="big">Diferença sutil?</div><div class="txt"><b>Mantém o protocolo.</b> Repete sem mudar nada: tua fibra ainda está em adaptação.</div></div></div>
+    <div class="law danger"><div class="num" style="font-size: 16pt;">C</div><div><div class="big" style="color: var(--or-hi);">Zero diferença?</div><div class="txt"><b>Intervenção:</b> revê a execução nos vídeos instrutivos do app e tira tuas dúvidas com o <b>Assistente Pombo</b>, o chat dentro do próprio app. Provavelmente é pegada ou ângulo.</div></div></div>
+  </div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="tag">Quer o próximo nível?</div>
+    <div class="txt" style="font-size: 11.5pt;">Peito é o cartão de visita, mas corpo bom é conjunto. Treino completo, dieta e acompanhamento individual: <b>consultoria Método GH</b> em metodogh.com.br</div>
+  </div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>ENGENHARIA DO PEITO · 8/8</span></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  @page { size: 210mm 297mm; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0A0908; --bg2: #12100E; --card: #1F1B17; --border: #2C2620; --border-hi: #3A322A;
+    --tx: #F4F6F4; --dim: #9AA19C; --mute: #5C615D;
+    --or: #FF6A1A; --or-hi: #FF8C42; --or-soft: rgba(255,106,26,.12); --or-bd: rgba(255,106,26,.34);
+    --ok: #2DD881; --gold: #E8B84B;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--tx); }
+  .page {
+    width: 210mm; height: 296mm; page-break-after: always; position: relative; overflow: hidden;
+    background: var(--bg); padding: 18mm 16mm 20mm; display: flex; flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+  /* régua decorativa nas bordas */
+  .page::before, .page::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 4mm; opacity: .35;
+    background-image: repeating-linear-gradient(90deg, var(--mute) 0 .4mm, transparent .4mm 5mm);
+  }
+  .page::before { top: 0; } .page::after { bottom: 0; }
+  .brand { position: absolute; bottom: 7mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--mute); font-weight: 700; letter-spacing: .5px; }
+  .brand b { color: var(--or); }
+  .kick { display: inline-block; font-size: 9pt; font-weight: 800; letter-spacing: 2px; color: var(--or-hi); text-transform: uppercase; border: 1px solid var(--or-bd); background: var(--or-soft); border-radius: 6px; padding: 2mm 4mm; margin-bottom: 6mm; }
+  h1 { font-size: 34pt; font-weight: 900; line-height: 1.02; text-transform: uppercase; letter-spacing: -.5px; }
+  h1 span { color: var(--or); }
+  h2 { font-size: 19pt; font-weight: 900; text-transform: uppercase; margin-bottom: 6mm; line-height: 1.1; }
+  h2 span { color: var(--or); }
+  .sub { font-size: 12pt; color: var(--dim); line-height: 1.45; margin-top: 5mm; max-width: 150mm; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 5mm; padding: 6mm; }
+  .rule { height: 1.2mm; width: 42mm; background: linear-gradient(90deg, var(--or), var(--or-hi)); border-radius: 2mm; margin: 7mm 0; }
+  .alert { background: linear-gradient(135deg, var(--or) 0%, #E2540A 100%); color: #1A0A00; font-weight: 800; border-radius: 4mm; padding: 4.5mm 6mm; font-size: 11.5pt; }
+  .alert.dark { background: var(--or-soft); border: 1.5px solid var(--or-bd); color: var(--or-hi); }
+  .grid3 { display: flex; gap: 5mm; }
+  .grid3 > div { flex: 1; }
+  .tag { font-size: 8.5pt; font-weight: 800; letter-spacing: 1.5px; color: var(--or-hi); text-transform: uppercase; margin-bottom: 2.5mm; }
+  .big { font-size: 15pt; font-weight: 900; text-transform: uppercase; }
+  .txt { font-size: 10.5pt; color: var(--dim); line-height: 1.5; }
+  .txt b { color: var(--tx); }
+  .num { font-size: 26pt; font-weight: 900; color: var(--or); width: 14mm; flex-shrink: 0; text-align: center; }
+  .law { display: flex; align-items: center; gap: 5mm; background: var(--card); border: 1px solid var(--border); border-radius: 4mm; padding: 4.5mm 5mm; margin-bottom: 4mm; }
+  .law .big { font-size: 12.5pt; margin-bottom: 1mm; }
+  .law.danger { border-color: var(--or-bd); background: var(--or-soft); }
+  .law.danger .num { color: var(--or-hi); }
+  .check { display: flex; align-items: center; gap: 4mm; padding: 4.5mm 0; border-bottom: 1px dashed var(--border-hi); }
+  .check:last-child { border-bottom: none; }
+  .box { width: 6.5mm; height: 6.5mm; border: 2px solid var(--or); border-radius: 2mm; flex-shrink: 0; }
+  .fill { border-bottom: 2px dotted var(--mute); display: inline-block; min-width: 26mm; }
+  .foot-note { margin-top: auto; font-size: 9.5pt; color: var(--mute); line-height: 1.5; }
+  .foot-note b { color: var(--or-hi); }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+  th { text-align: left; font-size: 8.5pt; letter-spacing: 1.5px; text-transform: uppercase; color: var(--or-hi); padding: 3mm 4mm; border-bottom: 2px solid var(--or-bd); }
+  td { padding: 4mm; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+  td b { color: var(--tx); }
+  .pill { display: inline-block; background: var(--or-soft); border: 1px solid var(--or-bd); color: var(--or-hi); font-weight: 800; font-size: 9pt; border-radius: 10mm; padding: 1.5mm 4mm; }
+  .fase-bar { display: flex; gap: 3mm; align-items: flex-end; height: 52mm; margin: 8mm 0 4mm; }
+  .fase-bar .bar { flex: 1; border-radius: 2.5mm 2.5mm 0 0; background: linear-gradient(180deg, var(--or-hi), var(--or)); }
+  .fase-bar .bar.g { background: var(--border-hi); }
+  .weekcap { display: flex; gap: 3mm; font-size: 8.5pt; color: var(--mute); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+  .weekcap span { flex: 1; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ═══ PÁG 1: CAPA ═══ -->
+<div class="page" style="justify-content: center; align-items: flex-start;">
+  <div class="kick">Peitão de Pombo · Material oficial</div>
+  <h1>Régua<br>do <span>Peito</span></h1>
+  <div class="rule"></div>
+  <div class="sub" style="font-size: 14pt;">O protocolo de <b style="color:var(--tx)">4 semanas</b> pra medir teu peito do jeito certo e provar, com dados, que ele tá crescendo.</div>
+  <div style="margin-top: 14mm;" class="card">
+    <table style="font-size: 11pt;">
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Duração</td><td style="border:none; padding: 2mm 0;"><b>4 semanas por ciclo (repete até fechar as 12 do protocolo)</b></td></tr>
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Ferramentas</td><td style="border:none; padding: 2mm 0;"><b>1 camiseta justa, 1 fita métrica, teu celular</b></td></tr>
+      <tr><td style="border:none; padding: 2mm 6mm 2mm 0; color: var(--mute); font-weight: 800; text-transform: uppercase; font-size: 9pt;">Registro</td><td style="border:none; padding: 2mm 0;"><b>direto no app: app.peitaodepombo.com.br</b></td></tr>
+    </table>
+  </div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>MÉTODO GH · @gh.scheuermann</span></div>
+</div>
+
+<!-- ═══ PÁG 2: O PARADOXO ═══ -->
+<div class="page">
+  <h2>O paradoxo da <span>avaliação</span></h2>
+  <div class="txt" style="margin-bottom: 7mm;">Todo mundo quer saber se o peito tá crescendo. Quase ninguém sabe medir. Os dois jeitos mais usados são os dois que mais mentem:</div>
+  <div class="grid3">
+    <div class="card" style="opacity:.66;">
+      <div class="tag" style="color: var(--mute);">O espelho</div>
+      <div class="big" style="margin-bottom: 3mm;">Engana.</div>
+      <div class="txt">A luz muda, o pump mascara a realidade e a tua percepção falha. Tu te vê todo dia, então não enxerga a evolução.</div>
+    </div>
+    <div class="card" style="opacity:.66;">
+      <div class="tag" style="color: var(--mute);">A balança</div>
+      <div class="big" style="margin-bottom: 3mm;">Opina.</div>
+      <div class="txt">Não diferencia músculo, retenção de água e gordura. É só um palpite numérico sobre o corpo inteiro.</div>
+    </div>
+    <div class="card" style="border-color: var(--or); border-width: 2px; box-shadow: 0 0 0 1mm var(--or-soft);">
+      <div class="tag">A camiseta justa</div>
+      <div class="big" style="margin-bottom: 3mm; color: var(--or-hi);">Diz a verdade.</div>
+      <div class="txt">A <b>camiseta-régua</b> é o juiz final. O tecido não estica por vaidade: ou o peito preenche mais, ou não preenche.</div>
+    </div>
+  </div>
+  <div style="margin-top: 8mm;" class="alert">A régua deste protocolo é física: a MESMA camiseta justa, medida após medida. O resto é ruído.</div>
+  <div class="foot-note">Nas próximas páginas: os 3 pilares da medição, as 5 leis, e as fichas de cada semana.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 2/9</span></div>
+</div>
+
+<!-- ═══ PÁG 3: 3 PILARES ═══ -->
+<div class="page">
+  <h2>Os 3 pilares da <span>medição</span></h2>
+  <div class="alert" style="margin-bottom: 8mm;">EXECUÇÃO: toda segunda-feira de manhã, em jejum. Sem exceção.</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="tag">Pilar 1</div>
+      <div class="big" style="margin-bottom: 3mm;">Foto de frente</div>
+      <div class="txt">Vestindo <b>exclusivamente a camiseta-régua</b>. Braços relaxados ao lado do corpo, iluminação consistente.</div>
+    </div>
+    <div class="card">
+      <div class="tag">Pilar 2</div>
+      <div class="big" style="margin-bottom: 3mm;">Foto de lado</div>
+      <div class="txt">Posição de perfil, capturada em frente a um <b>espelho ou parede branca</b>. Sempre o mesmo lado.</div>
+    </div>
+    <div class="card">
+      <div class="tag">Pilar 3</div>
+      <div class="big" style="margin-bottom: 3mm;">Circunferência</div>
+      <div class="txt">Fita métrica posicionada <b>exatamente na linha dos mamilos</b>. Registro em centímetros.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top: 8mm; border-color: var(--or-bd);">
+    <div class="tag">Onde anotar</div>
+    <div class="txt" style="font-size: 11.5pt;">Abre o app (<b>app.peitaodepombo.com.br</b>), aba <b>PEITO</b>, seção <b>Régua do Peito</b>: marca as fotos feitas e digita os centímetros da semana. Fica salvo na tua conta, com o histórico inteiro.</div>
+  </div>
+  <div class="foot-note">As fotos ficam no teu celular. O que vai pro app é o checklist e a medida, pra calcular tua evolução sozinho.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 3/9</span></div>
+</div>
+
+<!-- ═══ PÁG 4: 5 LEIS ═══ -->
+<div class="page">
+  <h2>As 5 leis <span>imutáveis</span> da régua</h2>
+  <div class="txt" style="margin-bottom: 7mm;">Medição só serve se for comparável. Essas 5 leis garantem isso:</div>
+  <div class="law"><div class="num">1</div><div><div class="big">Sempre a mesma armadura.</div><div class="txt">A exata mesma camiseta-régua justa em todas as medições.</div></div></div>
+  <div class="law"><div class="num">2</div><div><div class="big">Sempre o mesmo relógio.</div><div class="txt">Segunda-feira, de manhã, em jejum. O corpo muda ao longo do dia; a medição não pode.</div></div></div>
+  <div class="law"><div class="num">3</div><div><div class="big">Sempre a mesma base.</div><div class="txt">Postura 100% relaxada, ombros em posição normal. Nada de inflar.</div></div></div>
+  <div class="law"><div class="num">4</div><div><div class="big">Sempre o mesmo vetor.</div><div class="txt">O mesmo lado exato para a fotografia de perfil, sempre.</div></div></div>
+  <div class="law danger"><div class="num">5</div><div><div class="big" style="color: var(--or-hi);">Nunca contraia o peitoral.</div><div class="txt">O objetivo é capturar teu estado real, não a tua melhor pose. Pose engana até a régua.</div></div></div>
+  <div class="foot-note">Quebrou uma lei? A medição da semana não vale. Repete no dia seguinte, nas mesmas condições.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 4/9</span></div>
+</div>
+
+<!-- ═══ PÁG 5: ESCALADA ═══ -->
+<div class="page">
+  <h2>A escalada de <span>4 semanas</span></h2>
+  <div class="txt">Cada ciclo da régua tem 3 momentos. Tu vai repetir esse ciclo 3 vezes dentro das 12 semanas do Peitão.</div>
+  <div class="fase-bar">
+    <div class="bar g" style="height: 22%;"></div>
+    <div class="bar" style="height: 45%; opacity:.75;"></div>
+    <div class="bar" style="height: 66%; opacity:.85;"></div>
+    <div class="bar" style="height: 88%;"></div>
+  </div>
+  <div class="weekcap"><span>Semana 1</span><span>Semana 2</span><span>Semana 3</span><span>Semana 4</span></div>
+  <div style="margin-top: 8mm;">
+    <div class="law"><div class="pill" style="width: 30mm; text-align:center; flex-shrink:0;">SEMANA 1</div><div><div class="big">O ponto zero.</div><div class="txt">Coleta de dados base. Sem julgamento, só registro.</div></div></div>
+    <div class="law"><div class="pill" style="width: 30mm; text-align:center; flex-shrink:0;">SEMANAS 2 E 3</div><div><div class="big">Rastreamento.</div><div class="txt">Busca ativa pelo delta de crescimento: fotos comparadas + centímetros.</div></div></div>
+    <div class="law"><div class="pill" style="width: 30mm; text-align:center; flex-shrink:0;">SEMANA 4</div><div><div class="big">O veredito.</div><div class="txt">Decisão estratégica pro próximo ciclo, baseada em dados, não em achismo.</div></div></div>
+  </div>
+  <div class="foot-note">O treino continua normal durante o ciclo inteiro. A régua mede; quem constrói é o treino.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 5/9</span></div>
+</div>
+
+<!-- ═══ PÁG 6: FICHA SEMANA 1 ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semana 1: <span>o ponto zero</span></h2>
+    <div class="pill">DATA: ___ / ___</div>
+  </div>
+  <div class="card" style="margin-top: 4mm;">
+    <div class="check"><div class="box"></div><div class="txt" style="font-size: 12pt;"><b>Foto de lado</b> (fundo limpo: parede branca ou espelho).</div></div>
+    <div class="check"><div class="box"></div><div class="txt" style="font-size: 12pt;"><b>Foto de frente</b> (equipado com a camiseta-régua).</div></div>
+    <div class="check"><div class="box"></div><div class="txt" style="font-size: 12pt;"><b>Circunferência do peitoral</b> (linha dos mamilos): <span class="fill"></span> cm.</div></div>
+  </div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="tag">Observação de baseline</div>
+    <div style="height: 30mm; border-bottom: 1px dashed var(--border-hi);"></div>
+  </div>
+  <div class="alert dark" style="margin-top: 7mm;">Esses 3 dados são tua linha de partida. Sem eles, nenhuma comparação futura vale. Não inicia a Semana 2 sem os 3 registrados.</div>
+  <div class="foot-note">Preferes digital? Registra tudo na seção <b>Régua do Peito</b> do app e deixa essa ficha como backup.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 6/9</span></div>
+</div>
+
+<!-- ═══ PÁG 7: ALVOS VISUAIS ═══ -->
+<div class="page">
+  <h2>Semanas 2 e 3: <span>mapa de alvos visuais</span></h2>
+  <div class="txt" style="margin-bottom: 7mm;">Ao comparar as fotos com a Semana 1, tu procura por 3 alvos específicos:</div>
+  <div class="law"><div class="num" style="font-size: 15pt;">◎</div><div><div class="big">Borda superior</div><div class="txt">A linha de transição pra clavícula tá mais densa e marcada?</div></div></div>
+  <div class="law"><div class="num" style="font-size: 15pt;">◎</div><div><div class="big">Largura total</div><div class="txt">O volume lateral preenche de forma mais agressiva a camiseta-régua?</div></div></div>
+  <div class="law"><div class="num" style="font-size: 15pt;">◎</div><div><div class="big">Projeção lateral</div><div class="txt">Na foto de perfil, o peitoral avança mais no espaço?</div></div></div>
+  <div class="card" style="margin-top: 8mm; border-color: var(--or-bd);">
+    <div class="txt" style="font-size: 11.5pt; text-align: center;">Se ainda não houver diferença visível: <b>o protocolo segue inalterado. Mantém a disciplina.</b> Músculo não cresce em linha reta.</div>
+  </div>
+  <div class="foot-note">Compara sempre foto com foto da MESMA posição. Frente com frente, lado com lado.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 7/9</span></div>
+</div>
+
+<!-- ═══ PÁG 8: FICHA DELTA ═══ -->
+<div class="page">
+  <div style="display:flex; justify-content: space-between; align-items: baseline;">
+    <h2>Semanas 2 e 3: <span>rastreando o delta</span></h2>
+    <div class="pill">DATA: ___ / ___</div>
+  </div>
+  <div style="display: flex; gap: 5mm; margin-top: 4mm;">
+    <div class="card" style="flex: 1;">
+      <div class="tag">Verificação visual</div>
+      <div class="check"><div class="box"></div><div class="txt"><b>Foto de lado</b> (mesma posição da Semana 1).</div></div>
+      <div class="check"><div class="box"></div><div class="txt"><b>Foto de frente</b> (mesma camiseta-régua).</div></div>
+    </div>
+    <div class="card" style="flex: 1; border-color: var(--or-bd);">
+      <div class="tag">O delta matemático</div>
+      <div class="txt" style="margin-bottom: 4mm;">Nova circunferência: <span class="fill"></span> cm</div>
+      <div class="big" style="color: var(--or-hi);">Δ vs Semana 1:<br>+ <span class="fill" style="min-width: 18mm;"></span> cm</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="tag">Checklist de resultado visível</div>
+    <div style="display: flex; flex-wrap: wrap;">
+      <div class="check" style="width: 50%; border: none;"><div class="box"></div><div class="txt">Projeção lateral aumentou.</div></div>
+      <div class="check" style="width: 50%; border: none;"><div class="box"></div><div class="txt">Largura aumentou.</div></div>
+      <div class="check" style="width: 50%; border: none;"><div class="box"></div><div class="txt">Borda superior mais marcada.</div></div>
+      <div class="check" style="width: 50%; border: none;"><div class="box"></div><div class="txt">Sem diferença visível: segue o protocolo.</div></div>
+    </div>
+  </div>
+  <div class="foot-note">No app, o delta é calculado sozinho: digita os centímetros da semana e ele compara com a Semana 1 por ti.</div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 8/9</span></div>
+</div>
+
+<!-- ═══ PÁG 9: VEREDITO ═══ -->
+<div class="page">
+  <h2>Semana 4: <span>o veredito</span></h2>
+  <div class="txt" style="margin-bottom: 7mm;">Fecha o ciclo com os dados da Semana 4 coletados e decide o próximo passo pela matriz:</div>
+  <table>
+    <tr><th style="width: 34%;">Cenário</th><th>Decisão</th></tr>
+    <tr><td><b>Evolução clara</b><br>(delta positivo)</td><td><span class="pill">CONTINUA</span>&nbsp; Próximas 4 semanas adicionando <b>mais volume</b> de treino.</td></tr>
+    <tr><td><b>Evolução estagnada</b><br>(o corpo acostumou)</td><td><span class="pill">AJUSTA</span>&nbsp; Repete o protocolo elevando <b>5 a 10% mais carga</b>.</td></tr>
+    <tr><td><b>Sem diferença visível</b></td><td><span class="pill">REVISA</span>&nbsp; Ajusta pegada e ângulo de execução revendo os <b>vídeos instrutivos no app</b>, e tira tuas dúvidas com o <b>Assistente Pombo</b> (o chat dentro do próprio app).</td></tr>
+  </table>
+  <div class="alert" style="margin-top: 8mm;">A matemática não mente: mediu certo por 4 semanas, a decisão sai sozinha.</div>
+  <div class="card" style="margin-top: 6mm;">
+    <div class="tag">Quer o próximo nível?</div>
+    <div class="txt" style="font-size: 11.5pt;">O Peitão cuida do teu peito. Pra levar o corpo inteiro no mesmo padrão, com treino, dieta e acompanhamento individual, conhece a <b>consultoria Método GH</b>: metodogh.com.br</div>
+  </div>
+  <div class="brand"><span>PEITÃO DE <b>POMBO</b></span><span>RÉGUA DO PEITO · 9/9</span></div>
+</div>
+
+</body>
+</html>
