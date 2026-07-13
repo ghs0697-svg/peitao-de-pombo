@@ -1354,6 +1354,7 @@ function enterApp() {
   renderDieta();
   renderErgo();
   renderPept();
+  restoreSetsFromServer();   // backup de cargas: restaura da conta (aparelho novo) + sobe o que só existe local
   renderParceiros();
   startHeartbeat();
 }
@@ -1862,6 +1863,56 @@ function loadSets(ctxKey, idx, w) {
 function saveSets(ctxKey, idx, w, arr) {
   const clean = (arr || []).map(s => ({ kg: String(s.kg || '').trim(), pl: String(s.pl || '').trim(), reps: String(s.reps || '').trim() }));
   try { localStorage.setItem(setsKey(ctxKey, idx, w), JSON.stringify(clean)); } catch (e) {}
+  queueSetsSync(setsKey(ctxKey, idx, w), clean);
+}
+
+// ── Sync servidor (backup por conta; best-effort, offline não quebra nada) ──
+// Chave no servidor = chave local SEM o prefixo "peitao_sets_<email>_".
+function setsServerKey(localKey) { return localKey.replace('peitao_sets_' + setsEmail() + '_', ''); }
+let _syncTimers = {}, _syncPending = {};
+function queueSetsSync(localKey, sets) {
+  if (!state.user || !state.user.token) return;
+  const k = setsServerKey(localKey);
+  _syncPending[k] = sets;
+  clearTimeout(_syncTimers[k]);
+  _syncTimers[k] = setTimeout(async () => {
+    const payload = _syncPending[k]; delete _syncPending[k];
+    try {
+      await api('/api/sets', { method: 'POST', body: JSON.stringify({ key: k, sets: payload }) });
+    } catch (e) { /* offline/erro: fica no localStorage; re-tenta no próximo save */ }
+  }, 1200);
+}
+// Restore no login: baixa o snapshot da conta e semeia o localStorage
+// (só chaves que não existem localmente; o aparelho atual é a versão mais fresca).
+// Se o local tem carga que o servidor não tem (ex: rota acabou de nascer), sobe em bulk.
+async function restoreSetsFromServer() {
+  if (!state.user || !state.user.token) return;
+  try {
+    const r = await api('/api/sets');
+    if (!r || !r.ok || !r.sets) return;
+    const prefix = 'peitao_sets_' + setsEmail() + '_';
+    for (const k of Object.keys(r.sets)) {
+      const lk = prefix + k;
+      if (localStorage.getItem(lk) === null) {
+        try { localStorage.setItem(lk, JSON.stringify(r.sets[k])); } catch (e) {}
+      }
+    }
+    // upload do que só existe local (migração/primeira vez)
+    const missing = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const lk = localStorage.key(i);
+      if (lk && lk.startsWith(prefix)) {
+        const sk = lk.slice(prefix.length);
+        if (!(sk in r.sets)) { try { missing[sk] = JSON.parse(localStorage.getItem(lk)); } catch (e) {} }
+      }
+    }
+    if (Object.keys(missing).length) {
+      await api('/api/sets', { method: 'POST', body: JSON.stringify({ entries: missing }) }).catch(() => {});
+    }
+    // re-render pra grade refletir o que veio do servidor
+    if (state.tab === 'peito') renderPeito();
+    else if (state.tab === 'semana') renderSemana();
+  } catch (e) { /* silencioso */ }
 }
 function getPrevSets(ctxKey, idx, w) {
   for (let ww = w - 1; ww >= 1; ww--) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
