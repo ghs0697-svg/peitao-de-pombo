@@ -525,6 +525,47 @@
     box-shadow: 0 8px 28px rgba(0,0,0,.5);
   }
 
+  /* ════════ Progressão de carga: grade de séries (kg/placa/reps) ════════ */
+  .sets-wrap { margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--border); }
+  .sets-title { font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--accent-hi); margin-bottom: 8px; }
+  .sets-grid { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+  .set-head, .set-row { display: flex; align-items: center; gap: 6px; }
+  .set-head { padding: 0 2px; }
+  .set-head span { font-size: 9px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .4px; text-align: center; }
+  .set-head .sh-kg { width: 54px; } .set-head .sh-pl { width: 42px; } .set-head .sh-reps { width: 50px; }
+  .set-num { width: 18px; min-width: 18px; text-align: center; font-size: 12px; font-weight: 700; color: var(--text-mute); transition: color .2s; }
+  .set-in {
+    background: var(--bg-dark); border: 1px solid var(--border-light); border-radius: 8px;
+    color: var(--text); padding: 8px 4px; font-size: 15px; text-align: center; outline: none;
+    font-family: inherit; transition: border-color .2s, background .2s;
+  }
+  .set-in:focus { border-color: var(--accent); }
+  .set-in::placeholder { color: var(--text-mute); }
+  .set-in.set-kg { width: 54px; } .set-in.set-pl { width: 42px; } .set-in.set-reps { width: 50px; }
+  .set-in:not(:placeholder-shown) { border-color: var(--accent-border); background: var(--accent-soft); }
+  .set-row:has(.set-in:not(:placeholder-shown)) .set-num { color: var(--accent-hi); }
+  .set-prev { font-size: 10px; color: var(--text-dim); white-space: nowrap; margin-left: 2px; flex: 1; }
+  .set-del {
+    width: 20px; min-width: 20px; height: 26px; border: none; background: transparent;
+    color: var(--text-mute); font-size: 16px; line-height: 1; cursor: pointer; border-radius: 5px; padding: 0;
+  }
+  .set-del:active { color: var(--danger); background: rgba(255,59,48,.12); }
+  .set-add {
+    align-self: flex-start; margin-top: 4px; background: transparent; border: 1px dashed var(--accent-border);
+    color: var(--accent-hi); font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 8px;
+    cursor: pointer; font-family: inherit;
+  }
+  .set-add:active { background: var(--accent-soft); }
+
+  /* ════════ Seletor de semana (1-12) ════════ */
+  .wk-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 6px 0 14px; }
+  .wk-nav { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border-light); background: var(--surface); color: var(--text); font-size: 20px; line-height: 1; cursor: pointer; font-family: inherit; }
+  .wk-nav:disabled { opacity: .3; cursor: default; }
+  .wk-nav:not(:disabled):active { border-color: var(--accent); background: var(--accent-soft); }
+  .wk-label { font-size: 13px; font-weight: 700; color: var(--text-dim); }
+  .wk-label b { color: var(--text); font-size: 16px; }
+  .wk-now { font-size: 9px; font-weight: 800; color: var(--accent-hi); background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; margin-left: 5px; text-transform: uppercase; letter-spacing: .3px; }
+
   /* ════════ Assistente do app (chat) ════════ */
   #installBtn.install-fab { bottom: calc(88px + var(--safe-bottom)); }
 
@@ -1113,6 +1154,7 @@ let state = {
   ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
   daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
+  week: null,             // semana atual do protocolo 1-12 (null = ainda não inicializada)
   user: null              // { email, token, name }
 };
 
@@ -1780,6 +1822,110 @@ function activeExercise(ex, ctxKey, idx) {
   return (ex.sub && isSubbed(ctxKey, idx)) ? ex.sub : ex;
 }
 
+// ════════ PROGRESSÃO DE CARGA (séries: kg/placa/reps por série, por semana 1-12) ════════
+// Offline-first no localStorage, por conta (email) + contexto (ctxKey) + semana + exercício (idx).
+// Protocolo = 12 semanas (3 meses). "anterior" = última semana com registro pra aquele exercício.
+function computeWeek() {
+  const d = state.daysSincePurchase;
+  if (d === null || d === undefined) return 1;              // admin/allowlist sem compra
+  return Math.min(12, Math.max(1, Math.floor(d / 7) + 1));
+}
+function setWeek(w) {
+  w = Math.min(12, Math.max(1, w));
+  if (w === state.week) return;
+  state.week = w;
+  if (state.tab === 'peito') renderPeito();
+  else if (state.tab === 'semana') renderSemana();
+}
+function weekSelectorHtml() {
+  const w = state.week, cur = computeWeek();
+  return `<div class="wk-row">
+    <button class="wk-nav" onclick="setWeek(${w - 1})" ${w <= 1 ? 'disabled' : ''} aria-label="Semana anterior">‹</button>
+    <div class="wk-label">SEMANA <b>${w}</b> / 12${w === cur ? ' <span class="wk-now">agora</span>' : ''}</div>
+    <button class="wk-nav" onclick="setWeek(${w + 1})" ${w >= 12 ? 'disabled' : ''} aria-label="Próxima semana">›</button>
+  </div>`;
+}
+function setsEmail() { return (state.user && state.user.email) || 'anon'; }
+function setsKey(ctxKey, idx, w) {
+  const sf = (typeof isSubbed === 'function' && isSubbed(ctxKey, idx)) ? '_sub' : '';   // substituto tem chave própria
+  return `peitao_sets_${setsEmail()}_${ctxKey}_w${w}_e${idx}${sf}`;
+}
+function serieCount(seriesStr) {
+  const nums = String(seriesStr || '').match(/\d+/g);
+  if (nums && nums.length) { const m = Math.max.apply(null, nums.map(Number)); if (m >= 1 && m <= 12) return m; }
+  return 3;
+}
+function loadSets(ctxKey, idx, w) {
+  try { const a = JSON.parse(localStorage.getItem(setsKey(ctxKey, idx, w)) || 'null'); if (Array.isArray(a) && a.length) return a; } catch (e) {}
+  return null;
+}
+function saveSets(ctxKey, idx, w, arr) {
+  const clean = (arr || []).map(s => ({ kg: String(s.kg || '').trim(), pl: String(s.pl || '').trim(), reps: String(s.reps || '').trim() }));
+  try { localStorage.setItem(setsKey(ctxKey, idx, w), JSON.stringify(clean)); } catch (e) {}
+}
+function getPrevSets(ctxKey, idx, w) {
+  for (let ww = w - 1; ww >= 1; ww--) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
+  return null;
+}
+function setsGridHtml(ctxKey, idx, seriesStr) {
+  const w = state.week;
+  let sets = loadSets(ctxKey, idx, w);
+  if (!sets || !sets.length) { const n = serieCount(seriesStr); sets = Array.from({ length: n }, () => ({ kg: '', pl: '', reps: '' })); }
+  const prev = getPrevSets(ctxKey, idx, w);
+  const gid = 'sets_' + ctxKey + '_' + idx;
+  const rows = sets.map((s, si) => {
+    const p = prev && prev[si];
+    const ptxt = (p && (p.kg || p.pl || p.reps))
+      ? `<span class="set-prev">ant: ${p.kg ? p.kg + 'kg' : (p.pl ? p.pl + 'pl' : '&mdash;')}${p.reps ? ' &times;' + p.reps : ''}</span>`
+      : '<span class="set-prev"></span>';
+    return `<div class="set-row">
+        <span class="set-num">${si + 1}</span>
+        <input class="set-in set-kg" type="number" inputmode="decimal" placeholder="kg" value="${s.kg || ''}" oninput="onSetField('${ctxKey}',${idx})">
+        <input class="set-in set-pl" type="number" inputmode="numeric" placeholder="pl" value="${s.pl || ''}" oninput="onSetField('${ctxKey}',${idx})">
+        <input class="set-in set-reps" type="number" inputmode="numeric" placeholder="reps" value="${s.reps || ''}" oninput="onSetField('${ctxKey}',${idx})">
+        ${ptxt}
+        <button type="button" class="set-del" onclick="removeSet('${ctxKey}',${idx},${si})" title="Remover série" aria-label="Remover série">&times;</button>
+      </div>`;
+  }).join('');
+  return `<div class="sets-grid" id="${gid}">
+      <div class="set-head"><span class="set-num"></span><span class="sh-kg">kg</span><span class="sh-pl">placa</span><span class="sh-reps">reps</span><span class="set-prev"></span><span class="set-del"></span></div>
+      ${rows}
+      <button type="button" class="set-add" onclick="addSet('${ctxKey}',${idx})">+ série</button>
+    </div>`;
+}
+function readSetsFromDom(gid) {
+  const g = document.getElementById(gid); if (!g) return null;
+  return Array.from(g.querySelectorAll('.set-row')).map(r => ({
+    kg: (r.querySelector('.set-kg') || {}).value || '',
+    pl: (r.querySelector('.set-pl') || {}).value || '',
+    reps: (r.querySelector('.set-reps') || {}).value || ''
+  }));
+}
+let _setTimers = {};
+function onSetField(ctxKey, idx) {
+  const gid = 'sets_' + ctxKey + '_' + idx;
+  clearTimeout(_setTimers[gid]);
+  _setTimers[gid] = setTimeout(() => { const arr = readSetsFromDom(gid); if (arr) saveSets(ctxKey, idx, state.week, arr); }, 400);
+}
+function reRenderGrid(ctxKey, idx) {
+  const gid = 'sets_' + ctxKey + '_' + idx;
+  const g = document.getElementById(gid); if (!g) return;
+  g.outerHTML = setsGridHtml(ctxKey, idx, '');
+}
+function addSet(ctxKey, idx) {
+  const gid = 'sets_' + ctxKey + '_' + idx;
+  const arr = readSetsFromDom(gid) || []; if (arr.length >= 12) return;
+  arr.push({ kg: '', pl: '', reps: '' });
+  saveSets(ctxKey, idx, state.week, arr);
+  reRenderGrid(ctxKey, idx);
+}
+function removeSet(ctxKey, idx, si) {
+  const gid = 'sets_' + ctxKey + '_' + idx;
+  const arr = readSetsFromDom(gid) || []; arr.splice(si, 1);
+  saveSets(ctxKey, idx, state.week, arr);
+  reRenderGrid(ctxKey, idx);
+}
+
 function exerciseCard(ex, ctxKey, idx) {
   const active = activeExercise(ex, ctxKey, idx);
   const done = isChecked(ctxKey, idx);
@@ -1811,6 +1957,7 @@ function exerciseCard(ex, ctxKey, idx) {
         </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
+      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series)}</div>` : ''}
     </div>
   `;
 }
@@ -1983,6 +2130,7 @@ function mghCard() {
 
 function renderPeito() {
   const c = document.getElementById('screen-peito');
+  if (state.week == null) state.week = computeWeek();
   const t = DATA.treinoPeito[state.peitoVer];
   if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
   const ctxKey = 'peito_' + state.peitoVer;
@@ -2015,6 +2163,7 @@ function renderPeito() {
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
     </button>
+    ${weekSelectorHtml()}
     ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
     ${exs}
     ${renderUpsells()}
@@ -2047,6 +2196,7 @@ function setPeitoVer(v) { state.peitoVer = v; renderPeito(); }
 // ════════ SEMANA COMPLETA (upsell) ════════
 function renderSemana() {
   const c = document.getElementById('screen-semana');
+  if (state.week == null) state.week = computeWeek();
   if (!state.upsellUnlocked) {
     c.innerHTML = paywall('semana');
     return;
@@ -2077,6 +2227,7 @@ function renderSemana() {
     <button class="dl-pdf" onclick="downloadTreinoPDF('semana')">
       <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
     </button>
+    ${weekSelectorHtml()}
     <div class="day-row">${dayBtns}</div>
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
