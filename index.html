@@ -1161,10 +1161,10 @@ const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
 // Links de checkout — Hotmart
 const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // 5x + dieta R$47 → libera SEMANA + DIETA
 const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // vitalício R$14 → zera os 90 dias
-const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Ergogênicos pt 1 R$15
-const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Ergogênicos pt 2 R$15
-const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$27
-const CHECKOUT_COMBO     = 'https://pay.hotmart.com/J106027528H?off=xw1mmse5';  // Super Combo (3 ebooks) R$37
+const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Hormonal/Ergogênicos pt 1 R$9,90
+const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Hormonal/Ergogênicos pt 2 R$9,90
+const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$14,90
+const CHECKOUT_COMBO     = 'https://pay.hotmart.com/J106027528H?off=xw1mmse5';  // Super Combo (3 ebooks) R$19,90
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
 
@@ -1488,7 +1488,7 @@ function priceBlock(p) {
   return `
     <div class="card-price">
       <div class="card-price-main">${p.priceParcel}</div>
-      <div class="card-price-cash">ou ${p.priceAvista || ''}</div>
+      ${p.priceAvista ? `<div class="card-price-cash">ou ${p.priceAvista}</div>` : ''}
     </div>
   `;
 }
@@ -1531,8 +1531,8 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 1',
     link: CHECKOUT_ERGO_1,
     pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
-    priceParcel: '2x R$7,89',
-    priceAvista: 'R$15 à vista',
+    priceParcel: 'R$ 9,90',
+    priceAvista: '',
   },
   {
     id: 'ergo2',
@@ -1543,8 +1543,8 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 2',
     link: CHECKOUT_ERGO_2,
     pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
-    priceParcel: '2x R$7,89',
-    priceAvista: 'R$15 à vista',
+    priceParcel: 'R$ 9,90',
+    priceAvista: '',
   },
   {
     id: 'combo',
@@ -1554,8 +1554,8 @@ const EBOOKS_ERGO = [
     bullets: ['Ergogênicos pt 1', 'Ergogênicos pt 2', 'Peptídeos', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
-    priceParcel: '5x R$8,19',
-    priceAvista: 'R$37 à vista',
+    priceParcel: 'R$ 19,90',
+    priceAvista: '',
     highlight: true,
   },
 ];
@@ -1570,8 +1570,8 @@ const EBOOKS_PEPT = [
     cta: 'Quero os Peptídeos',
     link: CHECKOUT_PEPT,
     pdf: 'pdfs/ebooks/peptideos.pdf',
-    priceParcel: '3x R$9,64',
-    priceAvista: 'R$27 à vista',
+    priceParcel: 'R$ 14,90',
+    priceAvista: '',
   },
   {
     id: 'combo',
@@ -1581,8 +1581,8 @@ const EBOOKS_PEPT = [
     bullets: ['Peptídeos', 'Ergogênicos pt 1', 'Ergogênicos pt 2', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
-    priceParcel: '5x R$8,19',
-    priceAvista: 'R$37 à vista',
+    priceParcel: 'R$ 19,90',
+    priceAvista: '',
     highlight: true,
   },
 ];
