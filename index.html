@@ -78,6 +78,9 @@
     scrollbar-width: none;
   }
   .tabs::-webkit-scrollbar { display: none; }
+  /* centraliza as abas quando cabem na tela; com overflow (mobile) o scroll segue normal */
+  .tab:first-child { margin-left: auto; }
+  .tab:last-child { margin-right: auto; }
   .tab {
     flex: 0 0 auto;
     min-width: 90px;
@@ -1681,9 +1684,13 @@ const PARCEIROS = {
 
 function renderParceiros() {
   const c = document.getElementById('screen-parc');
-  // 3 cards de upsell no topo
-  let html = renderUpsells();
-  for (const [cat, itens] of Object.entries(PARCEIROS)) {
+  // Conteúdo da aba primeiro (descontos e indicações); upsells no fim, igual às outras telas
+  let html = `<h2>🤝 Parceiros</h2><p class="hint">Descontos e indicações de quem o GH usa e confia. Nada aqui é obrigatório pro protocolo.</p>`;
+  // Ordem por relevância pro aluno: suplementos do dia a dia -> acessórios de treino -> econômicos -> marcas parceiras
+  const ORDEM_PARC = ["💊 Suplementos (FTW)", "💪 Pegada & Suporte", "🎯 Faixas Elásticas", "🛒 Shopee (econômico)", "🤝 Parceiros com desconto"];
+  const cats = [...ORDEM_PARC.filter(c => PARCEIROS[c]), ...Object.keys(PARCEIROS).filter(c => !ORDEM_PARC.includes(c))];
+  for (const cat of cats) {
+    const itens = PARCEIROS[cat];
     html += `<div class="parc-cat">${cat}</div>`;
     html += itens.map(p => `
       <div class="parc-card">
@@ -1697,6 +1704,7 @@ function renderParceiros() {
       </div>
     `).join('');
   }
+  html += renderUpsells();
   c.innerHTML = html;
 }
 
