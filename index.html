@@ -586,6 +586,42 @@
   .med-delta.neg { color: var(--danger); background: rgba(255,59,48,.08); border-color: rgba(255,59,48,.3); }
   .med-delta.empty { display: none; }
 
+  /* ════════ Gamificação: strip, desafio, recordes, toast ════════ */
+  .gami-strip { background: var(--card); border: 1px solid var(--border-light); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; }
+  .gami-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 9px; }
+  .gami-patente { font-size: 13px; font-weight: 800; color: var(--text); }
+  .gami-patente b { color: var(--accent-hi); }
+  .gami-streak { font-size: 12px; font-weight: 800; color: var(--text-mute); white-space: nowrap; }
+  .gami-streak.on { color: var(--accent-hi); }
+  .gami-bar { height: 8px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .gami-fill { height: 100%; background: linear-gradient(90deg, var(--accent-dark), var(--accent-hi)); border-radius: 6px; transition: width .4s ease; }
+  .gami-caption { margin-top: 6px; font-size: 11px; font-weight: 700; color: var(--text-dim); text-align: center; }
+  .desafio-card { background: var(--accent-soft); border: 1px dashed var(--accent-border); border-radius: 12px; padding: 11px 13px; margin-bottom: 14px; font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+  .desafio-card b { color: var(--text); }
+  .desafio-tag { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--accent-hi); margin-bottom: 3px; }
+  .desafio-done { color: var(--ok); font-weight: 800; }
+  .rec-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-top: 14px; overflow: hidden; }
+  .rec-card summary { list-style: none; cursor: pointer; padding: 13px 14px; font-size: 13px; font-weight: 800; color: var(--text); display: flex; justify-content: space-between; align-items: center; }
+  .rec-card summary::-webkit-details-marker { display: none; }
+  .rec-card summary .rec-count { font-size: 11px; color: var(--accent-hi); font-weight: 800; }
+  .rec-list { padding: 0 14px 12px; }
+  .rec-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 8px 0; border-top: 1px dashed var(--border-light); font-size: 12.5px; color: var(--text-dim); }
+  .rec-item b { color: var(--text); }
+  .rec-item .rec-marca { color: var(--accent-hi); font-weight: 800; white-space: nowrap; }
+  .conclude-vol { font-size: 11.5px; font-weight: 700; color: var(--text-dim); margin-top: 5px; }
+  .conclude-vol b { color: var(--accent-hi); }
+  .gh-toast {
+    position: fixed; top: calc(14px + var(--safe-top)); left: 50%; transform: translate(-50%, -140%);
+    z-index: 200; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #1A0A00; font-size: 13.5px; font-weight: 700; line-height: 1.4; text-align: center;
+    padding: 12px 18px; border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.5), 0 4px 14px var(--accent-glow);
+    max-width: min(340px, calc(100vw - 32px));
+    transition: transform .3s cubic-bezier(.2,.9,.3,1.2);
+    pointer-events: none;
+  }
+  .gh-toast.show { transform: translate(-50%, 0); }
+  .gh-toast b { font-weight: 900; }
+
   /* ════════ Seletor de semana (1-12) ════════ */
   .wk-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 6px 0 14px; }
   .wk-nav { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border-light); background: var(--surface); color: var(--text); font-size: 20px; line-height: 1; cursor: pointer; font-family: inherit; }
@@ -1940,7 +1976,7 @@ function getPrevSets(ctxKey, idx, w) {
   for (let ww = w - 1; ww >= 1; ww--) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
   return null;
 }
-function setsGridHtml(ctxKey, idx, seriesStr) {
+function setsGridHtml(ctxKey, idx, seriesStr, nome) {
   const w = state.week;
   let sets = loadSets(ctxKey, idx, w);
   if (!sets || !sets.length) { const n = serieCount(seriesStr); sets = Array.from({ length: n }, () => ({ kg: '', pl: '', reps: '' })); }
@@ -1960,7 +1996,7 @@ function setsGridHtml(ctxKey, idx, seriesStr) {
         <button type="button" class="set-del" onclick="removeSet('${ctxKey}',${idx},${si})" title="Remover série" aria-label="Remover série">&times;</button>
       </div>`;
   }).join('');
-  return `<div class="sets-grid" id="${gid}">
+  return `<div class="sets-grid" id="${gid}" data-exname="${esc(nome || '')}">
       <div class="set-head"><span class="set-num"></span><span class="sh-kg">kg</span><span class="sh-pl">placa</span><span class="sh-reps">reps</span><span class="set-prev"></span><span class="set-del"></span></div>
       ${rows}
       <button type="button" class="set-add" onclick="addSet('${ctxKey}',${idx})">+ série</button>
@@ -1978,12 +2014,19 @@ let _setTimers = {};
 function onSetField(ctxKey, idx) {
   const gid = 'sets_' + ctxKey + '_' + idx;
   clearTimeout(_setTimers[gid]);
-  _setTimers[gid] = setTimeout(() => { const arr = readSetsFromDom(gid); if (arr) saveSets(ctxKey, idx, state.week, arr); }, 400);
+  _setTimers[gid] = setTimeout(() => {
+    const arr = readSetsFromDom(gid);
+    if (!arr) return;
+    saveSets(ctxKey, idx, state.week, arr);
+    stampTrainingDay();
+    const g = document.getElementById(gid);
+    checkPRs(ctxKey, idx, (g && g.dataset.exname) || '', arr);
+  }, 400);
 }
 function reRenderGrid(ctxKey, idx) {
   const gid = 'sets_' + ctxKey + '_' + idx;
   const g = document.getElementById(gid); if (!g) return;
-  g.outerHTML = setsGridHtml(ctxKey, idx, '');
+  g.outerHTML = setsGridHtml(ctxKey, idx, '', g.dataset.exname || '');
 }
 function addSet(ctxKey, idx) {
   const gid = 'sets_' + ctxKey + '_' + idx;
@@ -2028,6 +2071,19 @@ function onMedCm(el) {
   saveMed(state.week, m);
   const d = document.getElementById('medDelta');
   if (d) d.outerHTML = medDeltaHtml();
+  // Marco da Régua: celebra cada cm inteiro novo de peito desde a baseline
+  const base = medBaseline(state.week);
+  const cur = parseFloat(String(el.value || '').replace(',', '.'));
+  if (base && !isNaN(cur)) {
+    const marco = Math.floor(cur - base.cm);
+    const mk = 'peitao_medmark_' + setsEmail();
+    const last = parseInt(localStorage.getItem(mk) || '0') || 0;
+    if (marco >= 1 && marco > last) {
+      try { localStorage.setItem(mk, String(marco)); } catch (e) {}
+      try { navigator.vibrate && navigator.vibrate([120, 60, 180]); } catch (e) {}
+      showToast('🎯 <b>+' + marco + 'cm DE PEITO</b> desde a semana ' + base.w + '.<br>A régua não mente.');
+    }
+  }
 }
 function medDeltaHtml() {
   const m = loadMed(state.week);
@@ -2062,6 +2118,195 @@ function reguaCardHtml() {
     </div>`;
 }
 
+// ════════ GAMIFICAÇÃO: streak, patentes, recordes, volume, desafio ════════
+// Tudo em cima de dado real (checks, cargas, régua). Storage com o mesmo prefixo
+// das cargas (peitao_sets_) pra pegar carona no sync/restore por conta.
+const PATENTES = [
+  { min: 0, ic: '🐣', nome: 'Pombo Magro' },
+  { min: 2, ic: '🐦', nome: 'Pombo Firme' },
+  { min: 4, ic: '💨', nome: 'Pombo Enchendo a Camiseta' },
+  { min: 8, ic: '🏆', nome: 'Peitão de Pombo' },
+];
+function todayISO() { const d = new Date(), p = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
+// chave da semana-calendário (segunda a domingo), estilo ISO: "2026-W29"
+function isoWeekKey(d) {
+  const dt = new Date(d.getTime()); dt.setHours(0, 0, 0, 0);
+  dt.setDate(dt.getDate() + 3 - ((dt.getDay() + 6) % 7));
+  const jan4 = new Date(dt.getFullYear(), 0, 4);
+  const wk = 1 + Math.round(((dt - jan4) / 86400000 - 3 + ((jan4.getDay() + 6) % 7)) / 7);
+  return dt.getFullYear() + '-W' + String(wk).padStart(2, '0');
+}
+function daysKey(wk) { return 'peitao_sets_' + setsEmail() + '_days_' + wk; }
+function weekHasTraining(wk) {
+  try { const a = JSON.parse(localStorage.getItem(daysKey(wk)) || 'null'); return Array.isArray(a) && a.length > 0; } catch (e) { return false; }
+}
+// Carimba o dia de treino (1x por dia). Chamado ao marcar exercício feito ou registrar carga.
+function stampTrainingDay() {
+  const k = daysKey(isoWeekKey(new Date()));
+  let arr = [];
+  try { arr = JSON.parse(localStorage.getItem(k) || '[]') || []; } catch (e) {}
+  const hoje = todayISO();
+  if (arr.some(it => it && it.d === hoje)) return;
+  arr.push({ d: hoje });
+  try { localStorage.setItem(k, JSON.stringify(arr)); } catch (e) {}
+  queueSetsSync(k, arr);
+}
+// Semanas-calendário consecutivas com pelo menos 1 treino (a atual conta se já treinou nela)
+function streakWeeks() {
+  let n = 0, d = new Date();
+  if (!weekHasTraining(isoWeekKey(d))) d.setDate(d.getDate() - 7);
+  for (let i = 0; i < 120; i++) {
+    if (!weekHasTraining(isoWeekKey(d))) break;
+    n++; d.setDate(d.getDate() - 7);
+  }
+  return n;
+}
+function patenteAtual(stk) { let p = PATENTES[0]; for (const x of PATENTES) if (stk >= x.min) p = x; return p; }
+
+// ── Recordes pessoais (por NOME de exercício) ──
+function prSlug(nome) {
+  return String(nome || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase().slice(0, 60);
+}
+function prKey(nome) { return 'peitao_sets_' + setsEmail() + '_pr_' + prSlug(nome); }
+function loadPR(nome) { try { const a = JSON.parse(localStorage.getItem(prKey(nome)) || 'null'); if (Array.isArray(a) && a[0]) return a[0]; } catch (e) {} return null; }
+function savePR(nome, rec) {
+  const arr = [rec];
+  try { localStorage.setItem(prKey(nome), JSON.stringify(arr)); } catch (e) {}
+  queueSetsSync(prKey(nome), arr);
+  // mapa local slug->nome bonito (só apresentação; em aparelho novo cai no slug)
+  try { const m = JSON.parse(localStorage.getItem('peitao_prnames_' + setsEmail()) || '{}'); m[prSlug(nome)] = nome; localStorage.setItem('peitao_prnames_' + setsEmail(), JSON.stringify(m)); } catch (e) {}
+}
+function bestOfGrid(arr) {
+  let kg = 0, pl = 0;
+  for (const s of (arr || [])) {
+    const k = parseFloat(String((s && s.kg) || '').replace(',', '.')) || 0;
+    const p = parseFloat(String((s && s.pl) || '').replace(',', '.')) || 0;
+    if (k > kg) kg = k; if (p > pl) pl = p;
+  }
+  return { kg, pl };
+}
+// melhor histórico da posição (baseline pra quem já registrava carga antes da feature)
+function histBest(ctxKey, idx) {
+  let kg = 0, pl = 0;
+  for (let w = 1; w <= 12; w++) { const b = bestOfGrid(loadSets(ctxKey, idx, w)); if (b.kg > kg) kg = b.kg; if (b.pl > pl) pl = b.pl; }
+  return { kg, pl };
+}
+function checkPRs(ctxKey, idx, nome, arr) {
+  if (!nome) return;
+  const now = bestOfGrid(arr);
+  if (!now.kg && !now.pl) return;
+  const pr = loadPR(nome);
+  if (!pr) {
+    const h = histBest(ctxKey, idx);
+    savePR(nome, { kg: String(Math.max(h.kg, now.kg) || ''), pl: String(Math.max(h.pl, now.pl) || ''), d: todayISO() });
+    return;
+  }
+  const oldKg = parseFloat(pr.kg || '0') || 0, oldPl = parseFloat(pr.pl || '0') || 0;
+  let marca = null;
+  if (now.kg > oldKg && oldKg > 0) marca = String(now.kg).replace('.', ',') + 'kg';
+  else if (now.pl > oldPl && oldPl > 0) marca = now.pl + (now.pl === 1 ? ' placa' : ' placas');
+  if (now.kg > oldKg || now.pl > oldPl) {
+    savePR(nome, { kg: String(Math.max(now.kg, oldKg) || ''), pl: String(Math.max(now.pl, oldPl) || ''), d: todayISO() });
+  }
+  if (marca) {
+    try { navigator.vibrate && navigator.vibrate([120, 60, 180]); } catch (e) {}
+    showToast('🏅 <b>RECORDE PESSOAL!</b><br>' + nome + ': <b>' + marca + '</b>');
+  }
+}
+function allPRs() {
+  const prefix = 'peitao_sets_' + setsEmail() + '_pr_';
+  let nomes = {};
+  try { nomes = JSON.parse(localStorage.getItem('peitao_prnames_' + setsEmail()) || '{}'); } catch (e) {}
+  const out = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith(prefix)) continue;
+    try {
+      const a = JSON.parse(localStorage.getItem(k));
+      const r = a && a[0];
+      if (!r) continue;
+      const kg = parseFloat(r.kg || '0') || 0, pl = parseFloat(r.pl || '0') || 0;
+      if (!kg && !pl) continue;
+      const slug = k.slice(prefix.length);
+      const nome = nomes[slug] || slug.replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
+      out.push({ nome, kg, pl, d: r.d || '' });
+    } catch (e) {}
+  }
+  out.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
+  return out;
+}
+
+// ── Toast de celebração ──
+let _toastTimer = null;
+function showToast(html) {
+  let t = document.getElementById('ghToast');
+  if (!t) { t = document.createElement('div'); t.id = 'ghToast'; t.className = 'gh-toast'; document.body.appendChild(t); }
+  t.innerHTML = html;
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3400);
+}
+
+// ── Volume do dia (kg x reps das séries preenchidas do contexto atual) ──
+function volumeOfDay(ctxKey, exList) {
+  let vol = 0;
+  for (let i = 0; i < exList.length; i++) {
+    for (const s of (loadSets(ctxKey, i, state.week) || [])) {
+      const kg = parseFloat(String((s && s.kg) || '').replace(',', '.')) || 0;
+      const reps = parseInt((s && s.reps) || '') || 0;
+      if (kg > 0 && reps > 0) vol += kg * reps;
+    }
+  }
+  return Math.round(vol);
+}
+function fmtVol(v) { try { return v.toLocaleString('pt-BR'); } catch (e) { return String(v); } }
+
+// ── Blocos de UI ──
+function gamiStripHtml() {
+  const stk = streakWeeks();
+  const p = patenteAtual(stk);
+  const w = state.week, pct = Math.round(w / 12 * 100);
+  return `
+    <div class="gami-strip">
+      <div class="gami-row">
+        <div class="gami-patente">${p.ic} <b>${p.nome}</b></div>
+        <div class="gami-streak${stk > 0 ? ' on' : ''}">🔥 ${stk} semana${stk === 1 ? '' : 's'} seguida${stk === 1 ? '' : 's'}</div>
+      </div>
+      <div class="gami-bar"><div class="gami-fill" style="width:${pct}%"></div></div>
+      <div class="gami-caption">Semana ${w} de 12 · ${pct}% do protocolo</div>
+    </div>`;
+}
+function desafioHtml() {
+  const prs = allPRs();
+  if (!prs.length) {
+    return `<div class="desafio-card"><span class="desafio-tag">🎯 Desafio da semana</span>Registra tuas cargas nos exercícios dessa semana e desbloqueia teu primeiro desafio.</div>`;
+  }
+  const ordenado = prs.slice().sort((a, b) => a.nome.localeCompare(b.nome));
+  const pick = ordenado[(state.week * 7 + ordenado.length) % ordenado.length];
+  const marca = pick.kg > 0 ? String(pick.kg).replace('.', ',') + 'kg' : pick.pl + ' placas';
+  const cumprido = pick.d && isoWeekKey(new Date(pick.d + 'T12:00:00')) === isoWeekKey(new Date());
+  return `
+    <div class="desafio-card">
+      <span class="desafio-tag">🎯 Desafio da semana</span>
+      Bate teu recorde no <b>${pick.nome}</b>: passa de <b>${marca}</b>.
+      ${cumprido ? '<div class="desafio-done">✓ Recorde batido essa semana. Monstro.</div>' : ''}
+    </div>`;
+}
+function recordesHtml() {
+  const prs = allPRs();
+  if (!prs.length) return '';
+  const rows = prs.slice(0, 10).map(p => {
+    const marca = p.kg > 0 ? String(p.kg).replace('.', ',') + 'kg' : p.pl + (p.pl === 1 ? ' placa' : ' placas');
+    const data = p.d ? p.d.split('-').reverse().slice(0, 2).join('/') : '';
+    return `<div class="rec-item"><span><b>${p.nome}</b>${data ? ' · ' + data : ''}</span><span class="rec-marca">${marca}</span></div>`;
+  }).join('');
+  return `
+    <details class="rec-card">
+      <summary>🏅 Meus recordes <span class="rec-count">${prs.length} exercício${prs.length === 1 ? '' : 's'}</span></summary>
+      <div class="rec-list">${rows}</div>
+    </details>`;
+}
+
 function exerciseCard(ex, ctxKey, idx) {
   const active = activeExercise(ex, ctxKey, idx);
   const done = isChecked(ctxKey, idx);
@@ -2093,7 +2338,7 @@ function exerciseCard(ex, ctxKey, idx) {
         </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
-      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series)}</div>` : ''}
+      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series, active.exercicio)}</div>` : ''}
     </div>
   `;
 }
@@ -2223,10 +2468,14 @@ function concludeBar(ctxKey, exList, contextLabel) {
   const total = exList.length;
   const done = exList.reduce((a, _, i) => a + (isChecked(ctxKey, i) ? 1 : 0), 0);
   const allDone = done === total && total > 0;
+  const vol = volumeOfDay(ctxKey, exList);
   return `
     <div class="conclude">
-      <div class="conclude-info">${allDone ? '🎉 <b>Treino completo!</b>' : `<b>${done}/${total}</b> exercícios feitos`}</div>
-      <button class="conclude-btn" onclick="openAchievement('${esc(contextLabel)}', ${done})" ${done===0?'disabled':''}>🏆 Compartilhar</button>
+      <div class="conclude-info">
+        ${allDone ? '🎉 <b>Treino completo!</b>' : `<b>${done}/${total}</b> exercícios feitos`}
+        ${vol > 0 ? `<div class="conclude-vol">💪 Volume de hoje: <b>${fmtVol(vol)} kg</b> levantados</div>` : ''}
+      </div>
+      <button class="conclude-btn" onclick="openAchievement('${esc(contextLabel)}', ${done}, ${vol})" ${done===0?'disabled':''}>🏆 Compartilhar</button>
     </div>
   `;
 }
@@ -2300,9 +2549,12 @@ function renderPeito() {
       <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
     </button>
     ${weekSelectorHtml()}
+    ${gamiStripHtml()}
     ${reguaCardHtml()}
+    ${desafioHtml()}
     ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
     ${exs}
+    ${recordesHtml()}
     ${renderUpsells()}
   `;
 }
@@ -2365,6 +2617,7 @@ function renderSemana() {
       <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
     </button>
     ${weekSelectorHtml()}
+    ${gamiStripHtml()}
     <div class="day-row">${dayBtns}</div>
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
@@ -2592,6 +2845,7 @@ function toggleCheck(ctxKey, idx) {
   _checks[ctxKey] = _checks[ctxKey] || {};
   _checks[ctxKey][idx] = !_checks[ctxKey][idx];
   saveChecks();
+  if (_checks[ctxKey][idx]) stampTrainingDay();
   if (state.tab === 'peito') renderPeito();
   else if (state.tab === 'semana') renderSemana();
 }
@@ -2600,8 +2854,8 @@ function toggleCheck(ctxKey, idx) {
 const ACH_FONT = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
 let _achPhoto = null, _achData = null;
 
-function openAchievement(label, count) {
-  _achData = { label, count };
+function openAchievement(label, count, vol) {
+  _achData = { label, count, vol: vol || 0 };
   _achPhoto = null;
   document.getElementById('achPhotoBtn').textContent = '📷 Foto do pump';
   document.getElementById('achUserText').value = '';
@@ -2678,29 +2932,46 @@ function drawAch() {
   ctx.strokeStyle = '#FF6B1A'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(W/2-70, 1285); ctx.lineTo(W/2+70, 1285); ctx.stroke();
 
+  // Patente + streak (linha de status abaixo do divider)
+  const stk = streakWeeks();
+  const pat = patenteAtual(stk);
+  ctx.font = `800 30px ${ACH_FONT}`;
+  ctx.fillStyle = '#FF6B1A';
+  ctx.fillText(pat.ic + ' ' + pat.nome + (stk > 0 ? '   ·   🔥 ' + stk + ' semana' + (stk === 1 ? '' : 's') + ' seguida' + (stk === 1 ? '' : 's') : ''), W/2, 1330);
+
   // Frase do aluno (ex: "Meu supino hoje foi 80kg")
   const userText = (_achData.userText || '').trim();
   if (userText) {
-    let fs = 40;
+    let fs = 38;
     ctx.font = `italic 700 ${fs}px ${ACH_FONT}`;
     while (ctx.measureText('"' + userText + '"').width > W - 180 && fs > 24) {
       fs -= 2; ctx.font = `italic 700 ${fs}px ${ACH_FONT}`;
     }
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('"' + userText + '"', W/2, 1360);
+    ctx.fillText('"' + userText + '"', W/2, 1392);
   }
 
-  // Card exercícios
-  ctx.fillStyle = 'rgba(255,255,255,.05)';
-  ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 1;
-  const cw = 260, ch = 150, cx = W/2 - cw/2, cy = userText ? 1420 : 1360;
-  ctx.beginPath();
-  ctx.roundRect(cx, cy, cw, ch, 10);
-  ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#F2F2F2'; ctx.font = `900 80px ${ACH_FONT}`;
-  ctx.fillText(String(_achData.count), W/2, cy + 92);
-  ctx.fillStyle = '#888'; ctx.font = `600 18px ${ACH_FONT}`;
-  spaced(ctx, 'EXERCÍCIOS FEITOS', W/2, cy + 128, 2);
+  // Cards de números: exercícios · kg levantados · semana do protocolo
+  const stats = [{ v: String(_achData.count), l: 'EXERCÍCIOS' }];
+  if (_achData.vol > 0) stats.push({ v: fmtVol(_achData.vol), l: 'KG LEVANTADOS' });
+  stats.push({ v: (state.week || computeWeek()) + '/12', l: 'SEMANA' });
+  const ch = 150, cy = userText ? 1440 : 1385;
+  const cw = stats.length === 3 ? 300 : 340, gap = 20;
+  let sx = W/2 - (stats.length * cw + (stats.length - 1) * gap) / 2;
+  ctx.lineWidth = 1;
+  for (const st of stats) {
+    ctx.fillStyle = 'rgba(255,255,255,.05)';
+    ctx.strokeStyle = '#3a3a3a';
+    ctx.beginPath(); ctx.roundRect(sx, cy, cw, ch, 10); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#F2F2F2';
+    let vf = 64;
+    ctx.font = `900 ${vf}px ${ACH_FONT}`;
+    while (ctx.measureText(st.v).width > cw - 30 && vf > 34) { vf -= 2; ctx.font = `900 ${vf}px ${ACH_FONT}`; }
+    ctx.fillText(st.v, sx + cw/2, cy + 88);
+    ctx.fillStyle = '#888'; ctx.font = `600 16px ${ACH_FONT}`;
+    spaced(ctx, st.l, sx + cw/2, cy + 126, 2);
+    sx += cw + gap;
+  }
 
   // Footer
   ctx.strokeStyle = '#FF6B1A'; ctx.lineWidth = 2;
