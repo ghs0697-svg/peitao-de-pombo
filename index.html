@@ -585,6 +585,26 @@
   .med-delta { margin-top: 10px; font-size: 12.5px; font-weight: 800; color: var(--ok); background: rgba(45,216,129,.08); border: 1px solid rgba(45,216,129,.3); border-radius: 9px; padding: 7px 10px; text-align: center; }
   .med-delta.neg { color: var(--danger); background: rgba(255,59,48,.08); border-color: rgba(255,59,48,.3); }
   .med-delta.empty { display: none; }
+  /* Fotos de acompanhamento (4 ângulos, por semana) */
+  .foto-sec { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .foto-sec-title { font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--accent-hi); margin-bottom: 3px; }
+  .foto-sec-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.4; }
+  .foto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .foto-slot { position: relative; aspect-ratio: 3 / 4; border-radius: 12px; border: 1.5px dashed var(--border-light); background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; overflow: hidden; color: var(--text-mute); -webkit-tap-highlight-color: transparent; }
+  .foto-slot.set { border-style: solid; border-color: var(--accent-border); }
+  .foto-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .foto-slot-plus { position: relative; z-index: 1; font-size: 22px; color: var(--accent-hi); line-height: 1; }
+  .foto-slot-label { position: relative; z-index: 1; font-size: 12px; font-weight: 700; }
+  .foto-slot.set .foto-slot-label { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; background: linear-gradient(0deg, rgba(0,0,0,.8), transparent); color: #fff; padding: 16px 8px 6px; text-align: center; }
+  .foto-slot-ok { position: absolute; top: 6px; right: 6px; z-index: 3; background: var(--ok); color: #04120a; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
+  .foto-slot-cloud { position: absolute; top: 6px; left: 6px; z-index: 3; font-size: 11px; opacity: .85; }
+  .foto-consent { font-size: 10.5px; color: var(--text-mute); margin-top: 9px; line-height: 1.45; }
+  /* Visor de foto em tela cheia */
+  .foto-viewer { position: fixed; inset: 0; z-index: 210; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; padding: 20px; }
+  .foto-viewer.show { display: flex; }
+  .foto-viewer img { max-width: 100%; max-height: 86vh; border-radius: 12px; }
+  .foto-viewer-x { position: absolute; top: calc(14px + var(--safe-top)); right: 16px; background: rgba(255,255,255,.14); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+  .foto-viewer-del { position: absolute; bottom: calc(20px + var(--safe-bottom)); left: 50%; transform: translateX(-50%); background: var(--danger); border: none; color: #fff; font-family: inherit; font-weight: 800; font-size: 13px; padding: 11px 22px; border-radius: 12px; cursor: pointer; }
 
   /* ════════ Gamificação: strip, desafio, recordes, toast ════════ */
   .gami-strip { background: var(--card); border: 1px solid var(--border-light); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; }
@@ -1131,6 +1151,12 @@
       style="width:100%;padding:13px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:inherit;margin-bottom:8px;">
     <canvas id="achCanvas" width="1080" height="1920"></canvas>
     <input type="file" id="achPhotoInput" accept="image/*" style="display:none;">
+<input type="file" id="fotoInput" accept="image/*" capture="environment" style="display:none;" onchange="onFotoPicked(this)">
+<div class="foto-viewer" id="fotoViewer" onclick="if(event.target.id==='fotoViewer')closeFotoViewer()">
+  <button class="foto-viewer-x" onclick="closeFotoViewer()" aria-label="Fechar">✕</button>
+  <img id="fotoViewerImg" alt="Foto de acompanhamento">
+  <button class="foto-viewer-del" id="fotoViewerDel">🗑 Apagar foto</button>
+</div>
     <div class="ach-actions">
       <button class="ach-btn" onclick="achPickPhoto()" id="achPhotoBtn">📷 Foto do pump</button>
     </div>
@@ -2099,22 +2125,137 @@ function medDeltaHtml() {
   }
   return `<div id="medDelta" class="med-delta${neg ? ' neg' : ''}${txt ? '' : ' empty'}">${txt}</div>`;
 }
+// ════════ FOTOS DE ACOMPANHAMENTO (4 ângulos, por semana) ════════
+// Local no aparelho (IndexedDB) pro aluno registrar e comparar; backup opcional
+// no Drive via /api/fotos (só sobe se o backend estiver configurado; senão fica pendente).
+const FOTO_ANGLES = [{ k: 'frente', l: 'Frente' }, { k: 'costas', l: 'Costas' }, { k: 'ladoD', l: 'Lado D' }, { k: 'ladoE', l: 'Lado E' }];
+let _fdb = null;
+function fotosDB() {
+  return new Promise((res, rej) => {
+    if (_fdb) return res(_fdb);
+    let rq; try { rq = indexedDB.open('peitaoFotos', 1); } catch (e) { return rej(e); }
+    rq.onupgradeneeded = () => { rq.result.createObjectStore('fotos'); };
+    rq.onsuccess = () => { _fdb = rq.result; res(_fdb); };
+    rq.onerror = () => rej(rq.error);
+  });
+}
+function fotoKey(w, angle) { return setsEmail() + '|w' + w + '|' + angle; }
+async function fotoGet(w, angle) {
+  try { const db = await fotosDB(); return await new Promise(r => { const rq = db.transaction('fotos').objectStore('fotos').get(fotoKey(w, angle)); rq.onsuccess = () => r(rq.result || null); rq.onerror = () => r(null); }); } catch (e) { return null; }
+}
+async function fotoPut(w, angle, rec) {
+  try { const db = await fotosDB(); return await new Promise(r => { const rq = db.transaction('fotos', 'readwrite').objectStore('fotos').put(rec, fotoKey(w, angle)); rq.onsuccess = () => r(true); rq.onerror = () => r(false); }); } catch (e) { return false; }
+}
+async function fotoDel(w, angle) {
+  try { const db = await fotosDB(); return await new Promise(r => { const rq = db.transaction('fotos', 'readwrite').objectStore('fotos').delete(fotoKey(w, angle)); rq.onsuccess = () => r(true); rq.onerror = () => r(false); }); } catch (e) { return false; }
+}
+async function fotoAllKeys() {
+  try { const db = await fotosDB(); return await new Promise(r => { const rq = db.transaction('fotos').objectStore('fotos').getAllKeys(); rq.onsuccess = () => r(rq.result || []); rq.onerror = () => r([]); }); } catch (e) { return []; }
+}
+function fotoDateBR() { const d = new Date(), p = n => String(n).padStart(2, '0'); return p(d.getDate()) + '-' + p(d.getMonth() + 1) + '-' + d.getFullYear(); }
+function compressImage(file, maxPx, quality) {
+  return new Promise((res, rej) => {
+    const rd = new FileReader();
+    rd.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        const sc = Math.min(1, maxPx / Math.max(w, h));
+        w = Math.round(w * sc); h = Math.round(h * sc);
+        const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(img, 0, 0, w, h);
+        res(cv.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = rej; img.src = e.target.result;
+    };
+    rd.onerror = rej; rd.readAsDataURL(file);
+  });
+}
+let _fotoPick = null;
+function pickFoto(angle) { _fotoPick = { w: state.week, angle }; const inp = document.getElementById('fotoInput'); inp.value = ''; inp.click(); }
+async function onFotoPicked(input) {
+  const file = input.files && input.files[0];
+  if (!file || !_fotoPick) return;
+  const { w, angle } = _fotoPick;
+  showToast('📷 Salvando foto...');
+  try {
+    const dataUrl = await compressImage(file, 1280, 0.82);
+    await fotoPut(w, angle, { dataUrl, w, angle, date: fotoDateBR(), ts: Date.now(), uploaded: false });
+    await hydrateFotos(state.week);
+    showToast('✓ Foto salva no teu aparelho');
+    uploadFoto(w, angle);
+  } catch (e) { showToast('Não consegui salvar essa foto. Tenta de novo.'); }
+}
+async function uploadFoto(w, angle) {
+  if (!state.user || !state.user.token) return;
+  const rec = await fotoGet(w, angle);
+  if (!rec || rec.uploaded) return;
+  try {
+    const r = await fetch(API_BASE + '/api/fotos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.user.token },
+      body: JSON.stringify({ week: w, date: rec.date, angle: angle, dataUrl: rec.dataUrl })
+    });
+    if (r.ok) { rec.uploaded = true; await fotoPut(w, angle, rec); hydrateFotos(state.week); }
+  } catch (e) { /* offline / backend ainda não ligado: fica pendente */ }
+}
+let _fotoFlushed = false;
+async function flushFotoUploads() {
+  if (_fotoFlushed) return; _fotoFlushed = true;
+  const keys = await fotoAllKeys();
+  for (const k of keys.filter(k => String(k).startsWith(setsEmail() + '|'))) {
+    const p = String(k).split('|'); const w = parseInt(String(p[1]).replace('w', '')) || 0;
+    await uploadFoto(w, p[2]);
+  }
+}
+async function hydrateFotos(w) {
+  for (const a of FOTO_ANGLES) {
+    const slot = document.getElementById('fslot-' + a.k);
+    if (!slot) continue;
+    const rec = await fotoGet(w, a.k);
+    if (rec && rec.dataUrl) {
+      slot.className = 'foto-slot set';
+      slot.innerHTML = `<img src="${rec.dataUrl}" alt="${a.l}"><span class="foto-slot-ok">✓</span>${rec.uploaded ? '<span class="foto-slot-cloud" title="No backup">☁️</span>' : ''}<span class="foto-slot-label">${a.l}</span>`;
+      slot.onclick = () => openFotoViewer(w, a.k);
+    } else {
+      slot.className = 'foto-slot';
+      slot.innerHTML = `<span class="foto-slot-plus">+</span><span class="foto-slot-label">${a.l}</span>`;
+      slot.onclick = () => pickFoto(a.k);
+    }
+  }
+}
+async function openFotoViewer(w, angle) {
+  const rec = await fotoGet(w, angle); if (!rec) return;
+  const v = document.getElementById('fotoViewer');
+  document.getElementById('fotoViewerImg').src = rec.dataUrl;
+  document.getElementById('fotoViewerDel').onclick = async () => {
+    if (!confirm('Apagar essa foto do teu aparelho?')) return;
+    await fotoDel(w, angle); closeFotoViewer(); hydrateFotos(state.week);
+  };
+  v.classList.add('show');
+}
+function closeFotoViewer() { document.getElementById('fotoViewer').classList.remove('show'); }
+
 function reguaCardHtml() {
   const w = state.week, m = loadMed(w);
   return `
     <div class="regua-card">
       <div class="regua-title">📏 Régua do Peito · Semana ${w}</div>
       <div class="regua-sub">Medição de segunda-feira, de manhã, em jejum. Protocolo completo no PDF Régua do Peito.</div>
-      <div class="med-checks">
-        <button type="button" class="med-chk ${m.lado ? 'on' : ''}" onclick="toggleMed('lado')">${m.lado ? '✓ ' : ''}Foto de lado</button>
-        <button type="button" class="med-chk ${m.frente ? 'on' : ''}" onclick="toggleMed('frente')">${m.frente ? '✓ ' : ''}Foto de frente</button>
-      </div>
       <div class="med-cm-row">
         <label>Circunferência (linha dos mamilos)</label>
         <input type="number" inputmode="decimal" placeholder="cm" value="${m.cm || ''}" oninput="onMedCm(this)">
         <span>cm</span>
       </div>
       ${medDeltaHtml()}
+      <div class="foto-sec">
+        <div class="foto-sec-title">📸 Tuas fotos da semana</div>
+        <div class="foto-sec-sub">Registra os 4 ângulos com a mesma camiseta-régua. Muda a semana lá em cima pra comparar tua evolução.</div>
+        <div class="foto-grid">
+          ${FOTO_ANGLES.map(a => `<div class="foto-slot" id="fslot-${a.k}"><span class="foto-slot-plus">+</span><span class="foto-slot-label">${a.l}</span></div>`).join('')}
+        </div>
+        <div class="foto-consent">As fotos ficam no teu aparelho e num backup privado teu (só pra tua comparação), guardado por até 4 meses. Ninguém fica avaliando, é teu registro.</div>
+      </div>
     </div>`;
 }
 
@@ -2557,6 +2698,8 @@ function renderPeito() {
     ${recordesHtml()}
     ${renderUpsells()}
   `;
+  hydrateFotos(state.week);
+  flushFotoUploads();
 }
 // ════════ PHASE LOCK ════════
 // Fases 2.0 e 3.0 só destravam APÓS 7 dias da compra (fora da janela de reembolso CDC).
