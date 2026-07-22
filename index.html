@@ -876,6 +876,14 @@
     0%, 100% { box-shadow: 0 8px 24px rgba(201, 162, 75, 0.3), inset 0 1px 0 rgba(255,255,255,.25); }
     50%      { box-shadow: 0 8px 36px rgba(201, 162, 75, 0.45), 0 0 0 3px rgba(201, 162, 75, 0.18), inset 0 1px 0 rgba(255,255,255,.25); }
   }
+  /* condição de aluno: justifica os R$100 off dentro do app (sem prazo; o prazo é só da página de upsell) */
+  .mgh-aluno {
+    margin-top: 14px; padding: 12px 14px; border-radius: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.3); background: rgba(201, 162, 75, 0.07);
+    font-size: 13px; line-height: 1.55; color: #b0a890;
+  }
+  .mgh-aluno b { color: #E8C97A; }
+  .mgh-aluno s { color: #8f8878; }
   /* caminho secundário do card da consultoria: planos maiores / falar antes vão pro whats */
   .mgh-wa-soft {
     display: block; margin-top: 12px; text-align: center;
@@ -1585,6 +1593,8 @@ function renderUpsells() {
         <video class="vsl-video" controls playsinline preload="none" poster="assets/vsl-poster.jpg">
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
+        ${u.id === 'consultoria' ? `
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.</div>` : ''}
         ${priceBlock(u)}
         <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
         ${u.id === 'consultoria' ? `
