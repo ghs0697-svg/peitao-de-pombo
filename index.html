@@ -876,6 +876,13 @@
     0%, 100% { box-shadow: 0 8px 24px rgba(201, 162, 75, 0.3), inset 0 1px 0 rgba(255,255,255,.25); }
     50%      { box-shadow: 0 8px 36px rgba(201, 162, 75, 0.45), 0 0 0 3px rgba(201, 162, 75, 0.18), inset 0 1px 0 rgba(255,255,255,.25); }
   }
+  /* caminho secundário do card da consultoria: planos maiores / falar antes vão pro whats */
+  .mgh-wa-soft {
+    display: block; margin-top: 12px; text-align: center;
+    font-size: 13px; color: #8f8878; text-decoration: none;
+    padding: 10px 12px; border: 1px solid rgba(201, 162, 75, 0.25); border-radius: 12px;
+  }
+  .mgh-wa-soft:active, .mgh-wa-soft:hover { color: #E8C97A; border-color: rgba(201, 162, 75, 0.5); }
 
   /* Tema PP (Peitão de Pombo — laranja + branco) */
   .mgh-card.theme-pp {
@@ -1540,8 +1547,10 @@ const UPSELLS = [
     headline: 'Quero atendimento individualizado, conhecer o Método GH',
     sub: CONSULTORIA.subtitle,
     bullets: CONSULTORIA.bullets,
-    cta: 'Falar sobre a consultoria',
-    link: CONSULTORIA.link
+    cta: 'Garantir minha vaga na consultoria',
+    link: 'https://payfast.greenn.com.br/redirect/302606',
+    priceParcel: 'Trimestral · 12x R$51,10',
+    priceAvista: 'R$497 à vista'
   }
 ];
 
@@ -1571,13 +1580,15 @@ function renderUpsells() {
         <div class="mgh-headline">${u.headline}</div>
         <div class="mgh-sub">${u.sub}</div>
         <ul class="mgh-bullets">${u.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-        ${priceBlock(u)}
         ${u.id === 'consultoria' ? `
         <div class="vsl-label">Por que migrar pro Método GH</div>
         <video class="vsl-video" controls playsinline preload="none" poster="assets/vsl-poster.jpg">
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
+        ${priceBlock(u)}
         <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
+        ${u.id === 'consultoria' ? `
+        <a class="mgh-wa-soft" href="${CONSULTORIA.link}" target="_blank" rel="noopener">Quer um plano mais longo ou falar comigo antes? Me chama no whats →</a>` : ''}
       </div>
     `).join('');
 }
