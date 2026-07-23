@@ -2965,7 +2965,12 @@ function openInstallModal() {
       <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">No celular o ícone abre em tela cheia e fica disponível offline.</p>
     `;
   }
-  body.innerHTML = html;
+  // Aviso comum a todos os aparelhos: instalar = canal de avisos e condições de aluno
+  const avisoPromo = `
+    <div style="margin-bottom:16px;padding:12px 14px;border:1px solid rgba(255,107,26,.35);background:rgba(255,107,26,.07);border-radius:12px;font-size:13.5px;line-height:1.55;">
+      <b style="color:var(--accent-hi,#FF8642);">Instala e deixa na tela inicial.</b> É com o app instalado que os avisos chegam até ti: novidade do método, atualização do treino e <b>condição especial de aluno</b> quando eu soltar desconto. Quem fica só no navegador acaba perdendo.
+    </div>`;
+  body.innerHTML = avisoPromo + html;
   document.getElementById('installModal').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
