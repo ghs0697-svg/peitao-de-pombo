@@ -1,4 +1,4 @@
-const CACHE_NAME = 'peitao-de-pombo-v55';
+const CACHE_NAME = 'peitao-de-pombo-v56';
 const ASSETS = [
   './',
   './index.html',
@@ -37,4 +37,31 @@ self.addEventListener('fetch', e => {
   }
   // cache-first pros assets
   e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});
+
+// ── Web Push: avisos do Peitão (novidades e condições de aluno; mesmo desenho do treino-app/CRM) ──
+self.addEventListener('push', e => {
+  let data = { title: 'Peitão de Pombo', body: 'Novidade no teu app. Abre aí.', tag: 'peitao-aviso', url: './' };
+  try { if (e.data) data = Object.assign(data, e.data.json()); } catch (_) {}
+  e.waitUntil(self.registration.showNotification(data.title, {
+    body: data.body,
+    icon: 'assets/icon-192.png',
+    badge: 'assets/icon-192.png',
+    tag: data.tag,
+    renotify: true,
+    data: { url: data.url || './' }
+  }));
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || './';
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if (c.url.includes(self.registration.scope) && 'focus' in c) return c.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(url);
+    })
+  );
 });
