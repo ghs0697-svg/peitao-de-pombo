@@ -3078,12 +3078,21 @@ function initPeitaoPush() {
     if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
     const tabs = document.getElementById('tabs');
     if (!tabs || document.getElementById('pushBanner')) return;
+    // iPhone fora da tela inicial: o push só existe com o app instalado (standalone).
+    // Então o banner avisa isso ANTES, pra não parecer que ativou e nada chegou.
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const iosNotInstalled = iOS && !standalone;
+    const msg = iosNotInstalled
+      ? '<b style="color:var(--accent-hi,#FF8642);">🔔 Ativa os avisos do Peitão.</b> No iPhone os avisos só chegam com o app na tela inicial. Adiciona em 10 segundos, depois é só ativar, e recebe novidade do método e condição especial de aluno direto no celular.'
+      : '<b style="color:var(--accent-hi,#FF8642);">🔔 Ativa os avisos do Peitão.</b> Novidade do método e condição especial de aluno chegam direto no teu celular, sem depender de tu abrir o app na hora certa.';
+    const label = iosNotInstalled ? 'ADICIONAR NA TELA INICIAL' : 'ATIVAR AVISOS';
     const el = document.createElement('div');
     el.id = 'pushBanner';
     el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,107,26,.35);background:rgba(255,107,26,.07);border-radius:14px;font-size:13.5px;line-height:1.55;';
-    el.innerHTML = '<b style="color:var(--accent-hi,#FF8642);">🔔 Ativa os avisos do Peitão.</b> Novidade do método e condição especial de aluno chegam direto no teu celular, sem depender de tu abrir o app na hora certa.'
+    el.innerHTML = msg
       + '<div style="display:flex;gap:10px;margin-top:12px;">'
-      + '<button onclick="ativarAvisosPeitao()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">ATIVAR AVISOS</button>'
+      + '<button onclick="ativarAvisosPeitao()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">' + label + '</button>'
       + '<button onclick="dismissPushBanner(false)" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
       + '</div>';
     tabs.parentNode.insertBefore(el, tabs);
