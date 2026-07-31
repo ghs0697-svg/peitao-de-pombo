@@ -1974,35 +1974,35 @@ function computeWeek() {
   return Math.min(12, Math.max(1, Math.floor(d / 7) + 1));
 }
 // Cada fase é um bloco de 4 semanas do protocolo de 12: 1.0=1-4, 2.0=5-8, 3.0=9-12.
+// Semana e fase são acopladas nos DOIS sentidos: a semana é a fonte da verdade e a fase
+// segue ela sozinha. Avançar pra semana 5 já vira protocolo 2.0; escolher a fase 2.0 leva
+// pra semana 5. Assim o aluno nunca fica preso no protocolo 1.0 por 12 semanas.
 const PHASE_WEEKS = { '1.0': [1, 4], '2.0': [5, 8], '3.0': [9, 12] };
 function phaseWeekRange(v) { return PHASE_WEEKS[v] || [1, 12]; }
 function phaseOfWeek(w) { if (w >= 9) return '3.0'; if (w >= 5) return '2.0'; return '1.0'; }
-function activeVer() { return state.tab === 'semana' ? state.semanaVer : state.peitoVer; }
-function clampToPhase(w, v) { const [a, b] = phaseWeekRange(v); return Math.min(b, Math.max(a, w || a)); }
-// Ao escolher uma fase: cai na semana "agora" se ela pertence à fase, senão na 1ª semana da fase.
+// Fases 2.0/3.0 travadas (janela de reembolso) => navegação só até a semana 4.
+function maxUnlockedWeek() { return isPhaseLocked('2.0') ? 4 : 12; }
+// A fase sempre segue a semana atual (a semana manda).
+function syncPhaseToWeek() { const v = phaseOfWeek(state.week); state.peitoVer = v; state.semanaVer = v; }
+// Ao escolher uma fase: cai na semana "agora" se ela pertence à fase, senão na 1ª da fase.
 function weekForPhase(v) { const cur = computeWeek(); const [a, b] = phaseWeekRange(v); return (cur >= a && cur <= b) ? cur : a; }
-// 1ª renderização: semana = a real (por dias de compra) e fase = a que contém essa semana.
-function initWeekPhaseOnce() {
-  if (state.week != null) return;
-  state.week = computeWeek();
-  const v0 = phaseOfWeek(state.week);
-  if (!isPhaseLocked(v0)) { state.peitoVer = v0; state.semanaVer = v0; }
-}
+// 1ª renderização: semana = a real (pelos dias de compra); a fase se deriva dela.
+function initWeekPhaseOnce() { if (state.week == null) state.week = computeWeek(); }
 function setWeek(w) {
-  const [a, b] = phaseWeekRange(activeVer());
-  w = Math.min(b, Math.max(a, w));
+  w = Math.min(maxUnlockedWeek(), Math.max(1, w));
   if (w === state.week) return;
   state.week = w;
+  syncPhaseToWeek(); // cruzar a fronteira da semana troca a fase sozinho
   if (state.tab === 'peito') renderPeito();
   else if (state.tab === 'semana') renderSemana();
 }
 function weekSelectorHtml() {
-  const [a, b] = phaseWeekRange(activeVer());
+  const max = maxUnlockedWeek();
   const w = state.week, cur = computeWeek();
   return `<div class="wk-row">
-    <button class="wk-nav" onclick="setWeek(${w - 1})" ${w <= a ? 'disabled' : ''} aria-label="Semana anterior">‹</button>
+    <button class="wk-nav" onclick="setWeek(${w - 1})" ${w <= 1 ? 'disabled' : ''} aria-label="Semana anterior">‹</button>
     <div class="wk-label">SEMANA <b>${w}</b> / 12${w === cur ? ' <span class="wk-now">agora</span>' : ''}</div>
-    <button class="wk-nav" onclick="setWeek(${w + 1})" ${w >= b ? 'disabled' : ''} aria-label="Próxima semana">›</button>
+    <button class="wk-nav" onclick="setWeek(${w + 1})" ${w >= max ? 'disabled' : ''} aria-label="Próxima semana">›</button>
   </div>`;
 }
 function setsEmail() { return (state.user && state.user.email) || 'anon'; }
@@ -2732,7 +2732,8 @@ function mghCard() {
 function renderPeito() {
   const c = document.getElementById('screen-peito');
   initWeekPhaseOnce();
-  state.week = clampToPhase(state.week, state.peitoVer);
+  state.week = Math.min(maxUnlockedWeek(), Math.max(1, state.week));
+  syncPhaseToWeek();
   const t = DATA.treinoPeito[state.peitoVer];
   if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
   const ctxKey = 'peito_' + state.peitoVer;
@@ -2799,13 +2800,14 @@ function tryPhaseChange(setter, v) {
   }
   setter(v);
 }
-function setPeitoVer(v) { state.peitoVer = v; state.week = weekForPhase(v); renderPeito(); }
+function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
 
 // ════════ SEMANA COMPLETA (upsell) ════════
 function renderSemana() {
   const c = document.getElementById('screen-semana');
   initWeekPhaseOnce();
-  state.week = clampToPhase(state.week, state.semanaVer);
+  state.week = Math.min(maxUnlockedWeek(), Math.max(1, state.week));
+  syncPhaseToWeek();
   if (!state.upsellUnlocked) {
     c.innerHTML = paywall('semana');
     return;
@@ -2845,7 +2847,7 @@ function renderSemana() {
     ${renderUpsells()}
   `;
 }
-function setSemanaVer(v) { state.semanaVer = v; state.semanaDay = 0; state.week = weekForPhase(v); renderSemana(); }
+function setSemanaVer(v) { state.semanaDay = 0; state.week = weekForPhase(v); renderSemana(); }
 function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
 
 // ════════ DIETA (upsell) ════════
