@@ -2856,10 +2856,10 @@ function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; renderPeito();
 // Concluídas persistem no localStorage e pegam carona no backup de cargas da conta
 // (mesma chave peitao_sets_*, formato [{d:'1'|'0'}]): trocou de aparelho, progresso volta.
 const AULAS = [
-  { id: 'mnVTWY4oWdc', titulo: 'Aula 1' },
-  { id: 'c8PNnIpwVDI', titulo: 'Aula 2' },
-  { id: 'M9z4L1nQYA8', titulo: 'Aula 3' },
-  { id: 'mFiXV_QDIko', titulo: 'Aula 4' },
+  { id: 'mnVTWY4oWdc', titulo: 'Peito é abraço, não empurrão' },
+  { id: 'c8PNnIpwVDI', titulo: 'Menos supino, mais abraço' },
+  { id: 'M9z4L1nQYA8', titulo: 'A ordem certa: livre antes, máquina no fim' },
+  { id: 'mFiXV_QDIko', titulo: 'Execução perfeita e 2x na semana' },
 ];
 function aulasKey() { return `peitao_sets_${setsEmail()}_aulas`; }
 function loadAulasDone() {
