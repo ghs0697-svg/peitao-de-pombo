@@ -186,6 +186,22 @@
     white-space: nowrap;
   }
   .day-btn.active { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
+
+  /* Aulas — player estilo área de membros com progresso */
+  .aulas-prog { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin: 4px 0 6px; }
+  .aulas-prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-hi)); border-radius: 999px; transition: width .35s; }
+  .aulas-prog-lbl { font-size: 12.5px; color: var(--text-mute); font-weight: 700; margin: 0 0 16px; }
+  .aula-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 16px; transition: border-color .2s; }
+  .aula-card.done { border-color: var(--ok); }
+  .aula-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .aula-num { width: 30px; height: 30px; flex: none; border-radius: 50%; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #160a03; font-weight: 800; font-size: 14px; display: grid; place-items: center; }
+  .aula-card.done .aula-num { background: var(--ok); color: #04160c; }
+  .aula-tit { font-weight: 800; font-size: 15.5px; }
+  .aula-badge { margin-left: auto; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; color: var(--ok); border: 1px solid var(--ok); border-radius: 999px; padding: 3px 9px; }
+  .aula-vid { aspect-ratio: 9 / 16; max-height: 62vh; margin: 0 auto 12px; border-radius: 12px; overflow: hidden; background: #000; }
+  .aula-vid iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .aula-btn { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: 800; font-size: 13.5px; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .aula-btn.on { background: var(--ok); border-color: var(--ok); color: #04160c; }
   .day-name { font-size: 12px; color: var(--text-mute); margin-bottom: 14px; letter-spacing: .5px; font-weight: 600; }
 
   /* Exercise card — clean, big tap targets */
@@ -1130,8 +1146,8 @@
 
     <div id="authExpired" class="hidden">
       <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">⏳ Teu acesso expirou</h2>
-      <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Libera o <b>acesso vitalício</b>, paga uma vez, é teu pra sempre, sem prazo pra acabar.</p>
-      <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Liberar acesso vitalício</a>
+      <p class="hint" style="margin-bottom:16px;">O acesso de 3 meses ao Peitão de Pombo chegou ao fim. Garante o <b>Pombo Completo</b>: todos os treinos da semana, dieta completa e <b>acesso vitalício</b>, paga uma vez e nunca mais expira.</p>
+      <a class="auth-btn" id="expiredCta" href="#" target="_blank" rel="noopener">🔓 Garantir o Pombo Completo</a>
       <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
       <div class="auth-msg" style="opacity:.7;">Já liberou? Faz login de novo.</div>
     </div>
@@ -1149,6 +1165,7 @@
 
   <main>
     <div class="screen active" id="screen-peito"></div>
+    <div class="screen" id="screen-aulas"></div>
     <div class="screen" id="screen-semana"></div>
     <div class="screen" id="screen-dieta"></div>
     <div class="screen" id="screen-ergo"></div>
@@ -1238,8 +1255,8 @@
 // ════════ CONFIG ════════
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
 // Links de checkout — Hotmart
-const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // 5x + dieta R$47 → libera SEMANA + DIETA
-const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // vitalício R$14 → zera os 90 dias
+const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // Pombo Completo R$37 → libera SEMANA + DIETA + VITALÍCIO (desde 10/08/2026)
+const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // legado: vitalício avulso R$14, fora do checkout; só pros alunos antigos do 5x sem lifetime
 const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Hormonal/Ergogênicos pt 1 R$9,90
 const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Hormonal/Ergogênicos pt 2 R$9,90
 const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$14,90
@@ -1251,9 +1268,10 @@ let DATA = null;
 let state = {
   tab: 'peito',
   peitoVer: '1.0',
+  peitoDay: 'A',          // A = treino de peito do front · B = DIA 1 do 5x (2º peito da semana)
   semanaVer: '1.0',
   dietaVer: '2.8K',
-  semanaDay: 0,
+  semanaDay: 1,           // a aba SEMANA começa no primeiro dia não-peito (índice real do array)
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
   lifetime: false,        // vem do backend (flag de acesso vitalício)
   ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
@@ -1305,7 +1323,8 @@ function showAuth(mode) {
   document.getElementById('authReset').classList.toggle('hidden', mode !== 'reset');
   document.getElementById('authExpired').classList.toggle('hidden', mode !== 'expired');
   if (mode === 'expired') {
-    document.getElementById('expiredCta').href = CHECKOUT_VITALICIO;
+    // Desde a virada, a renovação do expirado é o Pombo Completo (inclui o vitalício)
+    document.getElementById('expiredCta').href = CHECKOUT_5X;
   }
 }
 async function doLogin() {
@@ -1445,9 +1464,9 @@ function enterApp() {
   if (typeof state.daysLeft === 'number' && state.daysLeft <= 14) {
     sub.innerHTML = state.daysLeft <= 0
       ? 'Acesso expirado'
-      : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'}, libera o vitalício`;
+      : `⏳ Teu acesso acaba em ${state.daysLeft} dia${state.daysLeft === 1 ? '' : 's'}, garante o Pombo Completo`;
     sub.style.cursor = 'pointer';
-    sub.onclick = () => window.open(CHECKOUT_VITALICIO, '_blank');
+    sub.onclick = () => window.open(CHECKOUT_5X, '_blank');
   } else {
     sub.textContent = 'Treino direto. Sem enrolação.';
     sub.style.cursor = '';
@@ -1455,6 +1474,7 @@ function enterApp() {
   }
   renderTabs();
   renderPeito();
+  renderAulas();
   renderSemana();
   renderDieta();
   renderErgo();
@@ -1512,22 +1532,25 @@ const UPSELLS = [
     theme: 'pp',
     logo: 'PP',
     marca: 'PEITÃO DE POMBO',
-    badge: 'TREINO COMPLETO',
-    headline: 'Treino 5x + Dietas, pro resto do corpo não ficar fino',
-    sub: 'Tu já tá fazendo o peito crescer. Mas treinar só peito deixa o corpo desproporcional. Libera o treino completo da semana + as dietas e cresce parelho.',
+    badge: 'CORPO INTEIRO + VITALÍCIO',
+    headline: 'Pombo Completo: o resto do corpo, a dieta, e nunca mais paga',
+    sub: 'O peito tu já garantiu. O Pombo Completo libera os outros treinos da semana, a dieta completa, e ainda torna teu acesso vitalício: paga uma vez, é teu pra sempre.',
     bullets: [
-      'Treino 5x na semana, costas, ombro, braço e perna',
-      'Dietas pro corpo inteiro crescer sem encher de gordura',
+      'Todos os outros treinos da semana: costas, ombro, braço e perna',
+      'Dieta completa pro corpo crescer sem encher de gordura',
+      'Acesso vitalício: nunca expira, sem renovar',
       '3 fases de progressão (1.0 → 2.0 → 3.0)',
       'Tudo dentro do app, sem PDF perdido'
     ],
-    cta: 'Liberar treino 5x + dietas',
+    cta: 'Quero o Pombo Completo',
     link: CHECKOUT_5X,
     priceParcel: '4x R$10,07',
     priceAvista: 'R$37 à vista',
     hideIfUpsell: true
   },
   {
+    // Legado: só aparece pros alunos do 5x antigo (têm upsell, não têm lifetime).
+    // Pra eles a rota justa continua o vitalício avulso de 14; aluno novo do bump já leva junto.
     id: 'vitalicio',
     theme: 'pp',
     logo: 'PP',
@@ -1537,7 +1560,7 @@ const UPSELLS = [
     sub: 'Por padrão o acesso do Peitão é de 3 meses. Com o acesso vitalício tu nunca perde, abre o app daqui a 1 ano e tá tudo lá, treino, dieta, vídeos.',
     bullets: [
       'Acesso pra sempre, sem renovar, sem expirar',
-      'Atrelado à tua conta, vale pro base e pro 5x + dieta',
+      'Atrelado à tua conta, vale por tudo que tu já tem',
       'Paga uma vez e acabou',
       'Atualizações futuras já incluídas'
     ],
@@ -1545,6 +1568,7 @@ const UPSELLS = [
     link: CHECKOUT_VITALICIO,
     priceParcel: '2x R$7,37',
     priceAvista: 'R$14 à vista',
+    onlyIfUpsell: true,
     hideIfLifetime: true
   },
   {
@@ -1598,6 +1622,7 @@ function renderUpsells() {
   return UPSELLS
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
     .filter(u => !(u.hideIfLifetime && state.lifetime))
+    .filter(u => !(u.onlyIfUpsell && !state.upsellUnlocked))
     .map(u => `
       <div class="mgh-card theme-${u.theme}" style="margin-top:14px;">
         <div class="mgh-head">
@@ -1823,6 +1848,9 @@ function renderTabs() {
   document.getElementById('tabs').innerHTML = `
     <button class="tab ${state.tab==='peito'?'active':''}" onclick="showTab('peito')">
       <span class="tab-ic"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M16 33 L2 27 L5 33 L1 34 L5 39 L2 41 L9 42 L18 41 Z" fill="#5B6880"/><path d="M32 53 L31 60 M40 53 L41 60" stroke="#D9695F" stroke-width="2.4" stroke-linecap="round"/><path d="M27 60 h7 M37 60 h7" stroke="#D9695F" stroke-width="2" stroke-linecap="round"/><path d="M15 33 C13 26 19 21 27 21 C32 21 35 22 37 25 C40 20 48 20 53 27 C57 33 56 44 48 51 C42 56 31 56 26 50 C23 47 22 43 22 40 C20 39 17 37 15 35 Z" fill="#737F98"/><path d="M44 33 C52 34 54 43 49 49 C45 53 38 53 34 49 C40 49 45 45 45 39 C45 36 44 34 44 33 Z" fill="#8E99B0"/><path d="M22 32 C28 29 35 31 39 38 C33 36 26 37 21 41 Z" fill="#616D86"/><path d="M37 25 C43 24 46 29 44 33 C41 30 38 29 35 31 C34 28 34 25 37 25 Z" fill="#46B58F"/><circle cx="46" cy="17" r="7.5" fill="#7E8AA2"/><path d="M53 16 l8 2 l-8 3 Z" fill="#C77C4E"/><circle cx="52.5" cy="16" r="1.4" fill="#EDEFF2"/><circle cx="47" cy="16" r="3" fill="#F5A331"/><circle cx="47" cy="16" r="1.5" fill="#140E09"/><circle cx="47.7" cy="15.3" r=".5" fill="#fff"/></svg></span>PEITO
+    </button>
+    <button class="tab ${state.tab==='aulas'?'active':''}" onclick="showTab('aulas')">
+      <span class="tab-ic">🎓</span>AULAS
     </button>
     <button class="tab ${state.tab==='semana'?'active':''} ${locked?'locked':''}" onclick="showTab('semana')">
       <span class="tab-ic">📅</span>SEMANA ${locked?'<span class="lock">🔒</span>':''}
@@ -2585,7 +2613,7 @@ async function downloadTreinoPDF(kind) {
   doc.text('M É T O D O   G H', w/2, 11, { align: 'center' });
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
-  const titulo = kind === 'peito' ? 'TREINO DE PEITO' : 'TREINO 5X NA SEMANA';
+  const titulo = kind === 'peito' ? 'TREINO DE PEITO · A e B' : 'TREINO DA SEMANA';
   doc.text(titulo, w/2, 21, { align: 'center' });
 
   let y = 36;
@@ -2606,20 +2634,30 @@ async function downloadTreinoPDF(kind) {
   doc.text('Clica no nome do exercicio (em dourado) pra abrir o video de execucao', w/2, y, { align: 'center' });
   y += 6;
 
-  const t = (kind === 'peito') ? DATA.treinoPeito[state.peitoVer] : DATA.treino5x[state.semanaVer];
-  const dias = t.dias;
-  for (let di = 0; di < dias.length; di++) {
-    const dia = dias[di];
-    const ctxKey = (kind === 'peito')
-      ? ('peito_' + state.peitoVer)
-      : ('semana_' + state.semanaVer + '_' + di);
+  // peito = Treino A (front) + Treino B (DIA 1 do 5x, mesma chave de carga da semana_0);
+  // semana = dias 1-4 (o peito mora no PDF do peito), numeração visual 1-4, chaves reais.
+  let entries;
+  if (kind === 'peito') {
+    const tp = DATA.treinoPeito[state.peitoVer];
+    const b = DATA.treino5x[state.peitoVer] && DATA.treino5x[state.peitoVer].dias[0];
+    entries = [{ dia: tp.dias[0], nome: 'TREINO A (ex: segunda) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'peito_' + state.peitoVer }];
+    if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'semana_' + state.peitoVer + '_0' });
+  } else {
+    const ts = DATA.treino5x[state.semanaVer];
+    entries = ts.dias.map((dia, di) => ({ dia, di, ctxKey: 'semana_' + state.semanaVer + '_' + di }))
+      .filter(e => e.di !== 0)
+      .map(e => ({ ...e, nome: (e.dia.nome || ('DIA ' + e.di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + e.di + ' — ') }));
+  }
+  for (let di = 0; di < entries.length; di++) {
+    const dia = entries[di].dia;
+    const ctxKey = entries[di].ctxKey;
     if (y > h - 30) { doc.addPage(); y = 16; }
     doc.setFillColor(...GOLD);
     doc.rect(10, y, w - 20, 7, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
-    doc.text(dia.nome, 13, y + 4.8);
+    doc.text(entries[di].nome, 13, y + 4.8);
     y += 9;
 
     // Coleta URLs paralelas pra adicionar hyperlinks via didDrawCell
@@ -2676,7 +2714,7 @@ async function downloadTreinoPDF(kind) {
     doc.text('Peitao de Pombo - Metodo GH - @gh.scheuermann', 12, h - 6);
   }
 
-  doc.save(`${kind === 'peito' ? 'Treino-Peito' : 'Treino-5x'}-Fase-${ver}-MetodoGH.pdf`);
+  doc.save(`${kind === 'peito' ? 'Treino-Peito-A-B' : 'Treino-Semana'}-Fase-${ver}-MetodoGH.pdf`);
 }
 
 // Conclude bar — progresso + botão compartilhar
@@ -2736,12 +2774,22 @@ function renderPeito() {
   syncPhaseToWeek();
   const t = DATA.treinoPeito[state.peitoVer];
   if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
-  const ctxKey = 'peito_' + state.peitoVer;
-  const exList = t.dias[0]?.exercicios || [];
+  // Dois treinos de peito por semana: A = treino do front · B = DIA 1 do 5x.
+  // O B usa a MESMA chave de carga do dia 1 da aba SEMANA (semana_<ver>_0): aluno antigo
+  // do 5x vê os pesos que já anotou; nunca migrar/renomear essa chave.
+  const dayB = DATA.treino5x[state.peitoVer] && DATA.treino5x[state.peitoVer].dias[0];
+  const isB = state.peitoDay === 'B' && !!dayB;
+  const ctxKey = isB ? ('semana_' + state.peitoVer + '_0') : ('peito_' + state.peitoVer);
+  const exList = (isB ? dayB.exercicios : t.dias[0]?.exercicios) || [];
   const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
+  const abBtns = dayB ? `
+    <div class="day-row">
+      <button class="day-btn ${!isB ? 'active' : ''}" onclick="setPeitoDay('A')">TREINO A · ex: segunda</button>
+      <button class="day-btn ${isB ? 'active' : ''}" onclick="setPeitoDay('B')">TREINO B · ex: quinta</button>
+    </div>` : '';
   c.innerHTML = `
     <h2>Treino de Peito</h2>
-    <p class="hint">Teu treino completo de peito. Escolhe a fase e começa.</p>
+    <p class="hint">Dois treinos de peito na semana, com 2 dias de folga entre eles (ex: segunda e quinta). Escolhe a fase e o treino do dia.</p>
     <div class="mat-row">
       <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
         <div class="mat-ic">📐</div>
@@ -2763,14 +2811,15 @@ function renderPeito() {
         </button>`;
       }).join('')}
     </div>
+    ${abBtns}
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
-      <span class="dl-ic">⬇</span> Baixar PDF · Fase ${state.peitoVer}
+      <span class="dl-ic">⬇</span> Baixar PDF (treinos A e B) · Fase ${state.peitoVer}
     </button>
     ${weekSelectorHtml()}
     ${gamiStripHtml()}
     ${reguaCardHtml()}
     ${desafioHtml()}
-    ${concludeBar(ctxKey, exList, 'Treino de Peito · Fase ' + state.peitoVer)}
+    ${concludeBar(ctxKey, exList, 'Treino de Peito ' + (isB ? 'B' : 'A') + ' · Fase ' + state.peitoVer)}
     ${exs}
     ${recordesHtml()}
     ${renderUpsells()}
@@ -2801,6 +2850,59 @@ function tryPhaseChange(setter, v) {
   setter(v);
 }
 function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
+function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; renderPeito(); }
+
+// ════════ AULAS — o método em vídeo, com progresso por conta ════════
+// Concluídas persistem no localStorage e pegam carona no backup de cargas da conta
+// (mesma chave peitao_sets_*, formato [{d:'1'|'0'}]): trocou de aparelho, progresso volta.
+const AULAS = [
+  { id: 'mnVTWY4oWdc', titulo: 'Aula 1' },
+  { id: 'c8PNnIpwVDI', titulo: 'Aula 2' },
+  { id: 'M9z4L1nQYA8', titulo: 'Aula 3' },
+  { id: 'mFiXV_QDIko', titulo: 'Aula 4' },
+];
+function aulasKey() { return `peitao_sets_${setsEmail()}_aulas`; }
+function loadAulasDone() {
+  try {
+    const a = JSON.parse(localStorage.getItem(aulasKey()) || 'null');
+    if (Array.isArray(a)) return AULAS.map((_, i) => !!(a[i] && a[i].d === '1'));
+  } catch (e) {}
+  return AULAS.map(() => false);
+}
+function toggleAula(i) {
+  const done = loadAulasDone();
+  done[i] = !done[i];
+  const arr = done.map(v => ({ d: v ? '1' : '0' }));
+  try { localStorage.setItem(aulasKey(), JSON.stringify(arr)); } catch (e) {}
+  queueSetsSync(aulasKey(), arr);
+  if (done[i] && done.every(Boolean)) showToast('🏆 Curso completo! Agora executa: peito 2x na semana.');
+  renderAulas();
+}
+function renderAulas() {
+  const c = document.getElementById('screen-aulas');
+  if (!c) return;
+  const done = loadAulasDone();
+  const n = done.filter(Boolean).length;
+  c.innerHTML = `
+    <h2>🎓 Aulas do Peitão</h2>
+    <p class="hint">O método explicado em ${AULAS.length} aulas rápidas. Assiste na ordem antes de treinar: muda o jeito que tu executa cada série.</p>
+    <div class="aulas-prog"><div class="aulas-prog-bar" style="width:${Math.round((n / AULAS.length) * 100)}%"></div></div>
+    <p class="aulas-prog-lbl">${n} de ${AULAS.length} aulas concluídas${n === AULAS.length ? ' · curso completo 🏆' : ''}</p>
+    ${AULAS.map((a, i) => `
+      <div class="aula-card${done[i] ? ' done' : ''}">
+        <div class="aula-head">
+          <span class="aula-num">${done[i] ? '✓' : i + 1}</span>
+          <span class="aula-tit">${a.titulo}</span>
+          ${done[i] ? '<span class="aula-badge">CONCLUÍDA</span>' : ''}
+        </div>
+        <div class="aula-vid">
+          <iframe src="https://www.youtube.com/embed/${a.id}?rel=0&playsinline=1&modestbranding=1" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="${a.titulo}"></iframe>
+        </div>
+        <button class="aula-btn${done[i] ? ' on' : ''}" onclick="toggleAula(${i})">${done[i] ? '✓ Aula concluída' : 'Marcar como concluída'}</button>
+      </div>
+    `).join('')}
+  `;
+}
 
 // ════════ SEMANA COMPLETA (upsell) ════════
 function renderSemana() {
@@ -2815,17 +2917,22 @@ function renderSemana() {
   const t = DATA.treino5x[state.semanaVer];
   if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
   const dias = t.dias;
-  const dayBtns = dias.map((d, i) => `
-    <button class="day-btn ${state.semanaDay===i?'active':''}" onclick="setSemanaDay(${i})">DIA ${i+1}</button>
+  // O DIA 1 (peito) saiu desta aba: mora na aba PEITO como Treino B. Os botões PULAM o
+  // índice 0 mas mantêm os índices REAIS dos demais dias (ctxKey usa o índice do array;
+  // reindexar perderia as cargas anotadas). A numeração exibida é só visual (1-4).
+  if (state.semanaDay === 0) state.semanaDay = 1;
+  const dayBtns = dias.map((d, i) => i === 0 ? '' : `
+    <button class="day-btn ${state.semanaDay===i?'active':''}" onclick="setSemanaDay(${i})">DIA ${i}</button>
   `).join('');
-  const day = dias[state.semanaDay] || dias[0];
+  const day = dias[state.semanaDay] || dias[1];
   const ctxKey = 'semana_' + state.semanaVer + '_' + state.semanaDay;
   const exList = day.exercicios || [];
   const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
-  const dayLabel = day.nome || ('DIA ' + (state.semanaDay+1));
+  const dayLabel = (day.nome || ('DIA ' + state.semanaDay)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + state.semanaDay + ' — ');
   c.innerHTML = `
     <h2>Semana Completa</h2>
-    <p class="hint">Treino 5x na semana. Escolhe a fase e o dia.</p>
+    <p class="hint">O resto da semana: 4 treinos pro corpo inteiro acompanhar o peitão.</p>
+    <div class="ex-obs" style="margin-bottom:14px;">🐦 Os DOIS treinos de peito da semana (A e B) moram na aba <b>PEITO</b>. Aqui é costas, perna, ombro e braço.</div>
     <div class="ver-row">
       ${['1.0','2.0','3.0'].map(v => {
         const locked = isPhaseLocked(v);
@@ -2847,7 +2954,7 @@ function renderSemana() {
     ${renderUpsells()}
   `;
 }
-function setSemanaVer(v) { state.semanaDay = 0; state.week = weekForPhase(v); renderSemana(); }
+function setSemanaVer(v) { state.semanaDay = 1; state.week = weekForPhase(v); renderSemana(); }
 function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
 
 // ════════ DIETA (upsell) ════════
@@ -2903,14 +3010,14 @@ function setDietaVer(v) { state.dietaVer = v; renderDieta(); }
 // ════════ PAYWALL ════════
 function paywall(kind) {
   const perks = kind === 'semana'
-    ? ['Treino completo 5x na semana', 'Peito, costas, pernas, ombro e braço', '3 fases de progressão (1.0 → 2.0 → 3.0)', 'Mais de 38 exercícios com vídeo']
-    : ['Dieta completa pra secar e crescer', 'Refeições com opções e equivalências', 'Macros calculados por refeição', 'Pronta pra seguir, sem complicação'];
-  const titulo = kind === 'semana' ? 'Libera a Semana Completa' : 'Libera a Dieta';
+    ? ['Todos os outros treinos da semana: costas, pernas, ombro e braço', 'Dieta completa com opções e equivalências', 'Acesso vitalício: nunca mais expira', '3 fases de progressão, tudo com vídeo']
+    : ['Dieta completa pra secar e crescer', 'Refeições com opções e equivalências', 'Todos os outros treinos da semana inclusos', 'Acesso vitalício: nunca mais expira'];
+  const titulo = 'Libera o Pombo Completo';
   return `
     <div class="paywall">
       <div class="lock-ic">🔒</div>
       <h3>${titulo}</h3>
-      <p>Tu pegou só o treino de peito. Libera a semana completa <u>e</u> a dieta.</p>
+      <p>O peito tu já garantiu. O Pombo Completo libera o resto da semana, a dieta completa, e ainda torna teu acesso <u>vitalício</u>.</p>
       <div class="perks">
         ${perks.map(p => `<div>${p}</div>`).join('')}
       </div>
