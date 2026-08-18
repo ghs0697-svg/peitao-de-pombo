@@ -187,6 +187,19 @@
   }
   .day-btn.active { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
 
+  /* Modal do grupo (1ª abertura) */
+  .gmodal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(5,4,3,.82); backdrop-filter: blur(4px); }
+  .gmodal.show { display: flex; animation: gm-in .22s ease-out; }
+  @keyframes gm-in { from { opacity: 0; } to { opacity: 1; } }
+  .gmodal-card { width: 100%; max-width: 380px; background: var(--surface); border: 1.5px solid rgba(45,216,129,.4); border-radius: 20px; padding: 28px 22px; text-align: center; animation: gm-pop .25s ease-out; }
+  @keyframes gm-pop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .gmodal-ic { font-size: 44px; margin-bottom: 12px; }
+  .gmodal-txt { font-size: 16.5px; line-height: 1.5; margin-bottom: 20px; }
+  .gmodal-cta { width: 100%; padding: 15px; border: none; border-radius: 13px; background: #25D366; color: #062b16; font-weight: 800; font-size: 15px; cursor: pointer; font-family: inherit; }
+  .gmodal-cta:active { transform: scale(.98); }
+  .gmodal-later { width: 100%; margin-top: 10px; padding: 12px; border: none; border-radius: 13px; background: none; color: var(--text-mute); font-size: 13px; cursor: pointer; font-family: inherit; }
+  @media (prefers-reduced-motion: reduce) { .gmodal.show, .gmodal-card { animation: none; } }
+
   /* Aulas — player estilo área de membros com progresso */
   .aulas-prog { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin: 4px 0 6px; }
   .aulas-prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-hi)); border-radius: 999px; transition: width .35s; }
@@ -1229,6 +1242,16 @@
   </form>
 </div>
 
+<!-- Modal do grupo de alunos (1ª abertura) -->
+<div class="gmodal" id="grupoModal">
+  <div class="gmodal-card">
+    <div class="gmodal-ic">🎁</div>
+    <div class="gmodal-txt"><b>Grupo fechado</b> pra receber minhas novidades, descontos e upgrades.</div>
+    <button class="gmodal-cta" onclick="closeGrupoModal(true)">ENTRAR NO GRUPO</button>
+    <button class="gmodal-later" onclick="closeGrupoModal(false)">Agora não</button>
+  </div>
+</div>
+
 <!-- Modal instalar PWA -->
 <div class="vmodal" id="installModal" onclick="if(event.target.id==='installModal')closeInstallModal()">
   <div class="vmodal-inner" style="max-width:480px;">
@@ -1481,7 +1504,8 @@ function enterApp() {
   restoreSetsFromServer();   // backup de cargas: restaura da conta (aparelho novo) + sobe o que só existe local
   renderParceiros();
   startHeartbeat();
-  initGrupoBanner();         // convite pro grupo de alunos no whats (desligado enquanto sem link)
+  initGrupoModal();          // 1ª abertura: convite em tela cheia pro grupo do whats
+  initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
 }
 
@@ -3049,7 +3073,7 @@ function closeVideo() {
   document.getElementById('vwrap').innerHTML = '';
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); closeInstallModal(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); closeInstallModal(); const gm = document.getElementById('grupoModal'); if (gm && gm.classList.contains('show')) closeGrupoModal(false); } });
 
 // ════════ INSTALL PWA — Botão flutuante + modal por plataforma ════════
 let _deferredInstallPrompt = null;
@@ -3209,7 +3233,7 @@ async function ativarAvisosPeitao() {
 // Liga quando GRUPO_WPP_LINK receber o convite (vazio = banner desligado, zero efeito).
 // GRUPO_BANNER_VER versiona a campanha: trocar a versão faz o banner reaparecer
 // até pra quem dispensou a campanha anterior.
-const GRUPO_WPP_LINK = '';   // ex: 'https://chat.whatsapp.com/XXXX'
+const GRUPO_WPP_LINK = 'https://chat.whatsapp.com/FxtqXqzz56ALqzPI2vpozM?s=cl&p=i&ilr=4&amv=1';
 const GRUPO_BANNER_VER = 'v1';
 function dismissGrupoBanner(entrou) {
   const el = document.getElementById('grupoBanner');
@@ -3219,6 +3243,28 @@ function dismissGrupoBanner(entrou) {
 function abrirGrupo() {
   window.open(GRUPO_WPP_LINK, '_blank');
   dismissGrupoBanner(true);
+}
+// Modal de 1ª abertura: todo aluno vê UMA vez (por versão de campanha). "Entrar" abre o
+// convite e mata banner+modal pra sempre; "Agora não" fecha e o banner volta como
+// lembrete depois da régua de 7 dias.
+function initGrupoModal() {
+  try {
+    if (!GRUPO_WPP_LINK) return;
+    if (localStorage.getItem('gh_grupoModalSeen_' + GRUPO_BANNER_VER)) return;
+    if ((localStorage.getItem('gh_grupoBannerOff_' + GRUPO_BANNER_VER) || '') === 'joined') return;
+    localStorage.setItem('gh_grupoModalSeen_' + GRUPO_BANNER_VER, String(Date.now()));
+    const m = document.getElementById('grupoModal');
+    if (!m) return;
+    m.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  } catch (e) {}
+}
+function closeGrupoModal(entrou) {
+  const m = document.getElementById('grupoModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+  if (entrou) abrirGrupo();
+  else dismissGrupoBanner(false);
 }
 function initGrupoBanner() {
   try {
@@ -3232,7 +3278,7 @@ function initGrupoBanner() {
     const el = document.createElement('div');
     el.id = 'grupoBanner';
     el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(45,216,129,.4);background:rgba(45,216,129,.07);border-radius:14px;font-size:13.5px;line-height:1.55;';
-    el.innerHTML = '<b style="color:var(--ok,#2DD881);">🐦 Grupo fechado dos alunos do Peitão.</b> Novidade do método sai primeiro lá, e é onde eu solto condição especial só pra aluno: desconto, bônus e oferta que não aparece no app.'
+    el.innerHTML = '<b style="color:var(--ok,#2DD881);">🎁 Grupo fechado</b> pra receber minhas novidades, descontos e upgrades.'
       + '<div style="display:flex;gap:10px;margin-top:12px;">'
       + '<button onclick="abrirGrupo()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:#25D366;color:#062b16;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">ENTRAR NO GRUPO</button>'
       + '<button onclick="dismissGrupoBanner(false)" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
