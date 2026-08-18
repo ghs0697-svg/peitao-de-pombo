@@ -1481,6 +1481,7 @@ function enterApp() {
   restoreSetsFromServer();   // backup de cargas: restaura da conta (aparelho novo) + sobe o que só existe local
   renderParceiros();
   startHeartbeat();
+  initGrupoBanner();         // convite pro grupo de alunos no whats (desligado enquanto sem link)
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
 }
 
@@ -3204,6 +3205,42 @@ async function ativarAvisosPeitao() {
   }
 }
 
+// ════════ BANNER DO GRUPO DE ALUNOS (WhatsApp) ════════
+// Liga quando GRUPO_WPP_LINK receber o convite (vazio = banner desligado, zero efeito).
+// GRUPO_BANNER_VER versiona a campanha: trocar a versão faz o banner reaparecer
+// até pra quem dispensou a campanha anterior.
+const GRUPO_WPP_LINK = '';   // ex: 'https://chat.whatsapp.com/XXXX'
+const GRUPO_BANNER_VER = 'v1';
+function dismissGrupoBanner(entrou) {
+  const el = document.getElementById('grupoBanner');
+  if (el) el.remove();
+  try { localStorage.setItem('gh_grupoBannerOff_' + GRUPO_BANNER_VER, entrou ? 'joined' : String(Date.now())); } catch (e) {}
+}
+function abrirGrupo() {
+  window.open(GRUPO_WPP_LINK, '_blank');
+  dismissGrupoBanner(true);
+}
+function initGrupoBanner() {
+  try {
+    if (!GRUPO_WPP_LINK) return;
+    const off = localStorage.getItem('gh_grupoBannerOff_' + GRUPO_BANNER_VER) || '';
+    if (off === 'joined') return;
+    const offAt = parseInt(off, 10);
+    if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
+    const tabs = document.getElementById('tabs');
+    if (!tabs || document.getElementById('grupoBanner')) return;
+    const el = document.createElement('div');
+    el.id = 'grupoBanner';
+    el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(45,216,129,.4);background:rgba(45,216,129,.07);border-radius:14px;font-size:13.5px;line-height:1.55;';
+    el.innerHTML = '<b style="color:var(--ok,#2DD881);">🐦 Grupo fechado dos alunos do Peitão.</b> Novidade do método sai primeiro lá, e é onde eu solto condição especial só pra aluno: desconto, bônus e oferta que não aparece no app.'
+      + '<div style="display:flex;gap:10px;margin-top:12px;">'
+      + '<button onclick="abrirGrupo()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:#25D366;color:#062b16;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">ENTRAR NO GRUPO</button>'
+      + '<button onclick="dismissGrupoBanner(false)" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
+      + '</div>';
+    tabs.parentNode.insertBefore(el, tabs);
+  } catch (e) {}
+}
+
 function dismissPushBanner(praSempre) {
   const el = document.getElementById('pushBanner');
   if (el) el.remove();
@@ -3215,6 +3252,8 @@ function initPeitaoPush() {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) return;
     if (Notification.permission === 'granted') { registerPeitaoPush(); return; }
     if (Notification.permission === 'denied') return;
+    // Nunca empilha com o banner do grupo (esse tem prioridade; o push tenta na próxima sessão)
+    if (document.getElementById('grupoBanner')) return;
     // banner adiado por 7 dias depois de "agora não"
     const offAt = parseInt(localStorage.getItem('gh_pushBannerOff') || '0', 10);
     if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
