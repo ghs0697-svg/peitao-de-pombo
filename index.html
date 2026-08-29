@@ -186,6 +186,7 @@
     white-space: nowrap;
   }
   .day-btn.active { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
+  .day-btn.peito:not(.active) { border-color: rgba(255,106,26,.55); color: var(--accent-hi); }
 
   /* Modal do grupo (1ª abertura) */
   .gmodal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(5,4,3,.82); backdrop-filter: blur(4px); }
@@ -1320,7 +1321,8 @@ let DATA = null;
 let state = {
   tab: 'peito',
   peitoVer: '1.0',
-  peitoDay: 'A',          // A = treino de peito do front · B = DIA 1 do 5x (2º peito da semana)
+  peitoDay: 'A',          // legado (mantido pra compat); a grade nova usa treinoSel
+  treinoSel: 'A',         // dia selecionado na aba TREINO: 'A' | 'B' | '1'..'4' (dias do Completo)
   semanaVer: '1.0',
   dietaVer: '2.8K',
   semanaDay: 1,           // a aba SEMANA começa no primeiro dia não-peito (índice real do array)
@@ -1939,10 +1941,7 @@ function renderTabs() {
   const ergoLocked = !state.ebooks?.ergo1 && !state.ebooks?.ergo2 && !state.ebooks?.pept;
   document.getElementById('tabs').innerHTML = `
     <button class="tab ${state.tab==='peito'?'active':''}" onclick="showTab('peito')">
-      <span class="tab-ic"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M16 33 L2 27 L5 33 L1 34 L5 39 L2 41 L9 42 L18 41 Z" fill="#5B6880"/><path d="M32 53 L31 60 M40 53 L41 60" stroke="#D9695F" stroke-width="2.4" stroke-linecap="round"/><path d="M27 60 h7 M37 60 h7" stroke="#D9695F" stroke-width="2" stroke-linecap="round"/><path d="M15 33 C13 26 19 21 27 21 C32 21 35 22 37 25 C40 20 48 20 53 27 C57 33 56 44 48 51 C42 56 31 56 26 50 C23 47 22 43 22 40 C20 39 17 37 15 35 Z" fill="#737F98"/><path d="M44 33 C52 34 54 43 49 49 C45 53 38 53 34 49 C40 49 45 45 45 39 C45 36 44 34 44 33 Z" fill="#8E99B0"/><path d="M22 32 C28 29 35 31 39 38 C33 36 26 37 21 41 Z" fill="#616D86"/><path d="M37 25 C43 24 46 29 44 33 C41 30 38 29 35 31 C34 28 34 25 37 25 Z" fill="#46B58F"/><circle cx="46" cy="17" r="7.5" fill="#7E8AA2"/><path d="M53 16 l8 2 l-8 3 Z" fill="#C77C4E"/><circle cx="52.5" cy="16" r="1.4" fill="#EDEFF2"/><circle cx="47" cy="16" r="3" fill="#F5A331"/><circle cx="47" cy="16" r="1.5" fill="#140E09"/><circle cx="47.7" cy="15.3" r=".5" fill="#fff"/></svg></span>PEITO
-    </button>
-    <button class="tab ${state.tab==='semana'?'active':''} ${locked?'locked':''}" onclick="showTab('semana')">
-      <span class="tab-ic">📅</span>COMPLETO ${locked?'<span class="lock">🔒</span>':''}
+      <span class="tab-ic"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M16 33 L2 27 L5 33 L1 34 L5 39 L2 41 L9 42 L18 41 Z" fill="#5B6880"/><path d="M32 53 L31 60 M40 53 L41 60" stroke="#D9695F" stroke-width="2.4" stroke-linecap="round"/><path d="M27 60 h7 M37 60 h7" stroke="#D9695F" stroke-width="2" stroke-linecap="round"/><path d="M15 33 C13 26 19 21 27 21 C32 21 35 22 37 25 C40 20 48 20 53 27 C57 33 56 44 48 51 C42 56 31 56 26 50 C23 47 22 43 22 40 C20 39 17 37 15 35 Z" fill="#737F98"/><path d="M44 33 C52 34 54 43 49 49 C45 53 38 53 34 49 C40 49 45 45 45 39 C45 36 44 34 44 33 Z" fill="#8E99B0"/><path d="M22 32 C28 29 35 31 39 38 C33 36 26 37 21 41 Z" fill="#616D86"/><path d="M37 25 C43 24 46 29 44 33 C41 30 38 29 35 31 C34 28 34 25 37 25 Z" fill="#46B58F"/><circle cx="46" cy="17" r="7.5" fill="#7E8AA2"/><path d="M53 16 l8 2 l-8 3 Z" fill="#C77C4E"/><circle cx="52.5" cy="16" r="1.4" fill="#EDEFF2"/><circle cx="47" cy="16" r="3" fill="#F5A331"/><circle cx="47" cy="16" r="1.5" fill="#140E09"/><circle cx="47.7" cy="15.3" r=".5" fill="#fff"/></svg></span>TREINO
     </button>
     <button class="tab ${state.tab==='dieta'?'active':''} ${locked?'locked':''}" onclick="showTab('dieta')">
       <span class="tab-ic">🍽️</span>DIETA ${locked?'<span class="lock">🔒</span>':''}
@@ -2717,7 +2716,7 @@ async function downloadTreinoPDF(kind) {
   doc.text('M É T O D O   G H', w/2, 11, { align: 'center' });
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20);
-  const titulo = kind === 'peito' ? 'TREINO DE PEITO · A e B' : 'TREINO DA SEMANA';
+  const titulo = kind === 'peito' ? (state.upsellUnlocked ? 'TREINO DA SEMANA' : 'TREINO DE PEITO · A e B') : 'TREINO DA SEMANA';
   doc.text(titulo, w/2, 21, { align: 'center' });
 
   let y = 36;
@@ -2743,9 +2742,17 @@ async function downloadTreinoPDF(kind) {
   let entries;
   if (kind === 'peito') {
     const tp = DATA.treinoPeito[state.peitoVer];
-    const b = DATA.treino5x[state.peitoVer] && DATA.treino5x[state.peitoVer].dias[0];
+    const t5p = DATA.treino5x[state.peitoVer] || { dias: [] };
+    const b = t5p.dias[0];
     entries = [{ dia: tp.dias[0], nome: 'TREINO A (ex: segunda) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'peito_' + state.peitoVer }];
     if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'semana_' + state.peitoVer + '_0' });
+    if (state.upsellUnlocked) {
+      [1, 2, 3, 4].forEach(di => {
+        const dia = t5p.dias[di];
+        if (dia) entries.push({ dia, ctxKey: 'semana_' + state.peitoVer + '_' + di,
+          nome: (dia.nome || ('DIA ' + di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + di + ' — ') });
+      });
+    }
   } else {
     const ts = DATA.treino5x[state.semanaVer];
     entries = ts.dias.map((dia, di) => ({ dia, di, ctxKey: 'semana_' + state.semanaVer + '_' + di }))
@@ -2878,23 +2885,55 @@ function renderPeito() {
   syncPhaseToWeek();
   const t = DATA.treinoPeito[state.peitoVer];
   if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
-  // Dois treinos de peito por semana: A = treino do front · B = DIA 1 do 5x.
-  // O B usa a MESMA chave de carga do dia 1 da aba SEMANA (semana_<ver>_0): aluno antigo
-  // do 5x vê os pesos que já anotou; nunca migrar/renomear essa chave.
-  const dayB = DATA.treino5x[state.peitoVer] && DATA.treino5x[state.peitoVer].dias[0];
-  const isB = state.peitoDay === 'B' && !!dayB;
-  const ctxKey = isB ? ('semana_' + state.peitoVer + '_0') : ('peito_' + state.peitoVer);
-  const exList = (isB ? dayB.exercicios : t.dias[0]?.exercicios) || [];
-  const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
-  const abBtns = dayB ? `
-    <div class="day-row">
-      <button class="day-btn ${!isB ? 'active' : ''}" onclick="setPeitoDay('A')">TREINO A · ex: segunda</button>
-      <button class="day-btn ${isB ? 'active' : ''}" onclick="setPeitoDay('B')">TREINO B · ex: quinta</button>
-    </div>` : '';
+  // Aba TREINO unificada: a semana inteira numa grade só. Peito A e B abertos pra todo
+  // comprador; os dias do Pombo Completo aparecem com cadeado pra quem não tem (vitrine).
+  // CHAVES DE CARGA INTOCADAS: A = peito_<ver> · B = semana_<ver>_0 (dia 1 do 5x) ·
+  // Costas/Perna/Ombro/Braços = semana_<ver>_1..4. Só a navegação mudou.
+  const sel = state.treinoSel || 'A';
+  const t5 = DATA.treino5x[state.peitoVer] || { dias: [] };
+  const DIAS = [
+    { id: 'A', label: 'PEITO A', dia: t.dias[0], ctx: 'peito_' + state.peitoVer, fin: 'Peito A', livre: true },
+    { id: '1', label: 'COSTAS', dia: t5.dias[1], ctx: 'semana_' + state.peitoVer + '_1', fin: 'Costas' },
+    { id: '2', label: 'PERNA', dia: t5.dias[2], ctx: 'semana_' + state.peitoVer + '_2', fin: 'Perna' },
+    { id: 'B', label: 'PEITO B', dia: t5.dias[0], ctx: 'semana_' + state.peitoVer + '_0', fin: 'Peito B', livre: true },
+    { id: '3', label: 'OMBRO', dia: t5.dias[3], ctx: 'semana_' + state.peitoVer + '_3', fin: 'Ombro + peito' },
+    { id: '4', label: 'BRAÇOS', dia: t5.dias[4], ctx: 'semana_' + state.peitoVer + '_4', fin: 'Braços + peito' },
+  ];
+  const cur = DIAS.find(d => d.id === sel) || DIAS[0];
+  const locked = !cur.livre && !state.upsellUnlocked;
+  const diaBtns = `<div class="day-row">${DIAS.map(d => {
+    const dLock = !d.livre && !state.upsellUnlocked;
+    return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}" onclick="setTreinoSel('${d.id}')">${dLock ? '🔒 ' : ''}${d.label}</button>`;
+  }).join('')}</div>`;
+  const ctxKey = cur.ctx;
+  const exList = (cur.dia && cur.dia.exercicios) || [];
+  const exs = locked ? '' : exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
+  const nomeDia = cur.livre ? ('Treino de Peito ' + cur.id) : ((cur.dia && cur.dia.nome) || cur.label).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, '');
+  const miolo = locked
+    ? paywall('semana')
+    : `${concludeBar(ctxKey, exList, nomeDia + ' · Fase ' + state.peitoVer)}${exs}${secaFinalizadorHtml(cur.fin)}`;
+  const isB = sel === 'B';
   c.innerHTML = `
-    <h2>Treino de Peito</h2>
-    <p class="hint">Dois treinos de peito na semana, com 2 dias de folga entre eles (ex: segunda e quinta). Escolhe a fase e o treino do dia.</p>
+    <h2>Treino da Semana</h2>
+    <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). Os outros dias completam o corpo inteiro.</p>
     ${secaStripHtml()}
+    <div class="ver-row">
+      ${['1.0','2.0','3.0'].map(v => {
+        const locked = isPhaseLocked(v);
+        return `
+        <button class="ver-btn ${state.peitoVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setPeitoVer,'${v}')">
+          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
+        </button>`;
+      }).join('')}
+    </div>
+    ${diaBtns}
+    ${weekSelectorHtml()}
+    ${secaCardioHtml()}
+    ${miolo}
+    ${reguaCardHtml()}
+    ${desafioHtml()}
+    ${gamiStripHtml()}
+    ${recordesHtml()}
     <div class="mat-row">
       <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
         <div class="mat-ic">📐</div>
@@ -2907,28 +2946,9 @@ function renderPeito() {
         <div class="mat-sub">Manual de reconstrução, 4 semanas</div>
       </a>
     </div>
-    <div class="ver-row">
-      ${['1.0','2.0','3.0'].map(v => {
-        const locked = isPhaseLocked(v);
-        return `
-        <button class="ver-btn ${state.peitoVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setPeitoVer,'${v}')">
-          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
-        </button>`;
-      }).join('')}
-    </div>
-    ${abBtns}
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
-      <span class="dl-ic">⬇</span> Baixar PDF (treinos A e B) · Fase ${state.peitoVer}
+      <span class="dl-ic">⬇</span> Baixar PDF do treino · Fase ${state.peitoVer}
     </button>
-    ${weekSelectorHtml()}
-    ${secaCardioHtml()}
-    ${gamiStripHtml()}
-    ${reguaCardHtml()}
-    ${desafioHtml()}
-    ${concludeBar(ctxKey, exList, 'Treino de Peito ' + (isB ? 'B' : 'A') + ' · Fase ' + state.peitoVer)}
-    ${exs}
-    ${secaFinalizadorHtml(isB ? 'Peito B' : 'Peito A')}
-    ${recordesHtml()}
     ${renderUpsells()}
   `;
   hydrateFotos(state.week);
@@ -2957,7 +2977,8 @@ function tryPhaseChange(setter, v) {
   setter(v);
 }
 function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
-function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; renderPeito(); }
+function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; state.treinoSel = state.peitoDay; renderPeito(); }
+function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 'B') ? 'B' : 'A'; renderPeito(); }
 
 // ════════ MODO SECA (Seca Pança) — protocolo de queima de 90 dias ════════
 // Camada sobre os templates prontos: dieta/stack pelo MÊS real do aluno, cardio pela
@@ -3141,58 +3162,7 @@ function renderAulas() {
 }
 
 // ════════ SEMANA COMPLETA (upsell) ════════
-function renderSemana() {
-  const c = document.getElementById('screen-semana');
-  initWeekPhaseOnce();
-  state.week = Math.min(maxUnlockedWeek(), Math.max(1, state.week));
-  syncPhaseToWeek();
-  if (!state.upsellUnlocked) {
-    c.innerHTML = paywall('semana');
-    return;
-  }
-  const t = DATA.treino5x[state.semanaVer];
-  if (!t) { c.innerHTML = '<div class="empty">Treino não encontrado.</div>'; return; }
-  const dias = t.dias;
-  // O DIA 1 (peito) saiu desta aba: mora na aba PEITO como Treino B. Os botões PULAM o
-  // índice 0 mas mantêm os índices REAIS dos demais dias (ctxKey usa o índice do array;
-  // reindexar perderia as cargas anotadas). A numeração exibida é só visual (1-4).
-  if (state.semanaDay === 0) state.semanaDay = 1;
-  const dayBtns = dias.map((d, i) => i === 0 ? '' : `
-    <button class="day-btn ${state.semanaDay===i?'active':''}" onclick="setSemanaDay(${i})">DIA ${i}</button>
-  `).join('');
-  const day = dias[state.semanaDay] || dias[1];
-  const ctxKey = 'semana_' + state.semanaVer + '_' + state.semanaDay;
-  const exList = day.exercicios || [];
-  const exs = exList.map((ex, i) => exerciseCard(ex, ctxKey, i)).join('');
-  const dayLabel = (day.nome || ('DIA ' + state.semanaDay)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + state.semanaDay + ' — ');
-  c.innerHTML = `
-    <h2>Semana Completa</h2>
-    <p class="hint">O resto da semana: 4 treinos pro corpo inteiro acompanhar o peitão.</p>
-    ${secaStripHtml()}
-    <div class="ex-obs" style="margin-bottom:14px;">🐦 Os DOIS treinos de peito da semana (A e B) moram na aba <b>PEITO</b>. Aqui é costas, perna, ombro e braço.</div>
-    <div class="ver-row">
-      ${['1.0','2.0','3.0'].map(v => {
-        const locked = isPhaseLocked(v);
-        return `
-        <button class="ver-btn ${state.semanaVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setSemanaVer,'${v}')">
-          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
-        </button>`;
-      }).join('')}
-    </div>
-    <button class="dl-pdf" onclick="downloadTreinoPDF('semana')">
-      <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
-    </button>
-    ${weekSelectorHtml()}
-    ${secaCardioHtml()}
-    ${gamiStripHtml()}
-    <div class="day-row">${dayBtns}</div>
-    <div class="day-name">${dayLabel}</div>
-    ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
-    ${exs}
-    ${secaFinalizadorHtml(({1:'Costas',2:'Perna',3:'Ombro + peito',4:'Braços + peito'})[state.semanaDay] || '')}
-    ${renderUpsells()}
-  `;
-}
+function renderSemana() { /* aba unificada: o treino da semana vive em renderPeito() */ }
 function setSemanaVer(v) { state.semanaDay = 1; state.week = weekForPhase(v); renderSemana(); }
 function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
 
