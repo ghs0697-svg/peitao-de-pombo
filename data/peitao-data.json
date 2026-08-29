@@ -3,7 +3,7 @@
     "1.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -18,14 +18,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -34,30 +34,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário",
+              "obs": "Supino: progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário",
+                "obs": "Supino: progressão de carga; músculo prioritário",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série",
+              "obs": "Supino: piramidal, peso sobe a cada série",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série",
+                "obs": "Supino: piramidal, peso sobe a cada série",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -66,31 +66,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga",
+              "obs": "Fly: progressão de carga",
               "video_key": "VOADOR",
               "sub": {
                 "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga",
+                "obs": "Fly: progressão de carga",
                 "video_key": "CROSSOVER POLIA MEDIA"
-              }
-            },
-            {
-              "exercicio": "Crossover",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga",
-              "video_key": "CROSSOVER",
-              "sub": {
-                "exercicio": "Supino declinado na máquina",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -241,7 +225,7 @@
     "2.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -256,14 +240,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -272,30 +256,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
+              "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
+                "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg)",
+              "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg)",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg)",
+                "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg)",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -304,31 +288,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
+              "obs": "Fly: progressão de carga · cadência na descida (3 seg)",
               "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
                 "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
+                "obs": "Fly: progressão de carga · cadência na descida (3 seg)",
                 "video_key": "VOADOR"
-              }
-            },
-            {
-              "exercicio": "Supino declinado na máquina",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "SUPINO DECLINADO NA MAQUINA",
-              "sub": {
-                "exercicio": "Crossover",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER"
               }
             },
             {
@@ -479,7 +447,7 @@
     "3.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -494,14 +462,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -510,30 +478,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -542,31 +510,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Fly: progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "VOADOR",
               "sub": {
                 "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Fly: progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "CROSSOVER POLIA MEDIA"
-              }
-            },
-            {
-              "exercicio": "Crossover polia média",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CROSSOVER POLIA MEDIA",
-              "sub": {
-                "exercicio": "Crossover",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CROSSOVER"
               }
             },
             {
@@ -719,7 +671,7 @@
     "1.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -734,14 +686,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -750,30 +702,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário",
+              "obs": "Supino: progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário",
+                "obs": "Supino: progressão de carga; músculo prioritário",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série",
+              "obs": "Supino: piramidal, peso sobe a cada série",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série",
+                "obs": "Supino: piramidal, peso sobe a cada série",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -782,31 +734,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga",
+              "obs": "Fly: progressão de carga",
               "video_key": "VOADOR",
               "sub": {
                 "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga",
+                "obs": "Fly: progressão de carga",
                 "video_key": "CROSSOVER POLIA MEDIA"
-              }
-            },
-            {
-              "exercicio": "Crossover",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga",
-              "video_key": "CROSSOVER",
-              "sub": {
-                "exercicio": "Supino declinado na máquina",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -844,7 +780,7 @@
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
+          "nome": "DIA 2: COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -919,22 +855,6 @@
               }
             },
             {
-              "exercicio": "Crucifixo inverso no voador",
-              "series": "4X",
-              "reps": "15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; cotovelos e mãos na altura do ombro",
-              "video_key": "CRUCIFIXO INVERSO NO VOADOR",
-              "sub": {
-                "exercicio": "Crucifixo inverso com halteres",
-                "series": "4X",
-                "reps": "15",
-                "intervalo": "60 seg",
-                "obs": "Progressão de carga; cotovelos e mãos na altura do ombro",
-                "video_key": "CRUCIFIXO INVERSO COM HALTERES"
-              }
-            },
-            {
               "exercicio": "Rosca direta no cross",
               "series": "4X",
               "reps": "10 a 15",
@@ -969,7 +889,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNA COMPLETA",
+          "nome": "DIA 3: PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -980,32 +900,16 @@
               "video_key": "MOBILIDADE DE TORNOZELO"
             },
             {
-              "exercicio": "Cadeira abdutora",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Muito peso — ativação de glúteo",
-              "video_key": "CADEIRA ABDUTORA",
-              "sub": {
-                "exercicio": "Abdução em pé com mini-band",
-                "series": "3X",
-                "reps": "12 a 15",
-                "intervalo": "60 seg",
-                "obs": "Muito peso — ativação de glúteo",
-                "video_key": "ABDUCAO EM PE COM MINI-BAND"
-              }
-            },
-            {
               "exercicio": "Agachamento hack",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
               "video_key": "AGACHAMENTO HACK",
               "sub": {
                 "exercicio": "Agachamento Smith",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar",
                 "video_key": "AGACHAMENTO SMITH"
@@ -1086,7 +990,7 @@
           ]
         },
         {
-          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
+          "nome": "DIA 4: OMBRO COMPLETO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1161,22 +1065,6 @@
               }
             },
             {
-              "exercicio": "Supino inclinado na máquina",
-              "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
-              "intervalo": "90 seg",
-              "obs": "Piramidal — estímulo de peito",
-              "video_key": "SUPINO INCLINADO NA MAQUINA",
-              "sub": {
-                "exercicio": "Supino inclinado com halteres",
-                "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
-                "intervalo": "90 seg",
-                "obs": "Piramidal — estímulo de peito",
-                "video_key": "SUPINO INCLINADO COM HALTERES"
-              }
-            },
-            {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
               "reps": "15",
@@ -1195,7 +1083,7 @@
           ]
         },
         {
-          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "nome": "DIA 5: BÍCEPS & TRÍCEPS",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1300,22 +1188,6 @@
                 "obs": "Progressão de carga",
                 "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
-            },
-            {
-              "exercicio": "Voador",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga— estímulo de peito",
-              "video_key": "VOADOR",
-              "sub": {
-                "exercicio": "Crossover",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga— estímulo de peito",
-                "video_key": "CROSSOVER"
-              }
             }
           ]
         }
@@ -1324,7 +1196,7 @@
     "2.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -1339,14 +1211,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg)",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -1355,30 +1227,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
+              "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg)",
+                "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg)",
+              "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg)",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg)",
+                "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg)",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -1387,31 +1259,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
+              "obs": "Fly: progressão de carga · cadência na descida (3 seg)",
               "video_key": "CROSSOVER POLIA MEDIA",
               "sub": {
                 "exercicio": "Voador",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
+                "obs": "Fly: progressão de carga · cadência na descida (3 seg)",
                 "video_key": "VOADOR"
-              }
-            },
-            {
-              "exercicio": "Supino declinado na máquina",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-              "video_key": "SUPINO DECLINADO NA MAQUINA",
-              "sub": {
-                "exercicio": "Crossover",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER"
               }
             },
             {
@@ -1449,7 +1305,7 @@
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
+          "nome": "DIA 2: COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1524,22 +1380,6 @@
               }
             },
             {
-              "exercicio": "Crucifixo inverso no voador",
-              "series": "4X",
-              "reps": "15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; cotovelos e mãos na altura do ombro · cadência na descida (3 seg)",
-              "video_key": "CRUCIFIXO INVERSO NO VOADOR",
-              "sub": {
-                "exercicio": "Crucifixo inverso com halteres",
-                "series": "4X",
-                "reps": "15",
-                "intervalo": "60 seg",
-                "obs": "Progressão de carga; cotovelos e mãos na altura do ombro · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO INVERSO COM HALTERES"
-              }
-            },
-            {
               "exercicio": "Rosca direta no cross",
               "series": "4X",
               "reps": "10 a 15",
@@ -1574,7 +1414,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNA COMPLETA",
+          "nome": "DIA 3: PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -1585,32 +1425,16 @@
               "video_key": "MOBILIDADE DE TORNOZELO"
             },
             {
-              "exercicio": "Cadeira abdutora",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Muito peso — ativação de glúteo · cadência na descida (3 seg)",
-              "video_key": "CADEIRA ABDUTORA",
-              "sub": {
-                "exercicio": "Abdução em pé com mini-band",
-                "series": "3X",
-                "reps": "12 a 15",
-                "intervalo": "60 seg",
-                "obs": "Muito peso — ativação de glúteo · cadência na descida (3 seg)",
-                "video_key": "ABDUCAO EM PE COM MINI-BAND"
-              }
-            },
-            {
               "exercicio": "Agachamento Smith",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
               "video_key": "AGACHAMENTO SMITH",
               "sub": {
                 "exercicio": "Agachamento hack",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg)",
                 "video_key": "AGACHAMENTO HACK"
@@ -1691,7 +1515,7 @@
           ]
         },
         {
-          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
+          "nome": "DIA 4: OMBRO COMPLETO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1766,22 +1590,6 @@
               }
             },
             {
-              "exercicio": "Supino inclinado com halteres",
-              "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
-              "intervalo": "90 seg",
-              "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg)",
-              "video_key": "SUPINO INCLINADO COM HALTERES",
-              "sub": {
-                "exercicio": "Supino inclinado na máquina",
-                "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
-                "intervalo": "90 seg",
-                "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg)",
-                "video_key": "SUPINO INCLINADO NA MAQUINA"
-              }
-            },
-            {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
               "reps": "15",
@@ -1800,7 +1608,7 @@
           ]
         },
         {
-          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "nome": "DIA 5: BÍCEPS & TRÍCEPS",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -1905,22 +1713,6 @@
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
                 "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
-            },
-            {
-              "exercicio": "Crossover",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
-              "video_key": "CROSSOVER",
-              "sub": {
-                "exercicio": "Voador",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg)",
-                "video_key": "VOADOR"
-              }
             }
           ]
         }
@@ -1929,7 +1721,7 @@
     "3.0": {
       "dias": [
         {
-          "nome": "DIA 1 — PEITO / TRÍCEPS / ABDÔMEN  (MÚSCULO PRIORITÁRIO)",
+          "nome": "DIA 1: PEITO / TRÍCEPS / ABDÔMEN (MÚSCULO PRIORITÁRIO)",
           "exercicios": [
             {
               "exercicio": "Alongamento peitoral menor",
@@ -1944,14 +1736,14 @@
               "series": "4X",
               "reps": "10 a 15",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO INCLINADO",
               "sub": {
                 "exercicio": "Crucifixo inclinado no cross",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Fly: progressão de carga; alongar bem e nunca encostar os halteres na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "CRUCIFIXO INCLINADO NO CROSS"
               }
             },
@@ -1960,30 +1752,30 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "90 seg",
-              "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
                 "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
-                "obs": "Supino — progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
               "exercicio": "Supino inclinado com halteres",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
-              "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO INCLINADO COM HALTERES",
               "sub": {
                 "exercicio": "Supino inclinado na máquina",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
-                "obs": "Supino — piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Supino: piramidal, peso sobe a cada série · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "SUPINO INCLINADO NA MAQUINA"
               }
             },
@@ -1992,31 +1784,15 @@
               "series": "4X",
               "reps": "8 a 12",
               "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Fly: progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "VOADOR",
               "sub": {
                 "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Fly: progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "CROSSOVER POLIA MEDIA"
-              }
-            },
-            {
-              "exercicio": "Crossover polia média",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "60 seg",
-              "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CROSSOVER POLIA MEDIA",
-              "sub": {
-                "exercicio": "Crossover",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "60 seg",
-                "obs": "Fly — progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CROSSOVER"
               }
             },
             {
@@ -2054,7 +1830,7 @@
           ]
         },
         {
-          "nome": "DIA 2 — COSTAS / BÍCEPS / LOMBAR",
+          "nome": "DIA 2: COSTAS / BÍCEPS / LOMBAR",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -2129,22 +1905,6 @@
               }
             },
             {
-              "exercicio": "Crucifixo inverso no voador",
-              "series": "4X",
-              "reps": "15",
-              "intervalo": "60 seg",
-              "obs": "Progressão de carga; cotovelos e mãos na altura do ombro · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CRUCIFIXO INVERSO NO VOADOR",
-              "sub": {
-                "exercicio": "Crucifixo inverso com halteres",
-                "series": "4X",
-                "reps": "15",
-                "intervalo": "60 seg",
-                "obs": "Progressão de carga; cotovelos e mãos na altura do ombro · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO INVERSO COM HALTERES"
-              }
-            },
-            {
               "exercicio": "Rosca direta no cross",
               "series": "4X",
               "reps": "10 a 15",
@@ -2179,7 +1939,7 @@
           ]
         },
         {
-          "nome": "DIA 3 — PERNA COMPLETA",
+          "nome": "DIA 3: PERNA COMPLETA",
           "exercicios": [
             {
               "exercicio": "Mobilidade de tornozelo",
@@ -2190,32 +1950,16 @@
               "video_key": "MOBILIDADE DE TORNOZELO"
             },
             {
-              "exercicio": "Cadeira abdutora",
-              "series": "3X",
-              "reps": "12 a 15",
-              "intervalo": "60 seg",
-              "obs": "Muito peso — ativação de glúteo · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CADEIRA ABDUTORA",
-              "sub": {
-                "exercicio": "Abdução em pé com mini-band",
-                "series": "3X",
-                "reps": "12 a 15",
-                "intervalo": "60 seg",
-                "obs": "Muito peso — ativação de glúteo · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ABDUCAO EM PE COM MINI-BAND"
-              }
-            },
-            {
               "exercicio": "Hack articulado",
               "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
               "intervalo": "90 seg",
               "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "HACK ARTICULADO",
               "sub": {
                 "exercicio": "Agachamento hack",
                 "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal; descer além dos 90°; força na ponta do pé, não no calcanhar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "AGACHAMENTO HACK"
@@ -2296,7 +2040,7 @@
           ]
         },
         {
-          "nome": "DIA 4 — OMBRO COMPLETO + ESTÍMULO DE PEITO + ABDÔMEN",
+          "nome": "DIA 4: OMBRO COMPLETO + ABDÔMEN",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -2371,22 +2115,6 @@
               }
             },
             {
-              "exercicio": "Supino inclinado na máquina",
-              "series": "4X",
-              "reps": "15-20 | 10-15 | 8-12 | 6-10",
-              "intervalo": "90 seg",
-              "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "SUPINO INCLINADO NA MAQUINA",
-              "sub": {
-                "exercicio": "Supino inclinado com halteres",
-                "series": "4X",
-                "reps": "15-20 | 10-15 | 8-12 | 6-10",
-                "intervalo": "90 seg",
-                "obs": "Piramidal — estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO INCLINADO COM HALTERES"
-              }
-            },
-            {
               "exercicio": "Abdominal no banco declinado com peso",
               "series": "3X",
               "reps": "15",
@@ -2405,7 +2133,7 @@
           ]
         },
         {
-          "nome": "DIA 5 — BÍCEPS & TRÍCEPS + ESTÍMULO DE PEITO",
+          "nome": "DIA 5: BÍCEPS & TRÍCEPS",
           "exercicios": [
             {
               "exercicio": "Alongamento escápulas / ombro",
@@ -2510,22 +2238,6 @@
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "ROSCA ALTERNADA COM HALTERES"
               }
-            },
-            {
-              "exercicio": "Crucifixo inclinado",
-              "series": "4X",
-              "reps": "8 a 12",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "CRUCIFIXO INCLINADO",
-              "sub": {
-                "exercicio": "Voador",
-                "series": "4X",
-                "reps": "8 a 12",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga— estímulo de peito · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "VOADOR"
-              }
             }
           ]
         }
@@ -2545,7 +2257,7 @@
       ],
       "refeicoes": [
         {
-          "nome": "1ª Refeição — Desjejum",
+          "nome": "1ª Refeição: Desjejum",
           "obs": [
             "Escolher uma das duas opções."
           ],
@@ -2595,7 +2307,7 @@
           ]
         },
         {
-          "nome": "2ª Refeição — Almoço",
+          "nome": "2ª Refeição: Almoço",
           "obs": [
             "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
           ],
@@ -2639,13 +2351,13 @@
           ]
         },
         {
-          "nome": "3ª Refeição — Lanche",
+          "nome": "3ª Refeição: Lanche",
           "obs": [
             "Escolher uma das quatro opções."
           ],
           "opcoes": [
             {
-              "nome": "Opção 1 — Iogurte/Leite com Whey",
+              "nome": "Opção 1: Iogurte/Leite com Whey",
               "alimentos": [
                 {
                   "alimento": "Whey protein",
@@ -2671,7 +2383,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 2 — Mingau",
+              "nome": "Opção 2: Mingau",
               "alimentos": [
                 {
                   "alimento": "Aveia",
@@ -2697,7 +2409,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 3 — Panqueca/Bolinho com frutas",
+              "nome": "Opção 3: Panqueca/Bolinho com frutas",
               "alimentos": [
                 {
                   "alimento": "Aveia",
@@ -2723,7 +2435,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 4 — Repeteco do almoço",
+              "nome": "Opção 4: Repeteco do almoço",
               "alimentos": [
                 {
                   "alimento": "Proteína",
@@ -2746,7 +2458,7 @@
           ]
         },
         {
-          "nome": "4ª Refeição — Jantar",
+          "nome": "4ª Refeição: Jantar",
           "obs": [],
           "opcoes": [
             {
@@ -2791,7 +2503,7 @@
       ],
       "refeicoes": [
         {
-          "nome": "1ª Refeição — Desjejum",
+          "nome": "1ª Refeição: Desjejum",
           "obs": [
             "Escolher uma das duas opções."
           ],
@@ -2841,7 +2553,7 @@
           ]
         },
         {
-          "nome": "2ª Refeição — Almoço",
+          "nome": "2ª Refeição: Almoço",
           "obs": [
             "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
           ],
@@ -2885,13 +2597,13 @@
           ]
         },
         {
-          "nome": "3ª Refeição — Lanche",
+          "nome": "3ª Refeição: Lanche",
           "obs": [
             "Escolher uma das quatro opções."
           ],
           "opcoes": [
             {
-              "nome": "Opção 1 — Iogurte/Leite com Whey",
+              "nome": "Opção 1: Iogurte/Leite com Whey",
               "alimentos": [
                 {
                   "alimento": "Whey protein",
@@ -2917,7 +2629,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 2 — Mingau",
+              "nome": "Opção 2: Mingau",
               "alimentos": [
                 {
                   "alimento": "Aveia",
@@ -2943,7 +2655,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 3 — Panqueca/Bolinho com frutas",
+              "nome": "Opção 3: Panqueca/Bolinho com frutas",
               "alimentos": [
                 {
                   "alimento": "Aveia",
@@ -2969,7 +2681,7 @@
               "macros": ""
             },
             {
-              "nome": "Opção 4 — Repeteco do almoço",
+              "nome": "Opção 4: Repeteco do almoço",
               "alimentos": [
                 {
                   "alimento": "Proteína",
@@ -2992,7 +2704,7 @@
           ]
         },
         {
-          "nome": "4ª Refeição — Jantar",
+          "nome": "4ª Refeição: Jantar",
           "obs": [],
           "opcoes": [
             {
