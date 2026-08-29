@@ -956,10 +956,11 @@
               "video_key": "MESA FLEXORA",
               "sub": {
                 "exercicio": "Flexora unilateral em pé",
-                "video_key": "FLEXORA UNILATERAL EM PE",
                 "series": "4X",
                 "reps": "10",
-                "intervalo": "60 seg"
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga",
+                "video_key": "FLEXORA UNILATERAL EM PE"
               }
             },
             {
@@ -1101,19 +1102,51 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
+              "exercicio": "Rosca scott fechada",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco",
+              "video_key": "ROSCA SCOTT FECHADA",
+              "sub": {
+                "exercicio": "Rosca alternada com halteres",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco",
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
+              }
+            },
+            {
               "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus",
               "video_key": "TRICEPS NA PARALELA",
               "sub": {
                 "exercicio": "Tríceps testa no banco inclinado",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga",
+                "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus",
                 "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              }
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo colado no corpo, so o antebraco se move",
+              "video_key": "ROSCA DIRETA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca direta com barra W",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo colado no corpo, so o antebraco se move",
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1121,63 +1154,15 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
+              "obs": "Cotovelo apontado pra frente e parado",
               "video_key": "TRICEPS PULLEY COM CORDA",
-              "sub": {
-                "exercicio": "Tríceps testa em pé",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga",
-                "video_key": "TRICEPS TESTA EM PE"
-              }
-            },
-            {
-              "exercicio": "Tríceps francês no cross",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
-              "video_key": "TRICEPS FRANCES NO CROSS",
               "sub": {
                 "exercicio": "Tríceps pulley com barra",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura",
+                "obs": "Cotovelo apontado pra frente e parado",
                 "video_key": "TRICEPS PULLEY COM BARRA"
-              }
-            },
-            {
-              "exercicio": "Rosca alternada com halteres",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga",
-              "video_key": "ROSCA ALTERNADA COM HALTERES",
-              "sub": {
-                "exercicio": "Rosca direta no cross",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA NO CROSS"
-              }
-            },
-            {
-              "exercicio": "Rosca scott fechada",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga",
-              "video_key": "ROSCA SCOTT FECHADA",
-              "sub": {
-                "exercicio": "Rosca direta com barra W",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1185,8 +1170,32 @@
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga",
-              "video_key": "ROSCA CONCENTRADA NO CROSS"
+              "obs": "Cotovelo apoiado na coxa, subida controlada",
+              "video_key": "ROSCA CONCENTRADA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca scott fechada",
+                "series": "4X",
+                "reps": "6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo apoiado na coxa, subida controlada",
+                "video_key": "ROSCA SCOTT FECHADA"
+              }
+            },
+            {
+              "exercicio": "Tríceps francês no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo alto e parado, so o antebraco desce",
+              "video_key": "TRICEPS FRANCES NO CROSS",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo alto e parado, so o antebraco desce",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             }
           ]
         }
@@ -1480,10 +1489,11 @@
               "video_key": "MESA FLEXORA",
               "sub": {
                 "exercicio": "Flexora unilateral em pé",
-                "video_key": "FLEXORA UNILATERAL EM PE",
                 "series": "4X",
                 "reps": "10",
-                "intervalo": "60 seg"
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga · cadência na descida (3 seg)",
+                "video_key": "FLEXORA UNILATERAL EM PE"
               }
             },
             {
@@ -1625,19 +1635,51 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
+              "exercicio": "Rosca scott fechada",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg)",
+              "video_key": "ROSCA SCOTT FECHADA",
+              "sub": {
+                "exercicio": "Rosca alternada com halteres",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg)",
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
+              }
+            },
+            {
               "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg)",
+              "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus · cadência na descida (3 seg)",
               "video_key": "TRICEPS NA PARALELA",
               "sub": {
-                "exercicio": "Tríceps testa em pé",
+                "exercicio": "Tríceps testa no banco inclinado",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "TRICEPS TESTA EM PE"
+                "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus · cadência na descida (3 seg)",
+                "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              }
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg)",
+              "video_key": "ROSCA DIRETA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca direta com barra W",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg)",
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1645,63 +1687,15 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg)",
+              "obs": "Cotovelo apontado pra frente e parado · cadência na descida (3 seg)",
               "video_key": "TRICEPS PULLEY COM BARRA",
               "sub": {
                 "exercicio": "Tríceps pulley com corda",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg)",
+                "obs": "Cotovelo apontado pra frente e parado · cadência na descida (3 seg)",
                 "video_key": "TRICEPS PULLEY COM CORDA"
-              }
-            },
-            {
-              "exercicio": "Tríceps francês no cross",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
-              "video_key": "TRICEPS FRANCES NO CROSS",
-              "sub": {
-                "exercicio": "Tríceps testa no banco inclinado",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
-                "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
-              }
-            },
-            {
-              "exercicio": "Rosca alternada com halteres",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ROSCA ALTERNADA COM HALTERES",
-              "sub": {
-                "exercicio": "Rosca direta no cross",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA NO CROSS"
-              }
-            },
-            {
-              "exercicio": "Rosca scott fechada",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ROSCA SCOTT FECHADA",
-              "sub": {
-                "exercicio": "Rosca direta com barra W",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -1709,8 +1703,32 @@
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ROSCA CONCENTRADA NO CROSS"
+              "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg)",
+              "video_key": "ROSCA CONCENTRADA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca scott fechada",
+                "series": "4X",
+                "reps": "6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg)",
+                "video_key": "ROSCA SCOTT FECHADA"
+              }
+            },
+            {
+              "exercicio": "Tríceps francês no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo alto e parado, so o antebraco desce · cadência na descida (3 seg)",
+              "video_key": "TRICEPS FRANCES NO CROSS",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo alto e parado, so o antebraco desce · cadência na descida (3 seg)",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             }
           ]
         }
@@ -2004,10 +2022,11 @@
               "video_key": "MESA FLEXORA",
               "sub": {
                 "exercicio": "Mesa flexora livre com halter",
-                "video_key": "MESA FLEXORA LIVRE COM HALTER",
                 "series": "4X",
                 "reps": "10",
-                "intervalo": "60 seg"
+                "intervalo": "60 seg",
+                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "MESA FLEXORA LIVRE COM HALTER"
               }
             },
             {
@@ -2149,19 +2168,51 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
+              "exercicio": "Rosca scott fechada",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "ROSCA SCOTT FECHADA",
+              "sub": {
+                "exercicio": "Rosca alternada com halteres",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "ROSCA ALTERNADA COM HALTERES"
+              }
+            },
+            {
               "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "TRICEPS NA PARALELA",
               "sub": {
-                "exercicio": "Tríceps testa em pé",
+                "exercicio": "Tríceps testa no banco inclinado",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "TRICEPS TESTA EM PE"
+                "obs": "Tronco reto, descer ate o cotovelo passar de 90 graus · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
+              }
+            },
+            {
+              "exercicio": "Rosca direta no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "ROSCA DIRETA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca direta com barra W",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -2169,63 +2220,15 @@
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "obs": "Cotovelo apontado pra frente e parado · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "TRICEPS SUPINADO",
               "sub": {
                 "exercicio": "Tríceps pulley com corda",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "obs": "Cotovelo apontado pra frente e parado · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "TRICEPS PULLEY COM CORDA"
-              }
-            },
-            {
-              "exercicio": "Tríceps francês no cross",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "TRICEPS FRANCES NO CROSS",
-              "sub": {
-                "exercicio": "Tríceps pulley com barra",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "TRICEPS PULLEY COM BARRA"
-              }
-            },
-            {
-              "exercicio": "Rosca alternada com halteres",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA ALTERNADA COM HALTERES",
-              "sub": {
-                "exercicio": "Rosca direta no cross",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA NO CROSS"
-              }
-            },
-            {
-              "exercicio": "Rosca scott fechada",
-              "series": "4X",
-              "reps": "12 a 15",
-              "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA SCOTT FECHADA",
-              "sub": {
-                "exercicio": "Rosca direta com barra W",
-                "series": "4X",
-                "reps": "12 a 15",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
               }
             },
             {
@@ -2233,8 +2236,32 @@
               "series": "4X",
               "reps": "6 a 10",
               "intervalo": "90 seg",
-              "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA CONCENTRADA NO CROSS"
+              "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "ROSCA CONCENTRADA NO CROSS",
+              "sub": {
+                "exercicio": "Rosca scott fechada",
+                "series": "4X",
+                "reps": "6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "ROSCA SCOTT FECHADA"
+              }
+            },
+            {
+              "exercicio": "Tríceps francês no cross",
+              "series": "4X",
+              "reps": "12 a 15",
+              "intervalo": "90 seg",
+              "obs": "Cotovelo alto e parado, so o antebraco desce · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "TRICEPS FRANCES NO CROSS",
+              "sub": {
+                "exercicio": "Tríceps testa em pé",
+                "series": "4X",
+                "reps": "12 a 15",
+                "intervalo": "90 seg",
+                "obs": "Cotovelo alto e parado, so o antebraco desce · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "TRICEPS TESTA EM PE"
+              }
             }
           ]
         }

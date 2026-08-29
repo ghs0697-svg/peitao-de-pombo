@@ -1544,6 +1544,7 @@ function enterApp() {
     sub.onclick = null;
   }
   loadModoSeca();
+  migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
   renderTabs();
   renderPeito();
   renderAulas();
@@ -2987,6 +2988,57 @@ function tryPhaseChange(setter, v) {
 function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
 function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; state.treinoSel = state.peitoDay; renderPeito(); }
 function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 'B') ? 'B' : 'A'; renderPeito(); }
+
+// ════════ MIGRAÇÃO DE CARGA — DIA 5 reordenado (bi/tri alternado, 29/08/2026) ════════
+// O dia de braços trocou de ordem. A carga do aluno é gravada por POSIÇÃO, então sem
+// migrar ela apareceria no exercício errado. O mapa é por NOME: cada carga (titular e
+// substituto) segue o exercício pra onde ele foi. Sem destino no layout novo, a chave
+// vira "orfa_..." (não é lida, mas não se perde). Roda uma vez por conta, neste aparelho.
+const D5_MIGR_TAG = 'gh_migr_d5_bitri_2026_08_29';
+const D5_MIGR_MAP = {"1.0": {"e0": "e0", "e1": "e2", "e1_sub": "e2_sub", "e2": "e4", "e2_sub": "e6_sub", "e3": "e6", "e3_sub": "e4_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "2.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e3_sub": "e2_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "3.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}};
+function migrarCargaD5UmaVez() {
+  try {
+    const email = setsEmail();
+    if (!email || email === 'anon') return;
+    const flag = D5_MIGR_TAG + '_' + email;
+    if (localStorage.getItem(flag)) return;
+    const prefix = 'peitao_sets_' + email + '_';
+    const rx = /^semana_(\d\.\d)_4_w(\d+)_(e\d+(?:_sub|_seca)?)$/;
+    // 1) lê TUDO antes de escrever (senão uma chave sobrescreve a outra)
+    const origem = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const lk = localStorage.key(i);
+      if (!lk || !lk.startsWith(prefix)) continue;
+      const sk = lk.slice(prefix.length);
+      if (rx.test(sk)) origem[sk] = localStorage.getItem(lk);
+    }
+    const chaves = Object.keys(origem);
+    if (!chaves.length) { localStorage.setItem(flag, String(Date.now())); return; }
+    // 2) remove as antigas e grava nos destinos
+    for (const sk of chaves) localStorage.removeItem(prefix + sk);
+    const gravadas = {};
+    for (const sk of chaves) {
+      const m = rx.exec(sk);
+      const ver = m[1], semana = m[2], campo = m[3];
+      const dest = (D5_MIGR_MAP[ver] || {})[campo];
+      const destSk = dest ? ('semana_' + ver + '_4_w' + semana + '_' + dest) : ('orfa_' + D5_MIGR_TAG + '_' + sk);
+      if (localStorage.getItem(prefix + destSk) === null && gravadas[destSk] === undefined) {
+        localStorage.setItem(prefix + destSk, origem[sk]);
+        gravadas[destSk] = origem[sk];
+      } else {
+        const orfa = 'orfa_' + D5_MIGR_TAG + '_' + sk;
+        localStorage.setItem(prefix + orfa, origem[sk]);
+        gravadas[orfa] = origem[sk];
+      }
+    }
+    // 3) sobe o resultado pra conta (o servidor também migra, isso só acelera)
+    for (const [sk, val] of Object.entries(gravadas)) {
+      try { queueSetsSync(prefix + sk, JSON.parse(val)); } catch (e) {}
+    }
+    localStorage.setItem(flag, String(Date.now()));
+    console.log('[migracao D5] ' + chaves.length + ' chaves remapeadas');
+  } catch (e) {}
+}
 
 // ════════ MODO SECA (Seca Pança) — protocolo de queima de 90 dias ════════
 // Camada sobre os templates prontos: dieta/stack pelo MÊS real do aluno, cardio pela
