@@ -201,35 +201,77 @@
   .gmodal-later { width: 100%; margin-top: 10px; padding: 12px; border: none; border-radius: 13px; background: none; color: var(--text-mute); font-size: 13px; cursor: pointer; font-family: inherit; }
   @media (prefers-reduced-motion: reduce) { .gmodal.show, .gmodal-card { animation: none; } }
 
-  /* Modo Seca — fogo de fundo (só quando o modo está ligado) */
-  .seca-fogo { position: fixed; left: 0; right: 0; bottom: 0; height: 46vh; pointer-events: none;
-    z-index: 0; opacity: 0; transition: opacity .5s ease; overflow: hidden; }
-  body.modo-seca .seca-fogo { opacity: 1; }
+  /* Modo Seca — fogo de verdade: línguas de chama com distorção orgânica */
+  .seca-fogo { position: fixed; left: 0; right: 0; bottom: 0; height: 34vh; pointer-events: none;
+    z-index: 0; opacity: 0; transition: opacity .6s ease; overflow: hidden; contain: strict;
+    /* o fogo morre pra cima: o conteúdo do app continua legível por cima dele */
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 46%, rgba(0,0,0,.5) 74%, transparent 100%);
+            mask-image: linear-gradient(to top, #000 0%, #000 46%, rgba(0,0,0,.5) 74%, transparent 100%); }
+  body.modo-seca .seca-fogo { opacity: .9; }
   body.modo-seca #appWrap { position: relative; z-index: 1; }
-  .seca-fogo::before { content: ''; position: absolute; inset: 0;
-    background: radial-gradient(120% 78% at 50% 118%, rgba(255,106,26,.42) 0%, rgba(255,60,0,.20) 34%, rgba(255,40,0,.06) 58%, transparent 76%); }
-  .chama { position: absolute; bottom: -14vh; width: 46vw; height: 46vh; border-radius: 50% 50% 46% 46%;
-    filter: blur(26px); mix-blend-mode: screen; will-change: transform, opacity; }
-  .chama.c1 { left: -6vw;  background: radial-gradient(circle at 50% 78%, rgba(255,150,40,.60), rgba(255,70,0,.22) 46%, transparent 72%); animation: lamber 4.6s ease-in-out infinite; }
-  .chama.c2 { left: 28vw;  background: radial-gradient(circle at 50% 78%, rgba(255,196,60,.52), rgba(255,90,0,.20) 44%, transparent 70%); animation: lamber 3.7s ease-in-out infinite .5s; }
-  .chama.c3 { right: -8vw; background: radial-gradient(circle at 50% 78%, rgba(255,120,20,.56), rgba(220,40,0,.20) 46%, transparent 72%); animation: lamber 5.4s ease-in-out infinite 1.1s; }
-  @keyframes lamber {
-    0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); opacity: .78; }
-    28%      { transform: translateY(-3.5vh) scaleY(1.16) scaleX(.94); opacity: 1; }
-    54%      { transform: translateY(-1.2vh) scaleY(1.04) scaleX(1.06); opacity: .86; }
-    76%      { transform: translateY(-4.5vh) scaleY(1.2) scaleX(.9); opacity: .95; }
+  /* calor: brilho que sobe do rodapé e pulsa devagar */
+  .fogo-calor { position: absolute; inset: 0;
+    background: radial-gradient(130% 58% at 50% 114%, rgba(255,90,10,.26) 0%, rgba(255,40,0,.11) 38%, transparent 66%);
+    animation: calor 5.5s ease-in-out infinite; }
+  @keyframes calor { 0%,100% { opacity: .82; } 50% { opacity: 1; } }
+  .fogo-svg { position: absolute; left: -4%; bottom: -2vh; width: 108%; height: 100%;
+    mix-blend-mode: screen; }
+  /* cada língua sobe e encolhe em tempos diferentes: é isso que dá o "lamber" */
+  .lingua { transform-origin: 50% 100%; will-change: transform, opacity; }
+  .l1 { animation: lamber1 2.9s ease-in-out infinite; }
+  .l2 { animation: lamber2 3.7s ease-in-out infinite .4s; }
+  .l3 { animation: lamber3 2.3s ease-in-out infinite .9s; }
+  .l4 { animation: lamber2 4.3s ease-in-out infinite 1.4s; }
+  .l5 { animation: lamber1 3.3s ease-in-out infinite .2s; }
+  @keyframes lamber1 {
+    0%,100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: .9; }
+    30%     { transform: scaleY(1.2) scaleX(.9) translateY(-1%); opacity: 1; }
+    62%     { transform: scaleY(.9) scaleX(1.1) translateY(1%); opacity: .78; }
   }
-  .brasa { position: absolute; bottom: 6vh; width: 4px; height: 4px; border-radius: 50%;
-    background: radial-gradient(circle, #FFD08A, #FF6A1A 60%, transparent 72%); opacity: 0; will-change: transform, opacity; }
+  @keyframes lamber2 {
+    0%,100% { transform: scaleY(.92) scaleX(1.05) translateY(1%); opacity: .8; }
+    40%     { transform: scaleY(1.28) scaleX(.87) translateY(-2%); opacity: 1; }
+    70%     { transform: scaleY(1.08) scaleX(.98) translateY(0); opacity: .88; }
+  }
+  @keyframes lamber3 {
+    0%,100% { transform: scaleY(1.1) scaleX(.94) translateY(0); opacity: .85; }
+    35%     { transform: scaleY(.85) scaleX(1.14) translateY(2%); opacity: .7; }
+    68%     { transform: scaleY(1.24) scaleX(.91) translateY(-1%); opacity: 1; }
+  }
+  /* Aparelho fraco: troca o filtro de turbulência por blur simples. Continua parecendo
+     fogo (as línguas sobem igual), mas sem recalcular ruído a cada quadro. */
+  body.fogo-leve .fogo-svg g { filter: blur(7px) !important; }
+  body.fogo-leve .lingua { animation-duration: 4.5s; }
+
+  .brasa { position: absolute; bottom: 4vh; width: 3px; height: 3px; border-radius: 50%;
+    background: #FFC46B; box-shadow: 0 0 6px 2px rgba(255,140,30,.75); opacity: 0; will-change: transform, opacity; }
   @keyframes subir {
-    0%   { transform: translate(0, 0) scale(1); opacity: 0; }
-    12%  { opacity: .9; }
-    100% { transform: translate(var(--dx, 3vw), -42vh) scale(.35); opacity: 0; }
+    0%   { transform: translate(0,0) scale(1); opacity: 0; }
+    10%  { opacity: 1; }
+    70%  { opacity: .7; }
+    100% { transform: translate(var(--dx,2vw), -38vh) scale(.3); opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .chama, .brasa { animation: none !important; }
-    .seca-fogo::before { opacity: .8; }
+    .lingua, .brasa, .fogo-calor { animation: none !important; }
   }
+
+  /* Com o fogo ligado, o conteúdo fica opaco: o fogo aparece ENTRE os cards, nunca através
+     do texto. Sem isso o brilho vazava pelos fundos translúcidos e comia o contraste. */
+  body.modo-seca .ex,
+  body.modo-seca .seca-card,
+  body.modo-seca .conclude-bar,
+  body.modo-seca .meal,
+  body.modo-seca .mgh-card,
+  body.modo-seca .aula-card,
+  body.modo-seca .mat-card,
+  body.modo-seca .gami-strip,
+  body.modo-seca .day-btn,
+  body.modo-seca .ver-btn,
+  body.modo-seca .week-nav,
+  body.modo-seca .dl-pdf { background-color: var(--card); }
+  body.modo-seca .seca-card { background-image: linear-gradient(rgba(255,106,26,.07), rgba(255,106,26,.07)); }
+  body.modo-seca .seca-strip { background-color: var(--card); }
+  body.modo-seca .seca-strip.on { background-image: linear-gradient(135deg, rgba(255,106,26,.16), rgba(255,140,66,.05)); }
 
   /* Cardio: sessões marcáveis */
   .cardio-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
@@ -1310,7 +1352,42 @@
 
 <!-- Fogo do Modo Seca (só visível com o modo ligado) -->
 <div class="seca-fogo" id="secaFogo" aria-hidden="true">
-  <span class="chama c1"></span><span class="chama c2"></span><span class="chama c3"></span>
+  <div class="fogo-calor"></div>
+  <svg class="fogo-svg" viewBox="0 0 400 240" preserveAspectRatio="none">
+    <defs>
+      <!-- turbulência: recorta a borda das chamas em línguas irregulares, como fogo real -->
+      <filter id="fogoTurb" x="-15%" y="-15%" width="130%" height="130%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.045" numOctaves="2" seed="9" result="ruido">
+          <animate attributeName="baseFrequency" dur="9s" repeatCount="indefinite"
+                   values="0.015 0.045; 0.021 0.058; 0.013 0.04; 0.015 0.045"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+        <feGaussianBlur stdDeviation="3.5"/>
+      </filter>
+      <linearGradient id="gFogo" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%"   stop-color="#FFE9A8" stop-opacity=".95"/>
+        <stop offset="16%"  stop-color="#FFC02E" stop-opacity=".92"/>
+        <stop offset="40%"  stop-color="#FF7A10" stop-opacity=".72"/>
+        <stop offset="68%"  stop-color="#F03A00" stop-opacity=".34"/>
+        <stop offset="100%" stop-color="#8E1600" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gNucleo" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%"   stop-color="#FFF6D6" stop-opacity=".9"/>
+        <stop offset="45%"  stop-color="#FFD34A" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#FF8A00" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g filter="url(#fogoTurb)">
+      <path class="lingua l1" fill="url(#gFogo)" d="M20 240 C10 190 46 170 40 122 C74 152 78 196 72 240 Z"/>
+      <path class="lingua l2" fill="url(#gFogo)" d="M92 240 C78 176 122 150 112 88 C158 132 158 194 148 240 Z"/>
+      <path class="lingua l3" fill="url(#gFogo)" d="M168 240 C152 168 200 140 190 62 C242 118 240 190 230 240 Z"/>
+      <path class="lingua l4" fill="url(#gFogo)" d="M246 240 C232 176 276 148 268 86 C314 134 312 194 302 240 Z"/>
+      <path class="lingua l5" fill="url(#gFogo)" d="M320 240 C308 190 348 168 342 116 C378 150 384 198 376 240 Z"/>
+      <!-- núcleo quente, mais baixo e mais claro -->
+      <path class="lingua l2" fill="url(#gNucleo)" d="M120 240 C112 200 148 184 142 148 C176 176 178 212 172 240 Z"/>
+      <path class="lingua l3" fill="url(#gNucleo)" d="M212 240 C204 202 240 186 234 152 C268 180 268 214 262 240 Z"/>
+    </g>
+  </svg>
 </div>
 
 <!-- Modal do grupo de alunos (1ª abertura) -->
@@ -3133,9 +3210,20 @@ function toggleModoSeca() {
 }
 // Fogo de fundo: só com o modo ligado. As brasas param quando a aba sai de foco (bateria).
 let _brasaTimer = null;
+// Aparelho com pouca CPU roda a versão leve do fogo (blur no lugar da turbulência).
+function fogoDeviceFraco() {
+  try {
+    const nucleos = navigator.hardwareConcurrency;
+    if (typeof nucleos === 'number' && nucleos > 0 && nucleos <= 4) return true;
+    const mem = navigator.deviceMemory;
+    if (typeof mem === 'number' && mem > 0 && mem <= 4) return true;
+  } catch (e) {}
+  return false;
+}
 function aplicarFogoSeca() {
   const on = !!(state.seca && state.modoSeca);
   document.body.classList.toggle('modo-seca', on);
+  document.body.classList.toggle('fogo-leve', on && fogoDeviceFraco());
   clearInterval(_brasaTimer); _brasaTimer = null;
   if (!on) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
