@@ -2994,49 +2994,61 @@ function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 
 // migrar ela apareceria no exercício errado. O mapa é por NOME: cada carga (titular e
 // substituto) segue o exercício pra onde ele foi. Sem destino no layout novo, a chave
 // vira "orfa_..." (não é lida, mas não se perde). Roda uma vez por conta, neste aparelho.
-const D5_MIGR_TAG = 'gh_migr_d5_bitri_2026_08_29';
-const D5_MIGR_MAP = {"1.0": {"e0": "e0", "e1": "e2", "e1_sub": "e2_sub", "e2": "e4", "e2_sub": "e6_sub", "e3": "e6", "e3_sub": "e4_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "2.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e3_sub": "e2_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "3.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}};
+const D5_MIGRACOES = [
+  { tag: 'gh_migr_d5_bitri_2026_08_29', mapa: {"1.0": {"e0": "e0", "e1": "e2", "e1_sub": "e2_sub", "e2": "e4", "e2_sub": "e6_sub", "e3": "e6", "e3_sub": "e4_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "2.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e3_sub": "e2_sub", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}, "3.0": {"e0": "e0", "e1": "e2", "e1_sub": "e6_sub", "e2": "e4", "e2_sub": "e4_sub", "e3": "e6", "e4": "e1_sub", "e4_sub": "e3", "e5": "e1", "e5_sub": "e3_sub", "e6": "e5"}} },
+  { tag: 'gh_migr_d5_roscas_2026_08_29b', mapa: {"1.0": {"e0": "e0", "e1": "e1", "e1_sub": "ORFA", "e2": "e2", "e2_sub": "e2_sub", "e3": "ORFA", "e3_sub": "ORFA", "e4": "e4", "e4_sub": "e4_sub", "e5": "e5", "e5_sub": "e1", "e6": "e6", "e6_sub": "e6_sub"}, "2.0": {"e0": "e0", "e1": "e1", "e1_sub": "ORFA", "e2": "e2", "e2_sub": "e2_sub", "e3": "ORFA", "e3_sub": "ORFA", "e4": "e4", "e4_sub": "e4_sub", "e5": "e5", "e5_sub": "e1", "e6": "e6", "e6_sub": "e6_sub"}, "3.0": {"e0": "e0", "e1": "e1", "e1_sub": "ORFA", "e2": "e2", "e2_sub": "e2_sub", "e3": "ORFA", "e3_sub": "ORFA", "e4": "e4", "e4_sub": "e4_sub", "e5": "e5", "e5_sub": "e1", "e6": "e6", "e6_sub": "e6_sub"}} },
+];
+// Roda as migrações pendentes em ordem. Cada uma: lê TUDO antes de escrever (senão uma
+// chave sobrescreve a outra), manda cada carga pro destino do MESMO exercício, e o que
+// não tem destino no layout novo vira "orfa_" (não é lida, mas não se perde).
 function migrarCargaD5UmaVez() {
   try {
     const email = setsEmail();
     if (!email || email === 'anon') return;
-    const flag = D5_MIGR_TAG + '_' + email;
-    if (localStorage.getItem(flag)) return;
     const prefix = 'peitao_sets_' + email + '_';
     const rx = /^semana_(\d\.\d)_4_w(\d+)_(e\d+(?:_sub|_seca)?)$/;
-    // 1) lê TUDO antes de escrever (senão uma chave sobrescreve a outra)
-    const origem = {};
-    for (let i = 0; i < localStorage.length; i++) {
-      const lk = localStorage.key(i);
-      if (!lk || !lk.startsWith(prefix)) continue;
-      const sk = lk.slice(prefix.length);
-      if (rx.test(sk)) origem[sk] = localStorage.getItem(lk);
-    }
-    const chaves = Object.keys(origem);
-    if (!chaves.length) { localStorage.setItem(flag, String(Date.now())); return; }
-    // 2) remove as antigas e grava nos destinos
-    for (const sk of chaves) localStorage.removeItem(prefix + sk);
-    const gravadas = {};
-    for (const sk of chaves) {
-      const m = rx.exec(sk);
-      const ver = m[1], semana = m[2], campo = m[3];
-      const dest = (D5_MIGR_MAP[ver] || {})[campo];
-      const destSk = dest ? ('semana_' + ver + '_4_w' + semana + '_' + dest) : ('orfa_' + D5_MIGR_TAG + '_' + sk);
-      if (localStorage.getItem(prefix + destSk) === null && gravadas[destSk] === undefined) {
+    for (const migr of D5_MIGRACOES) {
+      const flag = migr.tag + '_' + email;
+      if (localStorage.getItem(flag)) continue;
+      const origem = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const lk = localStorage.key(i);
+        if (!lk || !lk.startsWith(prefix)) continue;
+        const sk = lk.slice(prefix.length);
+        if (rx.test(sk)) origem[sk] = localStorage.getItem(lk);
+      }
+      const chaves = Object.keys(origem);
+      if (!chaves.length) { localStorage.setItem(flag, String(Date.now())); continue; }
+      for (const sk of chaves) localStorage.removeItem(prefix + sk);
+      const gravadas = {};
+      // ORDEM IMPORTA: quem FICA no mesmo lugar entra primeiro; quem MOVE entra depois e,
+      // se o destino já estiver ocupado, vira órfã. Sem isso, uma carga de substituto podia
+      // tomar o lugar do titular que nunca saiu dali.
+      const ordenadas = chaves.slice().sort((a, b) => {
+        const da = (migr.mapa[(rx.exec(a) || [])[1]] || {})[(rx.exec(a) || [])[3]];
+        const db = (migr.mapa[(rx.exec(b) || [])[1]] || {})[(rx.exec(b) || [])[3]];
+        const fixa = (sk, d) => (d === undefined || d === (rx.exec(sk) || [])[3]) ? 0 : 1;
+        return fixa(a, da) - fixa(b, db);
+      });
+      for (const sk of ordenadas) {
+        const m = rx.exec(sk);
+        const ver = m[1], semana = m[2], campo = m[3];
+        const dest = (migr.mapa[ver] || {})[campo];
+        // 'ORFA' = o exercício sumiu do dia: guarda sem ser lida (senão o peso apareceria
+        // com o nome de outro exercício). Sem regra nenhuma = a linha não mudou, fica onde está.
+        const alvo = (dest && dest !== 'ORFA') ? ('semana_' + ver + '_4_w' + semana + '_' + dest)
+                   : (dest === 'ORFA' ? null : sk);
+        const jaTem = alvo && (localStorage.getItem(prefix + alvo) !== null || gravadas[alvo] !== undefined);
+        const destSk = (alvo && !jaTem) ? alvo : ('orfa_' + migr.tag + '_' + sk);
         localStorage.setItem(prefix + destSk, origem[sk]);
         gravadas[destSk] = origem[sk];
-      } else {
-        const orfa = 'orfa_' + D5_MIGR_TAG + '_' + sk;
-        localStorage.setItem(prefix + orfa, origem[sk]);
-        gravadas[orfa] = origem[sk];
       }
+      for (const [sk, val] of Object.entries(gravadas)) {
+        try { queueSetsSync(prefix + sk, JSON.parse(val)); } catch (e) {}
+      }
+      localStorage.setItem(flag, String(Date.now()));
+      console.log('[migracao ' + migr.tag + '] ' + chaves.length + ' chaves processadas');
     }
-    // 3) sobe o resultado pra conta (o servidor também migra, isso só acelera)
-    for (const [sk, val] of Object.entries(gravadas)) {
-      try { queueSetsSync(prefix + sk, JSON.parse(val)); } catch (e) {}
-    }
-    localStorage.setItem(flag, String(Date.now()));
-    console.log('[migracao D5] ' + chaves.length + ' chaves remapeadas');
   } catch (e) {}
 }
 

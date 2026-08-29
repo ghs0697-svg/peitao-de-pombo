@@ -352,12 +352,12 @@
               "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO RETO",
               "sub": {
-                "exercicio": "Crossover polia média",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER POLIA MEDIA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -368,12 +368,12 @@
               "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg)",
               "video_key": "SUPINO DECLINADO",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg)",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -384,12 +384,12 @@
               "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
               "video_key": "SUPINO DECLINADO COM HALTERES",
               "sub": {
-                "exercicio": "Supino declinado na máquina",
+                "exercicio": "Supino reto na máquina sentado",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
-                "video_key": "SUPINO DECLINADO NA MAQUINA"
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
               }
             },
             {
@@ -400,12 +400,12 @@
               "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO DECLINADO",
               "sub": {
-                "exercicio": "Crossover",
+                "exercicio": "Voador",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg)",
-                "video_key": "CROSSOVER"
+                "video_key": "VOADOR"
               }
             },
             {
@@ -574,12 +574,12 @@
               "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO RETO",
               "sub": {
-                "exercicio": "Crossover polia média",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CROSSOVER POLIA MEDIA"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -622,12 +622,12 @@
               "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO DECLINADO",
               "sub": {
-                "exercicio": "Crossover",
+                "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CROSSOVER"
+                "video_key": "CROSSOVER POLIA MEDIA"
               }
             },
             {
@@ -1109,12 +1109,12 @@
               "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca alternada com halteres",
+                "exercicio": "Rosca scott unilateral",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
+                "video_key": "ROSCA SCOTT UNILATERAL"
               }
             },
             {
@@ -1134,19 +1134,19 @@
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca martelo com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Cotovelo colado no corpo, so o antebraco se move",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "obs": "Pegada neutra, polegar pra cima, pega o braquial",
+              "video_key": "ROSCA MARTELO COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca martelo no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Cotovelo colado no corpo, so o antebraco se move",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "obs": "Pegada neutra, polegar pra cima, pega o braquial",
+                "video_key": "ROSCA MARTELO NO CROSS"
               }
             },
             {
@@ -1173,12 +1173,12 @@
               "obs": "Cotovelo apoiado na coxa, subida controlada",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca scott fechada",
+                "exercicio": "Rosca concentrada com halter",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo apoiado na coxa, subida controlada",
-                "video_key": "ROSCA SCOTT FECHADA"
+                "video_key": "ROSCA CONCENTRADA COM HALTER"
               }
             },
             {
@@ -1642,12 +1642,12 @@
               "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg)",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca alternada com halteres",
+                "exercicio": "Rosca scott unilateral",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg)",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
+                "video_key": "ROSCA SCOTT UNILATERAL"
               }
             },
             {
@@ -1667,19 +1667,19 @@
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca martelo com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg)",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "obs": "Pegada neutra, polegar pra cima, pega o braquial · cadência na descida (3 seg)",
+              "video_key": "ROSCA MARTELO COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca martelo no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "obs": "Pegada neutra, polegar pra cima, pega o braquial · cadência na descida (3 seg)",
+                "video_key": "ROSCA MARTELO NO CROSS"
               }
             },
             {
@@ -1706,12 +1706,12 @@
               "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg)",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca scott fechada",
+                "exercicio": "Rosca concentrada com halter",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg)",
-                "video_key": "ROSCA SCOTT FECHADA"
+                "video_key": "ROSCA CONCENTRADA COM HALTER"
               }
             },
             {
@@ -2175,12 +2175,12 @@
               "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA SCOTT FECHADA",
               "sub": {
-                "exercicio": "Rosca alternada com halteres",
+                "exercicio": "Rosca scott unilateral",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo fixo no apoio, sem tirar o ombro do banco · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
+                "video_key": "ROSCA SCOTT UNILATERAL"
               }
             },
             {
@@ -2200,19 +2200,19 @@
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca martelo com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
-              "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "obs": "Pegada neutra, polegar pra cima, pega o braquial · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "ROSCA MARTELO COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca martelo no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
-                "obs": "Cotovelo colado no corpo, so o antebraco se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "obs": "Pegada neutra, polegar pra cima, pega o braquial · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "ROSCA MARTELO NO CROSS"
               }
             },
             {
@@ -2239,12 +2239,12 @@
               "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "ROSCA CONCENTRADA NO CROSS",
               "sub": {
-                "exercicio": "Rosca scott fechada",
+                "exercicio": "Rosca concentrada com halter",
                 "series": "4X",
                 "reps": "6 a 10",
                 "intervalo": "90 seg",
                 "obs": "Cotovelo apoiado na coxa, subida controlada · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA SCOTT FECHADA"
+                "video_key": "ROSCA CONCENTRADA COM HALTER"
               }
             },
             {
@@ -2831,6 +2831,15 @@
     "CRUCIFIXO RETO": "https://youtube.com/shorts/dUYcnHc-2o4",
     "CRUCIFIXO DECLINADO": "https://youtube.com/shorts/1TuIwwSH9zc",
     "SUPINO DECLINADO": "https://youtube.com/shorts/vtCzrCUo1Lo?feature=share",
-    "SUPINO DECLINADO COM HALTERES": "https://youtube.com/shorts/Q3Ww5YmkwiY?feature=share"
+    "SUPINO DECLINADO COM HALTERES": "https://youtube.com/shorts/Q3Ww5YmkwiY?feature=share",
+    "ROSCA MARTELO COM HALTERES": "https://youtube.com/shorts/pEU_8aGLJFY?feature=share",
+    "ROSCA MARTELO NO CROSS": "https://youtube.com/shorts/CxFSRvCbVhQ?feature=share",
+    "ROSCA SCOTT UNILATERAL": "https://youtube.com/shorts/OgKUMeXiGSo?feature=share",
+    "ROSCA CONCENTRADA COM HALTER": "https://youtube.com/shorts/Snt8F_49HPc?feature=share",
+    "ROSCA DIRETA COM HALTERES": "https://youtube.com/shorts/MeXrizZogIg?feature=share",
+    "ROSCA DIRETA ALTERNADA": "https://youtube.com/shorts/W0VrmE_Qcso?feature=share",
+    "ROSCA UNILATERAL NO CROSS": "https://youtube.com/shorts/ZCEVU-oKMFQ?feature=share",
+    "ROSCA DIRETA COM HALTER NO BANCO INCLINADO": "https://youtube.com/shorts/UxnVn3wTM-U?feature=share",
+    "ROSCA DIRETA NA PUXADA ALTA": "https://youtube.com/shorts/_Qb2gblZBlQ?feature=share"
   }
 }
