@@ -130,12 +130,12 @@
               "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração",
               "video_key": "CRUCIFIXO RETO",
               "sub": {
-                "exercicio": "Crucifixo inclinado no cross",
+                "exercicio": "Crossover",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração",
-                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+                "video_key": "CROSSOVER"
               }
             },
             {
@@ -352,12 +352,12 @@
               "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
               "video_key": "CRUCIFIXO RETO",
               "sub": {
-                "exercicio": "Crucifixo inclinado no cross",
+                "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
-                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+                "video_key": "CROSSOVER POLIA MEDIA"
               }
             },
             {
@@ -384,12 +384,12 @@
               "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
               "video_key": "SUPINO DECLINADO COM HALTERES",
               "sub": {
-                "exercicio": "Supino inclinado na máquina",
+                "exercicio": "Supino declinado na máquina",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
-                "video_key": "SUPINO INCLINADO NA MAQUINA"
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
               }
             },
             {
@@ -574,12 +574,12 @@
               "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "CRUCIFIXO RETO",
               "sub": {
-                "exercicio": "Crucifixo inclinado no cross",
+                "exercicio": "Crossover polia média",
                 "series": "4X",
                 "reps": "10 a 15",
                 "intervalo": "60 seg",
                 "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+                "video_key": "CROSSOVER POLIA MEDIA"
               }
             },
             {
@@ -953,7 +953,14 @@
               "reps": "10",
               "intervalo": "60 seg",
               "obs": "Progressão de carga",
-              "video_key": "MESA FLEXORA"
+              "video_key": "MESA FLEXORA",
+              "sub": {
+                "exercicio": "Flexora unilateral em pé",
+                "video_key": "FLEXORA UNILATERAL EM PE",
+                "series": "4X",
+                "reps": "10",
+                "intervalo": "60 seg"
+              }
             },
             {
               "exercicio": "Cadeira flexora",
@@ -1094,19 +1101,19 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
-              "exercicio": "Tríceps testa no banco inclinado",
+              "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "video_key": "TRICEPS NA PARALELA",
               "sub": {
-                "exercicio": "Tríceps testa em pé",
+                "exercicio": "Tríceps testa no banco inclinado",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "TRICEPS TESTA EM PE"
+                "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
               }
             },
             {
@@ -1117,12 +1124,12 @@
               "obs": "Progressão de carga",
               "video_key": "TRICEPS PULLEY COM CORDA",
               "sub": {
-                "exercicio": "Tríceps na paralela",
+                "exercicio": "Tríceps testa em pé",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "TRICEPS NA PARALELA"
+                "video_key": "TRICEPS TESTA EM PE"
               }
             },
             {
@@ -1142,19 +1149,19 @@
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca alternada com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "video_key": "ROSCA ALTERNADA COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca direta no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "video_key": "ROSCA DIRETA NO CROSS"
               }
             },
             {
@@ -1179,15 +1186,7 @@
               "reps": "6 a 10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga",
-              "video_key": "ROSCA CONCENTRADA NO CROSS",
-              "sub": {
-                "exercicio": "Rosca alternada com halteres",
-                "series": "4X",
-                "reps": "6 a 10",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
-              }
+              "video_key": "ROSCA CONCENTRADA NO CROSS"
             }
           ]
         }
@@ -1478,7 +1477,14 @@
               "reps": "10",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "MESA FLEXORA"
+              "video_key": "MESA FLEXORA",
+              "sub": {
+                "exercicio": "Flexora unilateral em pé",
+                "video_key": "FLEXORA UNILATERAL EM PE",
+                "series": "4X",
+                "reps": "10",
+                "intervalo": "60 seg"
+              }
             },
             {
               "exercicio": "Mesa flexora livre com halter",
@@ -1619,12 +1625,12 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
-              "exercicio": "Tríceps testa no banco inclinado",
+              "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "video_key": "TRICEPS NA PARALELA",
               "sub": {
                 "exercicio": "Tríceps testa em pé",
                 "series": "4X",
@@ -1658,28 +1664,28 @@
               "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
               "video_key": "TRICEPS FRANCES NO CROSS",
               "sub": {
-                "exercicio": "Tríceps pulley com barra",
+                "exercicio": "Tríceps testa no banco inclinado",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga; alonga muito, contrai pouco; polia na altura da cintura · cadência na descida (3 seg)",
-                "video_key": "TRICEPS PULLEY COM BARRA"
+                "video_key": "TRICEPS TESTA NO BANCO INCLINADO"
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca alternada com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "video_key": "ROSCA ALTERNADA COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca direta no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "video_key": "ROSCA DIRETA NO CROSS"
               }
             },
             {
@@ -1704,15 +1710,7 @@
               "reps": "6 a 10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg)",
-              "video_key": "ROSCA CONCENTRADA NO CROSS",
-              "sub": {
-                "exercicio": "Rosca alternada com halteres",
-                "series": "4X",
-                "reps": "6 a 10",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg)",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
-              }
+              "video_key": "ROSCA CONCENTRADA NO CROSS"
             }
           ]
         }
@@ -2003,7 +2001,14 @@
               "reps": "10",
               "intervalo": "60 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "MESA FLEXORA"
+              "video_key": "MESA FLEXORA",
+              "sub": {
+                "exercicio": "Mesa flexora livre com halter",
+                "video_key": "MESA FLEXORA LIVRE COM HALTER",
+                "series": "4X",
+                "reps": "10",
+                "intervalo": "60 seg"
+              }
             },
             {
               "exercicio": "Flexora unilateral em pé",
@@ -2144,12 +2149,12 @@
               "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
             },
             {
-              "exercicio": "Tríceps testa no banco inclinado",
+              "exercicio": "Tríceps na paralela",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "TRICEPS TESTA NO BANCO INCLINADO",
+              "video_key": "TRICEPS NA PARALELA",
               "sub": {
                 "exercicio": "Tríceps testa em pé",
                 "series": "4X",
@@ -2192,19 +2197,19 @@
               }
             },
             {
-              "exercicio": "Rosca direta no cross",
+              "exercicio": "Rosca alternada com halteres",
               "series": "4X",
               "reps": "12 a 15",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA DIRETA NO CROSS",
+              "video_key": "ROSCA ALTERNADA COM HALTERES",
               "sub": {
-                "exercicio": "Rosca direta com barra W",
+                "exercicio": "Rosca direta no cross",
                 "series": "4X",
                 "reps": "12 a 15",
                 "intervalo": "90 seg",
                 "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA DIRETA COM BARRA W"
+                "video_key": "ROSCA DIRETA NO CROSS"
               }
             },
             {
@@ -2229,15 +2234,7 @@
               "reps": "6 a 10",
               "intervalo": "90 seg",
               "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-              "video_key": "ROSCA CONCENTRADA NO CROSS",
-              "sub": {
-                "exercicio": "Rosca alternada com halteres",
-                "series": "4X",
-                "reps": "6 a 10",
-                "intervalo": "90 seg",
-                "obs": "Progressão de carga · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "ROSCA ALTERNADA COM HALTERES"
-              }
+              "video_key": "ROSCA CONCENTRADA NO CROSS"
             }
           ]
         }
