@@ -904,9 +904,9 @@
     "de_key": "TRICEPS TESTA NO BANCO INCLINADO",
     "para": "Tríceps na paralela",
     "para_key": "TRICEPS NA PARALELA",
-    "onde": "Dia de peito e dia de braços",
+    "onde": "Dia de peito A e dia de braços",
     "por_que": "A paralela usa peito, ombro e tríceps juntos: o exercício de tríceps que mais queima.",
-    "obs": "Se a paralela já entrou no treino por outra troca, mantém o tríceps testa."
+    "obs": "O dia de peito B não tem tríceps testa, então lá não muda nada. Se a paralela já entrou no treino por outra troca, mantém o tríceps testa."
    },
    {
     "de": "Exercício de peito do dia de braços (Voador, Crossover ou Crucifixo inclinado, conforme a fase)",
@@ -935,9 +935,9 @@
      "ex1": "Tríceps francês no cross",
      "ex1_key": "TRICEPS FRANCES NO CROSS",
      "reps1": "15",
-     "ex2": "Abdominal no banco declinado com peso",
-     "ex2_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
-     "reps2": "15"
+     "ex2": "Abdominal elevação de pernas com halter",
+     "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+     "reps2": "12"
     },
     {
      "dia": "Costas",
