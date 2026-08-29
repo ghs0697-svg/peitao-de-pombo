@@ -1328,6 +1328,7 @@ let state = {
   lifetime: false,        // vem do backend (flag de acesso vitalício)
   ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
   seca: false,            // comprou o Seca Pança (flag do backend)
+  secaDaysSince: null,    // dias desde a compra do Seca (relógio próprio do modo)
   modoSeca: false,        // switch do Modo Seca (por conta, localStorage)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
   daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
@@ -1508,6 +1509,7 @@ async function boot() {
         state.daysSincePurchase = v.daysSincePurchase ?? null;
         state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
         state.seca = !!v.seca;
+        state.secaDaysSince = (v.secaDaysSince ?? null);
         enterApp();
         return;
       }
@@ -1564,6 +1566,7 @@ function startHeartbeat() {
         state.lifetime = !!v.lifetime;
         state.ebooks = newEbooks;
         state.seca = !!v.seca;
+        state.secaDaysSince = (v.secaDaysSince ?? null);
         renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderErgo(); renderParceiros();
       }
     } catch (e) {}
@@ -2965,7 +2968,14 @@ let _secaForce = {};   // ctxKey_idx -> true: força o substituto oficial (carga
 let _secaSwap = {};    // ctxKey_idx -> {exercicio, video_key, obs}: troca com chave _seca
 
 function secaAtivo() { return !!(state.seca && state.modoSeca && SECA_DATA); }
-function secaMesReal() { return Math.min(3, Math.max(1, Math.ceil(computeWeek() / 4))); }
+// Relógio próprio do Seca: conta da COMPRA DO SECA (secaAt), não da compra do Peitão.
+// Quem compra o Seca depois começa o protocolo de queima no mês 1 dele.
+function secaDias() {
+  if (state.secaDaysSince !== null && state.secaDaysSince !== undefined) return state.secaDaysSince;
+  return state.daysSincePurchase ?? 0;
+}
+function secaWeek() { return Math.min(12, Math.max(1, Math.floor(secaDias() / 7) + 1)); }
+function secaMesReal() { return Math.min(3, Math.max(1, Math.ceil(secaWeek() / 4))); }
 function isSecaForced(ctxKey, idx) { return secaAtivo() && !!_secaForce[ctxKey + '_' + idx]; }
 function secaSwapFor(ctxKey, idx) { return secaAtivo() ? (_secaSwap[ctxKey + '_' + idx] || null) : null; }
 function loadModoSeca() { try { state.modoSeca = localStorage.getItem('gh_modoSeca_' + setsEmail()) === '1'; } catch (e) {} }
@@ -3021,7 +3031,7 @@ function secaStripHtml() {
 }
 function secaCardioHtml() {
   if (!secaAtivo()) return '';
-  const w = Math.min(12, Math.max(1, state.week || computeWeek()));
+  const w = secaWeek();
   const c = ((SECA_DATA.cardio || {}).semanas || [])[w - 1];
   if (!c) return '';
   return `<div class="seca-card">
@@ -3500,7 +3510,7 @@ function initSecaBanner() {
     const el = document.createElement('div');
     el.id = 'secaBanner';
     el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,106,26,.45);background:linear-gradient(135deg, rgba(255,106,26,.14), rgba(255,140,66,.05));border-radius:14px;font-size:13.5px;line-height:1.55;';
-    el.innerHTML = '<b style="color:var(--accent-hi,#FF8642);">🔥 Secar pro verão começa AGORA, não no verão.</b> O protocolo é de 90 dias: começando hoje, tu entra em dezembro seco. Deixa pra depois e dezembro vira só mais um verão de camiseta.'
+    el.innerHTML = '<b style="color:var(--accent-hi,#FF8642);">🔥 Todo mundo lembra do verão em dezembro.</b> Quem chega seco lembrou AGORA. 90 dias: a conta só fecha se tu começar hoje.'
       + '<div style="display:flex;gap:10px;margin-top:12px;">'
       + '<button onclick="abrirSecaCheckout()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">QUERO CHEGAR SECO · R$37</button>'
       + '<button onclick="dismissSecaBanner()" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
