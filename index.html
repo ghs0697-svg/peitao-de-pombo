@@ -2663,7 +2663,7 @@ function exerciseCard(ex, ctxKey, idx) {
     : '';
   // Vídeos em todos os exercícios da aba PEITO e da aba SEMANA (treino 5x).
   // Cards sem URL em DATA.videos viram automaticamente "no-video" (sem botão de play).
-  const showVideo = ctxKey.startsWith('peito_') || ctxKey.startsWith('semana_');
+  const showVideo = ctxKey.startsWith('peito_') || ctxKey.startsWith('peitoB_') || ctxKey.startsWith('semana_');
   const url = showVideo ? DATA.videos[active.video_key] : null;
   const hasVid = !!url;
   return `
@@ -2743,9 +2743,10 @@ async function downloadTreinoPDF(kind) {
   if (kind === 'peito') {
     const tp = DATA.treinoPeito[state.peitoVer];
     const t5p = DATA.treino5x[state.peitoVer] || { dias: [] };
-    const b = t5p.dias[0];
+    const b = tp.dias[1] || t5p.dias[0];
+    const bCtx = tp.dias[1] ? ('peitoB_' + state.peitoVer) : ('semana_' + state.peitoVer + '_0');
     entries = [{ dia: tp.dias[0], nome: 'TREINO A (ex: segunda) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'peito_' + state.peitoVer }];
-    if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'semana_' + state.peitoVer + '_0' });
+    if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: bCtx });
     if (state.upsellUnlocked) {
       [1, 2, 3, 4].forEach(di => {
         const dia = t5p.dias[di];
@@ -2895,7 +2896,7 @@ function renderPeito() {
     { id: 'A', label: 'PEITO A', dia: t.dias[0], ctx: 'peito_' + state.peitoVer, fin: 'Peito A', livre: true },
     { id: '1', label: 'COSTAS', dia: t5.dias[1], ctx: 'semana_' + state.peitoVer + '_1', fin: 'Costas' },
     { id: '2', label: 'PERNA', dia: t5.dias[2], ctx: 'semana_' + state.peitoVer + '_2', fin: 'Perna' },
-    { id: 'B', label: 'PEITO B', dia: t5.dias[0], ctx: 'semana_' + state.peitoVer + '_0', fin: 'Peito B', livre: true },
+    { id: 'B', label: 'PEITO B', dia: (t.dias[1] || t5.dias[0]), ctx: (t.dias[1] ? 'peitoB_' : 'semana_') + state.peitoVer + (t.dias[1] ? '' : '_0'), fin: 'Peito B', livre: true },
     { id: '3', label: 'OMBRO', dia: t5.dias[3], ctx: 'semana_' + state.peitoVer + '_3', fin: 'Ombro + peito' },
     { id: '4', label: 'BRAÇOS', dia: t5.dias[4], ctx: 'semana_' + state.peitoVer + '_4', fin: 'Braços + peito' },
   ];
@@ -3031,7 +3032,9 @@ function secaBuildIndex() {
     });
   };
   for (const ver of Object.keys(DATA.treinoPeito || {})) {
-    applyDay(((DATA.treinoPeito[ver].dias || [])[0] || {}).exercicios || [], 'peito_' + ver, null);
+    const dias = DATA.treinoPeito[ver].dias || [];
+    applyDay((dias[0] || {}).exercicios || [], 'peito_' + ver, null);
+    if (dias[1]) applyDay(dias[1].exercicios || [], 'peitoB_' + ver, null);
   }
   for (const ver of Object.keys(DATA.treino5x || {})) {
     (DATA.treino5x[ver].dias || []).forEach((dia, di) => applyDay(dia.exercicios || [], 'semana_' + ver + '_' + di, di));

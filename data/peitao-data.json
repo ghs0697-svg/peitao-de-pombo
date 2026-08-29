@@ -126,6 +126,115 @@
               }
             }
           ]
+        },
+        {
+          "nome": "DIA 2: PEITO / TRÍCEPS / ABDÔMEN (SEGUNDA DOSE DA SEMANA)",
+          "exercicios": [
+            {
+              "exercicio": "Alongamento escápulas / ombro",
+              "series": "2X",
+              "reps": "20 seg",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
+            },
+            {
+              "exercicio": "Crucifixo reto",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração",
+              "video_key": "CRUCIFIXO RETO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
+            },
+            {
+              "exercicio": "Supino declinado",
+              "series": "4X",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+              "intervalo": "90 seg",
+              "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha",
+              "video_key": "SUPINO DECLINADO",
+              "sub": {
+                "exercicio": "Supino declinado na máquina",
+                "series": "4X",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha",
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
+              }
+            },
+            {
+              "exercicio": "Supino declinado com halteres",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar",
+              "video_key": "SUPINO DECLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino reto na máquina sentado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar",
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+              }
+            },
+            {
+              "exercicio": "Crucifixo declinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta",
+              "video_key": "CRUCIFIXO DECLINADO",
+              "sub": {
+                "exercicio": "Crossover polia média",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta",
+                "video_key": "CROSSOVER POLIA MEDIA"
+              }
+            },
+            {
+              "exercicio": "Tríceps pulley com barra",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Cotovelo colado no corpo, só o antebraço se move",
+              "video_key": "TRICEPS PULLEY COM BARRA",
+              "sub": {
+                "exercicio": "Tríceps supinado",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Cotovelo colado no corpo, só o antebraço se move",
+                "video_key": "TRICEPS SUPINADO"
+              }
+            },
+            {
+              "exercicio": "Abdominal na remada baixa / cross",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Puxar com o abdômen, não com o braço",
+              "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
+              "sub": {
+                "exercicio": "Abdominal no banco declinado com peso",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Puxar com o abdômen, não com o braço",
+                "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
+              }
+            }
+          ]
         }
       ]
     },
@@ -255,6 +364,115 @@
               }
             }
           ]
+        },
+        {
+          "nome": "DIA 2: PEITO / TRÍCEPS / ABDÔMEN (SEGUNDA DOSE DA SEMANA)",
+          "exercicios": [
+            {
+              "exercicio": "Alongamento escápulas / ombro",
+              "series": "2X",
+              "reps": "20 seg",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
+            },
+            {
+              "exercicio": "Crucifixo reto",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
+              "video_key": "CRUCIFIXO RETO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg)",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
+            },
+            {
+              "exercicio": "Supino declinado",
+              "series": "4X",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+              "intervalo": "90 seg",
+              "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg)",
+              "video_key": "SUPINO DECLINADO",
+              "sub": {
+                "exercicio": "Supino reto na máquina sentado",
+                "series": "4X",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg)",
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+              }
+            },
+            {
+              "exercicio": "Supino declinado com halteres",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
+              "video_key": "SUPINO DECLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino inclinado na máquina",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg)",
+                "video_key": "SUPINO INCLINADO NA MAQUINA"
+              }
+            },
+            {
+              "exercicio": "Crucifixo declinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg)",
+              "video_key": "CRUCIFIXO DECLINADO",
+              "sub": {
+                "exercicio": "Crossover",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg)",
+                "video_key": "CROSSOVER"
+              }
+            },
+            {
+              "exercicio": "Tríceps pulley com barra",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Cotovelo colado no corpo, só o antebraço se move · cadência na descida (3 seg)",
+              "video_key": "TRICEPS PULLEY COM BARRA",
+              "sub": {
+                "exercicio": "Tríceps supinado",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Cotovelo colado no corpo, só o antebraço se move · cadência na descida (3 seg)",
+                "video_key": "TRICEPS SUPINADO"
+              }
+            },
+            {
+              "exercicio": "Abdominal na remada baixa / cross",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Puxar com o abdômen, não com o braço · cadência na descida (3 seg)",
+              "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
+              "sub": {
+                "exercicio": "Abdominal no banco declinado com peso",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Puxar com o abdômen, não com o braço · cadência na descida (3 seg)",
+                "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
+              }
+            }
+          ]
         }
       ]
     },
@@ -381,6 +599,115 @@
                 "intervalo": "60 seg",
                 "obs": "Mais de 10 kg · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
                 "video_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA"
+              }
+            }
+          ]
+        },
+        {
+          "nome": "DIA 2: PEITO / TRÍCEPS / ABDÔMEN (SEGUNDA DOSE DA SEMANA)",
+          "exercicios": [
+            {
+              "exercicio": "Alongamento escápulas / ombro",
+              "series": "2X",
+              "reps": "20 seg",
+              "intervalo": "15 seg",
+              "obs": "Aquecimento",
+              "video_key": "ALONGAMENTO ESCAPULAS / OMBRO"
+            },
+            {
+              "exercicio": "Crucifixo reto",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "CRUCIFIXO RETO",
+              "sub": {
+                "exercicio": "Crucifixo inclinado no cross",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Abre o treino alongando o peito sob tensão, que é o que mais constrói. Nunca deixar as mãos se encostarem na contração · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "CRUCIFIXO INCLINADO NO CROSS"
+              }
+            },
+            {
+              "exercicio": "Supino declinado",
+              "series": "4X",
+              "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+              "intervalo": "90 seg",
+              "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "SUPINO DECLINADO",
+              "sub": {
+                "exercicio": "Supino declinado na máquina",
+                "series": "4X",
+                "reps": "15 a 20 | 10 a 15 | 8 a 12 | 6 a 10",
+                "intervalo": "90 seg",
+                "obs": "Piramidal: o peso sobe a cada série e as repetições caem. O declinado pega a parte de baixo do peito, que o outro treino da semana não trabalha · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "SUPINO DECLINADO NA MAQUINA"
+              }
+            },
+            {
+              "exercicio": "Supino declinado com halteres",
+              "series": "4X",
+              "reps": "8 a 12",
+              "intervalo": "90 seg",
+              "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "SUPINO DECLINADO COM HALTERES",
+              "sub": {
+                "exercicio": "Supino reto na máquina sentado",
+                "series": "4X",
+                "reps": "8 a 12",
+                "intervalo": "90 seg",
+                "obs": "Mesma pegada de baixo, agora com halteres pra abrir mais embaixo. Descer devagar e sentir o peito esticar · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+              }
+            },
+            {
+              "exercicio": "Crucifixo declinado",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "CRUCIFIXO DECLINADO",
+              "sub": {
+                "exercicio": "Crossover",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Fecha o peito por baixo, com amplitude e sem pressa na volta · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "CROSSOVER"
+              }
+            },
+            {
+              "exercicio": "Tríceps pulley com barra",
+              "series": "4X",
+              "reps": "10 a 15",
+              "intervalo": "60 seg",
+              "obs": "Cotovelo colado no corpo, só o antebraço se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "TRICEPS PULLEY COM BARRA",
+              "sub": {
+                "exercicio": "Tríceps supinado",
+                "series": "4X",
+                "reps": "10 a 15",
+                "intervalo": "60 seg",
+                "obs": "Cotovelo colado no corpo, só o antebraço se move · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "TRICEPS SUPINADO"
+              }
+            },
+            {
+              "exercicio": "Abdominal na remada baixa / cross",
+              "series": "3X",
+              "reps": "12 a 15",
+              "intervalo": "60 seg",
+              "obs": "Puxar com o abdômen, não com o braço · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+              "video_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
+              "sub": {
+                "exercicio": "Abdominal no banco declinado com peso",
+                "series": "3X",
+                "reps": "12 a 15",
+                "intervalo": "60 seg",
+                "obs": "Puxar com o abdômen, não com o braço · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
+                "video_key": "ABDOMINAL NO BANCO DECLINADO COM PESO"
               }
             }
           ]
@@ -2764,6 +3091,10 @@
     "FLEXORA UNILATERAL EM PE": "https://www.youtube.com/watch?v=T6-6VaqqlZY&list=PLi70DQtLbXHwBh0yfwWCCSL-e2ikhGBZB&index=3",
     "ELEVACAO LATERAL NO BANCO INCLINADO": "https://www.youtube.com/watch?v=kkQvKWzjjlU&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=12",
     "ELEVACAO LATERAL PARCIAL NO CROSS": "https://www.youtube.com/watch?v=iEwEvPNysms&list=PLi70DQtLbXHwo08DsMa_wsj1eFnmsXmRR&index=2",
-    "TRICEPS SUPINADO": "https://www.youtube.com/watch?v=EfZsFyZpmW0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=3"
+    "TRICEPS SUPINADO": "https://www.youtube.com/watch?v=EfZsFyZpmW0&list=PLi70DQtLbXHw2uGoIfpRySSY5HJa0Oc-P&index=3",
+    "CRUCIFIXO RETO": "https://youtube.com/shorts/dUYcnHc-2o4",
+    "CRUCIFIXO DECLINADO": "https://youtube.com/shorts/1TuIwwSH9zc",
+    "SUPINO DECLINADO": "https://youtube.com/shorts/vtCzrCUo1Lo?feature=share",
+    "SUPINO DECLINADO COM HALTERES": "https://youtube.com/shorts/Q3Ww5YmkwiY?feature=share"
   }
 }
