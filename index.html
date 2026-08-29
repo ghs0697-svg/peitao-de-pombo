@@ -1944,7 +1944,9 @@ function renderParceiros() {
 
 // ════════ TABS ════════
 function renderTabs() {
-  const locked = !state.upsellUnlocked;
+  // Quem tem o Seca Pança acessa a dieta pelo Modo Seca, mesmo sem o Pombo Completo:
+  // nesse caso a aba DIETA não pode aparecer com cadeado (ela abre de verdade).
+  const locked = !state.upsellUnlocked && !state.seca;
   // Aba Ebooks (ergogênicos + peptídeos) travada só se o aluno não tem nenhum dos 3.
   const ergoLocked = !state.ebooks?.ergo1 && !state.ebooks?.ergo2 && !state.ebooks?.pept;
   document.getElementById('tabs').innerHTML = `
