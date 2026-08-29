@@ -380,18 +380,24 @@
     margin: 6px 0 14px;
     border-top: 1px dashed var(--border);
   }
+  .card-price-from {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-bottom: 2px;
+  }
+  .card-price-from s { opacity: .85; }
   .card-price-main {
-    font-size: 22px; font-weight: 900;
+    font-size: 30px; font-weight: 900;
     color: var(--accent);
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
   }
   .card-price-cash {
-    font-size: 11px;
-    color: var(--text-mute);
-    letter-spacing: .4px;
-    margin-top: 2px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-top: 3px;
   }
+  .card-price-cash strong { color: var(--text); font-weight: 800; }
   .cta {
     display: inline-flex; align-items: center; justify-content: center;
     width: 100%;
@@ -1615,8 +1621,8 @@ const UPSELLS = [
     ],
     cta: 'Quero o Pombo Completo',
     link: CHECKOUT_5X,
-    priceParcel: '4x R$10,07',
-    priceAvista: 'R$37 à vista',
+    priceNow: 'R$37',
+    priceParcel: '4x de R$10,07',
     hideIfUpsell: true
   },
   {
@@ -1636,8 +1642,8 @@ const UPSELLS = [
     ],
     cta: 'Quero chegar seco',
     link: CHECKOUT_SECA,
-    priceParcel: '4x R$10,07',
-    priceAvista: 'R$37 à vista',
+    priceNow: 'R$37',
+    priceParcel: '4x de R$10,07',
     hideIfSeca: true
   },
   {
@@ -1658,8 +1664,8 @@ const UPSELLS = [
     ],
     cta: 'Liberar vitalício',
     link: CHECKOUT_VITALICIO,
-    priceParcel: '2x R$7,37',
-    priceAvista: 'R$14 à vista',
+    priceNow: 'R$14',
+    priceParcel: '2x de R$7,37',
     onlyIfUpsell: true,
     hideIfLifetime: true
   },
@@ -1674,8 +1680,10 @@ const UPSELLS = [
     bullets: CONSULTORIA.bullets,
     cta: 'Garantir minha vaga na consultoria',
     link: 'https://payfast.greenn.com.br/redirect/302606',
-    priceParcel: 'Trimestral · De R$697 · 12x R$51,10',
-    priceAvista: 'R$497 à vista'
+    priceFrom: 'R$697',
+    priceNow: 'R$497',
+    priceLabel: 'no Pix ou',
+    priceParcel: '12x de R$51,10'
   },
   {
     id: 'shape-elite',
@@ -1696,18 +1704,22 @@ const UPSELLS = [
     ],
     cta: 'Quero o Shape de Elite',
     link: 'https://pay.hotmart.com/K106022760P?off=ua8y7ddm&checkoutMode=10',
-    priceParcel: 'De R$297 · 12x R$20,37',
-    priceAvista: 'R$197 à vista'
+    priceFrom: 'R$297',
+    priceNow: 'R$197',
+    priceLabel: 'no Pix ou',
+    priceParcel: '12x de R$20,37'
   }
 ];
 
 // Renderiza os cards de upsell — esconde 5x pra quem já tem, vitalício pra quem já tem
+// Padrão de preço (GH): âncora riscada em cima, PARCELADO grande, à vista pequeno embaixo.
 function priceBlock(p) {
-  if (!p || !p.priceParcel) return '';
+  if (!p || !p.priceNow) return '';
   return `
     <div class="card-price">
-      <div class="card-price-main">${p.priceParcel}</div>
-      ${p.priceAvista ? `<div class="card-price-cash">ou ${p.priceAvista}</div>` : ''}
+      ${p.priceFrom ? `<div class="card-price-from">de <s>${p.priceFrom}</s> por</div>` : ''}
+      <div class="card-price-main">${p.priceParcel || p.priceNow}</div>
+      <div class="card-price-cash">${p.priceParcel ? `ou <strong>${p.priceNow}</strong> à vista no Pix` : 'à vista no Pix'}</div>
     </div>
   `;
 }
@@ -1758,8 +1770,7 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 1',
     link: CHECKOUT_ERGO_1,
     pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
-    priceParcel: 'R$ 9,90',
-    priceAvista: '',
+    priceNow: 'R$9,90',
   },
   {
     id: 'ergo2',
@@ -1770,8 +1781,7 @@ const EBOOKS_ERGO = [
     cta: 'Quero a Parte 2',
     link: CHECKOUT_ERGO_2,
     pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
-    priceParcel: 'R$ 9,90',
-    priceAvista: '',
+    priceNow: 'R$9,90',
   },
   {
     id: 'combo',
@@ -1781,8 +1791,7 @@ const EBOOKS_ERGO = [
     bullets: ['Ergogênicos pt 1', 'Ergogênicos pt 2', 'Peptídeos', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
-    priceParcel: 'R$ 19,90',
-    priceAvista: '',
+    priceNow: 'R$19,90',
     highlight: true,
   },
 ];
@@ -1797,8 +1806,7 @@ const EBOOKS_PEPT = [
     cta: 'Quero os Peptídeos',
     link: CHECKOUT_PEPT,
     pdf: 'pdfs/ebooks/peptideos.pdf',
-    priceParcel: 'R$ 14,90',
-    priceAvista: '',
+    priceNow: 'R$14,90',
   },
   {
     id: 'combo',
@@ -1808,8 +1816,7 @@ const EBOOKS_PEPT = [
     bullets: ['Peptídeos', 'Ergogênicos pt 1', 'Ergogênicos pt 2', 'Mais em conta que comprar separado'],
     cta: 'Quero o Combo',
     link: CHECKOUT_COMBO,
-    priceParcel: 'R$ 19,90',
-    priceAvista: '',
+    priceNow: 'R$19,90',
     highlight: true,
   },
 ];
