@@ -200,6 +200,23 @@
   .gmodal-later { width: 100%; margin-top: 10px; padding: 12px; border: none; border-radius: 13px; background: none; color: var(--text-mute); font-size: 13px; cursor: pointer; font-family: inherit; }
   @media (prefers-reduced-motion: reduce) { .gmodal.show, .gmodal-card { animation: none; } }
 
+  /* Modo Seca — strip, cards e badges */
+  .seca-strip { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid rgba(255,106,26,.35); border-radius: 12px; margin-bottom: 14px; background: var(--surface); font-size: 12.5px; }
+  .seca-strip.on { background: linear-gradient(135deg, rgba(255,106,26,.14), rgba(255,140,66,.05)); }
+  .seca-strip-info { flex: 1; line-height: 1.4; }
+  .seca-toggle { padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--accent); background: none; color: var(--accent-hi); font-weight: 800; font-size: 11.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .seca-toggle.on { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #160a03; border-color: transparent; }
+  .seca-guia-btn { padding: 8px 11px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--text-mute); font-size: 11.5px; cursor: pointer; font-family: inherit; }
+  .seca-card { border: 1px solid rgba(255,106,26,.3); background: rgba(255,106,26,.06); border-radius: 12px; padding: 11px 13px; margin-bottom: 14px; font-size: 12.5px; line-height: 1.5; }
+  .seca-card-tag { font-size: 10.5px; font-weight: 800; letter-spacing: .4px; color: var(--accent-hi); margin-bottom: 4px; }
+  .seca-card-main { color: var(--text); }
+  .seca-card-sub { color: var(--text-dim); font-size: 11.5px; margin-top: 3px; }
+  .seca-card-warn { color: #E8B84B; font-size: 11.5px; margin-top: 8px; line-height: 1.45; }
+  .seca-stack-item { margin-top: 6px; }
+  .seca-fin-ex { color: var(--accent-hi); cursor: pointer; font-weight: 700; }
+  .seca-fin-ex.novid { cursor: default; color: var(--text); }
+  .ex-sub-badge.seca { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #160a03; border-color: transparent; }
+
   /* Aulas — player estilo área de membros com progresso */
   .aulas-prog { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin: 4px 0 6px; }
   .aulas-prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-hi)); border-radius: 999px; transition: width .35s; }
@@ -1252,6 +1269,17 @@
   </div>
 </div>
 
+<!-- Modal guia do Modo Seca -->
+<div class="vmodal" id="secaGuiaModal" onclick="if(event.target.id==='secaGuiaModal')closeSecaGuia()">
+  <div class="vmodal-inner" style="max-width:480px;">
+    <div class="vmodal-bar">
+      <div class="vmodal-title">🔥 Como usar o Modo Seca</div>
+      <button class="vmodal-close" onclick="closeSecaGuia()">✕</button>
+    </div>
+    <div id="secaGuiaBody" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;color:var(--text);font-size:14px;line-height:1.55;"></div>
+  </div>
+</div>
+
 <!-- Modal instalar PWA -->
 <div class="vmodal" id="installModal" onclick="if(event.target.id==='installModal')closeInstallModal()">
   <div class="vmodal-inner" style="max-width:480px;">
@@ -1298,6 +1326,8 @@ let state = {
   upsellUnlocked: false,  // vem do backend (flag upsell da compra)
   lifetime: false,        // vem do backend (flag de acesso vitalício)
   ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
+  seca: false,            // comprou o Seca Pança (flag do backend)
+  modoSeca: false,        // switch do Modo Seca (por conta, localStorage)
   daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
   daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
   week: null,             // semana atual do protocolo 1-12 (null = ainda não inicializada)
@@ -1461,6 +1491,12 @@ async function boot() {
   loadSession();
   loadSubs();
   DATA = await fetch('data/peitao-data.json').then(r => r.json());
+  // Pacote do Modo Seca: carrega em paralelo; sem ele o modo só não aparece
+  fetch('data/seca-panca-data.json').then(r => r.json()).then(j => {
+    SECA_DATA = j; secaBuildIndex();
+    const wrap = document.getElementById('appWrap');
+    if (wrap && !wrap.classList.contains('hidden')) { renderPeito(); renderSemana(); renderDieta(); }
+  }).catch(() => {});
   if (state.user && state.user.token) {
     try {
       const v = await api('/api/auth/verify');
@@ -1470,6 +1506,7 @@ async function boot() {
         state.daysLeft = v.daysLeft ?? null;
         state.daysSincePurchase = v.daysSincePurchase ?? null;
         state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
+        state.seca = !!v.seca;
         enterApp();
         return;
       }
@@ -1495,6 +1532,7 @@ function enterApp() {
     sub.style.cursor = '';
     sub.onclick = null;
   }
+  loadModoSeca();
   renderTabs();
   renderPeito();
   renderAulas();
@@ -1519,10 +1557,11 @@ function startHeartbeat() {
       if (!v || !v.ok) return;
       const newEbooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
       const ebooksChanged = JSON.stringify(state.ebooks) !== JSON.stringify(newEbooks);
-      if (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged) {
+      if (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged || state.seca !== !!v.seca) {
         state.upsellUnlocked = !!v.upsell;
         state.lifetime = !!v.lifetime;
         state.ebooks = newEbooks;
+        state.seca = !!v.seca;
         renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderErgo(); renderParceiros();
       }
     } catch (e) {}
@@ -2004,7 +2043,10 @@ function loadSubs() {
 function saveSubs() {
   try { localStorage.setItem(SUBS_KEY, JSON.stringify(state.subs || {})); } catch (e) {}
 }
-function isSubbed(ctxKey, idx) { return !!(state.subs && state.subs[ctxKey + '_' + idx]); }
+function isSubbed(ctxKey, idx) {
+  if (isSecaForced(ctxKey, idx)) return true;   // modo seca força o substituto oficial
+  return !!(state.subs && state.subs[ctxKey + '_' + idx]);
+}
 function toggleSub(ctxKey, idx) {
   const k = ctxKey + '_' + idx;
   state.subs = state.subs || {};
@@ -2016,6 +2058,8 @@ function toggleSub(ctxKey, idx) {
 
 // Devolve o exercício "ativo" (original ou substituto) levando em conta a escolha do aluno
 function activeExercise(ex, ctxKey, idx) {
+  const sw = secaSwapFor(ctxKey, idx);
+  if (sw) return { ...ex, sub: null, exercicio: sw.exercicio, video_key: sw.video_key, obs: sw.obs };
   return (ex.sub && isSubbed(ctxKey, idx)) ? ex.sub : ex;
 }
 
@@ -2061,6 +2105,11 @@ function weekSelectorHtml() {
 }
 function setsEmail() { return (state.user && state.user.email) || 'anon'; }
 function setsKey(ctxKey, idx, w) {
+  // A troca do modo seca tem chave PRÓPRIA (_seca): nunca mistura carga com o
+  // titular nem com o substituto oficial (_sub). Caminho de carga é sagrado.
+  if (typeof secaSwapFor === 'function' && secaSwapFor(ctxKey, idx)) {
+    return `peitao_sets_${setsEmail()}_${ctxKey}_w${w}_e${idx}_seca`;
+  }
   const sf = (typeof isSubbed === 'function' && isSubbed(ctxKey, idx)) ? '_sub' : '';   // substituto tem chave própria
   return `peitao_sets_${setsEmail()}_${ctxKey}_w${w}_e${idx}${sf}`;
 }
@@ -2581,7 +2630,9 @@ function exerciseCard(ex, ctxKey, idx) {
   const active = activeExercise(ex, ctxKey, idx);
   const done = isChecked(ctxKey, idx);
   const subbed = ex.sub && isSubbed(ctxKey, idx);
-  const swapBtn = ex.sub
+  const secaSw = secaSwapFor(ctxKey, idx);
+  const secaForced = isSecaForced(ctxKey, idx);
+  const swapBtn = (ex.sub && !secaSw && !secaForced)
     ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
     : '';
   // Vídeos em todos os exercícios da aba PEITO e da aba SEMANA (treino 5x).
@@ -2595,7 +2646,7 @@ function exerciseCard(ex, ctxKey, idx) {
         <button class="ex-check${done?' on':''}" onclick="toggleCheck('${ctxKey}',${idx})" aria-label="Marcar exercício">${done?'✓':''}</button>
         <div class="ex-name ${hasVid?'':'no-video'}" ${hasVid?`onclick="openVideo('${esc(url)}','${esc(active.exercicio)}')"`:''}>
           ${showVideo ? '<span class="play">▶</span>' : ''}${active.exercicio}
-          ${subbed?'<div class="ex-sub-badge">SUBSTITUTO</div>':''}
+          ${secaSw ? '<div class="ex-sub-badge seca">🔥 MODO SECA</div>' : (secaForced ? '<div class="ex-sub-badge seca">🔥 SUBSTITUTO · MODO SECA</div>' : (subbed?'<div class="ex-sub-badge">SUBSTITUTO</div>':''))}
         </div>
         ${swapBtn}
       </div>
@@ -2816,6 +2867,7 @@ function renderPeito() {
   c.innerHTML = `
     <h2>Treino de Peito</h2>
     <p class="hint">Dois treinos de peito na semana, com 2 dias de folga entre eles (ex: segunda e quinta). Escolhe a fase e o treino do dia.</p>
+    ${secaStripHtml()}
     <div class="mat-row">
       <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
         <div class="mat-ic">📐</div>
@@ -2842,11 +2894,13 @@ function renderPeito() {
       <span class="dl-ic">⬇</span> Baixar PDF (treinos A e B) · Fase ${state.peitoVer}
     </button>
     ${weekSelectorHtml()}
+    ${secaCardioHtml()}
     ${gamiStripHtml()}
     ${reguaCardHtml()}
     ${desafioHtml()}
     ${concludeBar(ctxKey, exList, 'Treino de Peito ' + (isB ? 'B' : 'A') + ' · Fase ' + state.peitoVer)}
     ${exs}
+    ${secaFinalizadorHtml(isB ? 'Peito B' : 'Peito A')}
     ${recordesHtml()}
     ${renderUpsells()}
   `;
@@ -2877,6 +2931,129 @@ function tryPhaseChange(setter, v) {
 }
 function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
 function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; renderPeito(); }
+
+// ════════ MODO SECA (Seca Pança) — protocolo de queima de 90 dias ════════
+// Camada sobre os templates prontos: dieta/stack pelo MÊS real do aluno, cardio pela
+// semana, trocas por compostos e finalizadores. Nada muda no descanso (decisão do GH:
+// secar vem da dieta e do cardio; descanso normal preserva força, que segura massa).
+let SECA_DATA = null;
+let _secaForce = {};   // ctxKey_idx -> true: força o substituto oficial (carga na _sub)
+let _secaSwap = {};    // ctxKey_idx -> {exercicio, video_key, obs}: troca com chave _seca
+const CHECKOUT_SECA = '';  // checkout do bump: entra quando o GH criar o produto na Hotmart
+
+function secaAtivo() { return !!(state.seca && state.modoSeca && SECA_DATA); }
+function secaMesReal() { return Math.min(3, Math.max(1, Math.ceil(computeWeek() / 4))); }
+function isSecaForced(ctxKey, idx) { return secaAtivo() && !!_secaForce[ctxKey + '_' + idx]; }
+function secaSwapFor(ctxKey, idx) { return secaAtivo() ? (_secaSwap[ctxKey + '_' + idx] || null) : null; }
+function loadModoSeca() { try { state.modoSeca = localStorage.getItem('gh_modoSeca_' + setsEmail()) === '1'; } catch (e) {} }
+function toggleModoSeca() {
+  state.modoSeca = !state.modoSeca;
+  try { localStorage.setItem('gh_modoSeca_' + setsEmail(), state.modoSeca ? '1' : '0'); } catch (e) {}
+  if (state.modoSeca) showToast('🔥 Modo Seca ligado: dieta, cardio e stack do mês valendo.');
+  renderPeito(); renderSemana(); renderDieta();
+}
+
+// Índice das trocas por slot, pré-computado (DATA + SECA_DATA prontos). Regra por slot:
+// se o substituto oficial JÁ É a troca, só força o botão TROCAR; senão a troca entra
+// como exercício do modo com chave própria (_seca).
+function secaBuildIndex() {
+  _secaForce = {}; _secaSwap = {};
+  if (!DATA || !SECA_DATA) return;
+  const trocas = (SECA_DATA.regras_queima && SECA_DATA.regras_queima.trocas) || [];
+  const PEITO_D5 = { 'VOADOR': 1, 'CROSSOVER': 1, 'CRUCIFIXO INCLINADO': 1 };
+  const applyDay = (exs, ctxKey, di) => {
+    exs.forEach((ex, idx) => {
+      const vk = ex.video_key || '';
+      for (const t of trocas) {
+        // a troca do supino declinado vale só pro slot de peito do dia de braços
+        const isDeclinado = t.para_key === 'SUPINO DECLINADO NA MAQUINA';
+        const match = isDeclinado ? (di === 4 && PEITO_D5[vk]) : (vk === t.de_key && !(vk === 'VOADOR'));
+        if (!match) continue;
+        const k = ctxKey + '_' + idx;
+        if (ex.sub && ex.sub.video_key === t.para_key) _secaForce[k] = true;
+        else _secaSwap[k] = { exercicio: t.para, video_key: t.para_key, obs: t.obs || t.por_que || '' };
+        break;
+      }
+    });
+  };
+  for (const ver of Object.keys(DATA.treinoPeito || {})) {
+    applyDay(((DATA.treinoPeito[ver].dias || [])[0] || {}).exercicios || [], 'peito_' + ver, null);
+  }
+  for (const ver of Object.keys(DATA.treino5x || {})) {
+    (DATA.treino5x[ver].dias || []).forEach((dia, di) => applyDay(dia.exercicios || [], 'semana_' + ver + '_' + di, di));
+  }
+}
+
+// ── renders do modo ──
+function secaStripHtml() {
+  if (!state.seca || !SECA_DATA) return '';
+  const on = state.modoSeca;
+  const mes = secaMesReal();
+  const kcal = on ? (((SECA_DATA.dietas || {})['mes' + mes] || {}).kcal || '') : '';
+  return `<div class="seca-strip${on ? ' on' : ''}">
+    <div class="seca-strip-info"><b>🔥 MODO SECA</b>${on ? ` · Mês ${mes} de 3${kcal ? ' · ' + kcal : ''}` : ' · protocolo de queima de 90 dias'}</div>
+    <button class="seca-guia-btn" onclick="openSecaGuia()">guia</button>
+    <button class="seca-toggle${on ? ' on' : ''}" onclick="toggleModoSeca()">${on ? 'LIGADO' : 'ATIVAR'}</button>
+  </div>`;
+}
+function secaCardioHtml() {
+  if (!secaAtivo()) return '';
+  const w = Math.min(12, Math.max(1, state.week || computeWeek()));
+  const c = ((SECA_DATA.cardio || {}).semanas || [])[w - 1];
+  if (!c) return '';
+  return `<div class="seca-card">
+    <div class="seca-card-tag">🔥 CARDIO DA SEMANA ${w}</div>
+    <div class="seca-card-main"><b>${c.modalidade}</b> · ${c.duracao} · ${c.vezes}</div>
+    <div class="seca-card-sub">${c.intensidade}${c.obs ? ' · ' + c.obs : ''}</div>
+  </div>`;
+}
+function secaFinalizadorHtml(diaNome) {
+  if (!secaAtivo()) return '';
+  const fin = (SECA_DATA.regras_queima || {}).finalizadores || {};
+  const b = (fin.blocos || []).find(x => x.dia === diaNome);
+  if (!b) return '';
+  const v1 = DATA.videos[b.ex1_key], v2 = DATA.videos[b.ex2_key];
+  return `<div class="seca-card fin">
+    <div class="seca-card-tag">🔥 FINALIZADOR DO DIA</div>
+    <div class="seca-card-main">
+      <span class="seca-fin-ex${v1 ? '' : ' novid'}" ${v1 ? `onclick="openVideo('${esc(v1)}','${esc(b.ex1)}')"` : ''}>▶ ${b.ex1}</span> ${b.reps1} reps
+      &nbsp;+&nbsp; <span class="seca-fin-ex${v2 ? '' : ' novid'}" ${v2 ? `onclick="openVideo('${esc(v2)}','${esc(b.ex2)}')"` : ''}>▶ ${b.ex2}</span> ${b.reps2} reps
+    </div>
+    <div class="seca-card-sub">${fin.formato || ''}</div>
+  </div>`;
+}
+function secaStackHtml() {
+  if (!secaAtivo()) return '';
+  const mes = secaMesReal();
+  const sup = SECA_DATA.suplementacao || {};
+  const m = (sup.meses || []).find(x => x.mes === mes);
+  if (!m) return '';
+  const itens = (m.itens || []).map(i => `
+    <div class="seca-stack-item"><b>${i.item}</b> · ${i.dose}<div class="seca-card-sub">${i.horario}${i.obs ? ' · ' + i.obs : ''}</div></div>
+  `).join('');
+  return `<div class="seca-card">
+    <div class="seca-card-tag">🔥 SUPLEMENTAÇÃO DO MÊS ${mes}</div>
+    ${itens}
+    <div class="seca-card-sub" style="margin-top:8px;">${sup.onde_comprar || ''}</div>
+    <div class="seca-card-sub">${sup.aviso_motor || ''}</div>
+    <div class="seca-card-warn">⚠️ ${sup.contraindicacao || ''}</div>
+  </div>`;
+}
+function openSecaGuia() {
+  if (!SECA_DATA) return;
+  const g = SECA_DATA.guia_uso || {};
+  const body = document.getElementById('secaGuiaBody');
+  if (!body) return;
+  body.innerHTML = (g.linhas || []).map(l => `<p style="margin:0 0 10px;">${l}</p>`).join('')
+    + `<div class="seca-card-warn" style="margin-top:6px;">⚠️ ${(SECA_DATA.suplementacao || {}).contraindicacao || ''}</div>`;
+  document.getElementById('secaGuiaModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeSecaGuia() {
+  const m = document.getElementById('secaGuiaModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+}
 
 // ════════ AULAS — o método em vídeo, com progresso por conta ════════
 // Concluídas persistem no localStorage e pegam carona no backup de cargas da conta
@@ -2958,6 +3135,7 @@ function renderSemana() {
   c.innerHTML = `
     <h2>Semana Completa</h2>
     <p class="hint">O resto da semana: 4 treinos pro corpo inteiro acompanhar o peitão.</p>
+    ${secaStripHtml()}
     <div class="ex-obs" style="margin-bottom:14px;">🐦 Os DOIS treinos de peito da semana (A e B) moram na aba <b>PEITO</b>. Aqui é costas, perna, ombro e braço.</div>
     <div class="ver-row">
       ${['1.0','2.0','3.0'].map(v => {
@@ -2972,11 +3150,13 @@ function renderSemana() {
       <span class="dl-ic">⬇</span> Baixar PDF da semana · Fase ${state.semanaVer}
     </button>
     ${weekSelectorHtml()}
+    ${secaCardioHtml()}
     ${gamiStripHtml()}
     <div class="day-row">${dayBtns}</div>
     <div class="day-name">${dayLabel}</div>
     ${concludeBar(ctxKey, exList, dayLabel + ' · Fase ' + state.semanaVer)}
     ${exs}
+    ${secaFinalizadorHtml(({1:'Costas',2:'Perna',3:'Ombro + peito',4:'Braços + peito'})[state.semanaDay] || '')}
     ${renderUpsells()}
   `;
 }
@@ -2986,6 +3166,9 @@ function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
 // ════════ DIETA (upsell) ════════
 function renderDieta() {
   const c = document.getElementById('screen-dieta');
+  // Modo Seca ligado: a dieta do produto é a hipocalórica do MÊS real do aluno
+  // (vale inclusive pra quem tem o Seca sem o Pombo Completo)
+  if (secaAtivo()) { renderDietaSeca(c); return; }
   if (!state.upsellUnlocked) {
     c.innerHTML = paywall('dieta');
     return;
@@ -3032,6 +3215,42 @@ function renderDieta() {
   `;
 }
 function setDietaVer(v) { state.dietaVer = v; renderDieta(); }
+
+// Dieta do Modo Seca: a hipocalórica do MÊS real do protocolo (mesmo markup da dieta normal)
+function renderDietaSeca(c) {
+  const mes = secaMesReal();
+  const d = ((SECA_DATA || {}).dietas || {})['mes' + mes];
+  if (!d) { c.innerHTML = '<div class="empty">Dieta do Modo Seca não encontrada.</div>'; return; }
+  const regras = (d.regras || []).map(o => `<div class="meal-obs">${o}</div>`).join('');
+  const refs = (d.refeicoes || []).map(ref => {
+    const obs = (ref.obs || []).map(o => `<div class="meal-obs">${o}</div>`).join('');
+    const opcs = (ref.opcoes || []).map(opc => {
+      const foods = (opc.alimentos || []).map(f => `
+        <div class="food">
+          <span>${f.alimento}${f.obs?`<div class="food-obs">${f.obs}</div>`:''}</span>
+          <span class="food-q">${f.quantidade||''}</span>
+        </div>
+      `).join('');
+      return `
+        <div class="opc">
+          ${opc.nome ? `<div class="opc-name">${opc.nome}</div>` : ''}
+          ${foods}
+          ${opc.macros ? `<div class="macros">${opc.macros.split('|').map(m=>`<span>${m.trim()}</span>`).join('')}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+    return `<div class="meal"><div class="meal-name">${ref.nome}</div>${obs}${opcs}</div>`;
+  }).join('');
+  c.innerHTML = `
+    <h2>Dieta · Modo Seca</h2>
+    <p class="hint">Dieta de queima do mês ${mes} (${d.kcal || ''}). O corte aperta a cada mês do protocolo, sozinho.</p>
+    ${secaStripHtml()}
+    <div class="meal"><div class="meal-name">Regras do mês</div>${regras}</div>
+    ${refs}
+    ${secaStackHtml()}
+    ${renderUpsells()}
+  `;
+}
 
 // ════════ PAYWALL ════════
 function paywall(kind) {

@@ -1,9 +1,10 @@
-const CACHE_NAME = 'peitao-de-pombo-v69';
+const CACHE_NAME = 'peitao-de-pombo-v70';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './data/peitao-data.json',
+  './data/seca-panca-data.json',
   './pdfs/regua-do-peito.pdf',
   './pdfs/engenharia-do-peito.pdf',
   './assets/icon-192.png',
