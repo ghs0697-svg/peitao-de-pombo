@@ -1311,6 +1311,7 @@ const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  
 const CHECKOUT_ERGO_1    = 'https://pay.hotmart.com/P106025930Q?off=ckeeojo0';  // Hormonal/Ergogênicos pt 1 R$9,90
 const CHECKOUT_ERGO_2    = 'https://pay.hotmart.com/N106025963V?off=89wqqryj';  // Hormonal/Ergogênicos pt 2 R$9,90
 const CHECKOUT_PEPT      = 'https://pay.hotmart.com/I106025828D?off=aaz87zz2';  // Peptídeos R$14,90
+const CHECKOUT_SECA      = 'https://pay.hotmart.com/I107378212O?bid=1787985059844';  // Seca Panca R$37 (Modo Seca)
 const CHECKOUT_COMBO     = 'https://pay.hotmart.com/J106027528H?off=xw1mmse5';  // Super Combo (3 ebooks) R$19,90
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
@@ -1542,6 +1543,7 @@ function enterApp() {
   restoreSetsFromServer();   // backup de cargas: restaura da conta (aparelho novo) + sobe o que só existe local
   renderParceiros();
   startHeartbeat();
+  initSecaBanner();          // campanha projeto verão (liga sozinho em 01/09, prioridade máxima)
   initGrupoModal();          // 1ª abertura: convite em tela cheia pro grupo do whats
   initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
@@ -1611,6 +1613,27 @@ const UPSELLS = [
     priceParcel: '4x R$10,07',
     priceAvista: 'R$37 à vista',
     hideIfUpsell: true
+  },
+  {
+    id: 'seca',
+    theme: 'pp',
+    logo: 'PP',
+    marca: 'PEITÃO DE POMBO',
+    badge: 'PROJETO VERÃO',
+    headline: 'Seca Pança: chega seco no verão em 90 dias',
+    sub: 'Protocolo de queima que aperta sozinho mês a mês: liga o Modo Seca no app e a dieta, o cardio e a suplementação do mês certo assumem o comando.',
+    bullets: [
+      '3 dietas de corte que trocam a cada mês (déficit sobe, platô não vem)',
+      'Cardio progressivo semana a semana, do ritmo de entrada ao forte',
+      'Suplementação de queima com dose, horário e onde comprar',
+      'Finalizadores e trocas de queima nos treinos que tu já tem',
+      'Modo Seca no app: liga e tudo troca sozinho pro mês certo'
+    ],
+    cta: 'Quero chegar seco',
+    link: CHECKOUT_SECA,
+    priceParcel: '4x R$10,07',
+    priceAvista: 'R$37 à vista',
+    hideIfSeca: true
   },
   {
     // Legado: só aparece pros alunos do 5x antigo (têm upsell, não têm lifetime).
@@ -1688,6 +1711,7 @@ function renderUpsells() {
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
     .filter(u => !(u.hideIfLifetime && state.lifetime))
     .filter(u => !(u.onlyIfUpsell && !state.upsellUnlocked))
+    .filter(u => !(u.hideIfSeca && state.seca))
     .map(u => `
       <div class="mgh-card theme-${u.theme}" style="margin-top:14px;">
         <div class="mgh-head">
@@ -2939,7 +2963,6 @@ function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; renderPeito();
 let SECA_DATA = null;
 let _secaForce = {};   // ctxKey_idx -> true: força o substituto oficial (carga na _sub)
 let _secaSwap = {};    // ctxKey_idx -> {exercicio, video_key, obs}: troca com chave _seca
-const CHECKOUT_SECA = '';  // checkout do bump: entra quando o GH criar o produto na Hotmart
 
 function secaAtivo() { return !!(state.seca && state.modoSeca && SECA_DATA); }
 function secaMesReal() { return Math.min(3, Math.max(1, Math.ceil(computeWeek() / 4))); }
@@ -3454,6 +3477,38 @@ async function ativarAvisosPeitao() {
 // até pra quem dispensou a campanha anterior.
 const GRUPO_WPP_LINK = 'https://chat.whatsapp.com/FxtqXqzz56ALqzPI2vpozM?s=cl&p=i&ilr=4&amv=1';
 const GRUPO_BANNER_VER = 'v1';
+// ── Banner da campanha SECA (projeto verao): trava de data, liga sozinho em 01/09 ──
+const SECA_BANNER_FROM = '2026-09-01';
+const SECA_BANNER_VER = 'v1';
+function dismissSecaBanner() {
+  const el = document.getElementById('secaBanner');
+  if (el) el.remove();
+  try { localStorage.setItem('gh_secaBannerOff_' + SECA_BANNER_VER, String(Date.now())); } catch (e) {}
+}
+function abrirSecaCheckout() {
+  window.open(CHECKOUT_SECA, '_blank');
+  dismissSecaBanner();
+}
+function initSecaBanner() {
+  try {
+    if (!CHECKOUT_SECA || state.seca) return;
+    if (new Date() < new Date(SECA_BANNER_FROM + 'T00:00:00')) return;
+    const offAt = parseInt(localStorage.getItem('gh_secaBannerOff_' + SECA_BANNER_VER) || '0', 10);
+    if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
+    const tabs = document.getElementById('tabs');
+    if (!tabs || document.getElementById('secaBanner')) return;
+    const el = document.createElement('div');
+    el.id = 'secaBanner';
+    el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,106,26,.45);background:linear-gradient(135deg, rgba(255,106,26,.14), rgba(255,140,66,.05));border-radius:14px;font-size:13.5px;line-height:1.55;';
+    el.innerHTML = '<b style="color:var(--accent-hi,#FF8642);">🔥 Secar pro verão começa AGORA, não no verão.</b> O protocolo é de 90 dias: começando hoje, tu entra em dezembro seco. Deixa pra depois e dezembro vira só mais um verão de camiseta.'
+      + '<div style="display:flex;gap:10px;margin-top:12px;">'
+      + '<button onclick="abrirSecaCheckout()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">QUERO CHEGAR SECO · R$37</button>'
+      + '<button onclick="dismissSecaBanner()" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
+      + '</div>';
+    tabs.parentNode.insertBefore(el, tabs);
+  } catch (e) {}
+}
+
 function dismissGrupoBanner(entrou) {
   const el = document.getElementById('grupoBanner');
   if (el) el.remove();
@@ -3494,6 +3549,7 @@ function initGrupoBanner() {
     if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
     const tabs = document.getElementById('tabs');
     if (!tabs || document.getElementById('grupoBanner')) return;
+    if (document.getElementById('secaBanner')) return;   // campanha do seca tem prioridade
     const el = document.createElement('div');
     el.id = 'grupoBanner';
     el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(45,216,129,.4);background:rgba(45,216,129,.07);border-radius:14px;font-size:13.5px;line-height:1.55;';
@@ -3517,8 +3573,8 @@ function initPeitaoPush() {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) return;
     if (Notification.permission === 'granted') { registerPeitaoPush(); return; }
     if (Notification.permission === 'denied') return;
-    // Nunca empilha com o banner do grupo (esse tem prioridade; o push tenta na próxima sessão)
-    if (document.getElementById('grupoBanner')) return;
+    // Nunca empilha com os banners de campanha (seca/grupo têm prioridade; o push tenta depois)
+    if (document.getElementById('grupoBanner') || document.getElementById('secaBanner')) return;
     // banner adiado por 7 dias depois de "agora não"
     const offAt = parseInt(localStorage.getItem('gh_pushBannerOff') || '0', 10);
     if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
