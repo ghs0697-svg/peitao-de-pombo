@@ -201,59 +201,20 @@
   .gmodal-later { width: 100%; margin-top: 10px; padding: 12px; border: none; border-radius: 13px; background: none; color: var(--text-mute); font-size: 13px; cursor: pointer; font-family: inherit; }
   @media (prefers-reduced-motion: reduce) { .gmodal.show, .gmodal-card { animation: none; } }
 
-  /* Modo Seca — fogo de verdade: línguas de chama com distorção orgânica */
-  .seca-fogo { position: fixed; left: 0; right: 0; bottom: 0; height: 34vh; pointer-events: none;
-    z-index: 0; opacity: 0; transition: opacity .6s ease; overflow: hidden; contain: strict;
-    /* o fogo morre pra cima: o conteúdo do app continua legível por cima dele */
-    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 46%, rgba(0,0,0,.5) 74%, transparent 100%);
-            mask-image: linear-gradient(to top, #000 0%, #000 46%, rgba(0,0,0,.5) 74%, transparent 100%); }
-  body.modo-seca .seca-fogo { opacity: .9; }
+  /* Modo Seca — fogo por partículas (canvas). Forma desenhada em CSS sempre lê como
+     recorte; partícula que sobe e esfria é o que dá fogo de verdade. */
+  .seca-fogo { position: fixed; left: 0; right: 0; bottom: 0; height: 260px; pointer-events: none;
+    z-index: 0; opacity: 0; transition: opacity .9s ease; overflow: hidden; contain: strict; }
+  body.modo-seca .seca-fogo { opacity: .6; }
   body.modo-seca #appWrap { position: relative; z-index: 1; }
-  /* calor: brilho que sobe do rodapé e pulsa devagar */
-  .fogo-calor { position: absolute; inset: 0;
-    background: radial-gradient(130% 58% at 50% 114%, rgba(255,90,10,.26) 0%, rgba(255,40,0,.11) 38%, transparent 66%);
-    animation: calor 5.5s ease-in-out infinite; }
-  @keyframes calor { 0%,100% { opacity: .82; } 50% { opacity: 1; } }
-  .fogo-svg { position: absolute; left: -4%; bottom: -2vh; width: 108%; height: 100%;
-    mix-blend-mode: screen; }
-  /* cada língua sobe e encolhe em tempos diferentes: é isso que dá o "lamber" */
-  .lingua { transform-origin: 50% 100%; will-change: transform, opacity; }
-  .l1 { animation: lamber1 2.9s ease-in-out infinite; }
-  .l2 { animation: lamber2 3.7s ease-in-out infinite .4s; }
-  .l3 { animation: lamber3 2.3s ease-in-out infinite .9s; }
-  .l4 { animation: lamber2 4.3s ease-in-out infinite 1.4s; }
-  .l5 { animation: lamber1 3.3s ease-in-out infinite .2s; }
-  @keyframes lamber1 {
-    0%,100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: .9; }
-    30%     { transform: scaleY(1.2) scaleX(.9) translateY(-1%); opacity: 1; }
-    62%     { transform: scaleY(.9) scaleX(1.1) translateY(1%); opacity: .78; }
-  }
-  @keyframes lamber2 {
-    0%,100% { transform: scaleY(.92) scaleX(1.05) translateY(1%); opacity: .8; }
-    40%     { transform: scaleY(1.28) scaleX(.87) translateY(-2%); opacity: 1; }
-    70%     { transform: scaleY(1.08) scaleX(.98) translateY(0); opacity: .88; }
-  }
-  @keyframes lamber3 {
-    0%,100% { transform: scaleY(1.1) scaleX(.94) translateY(0); opacity: .85; }
-    35%     { transform: scaleY(.85) scaleX(1.14) translateY(2%); opacity: .7; }
-    68%     { transform: scaleY(1.24) scaleX(.91) translateY(-1%); opacity: 1; }
-  }
-  /* Aparelho fraco: troca o filtro de turbulência por blur simples. Continua parecendo
-     fogo (as línguas sobem igual), mas sem recalcular ruído a cada quadro. */
-  body.fogo-leve .fogo-svg g { filter: blur(7px) !important; }
-  body.fogo-leve .lingua { animation-duration: 4.5s; }
-
-  .brasa { position: absolute; bottom: 4vh; width: 3px; height: 3px; border-radius: 50%;
-    background: #FFC46B; box-shadow: 0 0 6px 2px rgba(255,140,30,.75); opacity: 0; will-change: transform, opacity; }
-  @keyframes subir {
-    0%   { transform: translate(0,0) scale(1); opacity: 0; }
-    10%  { opacity: 1; }
-    70%  { opacity: .7; }
-    100% { transform: translate(var(--dx,2vw), -38vh) scale(.3); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .lingua, .brasa, .fogo-calor { animation: none !important; }
-  }
+  #fogoCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 62%, rgba(0,0,0,.62) 84%, transparent 100%);
+            mask-image: linear-gradient(to top, #000 0%, #000 62%, rgba(0,0,0,.62) 84%, transparent 100%); }
+  .fogo-base { position: absolute; left: 0; right: 0; bottom: -40px; height: 96px;
+    background: radial-gradient(72% 100% at 50% 100%, rgba(255,105,15,.4) 0%, rgba(255,45,0,.18) 44%, transparent 76%);
+    filter: blur(16px); animation: respira 8s ease-in-out infinite; }
+  @keyframes respira { 0%,100% { opacity: .72; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .fogo-base { animation: none !important; } }
 
   /* Com o fogo ligado, o conteúdo fica opaco: o fogo aparece ENTRE os cards, nunca através
      do texto. Sem isso o brilho vazava pelos fundos translúcidos e comia o contraste. */
@@ -1352,42 +1313,8 @@
 
 <!-- Fogo do Modo Seca (só visível com o modo ligado) -->
 <div class="seca-fogo" id="secaFogo" aria-hidden="true">
-  <div class="fogo-calor"></div>
-  <svg class="fogo-svg" viewBox="0 0 400 240" preserveAspectRatio="none">
-    <defs>
-      <!-- turbulência: recorta a borda das chamas em línguas irregulares, como fogo real -->
-      <filter id="fogoTurb" x="-15%" y="-15%" width="130%" height="130%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.045" numOctaves="2" seed="9" result="ruido">
-          <animate attributeName="baseFrequency" dur="9s" repeatCount="indefinite"
-                   values="0.015 0.045; 0.021 0.058; 0.013 0.04; 0.015 0.045"/>
-        </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="26" xChannelSelector="R" yChannelSelector="G"/>
-        <feGaussianBlur stdDeviation="3.5"/>
-      </filter>
-      <linearGradient id="gFogo" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"   stop-color="#FFE9A8" stop-opacity=".95"/>
-        <stop offset="16%"  stop-color="#FFC02E" stop-opacity=".92"/>
-        <stop offset="40%"  stop-color="#FF7A10" stop-opacity=".72"/>
-        <stop offset="68%"  stop-color="#F03A00" stop-opacity=".34"/>
-        <stop offset="100%" stop-color="#8E1600" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="gNucleo" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"   stop-color="#FFF6D6" stop-opacity=".9"/>
-        <stop offset="45%"  stop-color="#FFD34A" stop-opacity=".55"/>
-        <stop offset="100%" stop-color="#FF8A00" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    <g filter="url(#fogoTurb)">
-      <path class="lingua l1" fill="url(#gFogo)" d="M20 240 C10 190 46 170 40 122 C74 152 78 196 72 240 Z"/>
-      <path class="lingua l2" fill="url(#gFogo)" d="M92 240 C78 176 122 150 112 88 C158 132 158 194 148 240 Z"/>
-      <path class="lingua l3" fill="url(#gFogo)" d="M168 240 C152 168 200 140 190 62 C242 118 240 190 230 240 Z"/>
-      <path class="lingua l4" fill="url(#gFogo)" d="M246 240 C232 176 276 148 268 86 C314 134 312 194 302 240 Z"/>
-      <path class="lingua l5" fill="url(#gFogo)" d="M320 240 C308 190 348 168 342 116 C378 150 384 198 376 240 Z"/>
-      <!-- núcleo quente, mais baixo e mais claro -->
-      <path class="lingua l2" fill="url(#gNucleo)" d="M120 240 C112 200 148 184 142 148 C176 176 178 212 172 240 Z"/>
-      <path class="lingua l3" fill="url(#gNucleo)" d="M212 240 C204 202 240 186 234 152 C268 180 268 214 262 240 Z"/>
-    </g>
-  </svg>
+  <div class="fogo-base"></div>
+  <canvas id="fogoCanvas"></canvas>
 </div>
 
 <!-- Modal do grupo de alunos (1ª abertura) -->
@@ -3208,39 +3135,105 @@ function toggleModoSeca() {
   if (state.modoSeca) showToast('🔥 Modo Seca ligado: dieta, cardio e stack do mês valendo.');
   renderPeito(); renderSemana(); renderDieta();
 }
-// Fogo de fundo: só com o modo ligado. As brasas param quando a aba sai de foco (bateria).
-let _brasaTimer = null;
-// Aparelho com pouca CPU roda a versão leve do fogo (blur no lugar da turbulência).
+// Fogo de fundo: partículas quentes que sobem e esfriam (núcleo claro, depois amarelo,
+// laranja, vermelho, apaga). Só roda com o modo ligado e com a aba em foco.
+let _fogoRAF = null, _fogoParts = [], _fogoCtx = null, _fogoW = 0, _fogoH = 0;
+// "achas" da lareira: posição + força (chama maior ou menor), irregulares de propósito
+const FOGO_FOCOS = [
+  [0.04, 0.9], [0.13, 1.15], [0.21, 0.75], [0.30, 1.25], [0.38, 0.85], [0.46, 1.1],
+  [0.54, 1.3], [0.62, 0.8], [0.70, 1.2], [0.78, 0.95], [0.86, 1.15], [0.95, 0.85],
+];
+
 function fogoDeviceFraco() {
   try {
-    const nucleos = navigator.hardwareConcurrency;
-    if (typeof nucleos === 'number' && nucleos > 0 && nucleos <= 4) return true;
-    const mem = navigator.deviceMemory;
-    if (typeof mem === 'number' && mem > 0 && mem <= 4) return true;
+    const n = navigator.hardwareConcurrency;
+    if (typeof n === 'number' && n > 0 && n <= 4) return true;
+    const m = navigator.deviceMemory;
+    if (typeof m === 'number' && m > 0 && m <= 4) return true;
   } catch (e) {}
   return false;
+}
+function fogoNovaParticula(w, h, agora) {
+  const [pos, forca] = FOGO_FOCOS[(Math.random() * FOGO_FOCOS.length) | 0];
+  const eixo = pos * w;
+  return {
+    eixo,                                            // a chama converge pra cá ao subir
+    x: eixo + (Math.random() - 0.5) * w * 0.055,
+    y: h + 4 + Math.random() * 14,
+    vx: (Math.random() - 0.5) * 0.12,
+    vy: -(0.28 + Math.random() * 0.5) * forca,       // acha maior = chama mais alta
+    r: (22 + Math.random() * 40) * forca,
+    nasceu: agora,
+    vida: (1800 + Math.random() * 2200),
+    fase: Math.random() * Math.PI * 2,
+    onda: 0.2 + Math.random() * 0.45,
+  };
+}
+function fogoRedimensiona() {
+  const c = document.getElementById('fogoCanvas');
+  if (!c) return false;
+  const w = c.clientWidth, h = c.clientHeight;
+  if (!w || !h) return false;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  c.width = Math.round(w * dpr);
+  c.height = Math.round(h * dpr);
+  _fogoW = w; _fogoH = h;
+  _fogoCtx = c.getContext('2d');
+  _fogoCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return true;
+}
+function fogoDesenha(agora) {
+  if (!_fogoCtx || !document.body.classList.contains('modo-seca')) { _fogoRAF = null; return; }
+  const ctx = _fogoCtx, w = _fogoW, h = _fogoH;
+  ctx.clearRect(0, 0, w, h);
+  ctx.globalCompositeOperation = 'lighter';
+  const alvo = fogoDeviceFraco() ? 110 : 260;
+  while (_fogoParts.length < alvo) {
+    const p = fogoNovaParticula(w, h, agora);
+    p.nasceu = agora - Math.random() * p.vida;
+    _fogoParts.push(p);
+  }
+  for (let i = 0; i < _fogoParts.length; i++) {
+    const p = _fogoParts[i];
+    const t = Math.max(0, Math.min(1, (agora - p.nasceu) / p.vida));   // trava: t negativo virava NaN no brilho e a chama sumia
+    if (t >= 1 || p.y < -40 || !isFinite(p.x) || !isFinite(p.y)) { _fogoParts[i] = fogoNovaParticula(w, h, agora); continue; }
+    p.y += p.vy * 1.6;
+    p.x += p.vx * 1.6 + Math.sin(agora / 900 + p.fase) * p.onda * 0.5;
+    p.x += (p.eixo - p.x) * 0.02;                    // puxa pro eixo da acha: chama afina subindo
+    const raio = Math.max(1, p.r * (1 - t * 0.68));
+    const brilho = Math.pow(Math.max(0, Math.sin(t * Math.PI)), 0.85) * 1.05;
+    let c1, c2;
+    if (t < 0.2)       { c1 = 'rgba(255,247,220,'; c2 = 'rgba(255,196,70,'; }
+    else if (t < 0.45) { c1 = 'rgba(255,210,90,';  c2 = 'rgba(255,135,25,'; }
+    else if (t < 0.72) { c1 = 'rgba(255,145,35,';  c2 = 'rgba(228,62,8,';   }
+    else               { c1 = 'rgba(205,52,10,';   c2 = 'rgba(115,16,0,';   }
+    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, raio);
+    g.addColorStop(0, c1 + (brilho * 0.95).toFixed(3) + ')');
+    g.addColorStop(0.4, c2 + (brilho * 0.5).toFixed(3) + ')');
+    g.addColorStop(1, 'rgba(80,10,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, raio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  _fogoRAF = requestAnimationFrame(fogoDesenha);
 }
 function aplicarFogoSeca() {
   const on = !!(state.seca && state.modoSeca);
   document.body.classList.toggle('modo-seca', on);
-  document.body.classList.toggle('fogo-leve', on && fogoDeviceFraco());
-  clearInterval(_brasaTimer); _brasaTimer = null;
-  if (!on) return;
+  if (_fogoRAF) { cancelAnimationFrame(_fogoRAF); _fogoRAF = null; }
+  if (!on) { _fogoParts = []; return; }
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const box = document.getElementById('secaFogo');
-  if (!box) return;
-  _brasaTimer = setInterval(() => {
-    if (document.hidden || !document.body.classList.contains('modo-seca')) return;
-    const b = document.createElement('span');
-    b.className = 'brasa';
-    b.style.left = (6 + Math.random() * 88) + 'vw';
-    b.style.setProperty('--dx', (Math.random() * 8 - 4).toFixed(1) + 'vw');
-    const dur = 3.4 + Math.random() * 2.6;
-    b.style.animation = `subir ${dur}s linear forwards`;
-    box.appendChild(b);
-    setTimeout(() => b.remove(), dur * 1000 + 120);
-  }, 620);
+  if (!fogoRedimensiona()) { setTimeout(aplicarFogoSeca, 300); return; }
+  _fogoParts = [];
+  _fogoRAF = requestAnimationFrame(fogoDesenha);
 }
+window.addEventListener('resize', () => { if (document.body.classList.contains('modo-seca')) fogoRedimensiona(); });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { if (_fogoRAF) { cancelAnimationFrame(_fogoRAF); _fogoRAF = null; } }
+  else if (document.body.classList.contains('modo-seca') && !_fogoRAF) _fogoRAF = requestAnimationFrame(fogoDesenha);
+});
 
 // Índice das trocas por slot, pré-computado (DATA + SECA_DATA prontos). Regra por slot:
 // se o substituto oficial JÁ É a troca, só força o botão TROCAR; senão a troca entra
