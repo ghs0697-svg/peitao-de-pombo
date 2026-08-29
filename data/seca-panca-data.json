@@ -1,1072 +1,1072 @@
 {
-  "produto": "Seca Pança (Modo Seca do Peitão de Pombo)",
-  "gerado_por": "Criador Treino e Dieta",
-  "versao": "1.0",
-  "observacao_geral": "Régua única pra todos os alunos, sem variação por peso (decisão do GH). O app troca dieta, cardio e suplementação sozinho pelo mês do aluno (semanas 1 a 4 = mês 1, 5 a 8 = mês 2, 9 a 12 = mês 3).",
-  "dietas": {
-    "mes1": {
-      "kcal": "2.600 kcal",
-      "regras": [
-        "Sal: fragmentar 8g ao longo do dia",
-        "Café: somente até às 16h, sem açúcar",
-        "Vinagre de maçã: 1 colher antes do almoço e janta",
-        "Refeição livre: 1x por semana",
-        "Hidratação: 3 a 5 litros de água por dia",
-        "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
-      ],
-      "refeicoes": [
+ "produto": "Seca Pança (Modo Seca do Peitão de Pombo)",
+ "gerado_por": "Criador Treino e Dieta",
+ "versao": "1.0",
+ "observacao_geral": "Régua única pra todos os alunos, sem variação por peso (decisão do GH). O app troca dieta, cardio e suplementação sozinho pelo mês do aluno (semanas 1 a 4 = mês 1, 5 a 8 = mês 2, 9 a 12 = mês 3).",
+ "dietas": {
+  "mes1": {
+   "kcal": "2.600 kcal",
+   "regras": [
+    "Sal: fragmentar 8g ao longo do dia",
+    "Café: somente até às 16h, sem açúcar",
+    "Vinagre de maçã: 1 colher antes do almoço e janta",
+    "Refeição livre: 1x por semana",
+    "Hidratação: 3 a 5 litros de água por dia",
+    "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
+   ],
+   "refeicoes": [
+    {
+     "nome": "1ª Refeição: Desjejum",
+     "obs": [
+      "Escolher uma das duas opções."
+     ],
+     "opcoes": [
+      {
+       "nome": "Opção 1",
+       "alimentos": [
         {
-          "nome": "1ª Refeição: Desjejum",
-          "obs": [
-            "Escolher uma das duas opções."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "3 fatias",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "2 fatias",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Requeijão light",
-                  "quantidade": "40g",
-                  "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
         },
         {
-          "nome": "2ª Refeição: Almoço",
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "220g",
-                  "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "250g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Feijão",
-                  "quantidade": "100g (grãos)",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "150g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Pão",
+         "quantidade": "3 fatias",
+         "obs": "Ou tapioca (35g por fatia)"
         },
         {
-          "nome": "3ª Refeição: Lanche da tarde",
-          "obs": [
-            "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1: Iogurte com Whey",
-              "alimentos": [
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1.5 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "50g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Iogurte zero",
-                  "quantidade": "100g",
-                  "obs": "Ou leite desnatado (200ml)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2: Mingau",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "60g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Leite desnatado",
-                  "quantidade": "200ml",
-                  "obs": "Ou iogurte zero (100g)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 3: Panqueca/Bolinho com frutas",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "50g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "02 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 4: Repeteco do almoço",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "150g",
-                  "obs": "Carne bovina, frango ou carne de porco"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "150g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
-        },
-        {
-          "nome": "4ª Refeição: Jantar",
-          "obs": [
-            "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "240g",
-                  "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "400g",
-                  "obs": "Batata inglesa, batata doce ou abóbora"
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "200g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
         }
-      ]
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 2",
+       "alimentos": [
+        {
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Pão",
+         "quantidade": "2 fatias",
+         "obs": "Ou tapioca (35g por fatia)"
+        },
+        {
+         "alimento": "Requeijão light",
+         "quantidade": "40g",
+         "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      }
+     ]
     },
-    "mes2": {
-      "kcal": "2.300 kcal",
-      "regras": [
-        "Sal: fragmentar 8g ao longo do dia",
-        "Café: somente até às 16h, sem açúcar",
-        "Vinagre de maçã: 1 colher antes do almoço e janta",
-        "Refeição livre: 1x por semana",
-        "Hidratação: 3 a 5 litros de água por dia",
-        "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
-      ],
-      "refeicoes": [
+    {
+     "nome": "2ª Refeição: Almoço",
+     "obs": [
+      "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
         {
-          "nome": "1ª Refeição: Desjejum",
-          "obs": [
-            "Escolher uma das duas opções."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "2 fatias",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "1 fatia",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Requeijão light",
-                  "quantidade": "30g",
-                  "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Proteína",
+         "quantidade": "220g",
+         "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
         },
         {
-          "nome": "2ª Refeição: Almoço",
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "220g",
-                  "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "180g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Feijão",
-                  "quantidade": "100g (grãos)",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "150g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Carboidrato",
+         "quantidade": "250g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
         },
         {
-          "nome": "3ª Refeição: Lanche da tarde",
-          "obs": [
-            "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1: Iogurte com Whey",
-              "alimentos": [
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1.5 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "40g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Iogurte zero",
-                  "quantidade": "100g",
-                  "obs": "Ou leite desnatado (200ml)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2: Mingau",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "45g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Leite desnatado",
-                  "quantidade": "200ml",
-                  "obs": "Ou iogurte zero (100g)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 3: Panqueca/Bolinho com frutas",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "40g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "02 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 4: Repeteco do almoço",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "150g",
-                  "obs": "Carne bovina, frango ou carne de porco"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "120g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Feijão",
+         "quantidade": "100g (grãos)",
+         "obs": ""
         },
         {
-          "nome": "4ª Refeição: Jantar",
-          "obs": [
-            "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "240g",
-                  "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "300g",
-                  "obs": "Batata inglesa, batata doce ou abóbora"
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "200g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Legumes",
+         "quantidade": "150g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
         }
-      ]
+       ],
+       "macros": ""
+      }
+     ]
     },
-    "mes3": {
-      "kcal": "2.000 kcal",
-      "regras": [
-        "Sal: fragmentar 8g ao longo do dia",
-        "Café: somente até às 16h, sem açúcar",
-        "Vinagre de maçã: 1 colher antes do almoço e janta",
-        "Refeição livre: 1x por semana",
-        "Hidratação: 3 a 5 litros de água por dia",
-        "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
-      ],
-      "refeicoes": [
+    {
+     "nome": "3ª Refeição: Lanche da tarde",
+     "obs": [
+      "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
+     ],
+     "opcoes": [
+      {
+       "nome": "Opção 1: Iogurte com Whey",
+       "alimentos": [
         {
-          "nome": "1ª Refeição: Desjejum",
-          "obs": [
-            "Escolher uma das duas opções."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "1 fatia",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "100g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2",
-              "alimentos": [
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "04 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Pão",
-                  "quantidade": "1 fatia",
-                  "obs": "Ou tapioca (35g por fatia)"
-                },
-                {
-                  "alimento": "Requeijão light",
-                  "quantidade": "25g",
-                  "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Whey protein",
+         "quantidade": "1.5 dose",
+         "obs": ""
         },
         {
-          "nome": "2ª Refeição: Almoço",
-          "obs": [
-            "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "220g",
-                  "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "120g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Feijão",
-                  "quantidade": "80g (grãos)",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "150g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Aveia",
+         "quantidade": "50g",
+         "obs": ""
         },
         {
-          "nome": "3ª Refeição: Lanche da tarde",
-          "obs": [
-            "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
-          ],
-          "opcoes": [
-            {
-              "nome": "Opção 1: Iogurte com Whey",
-              "alimentos": [
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1.5 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "30g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Iogurte zero",
-                  "quantidade": "100g",
-                  "obs": "Ou leite desnatado (200ml)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 2: Mingau",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "35g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Leite desnatado",
-                  "quantidade": "200ml",
-                  "obs": "Ou iogurte zero (100g)"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 3: Panqueca/Bolinho com frutas",
-              "alimentos": [
-                {
-                  "alimento": "Aveia",
-                  "quantidade": "25g",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Whey protein",
-                  "quantidade": "1 dose",
-                  "obs": ""
-                },
-                {
-                  "alimento": "Ovos",
-                  "quantidade": "02 unidades",
-                  "obs": "Mexidos ou cozidos"
-                },
-                {
-                  "alimento": "Frutas",
-                  "quantidade": "50g",
-                  "obs": "Livre escolha"
-                }
-              ],
-              "macros": ""
-            },
-            {
-              "nome": "Opção 4: Repeteco do almoço",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "150g",
-                  "obs": "Carne bovina, frango ou carne de porco"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "80g",
-                  "obs": "Arroz, massa, mandioca ou batata doce"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Iogurte zero",
+         "quantidade": "100g",
+         "obs": "Ou leite desnatado (200ml)"
         },
         {
-          "nome": "4ª Refeição: Jantar",
-          "obs": [
-            "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
-          ],
-          "opcoes": [
-            {
-              "nome": "",
-              "alimentos": [
-                {
-                  "alimento": "Proteína",
-                  "quantidade": "220g",
-                  "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
-                },
-                {
-                  "alimento": "Carboidrato",
-                  "quantidade": "250g",
-                  "obs": "Batata inglesa, batata doce ou abóbora"
-                },
-                {
-                  "alimento": "Legumes",
-                  "quantidade": "200g",
-                  "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
-                },
-                {
-                  "alimento": "Salada verde",
-                  "quantidade": "à vontade",
-                  "obs": ""
-                }
-              ],
-              "macros": ""
-            }
-          ]
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
         }
-      ]
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 2: Mingau",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "60g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Leite desnatado",
+         "quantidade": "200ml",
+         "obs": "Ou iogurte zero (100g)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 3: Panqueca/Bolinho com frutas",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "50g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Ovos",
+         "quantidade": "02 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 4: Repeteco do almoço",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "150g",
+         "obs": "Carne bovina, frango ou carne de porco"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "150g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "4ª Refeição: Jantar",
+     "obs": [
+      "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "240g",
+         "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "400g",
+         "obs": "Batata inglesa, batata doce ou abóbora"
+        },
+        {
+         "alimento": "Legumes",
+         "quantidade": "200g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
     }
+   ]
   },
-  "cardio": {
-    "criterio_intensidade": "Cardio de verdade: tem que suar e ficar levemente ofegante. Com relógio, segurar a faixa de batimentos da semana. Teste da fala: dá pra falar frases curtas, não dá pra cantar. Passeando no celular não conta.",
-    "observacao": "Fazer depois da musculação ou em turno alternado (ex: treino de manhã, cardio no fim da tarde). No dia de perna, escolher bike ou caminhada plana, mais leve. Nos dias sem musculação, o cardio é o treino do dia.",
-    "semanas": [
+  "mes2": {
+   "kcal": "2.300 kcal",
+   "regras": [
+    "Sal: fragmentar 8g ao longo do dia",
+    "Café: somente até às 16h, sem açúcar",
+    "Vinagre de maçã: 1 colher antes do almoço e janta",
+    "Refeição livre: 1x por semana",
+    "Hidratação: 3 a 5 litros de água por dia",
+    "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
+   ],
+   "refeicoes": [
+    {
+     "nome": "1ª Refeição: Desjejum",
+     "obs": [
+      "Escolher uma das duas opções."
+     ],
+     "opcoes": [
       {
-        "semana": 1,
-        "modalidade": "Caminhada inclinada (esteira, inclinação 8 a 10)",
-        "duracao": "25 min",
-        "intensidade": "Leve a moderado, batimentos 115 a 125",
-        "vezes": "3x na semana",
-        "obs": "Semana de entrada: criar o hábito, sem se destruir."
-      },
-      {
-        "semana": 2,
-        "modalidade": "Caminhada inclinada",
-        "duracao": "30 min",
-        "intensidade": "Leve a moderado, batimentos 115 a 125",
-        "vezes": "3x na semana",
-        "obs": "Mesmo ritmo, 5 minutos a mais por sessão."
-      },
-      {
-        "semana": 3,
-        "modalidade": "Caminhada inclinada ou bike",
-        "duracao": "30 min",
-        "intensidade": "Moderado, batimentos 120 a 130",
-        "vezes": "4x na semana",
-        "obs": "Entra o 4º dia. Bike vale nos dias de perna."
-      },
-      {
-        "semana": 4,
-        "modalidade": "Caminhada inclinada ou bike",
-        "duracao": "35 min",
-        "intensidade": "Moderado, batimentos 120 a 130",
-        "vezes": "4x na semana",
-        "obs": "Fecha o mês 1: 4 sessões de 35 minutos."
-      },
-      {
-        "semana": 5,
-        "modalidade": "Escada 1x na semana + caminhada inclinada nas outras",
-        "duracao": "Escada 20 min, caminhada 35 min",
-        "intensidade": "Moderado, batimentos 125 a 135",
-        "vezes": "4x na semana",
-        "obs": "A escada entra junto com o corte do mês 2. Ela cansa mais em menos tempo."
-      },
-      {
-        "semana": 6,
-        "modalidade": "Escada 1x + caminhada inclinada ou bike",
-        "duracao": "Escada 25 min, caminhada 35 min",
-        "intensidade": "Moderado, batimentos 125 a 135",
-        "vezes": "4x na semana",
-        "obs": "Subir 5 min na escada."
-      },
-      {
-        "semana": 7,
-        "modalidade": "Escada 2x + caminhada inclinada nas outras",
-        "duracao": "Escada 25 min, caminhada 35 min",
-        "intensidade": "Moderado a forte, batimentos 125 a 135",
-        "vezes": "5x na semana",
-        "obs": "Entra o 5º dia. Duas sessões de escada, espaçadas na semana."
-      },
-      {
-        "semana": 8,
-        "modalidade": "Escada 2x + caminhada inclinada ou bike",
-        "duracao": "Escada 25 min, caminhada 40 min",
-        "intensidade": "Moderado a forte, batimentos 125 a 135",
-        "vezes": "5x na semana",
-        "obs": "Fecha o mês 2: 5 sessões, caminhadas de 40 minutos."
-      },
-      {
-        "semana": 9,
-        "modalidade": "Caminhada inclinada com finais acelerados",
-        "duracao": "40 min, os últimos 5 em passo forte",
-        "intensidade": "Moderado, final forte, batimentos até 140 no final",
-        "vezes": "5x na semana",
-        "obs": "Mês 3: o final de cada sessão acelera. Sem correr, é passo forte."
-      },
-      {
-        "semana": 10,
-        "modalidade": "Escada 2x + caminhada com final acelerado",
-        "duracao": "Escada 30 min, caminhada 40 min",
-        "intensidade": "Moderado a forte, batimentos 130 a 140",
-        "vezes": "5x na semana",
-        "obs": "Escada chega a 30 minutos."
-      },
-      {
-        "semana": 11,
-        "modalidade": "Escada 2x + caminhada inclinada ou bike",
-        "duracao": "40 a 45 min por sessão",
-        "intensidade": "Moderado a forte, batimentos 130 a 140",
-        "vezes": "6x na semana",
-        "obs": "Entra o 6º dia. Um deles pode ser mais leve se o corpo pedir."
-      },
-      {
-        "semana": 12,
-        "modalidade": "Escada 2x + caminhada inclinada nas outras",
-        "duracao": "45 min por sessão",
-        "intensidade": "Forte dentro do controle, batimentos 130 a 140",
-        "vezes": "6x na semana",
-        "obs": "Semana final: a mais forte do protocolo. Depois dela, o corpo pede a manutenção."
-      }
-    ]
-  },
-  "regras_queima": {
-    "descanso": {
-      "regra": "Os descansos dos treinos NÃO mudam no Modo Seca (decisão do GH): secar vem da dieta e do cardio, não de descansar menos. O descanso normal preserva a força, e força preservada segura a massa durante o corte.",
-      "mapa": {}
-    },
-    "trocas": [
-      {
-        "de": "Cadeira extensora",
-        "de_key": "CADEIRA EXTENSORA",
-        "para": "Afundo Smith",
-        "para_key": "AFUNDO SMITH",
-        "onde": "Dia de perna",
-        "por_que": "Sai a máquina que isola, entra o exercício que usa o corpo inteiro pra subir: gasto calórico bem maior.",
-        "obs": "Exercício de um lado por vez: faz o direito, emenda o esquerdo, e só depois dos dois lados conta o descanso. Já é o substituto oficial do app, é só tocar em TROCAR."
-      },
-      {
-        "de": "Puxada alta pronada",
-        "de_key": "PUXADA ALTA PRONADA",
-        "para": "Barra fixa",
-        "para_key": "BARRA FIXA",
-        "onde": "Dia de costas",
-        "por_que": "Puxar o próprio corpo gasta mais que puxar a barra da polia.",
-        "obs": "Se ainda não sai repetição na barra, mantém a puxada alta e tenta de novo a cada semana. Já é o substituto oficial do app."
-      },
-      {
-        "de": "Pulldown com corda",
-        "de_key": "PULLDOWN COM CORDA",
-        "para": "Puxada pegada neutra",
-        "para_key": "PUXADA PEGADA NEUTRA",
-        "onde": "Dia de costas",
-        "por_que": "Sai o isolador de dorsal, entra mais um exercício composto de puxar: mais músculo trabalhando por série.",
-        "obs": "Já é o substituto oficial do app, é só tocar em TROCAR."
-      },
-      {
-        "de": "Tríceps testa no banco inclinado",
-        "de_key": "TRICEPS TESTA NO BANCO INCLINADO",
-        "para": "Tríceps na paralela",
-        "para_key": "TRICEPS NA PARALELA",
-        "onde": "Dia de peito A",
-        "por_que": "A paralela usa o peso do corpo e gasta mais que a testa deitado. No dia de bracos ela ja e o exercicio titular, entao a troca vale so aqui.",
-        "obs": "O dia de peito B não tem tríceps testa, então lá não muda nada. Se a paralela já entrou no treino por outra troca, mantém o tríceps testa."
-      }
-    ],
-    "finalizadores": {
-      "formato": "3 rodadas: exercício 1 + exercício 2 em sequência, sem descanso entre os dois, 30 seg entre rodadas. Carga leve a moderada, execução limpa e ritmo alto. Tempo total: 6 a 8 minutos.",
-      "blocos": [
+       "nome": "Opção 1",
+       "alimentos": [
         {
-          "dia": "Peito A",
-          "ex1": "Tríceps pulley com corda",
-          "ex1_key": "TRICEPS PULLEY COM CORDA",
-          "reps1": "15",
-          "ex2": "Abdominal na remada baixa / cross",
-          "ex2_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
-          "reps2": "15"
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
         },
         {
-          "dia": "Peito B",
-          "ex1": "Tríceps francês no cross",
-          "ex1_key": "TRICEPS FRANCES NO CROSS",
-          "reps1": "15",
-          "ex2": "Abdominal elevação de pernas com halter",
-          "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
-          "reps2": "12"
+         "alimento": "Pão",
+         "quantidade": "2 fatias",
+         "obs": "Ou tapioca (35g por fatia)"
         },
         {
-          "dia": "Costas",
-          "ex1": "Rosca alternada com halteres",
-          "ex1_key": "ROSCA ALTERNADA COM HALTERES",
-          "reps1": "15",
-          "ex2": "Abdominal elevação de pernas na paralela",
-          "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA",
-          "reps2": "12"
-        },
-        {
-          "dia": "Perna",
-          "ex1": "Abdominal elevação de pernas na paralela",
-          "ex1_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA",
-          "reps1": "12",
-          "ex2": "Abdominal no banco declinado com peso",
-          "ex2_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
-          "reps2": "15"
-        },
-        {
-          "dia": "Ombro",
-          "ex1": "Tríceps supinado",
-          "ex1_key": "TRICEPS SUPINADO",
-          "reps1": "15",
-          "ex2": "Abdominal elevação de pernas com halter",
-          "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
-          "reps2": "12"
-        },
-        {
-          "dia": "Braços",
-          "ex1": "Tríceps pulley com barra",
-          "ex1_key": "TRICEPS PULLEY COM BARRA",
-          "reps1": "15",
-          "ex2": "Abdominal na remada baixa / cross",
-          "ex2_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
-          "reps2": "15"
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
         }
-      ]
-    }
-  },
-  "suplementacao": {
-    "aviso_motor": "A suplementação ACELERA o resultado, mas o motor do Seca Pança é a dieta, o cardio e o treino. Sem nenhum suplemento o protocolo funciona do mesmo jeito.",
-    "contraindicacao": "Ioimbina e cafeína aceleram o corpo. Se tu tem pressão alta, ansiedade ou síndrome do pânico, arritmia ou qualquer problema cardíaco, usa antidepressivo, é gestante ou está amamentando, ou tem menos de 18 anos: NÃO usa por conta própria, fala com teu médico antes. Sentiu palpitação forte, tontura ou mal estar: para na hora e avisa no suporte.",
-    "onde_comprar": "Morosil, ioimbina e piperina são manipulados: pede direto na Arte e Ciência, a farmácia parceira aqui do app, que manipula esse stack sem exigir receita. Cafeína em cápsula e os chás tu encontra em qualquer farmácia ou mercado.",
-    "meses": [
-      {
-        "mes": 1,
-        "itens": [
-          {
-            "item": "Morosil 250mg",
-            "dose": "1 dose de 250mg",
-            "horario": "Ao acordar, em jejum, com água",
-            "obs": "Todos os dias do mês, sem pular."
-          },
-          {
-            "item": "Ioimbina 5mg",
-            "dose": "5mg",
-            "horario": "Em jejum, 30 min antes do cardio",
-            "obs": "Quem faz cardio em outro horário toma ao acordar em jejum do mesmo jeito: ela trabalha melhor longe de refeição com carboidrato. Nunca depois das 16h."
-          }
-        ]
+       ],
+       "macros": ""
       },
       {
-        "mes": 2,
-        "itens": [
-          {
-            "item": "Morosil 500mg",
-            "dose": "500mg (2 cápsulas de 250 ou 1 de 500)",
-            "horario": "Ao acordar, em jejum, com água",
-            "obs": "Dose dobra junto com o corte da dieta."
-          },
-          {
-            "item": "Ioimbina 10mg",
-            "dose": "10mg",
-            "horario": "Em jejum, 30 min antes do cardio",
-            "obs": "Se sentir agitação demais com 10mg, volta pra 5mg por uma semana e sobe de novo. Nunca depois das 16h."
-          },
-          {
-            "item": "Cafeína 200mg",
-            "dose": "200mg",
-            "horario": "30 min antes da musculação",
-            "obs": "Só até as 16h. Quem treina de noite pula a cafeína: o sono também emagrece, e ela atrapalha o sono."
-          }
-        ]
-      },
-      {
-        "mes": 3,
-        "itens": [
-          {
-            "item": "Morosil 500mg",
-            "dose": "500mg",
-            "horario": "Ao acordar, em jejum, com água",
-            "obs": "Mantém do mês 2."
-          },
-          {
-            "item": "Piperina 5mg",
-            "dose": "5mg",
-            "horario": "Junto do Morosil, ao acordar",
-            "obs": "Ela aumenta a absorção do resto do stack."
-          },
-          {
-            "item": "Ioimbina 10mg",
-            "dose": "10mg",
-            "horario": "Em jejum, 30 min antes do cardio",
-            "obs": "Mantém do mês 2. Nunca depois das 16h."
-          },
-          {
-            "item": "Cafeína 200mg",
-            "dose": "200mg",
-            "horario": "30 min antes da musculação",
-            "obs": "Mantém do mês 2. Só até as 16h."
-          },
-          {
-            "item": "Chá verde ou hibisco",
-            "dose": "200ml",
-            "horario": "De manhã, entre o desjejum e o almoço",
-            "obs": "Preparo: 1 colher de sopa das folhas (ou 1 sachê) em 200ml de água quente sem ferver, abafar 3 a 5 minutos. Sem açúcar, adoçante liberado."
-          },
-          {
-            "item": "Chá de cavalinha ou chá preto",
-            "dose": "200ml",
-            "horario": "Início da tarde, até as 16h",
-            "obs": "Mesmo preparo. A cavalinha ajuda a desinchar; o chá preto tem cafeína, por isso o limite das 16h."
-          }
-        ]
+       "nome": "Opção 2",
+       "alimentos": [
+        {
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Pão",
+         "quantidade": "1 fatia",
+         "obs": "Ou tapioca (35g por fatia)"
+        },
+        {
+         "alimento": "Requeijão light",
+         "quantidade": "30g",
+         "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
       }
-    ]
+     ]
+    },
+    {
+     "nome": "2ª Refeição: Almoço",
+     "obs": [
+      "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "220g",
+         "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "180g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
+        },
+        {
+         "alimento": "Feijão",
+         "quantidade": "100g (grãos)",
+         "obs": ""
+        },
+        {
+         "alimento": "Legumes",
+         "quantidade": "150g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "3ª Refeição: Lanche da tarde",
+     "obs": [
+      "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
+     ],
+     "opcoes": [
+      {
+       "nome": "Opção 1: Iogurte com Whey",
+       "alimentos": [
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1.5 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Aveia",
+         "quantidade": "40g",
+         "obs": ""
+        },
+        {
+         "alimento": "Iogurte zero",
+         "quantidade": "100g",
+         "obs": "Ou leite desnatado (200ml)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 2: Mingau",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "45g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Leite desnatado",
+         "quantidade": "200ml",
+         "obs": "Ou iogurte zero (100g)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 3: Panqueca/Bolinho com frutas",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "40g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Ovos",
+         "quantidade": "02 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 4: Repeteco do almoço",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "150g",
+         "obs": "Carne bovina, frango ou carne de porco"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "120g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "4ª Refeição: Jantar",
+     "obs": [
+      "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "240g",
+         "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "300g",
+         "obs": "Batata inglesa, batata doce ou abóbora"
+        },
+        {
+         "alimento": "Legumes",
+         "quantidade": "200g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    }
+   ]
   },
-  "guia_uso": {
-    "nota_interna": "Rascunho na voz de trabalho: o GH lapida o texto final.",
-    "linhas": [
-      "O Seca Pança é uma FASE: 90 dias de queima, com começo, meio e fim. Liga o MODO SECA no app e ele cuida do resto.",
-      "A dieta troca sozinha a cada mês (2.600, depois 2.300, depois 2.000 kcal) e o corte vem do carboidrato: a proteína fica alta o protocolo inteiro pra segurar a massa.",
-      "Quem tem SÓ o Peitão: faz o treino de peito A e B na semana com o modo ligado (trocas e finalizador) e o cardio da semana nos outros dias.",
-      "Quem tem o Pombo Completo: faz a semana toda com o modo ligado e encaixa o cardio depois do treino ou em turno alternado.",
-      "O cardio tem tabela semana a semana (1 a 12) e sobe junto com o corte: começa 3x de 25 minutos e termina 6x de 45. O app mostra a tua semana.",
-      "A suplementação sobe mês a mês junto com a dieta. Ela acelera, mas o motor é dieta, cardio e treino: sem ela o protocolo funciona igual.",
-      "Acabou os 90 dias? Desliga o modo, volta pro treino e dieta normais e segura o resultado. Quem quiser repetir o Seca, espera pelo menos 1 mês de manutenção."
-    ]
+  "mes3": {
+   "kcal": "2.000 kcal",
+   "regras": [
+    "Sal: fragmentar 8g ao longo do dia",
+    "Café: somente até às 16h, sem açúcar",
+    "Vinagre de maçã: 1 colher antes do almoço e janta",
+    "Refeição livre: 1x por semana",
+    "Hidratação: 3 a 5 litros de água por dia",
+    "Não consumir: refrigerantes comuns, suco de caixinha, açúcar refinado"
+   ],
+   "refeicoes": [
+    {
+     "nome": "1ª Refeição: Desjejum",
+     "obs": [
+      "Escolher uma das duas opções."
+     ],
+     "opcoes": [
+      {
+       "nome": "Opção 1",
+       "alimentos": [
+        {
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Pão",
+         "quantidade": "1 fatia",
+         "obs": "Ou tapioca (35g por fatia)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "100g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 2",
+       "alimentos": [
+        {
+         "alimento": "Ovos",
+         "quantidade": "04 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Pão",
+         "quantidade": "1 fatia",
+         "obs": "Ou tapioca (35g por fatia)"
+        },
+        {
+         "alimento": "Requeijão light",
+         "quantidade": "25g",
+         "obs": "Ou ricota (80g) ou queijo muçarela (01 fatia)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "2ª Refeição: Almoço",
+     "obs": [
+      "Sem feijão: adicionar 50g de qualquer carboidrato. Equivalência: 100g de arroz ≈ 200g de batata ≈ 120g de mandioca."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "220g",
+         "obs": "Carne bovina, frango ou carne de porco: aqui vai a proteína mais pesada do dia, longe do treino a digestão lenta segura a fome"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "120g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
+        },
+        {
+         "alimento": "Feijão",
+         "quantidade": "80g (grãos)",
+         "obs": ""
+        },
+        {
+         "alimento": "Legumes",
+         "quantidade": "150g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "3ª Refeição: Lanche da tarde",
+     "obs": [
+      "Escolher uma das quatro opções. Se o treino é no fim da tarde, essa é a refeição pré-treino: escolher a opção que cair melhor no estômago."
+     ],
+     "opcoes": [
+      {
+       "nome": "Opção 1: Iogurte com Whey",
+       "alimentos": [
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1.5 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Aveia",
+         "quantidade": "30g",
+         "obs": ""
+        },
+        {
+         "alimento": "Iogurte zero",
+         "quantidade": "100g",
+         "obs": "Ou leite desnatado (200ml)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 2: Mingau",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "35g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Leite desnatado",
+         "quantidade": "200ml",
+         "obs": "Ou iogurte zero (100g)"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 3: Panqueca/Bolinho com frutas",
+       "alimentos": [
+        {
+         "alimento": "Aveia",
+         "quantidade": "25g",
+         "obs": ""
+        },
+        {
+         "alimento": "Whey protein",
+         "quantidade": "1 dose",
+         "obs": ""
+        },
+        {
+         "alimento": "Ovos",
+         "quantidade": "02 unidades",
+         "obs": "Mexidos ou cozidos"
+        },
+        {
+         "alimento": "Frutas",
+         "quantidade": "50g",
+         "obs": "Livre escolha"
+        }
+       ],
+       "macros": ""
+      },
+      {
+       "nome": "Opção 4: Repeteco do almoço",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "150g",
+         "obs": "Carne bovina, frango ou carne de porco"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "80g",
+         "obs": "Arroz, massa, mandioca ou batata doce"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    },
+    {
+     "nome": "4ª Refeição: Jantar",
+     "obs": [
+      "Última refeição do dia: mais leve de propósito. Carne vermelha fica no almoço."
+     ],
+     "opcoes": [
+      {
+       "nome": "",
+       "alimentos": [
+        {
+         "alimento": "Proteína",
+         "quantidade": "220g",
+         "obs": "Frango, peixe ou atum: proteína leve de noite, digestão tranquila pra não atrapalhar o sono"
+        },
+        {
+         "alimento": "Carboidrato",
+         "quantidade": "250g",
+         "obs": "Batata inglesa, batata doce ou abóbora"
+        },
+        {
+         "alimento": "Legumes",
+         "quantidade": "200g",
+         "obs": "Brócolis, cebola, cenoura, pepino, couve-flor, tomate"
+        },
+        {
+         "alimento": "Salada verde",
+         "quantidade": "à vontade",
+         "obs": ""
+        }
+       ],
+       "macros": ""
+      }
+     ]
+    }
+   ]
   }
+ },
+ "cardio": {
+  "criterio_intensidade": "Cardio de verdade: tem que suar e ficar levemente ofegante. Com relógio, segurar a faixa de batimentos da semana. Teste da fala: dá pra falar frases curtas, não dá pra cantar. Passeando no celular não conta.",
+  "observacao": "Fazer depois da musculação ou em turno alternado (ex: treino de manhã, cardio no fim da tarde). No dia de perna, escolher bike ou caminhada plana, mais leve. Nos dias sem musculação, o cardio é o treino do dia.",
+  "semanas": [
+   {
+    "semana": 1,
+    "modalidade": "Caminhada inclinada (esteira, inclinação 8 a 10)",
+    "duracao": "25 min",
+    "intensidade": "Leve a moderado, batimentos 115 a 125",
+    "vezes": "3x na semana",
+    "obs": "Semana de entrada: criar o hábito, sem se destruir."
+   },
+   {
+    "semana": 2,
+    "modalidade": "Caminhada inclinada",
+    "duracao": "30 min",
+    "intensidade": "Leve a moderado, batimentos 115 a 125",
+    "vezes": "3x na semana",
+    "obs": "Mesmo ritmo, 5 minutos a mais por sessão."
+   },
+   {
+    "semana": 3,
+    "modalidade": "Caminhada inclinada ou bike",
+    "duracao": "30 min",
+    "intensidade": "Moderado, batimentos 120 a 130",
+    "vezes": "4x na semana",
+    "obs": "Entra o 4º dia. Bike vale nos dias de perna."
+   },
+   {
+    "semana": 4,
+    "modalidade": "Caminhada inclinada ou bike",
+    "duracao": "35 min",
+    "intensidade": "Moderado, batimentos 120 a 130",
+    "vezes": "4x na semana",
+    "obs": "Fecha o mês 1: 4 sessões de 35 minutos."
+   },
+   {
+    "semana": 5,
+    "modalidade": "Escada 1x na semana + caminhada inclinada nas outras",
+    "duracao": "Escada 20 min, caminhada 35 min",
+    "intensidade": "Moderado, batimentos 125 a 135",
+    "vezes": "4x na semana",
+    "obs": "A escada entra junto com o corte do mês 2. Ela cansa mais em menos tempo."
+   },
+   {
+    "semana": 6,
+    "modalidade": "Escada 1x + caminhada inclinada ou bike",
+    "duracao": "Escada 25 min, caminhada 35 min",
+    "intensidade": "Moderado, batimentos 125 a 135",
+    "vezes": "4x na semana",
+    "obs": "Subir 5 min na escada."
+   },
+   {
+    "semana": 7,
+    "modalidade": "Escada 2x + caminhada inclinada nas outras",
+    "duracao": "Escada 25 min, caminhada 35 min",
+    "intensidade": "Moderado a forte, batimentos 125 a 135",
+    "vezes": "5x na semana",
+    "obs": "Entra o 5º dia. Duas sessões de escada, espaçadas na semana."
+   },
+   {
+    "semana": 8,
+    "modalidade": "Escada 2x + caminhada inclinada ou bike",
+    "duracao": "Escada 25 min, caminhada 40 min",
+    "intensidade": "Moderado a forte, batimentos 125 a 135",
+    "vezes": "5x na semana",
+    "obs": "Fecha o mês 2: 5 sessões, caminhadas de 40 minutos."
+   },
+   {
+    "semana": 9,
+    "modalidade": "Caminhada inclinada com finais acelerados",
+    "duracao": "40 min, os últimos 5 em passo forte",
+    "intensidade": "Moderado, final forte, batimentos até 140 no final",
+    "vezes": "5x na semana",
+    "obs": "Mês 3: o final de cada sessão acelera. Sem correr, é passo forte."
+   },
+   {
+    "semana": 10,
+    "modalidade": "Escada 2x + caminhada com final acelerado",
+    "duracao": "Escada 30 min, caminhada 40 min",
+    "intensidade": "Moderado a forte, batimentos 130 a 140",
+    "vezes": "5x na semana",
+    "obs": "Escada chega a 30 minutos."
+   },
+   {
+    "semana": 11,
+    "modalidade": "Escada 2x + caminhada inclinada ou bike",
+    "duracao": "40 a 45 min por sessão",
+    "intensidade": "Moderado a forte, batimentos 130 a 140",
+    "vezes": "6x na semana",
+    "obs": "Entra o 6º dia. Um deles pode ser mais leve se o corpo pedir."
+   },
+   {
+    "semana": 12,
+    "modalidade": "Escada 2x + caminhada inclinada nas outras",
+    "duracao": "45 min por sessão",
+    "intensidade": "Forte dentro do controle, batimentos 130 a 140",
+    "vezes": "6x na semana",
+    "obs": "Semana final: a mais forte do protocolo. Depois dela, o corpo pede a manutenção."
+   }
+  ]
+ },
+ "regras_queima": {
+  "descanso": {
+   "regra": "Os descansos dos treinos NÃO mudam no Modo Seca (decisão do GH): secar vem da dieta e do cardio, não de descansar menos. O descanso normal preserva a força, e força preservada segura a massa durante o corte.",
+   "mapa": {}
+  },
+  "trocas": [
+   {
+    "de": "Cadeira extensora",
+    "de_key": "CADEIRA EXTENSORA",
+    "para": "Afundo Smith",
+    "para_key": "AFUNDO SMITH",
+    "onde": "Dia de perna",
+    "por_que": "Sai a máquina que isola, entra o exercício que usa o corpo inteiro pra subir: gasto calórico bem maior.",
+    "obs": "Exercício de um lado por vez: faz o direito, emenda o esquerdo, e só depois dos dois lados conta o descanso. Já é o substituto oficial do app, é só tocar em TROCAR."
+   },
+   {
+    "de": "Puxada alta pronada",
+    "de_key": "PUXADA ALTA PRONADA",
+    "para": "Barra fixa",
+    "para_key": "BARRA FIXA",
+    "onde": "Dia de costas",
+    "por_que": "Puxar o próprio corpo gasta mais que puxar a barra da polia.",
+    "obs": "Se ainda não sai repetição na barra, mantém a puxada alta e tenta de novo a cada semana. Já é o substituto oficial do app."
+   },
+   {
+    "de": "Pulldown com corda",
+    "de_key": "PULLDOWN COM CORDA",
+    "para": "Puxada pegada neutra",
+    "para_key": "PUXADA PEGADA NEUTRA",
+    "onde": "Dia de costas",
+    "por_que": "Sai o isolador de dorsal, entra mais um exercício composto de puxar: mais músculo trabalhando por série.",
+    "obs": "Já é o substituto oficial do app, é só tocar em TROCAR."
+   },
+   {
+    "de": "Tríceps testa no banco inclinado",
+    "de_key": "TRICEPS TESTA NO BANCO INCLINADO",
+    "para": "Tríceps na paralela",
+    "para_key": "TRICEPS NA PARALELA",
+    "onde": "Dia de peito A",
+    "por_que": "A paralela usa peito, ombro e tríceps juntos: o exercício de tríceps que mais queima.",
+    "obs": "Vale só no dia de peito A. No dia de braços a paralela já é titular do treino, e o peito B não tem tríceps testa."
+   }
+  ],
+  "finalizadores": {
+   "formato": "3 rodadas: exercício 1 + exercício 2 em sequência, sem descanso entre os dois, 30 seg entre rodadas. Carga leve a moderada, execução limpa e ritmo alto. Tempo total: 6 a 8 minutos.",
+   "blocos": [
+    {
+     "dia": "Peito A",
+     "ex1": "Tríceps pulley com corda",
+     "ex1_key": "TRICEPS PULLEY COM CORDA",
+     "reps1": "15",
+     "ex2": "Abdominal na remada baixa / cross",
+     "ex2_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
+     "reps2": "15"
+    },
+    {
+     "dia": "Peito B",
+     "ex1": "Tríceps francês no cross",
+     "ex1_key": "TRICEPS FRANCES NO CROSS",
+     "reps1": "15",
+     "ex2": "Abdominal elevação de pernas com halter",
+     "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+     "reps2": "12"
+    },
+    {
+     "dia": "Costas",
+     "ex1": "Rosca alternada com halteres",
+     "ex1_key": "ROSCA ALTERNADA COM HALTERES",
+     "reps1": "15",
+     "ex2": "Abdominal elevação de pernas na paralela",
+     "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA",
+     "reps2": "12"
+    },
+    {
+     "dia": "Perna",
+     "ex1": "Abdominal elevação de pernas na paralela",
+     "ex1_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA",
+     "reps1": "12",
+     "ex2": "Abdominal no banco declinado com peso",
+     "ex2_key": "ABDOMINAL NO BANCO DECLINADO COM PESO",
+     "reps2": "15"
+    },
+    {
+     "dia": "Ombro",
+     "ex1": "Tríceps supinado",
+     "ex1_key": "TRICEPS SUPINADO",
+     "reps1": "15",
+     "ex2": "Abdominal elevação de pernas com halter",
+     "ex2_key": "ABDOMINAL ELEVACAO DE PERNAS COM HALTER",
+     "reps2": "12"
+    },
+    {
+     "dia": "Braços",
+     "ex1": "Abdominal elevação de pernas na paralela",
+     "ex1_key": "ABDOMINAL ELEVACAO DE PERNAS NA PARALELA",
+     "reps1": "12",
+     "ex2": "Abdominal na remada baixa / cross",
+     "ex2_key": "ABDOMINAL NA REMADA BAIXA / CROSS",
+     "reps2": "15"
+    }
+   ]
+  }
+ },
+ "suplementacao": {
+  "aviso_motor": "A suplementação ACELERA o resultado, mas o motor do Seca Pança é a dieta, o cardio e o treino. Sem nenhum suplemento o protocolo funciona do mesmo jeito.",
+  "contraindicacao": "Ioimbina e cafeína aceleram o corpo. Se tu tem pressão alta, ansiedade ou síndrome do pânico, arritmia ou qualquer problema cardíaco, usa antidepressivo, é gestante ou está amamentando, ou tem menos de 18 anos: NÃO usa por conta própria, fala com teu médico antes. Sentiu palpitação forte, tontura ou mal estar: para na hora e avisa no suporte.",
+  "onde_comprar": "Morosil, ioimbina e piperina são manipulados: pede direto na Arte e Ciência, a farmácia parceira aqui do app, que manipula esse stack sem exigir receita. Cafeína em cápsula e os chás tu encontra em qualquer farmácia ou mercado.",
+  "meses": [
+   {
+    "mes": 1,
+    "itens": [
+     {
+      "item": "Morosil 250mg",
+      "dose": "1 dose de 250mg",
+      "horario": "Ao acordar, em jejum, com água",
+      "obs": "Todos os dias do mês, sem pular."
+     },
+     {
+      "item": "Ioimbina 5mg",
+      "dose": "5mg",
+      "horario": "Em jejum, 30 min antes do cardio",
+      "obs": "Quem faz cardio em outro horário toma ao acordar em jejum do mesmo jeito: ela trabalha melhor longe de refeição com carboidrato. Nunca depois das 16h."
+     }
+    ]
+   },
+   {
+    "mes": 2,
+    "itens": [
+     {
+      "item": "Morosil 500mg",
+      "dose": "500mg (2 cápsulas de 250 ou 1 de 500)",
+      "horario": "Ao acordar, em jejum, com água",
+      "obs": "Dose dobra junto com o corte da dieta."
+     },
+     {
+      "item": "Ioimbina 10mg",
+      "dose": "10mg",
+      "horario": "Em jejum, 30 min antes do cardio",
+      "obs": "Se sentir agitação demais com 10mg, volta pra 5mg por uma semana e sobe de novo. Nunca depois das 16h."
+     },
+     {
+      "item": "Cafeína 200mg",
+      "dose": "200mg",
+      "horario": "30 min antes da musculação",
+      "obs": "Só até as 16h. Quem treina de noite pula a cafeína: o sono também emagrece, e ela atrapalha o sono."
+     }
+    ]
+   },
+   {
+    "mes": 3,
+    "itens": [
+     {
+      "item": "Morosil 500mg",
+      "dose": "500mg",
+      "horario": "Ao acordar, em jejum, com água",
+      "obs": "Mantém do mês 2."
+     },
+     {
+      "item": "Piperina 5mg",
+      "dose": "5mg",
+      "horario": "Junto do Morosil, ao acordar",
+      "obs": "Ela aumenta a absorção do resto do stack."
+     },
+     {
+      "item": "Ioimbina 10mg",
+      "dose": "10mg",
+      "horario": "Em jejum, 30 min antes do cardio",
+      "obs": "Mantém do mês 2. Nunca depois das 16h."
+     },
+     {
+      "item": "Cafeína 200mg",
+      "dose": "200mg",
+      "horario": "30 min antes da musculação",
+      "obs": "Mantém do mês 2. Só até as 16h."
+     },
+     {
+      "item": "Chá verde ou hibisco",
+      "dose": "200ml",
+      "horario": "De manhã, entre o desjejum e o almoço",
+      "obs": "Preparo: 1 colher de sopa das folhas (ou 1 sachê) em 200ml de água quente sem ferver, abafar 3 a 5 minutos. Sem açúcar, adoçante liberado."
+     },
+     {
+      "item": "Chá de cavalinha ou chá preto",
+      "dose": "200ml",
+      "horario": "Início da tarde, até as 16h",
+      "obs": "Mesmo preparo. A cavalinha ajuda a desinchar; o chá preto tem cafeína, por isso o limite das 16h."
+     }
+    ]
+   }
+  ]
+ },
+ "guia_uso": {
+  "nota_interna": "Rascunho na voz de trabalho: o GH lapida o texto final.",
+  "linhas": [
+   "O Seca Pança é uma FASE: 90 dias de queima, com começo, meio e fim. Liga o MODO SECA no app e ele cuida do resto.",
+   "A dieta troca sozinha a cada mês (2.600, depois 2.300, depois 2.000 kcal) e o corte vem do carboidrato: a proteína fica alta o protocolo inteiro pra segurar a massa.",
+   "Quem tem SÓ o Peitão: faz o treino de peito A e B na semana com o modo ligado (trocas e finalizador) e o cardio da semana nos outros dias.",
+   "Quem tem o Pombo Completo: faz a semana toda com o modo ligado e encaixa o cardio depois do treino ou em turno alternado.",
+   "O cardio tem tabela semana a semana (1 a 12) e sobe junto com o corte: começa 3x de 25 minutos e termina 6x de 45. O app mostra a tua semana.",
+   "A suplementação sobe mês a mês junto com a dieta. Ela acelera, mas o motor é dieta, cardio e treino: sem ela o protocolo funciona igual.",
+   "Acabou os 90 dias? Desliga o modo, volta pro treino e dieta normais e segura o resultado. Quem quiser repetir o Seca, espera pelo menos 1 mês de manutenção."
+  ]
+ }
 }
