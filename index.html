@@ -1638,6 +1638,7 @@ function enterApp() {
     sub.onclick = null;
   }
   loadModoSeca();
+  loadDietaEscolha();
   aplicarFogoSeca();
   migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
   renderTabs();
@@ -3543,7 +3544,23 @@ function renderDieta() {
     ${renderUpsells()}
   `;
 }
-function setDietaVer(v) { state.dietaVer = v; renderDieta(); }
+// A escolha da faixa de dieta fica GUARDADA na conta: antes o app esquecia a cada
+// abertura e voltava pra 2.8K, e o bot do WhatsApp não tinha como saber qual o aluno
+// segue (o que fazia ele arriscar a gramagem errada na equivalência de alimentos).
+function dietaEscolhaKey() { return 'peitao_sets_' + setsEmail() + '_dieta_escolha'; }
+function loadDietaEscolha() {
+  try {
+    const a = JSON.parse(localStorage.getItem(dietaEscolhaKey()) || 'null');
+    const v = a && a[0] && a[0].d;
+    if (v && DATA && DATA.dietas && DATA.dietas[v]) state.dietaVer = v;
+  } catch (e) {}
+}
+function setDietaVer(v) {
+  state.dietaVer = v;
+  try { localStorage.setItem(dietaEscolhaKey(), JSON.stringify([{ d: v }])); } catch (e) {}
+  queueSetsSync(dietaEscolhaKey(), [{ d: v }]);
+  renderDieta();
+}
 
 // Dieta do Modo Seca: a hipocalórica do MÊS real do protocolo (mesmo markup da dieta normal)
 function renderDietaSeca(c) {
