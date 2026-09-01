@@ -101,6 +101,12 @@ function montaLista(){
     </div>`).join('');
 }
 function abrir(i){
+  // gravação no meio ou preview não enviado: trocar de aluno descartaria; avisa antes
+  if ((gravando || audioBlob) && IDX >= 0 && i !== IDX){
+    const quem = primeiroNome(AVALS[IDX]);
+    if (!confirm(`Tem uma gravação AINDA NÃO ENVIADA pro ${quem}. Trocar de aluno apaga essa gravação. Trocar mesmo?`)) return;
+    audioBlob = null;
+  }
   IDX = i; montaLista();
   pararGravacao(true);
   const a = AVALS[i];
@@ -176,10 +182,15 @@ async function toggleGravacao(){
       stream.getTracks().forEach(t=>t.stop());
       // parada silenciosa (trocou de aluno no meio): descarta o take, sem preview
       if (descartaStop){ descartaStop = false; return; }
-      const bruto = new Blob(chunks, { type: mediaRec.mimeType || 'audio/webm' });
-      document.getElementById('msg').textContent = 'Convertendo…';
-      try { audioBlob = await paraWav(bruto); }        // WAV toca em QUALQUER iPhone
-      catch(e){ audioBlob = bruto; }                   // se falhar, sobe o original
+      const tipoBruto = (mediaRec.mimeType || 'audio/webm').split(';')[0];
+      const bruto = new Blob(chunks, { type: tipoBruto });
+      if (/mp4|aac|mpeg/.test(tipoBruto)) {
+        audioBlob = bruto;                             // AAC nativo: pequeno e toca em iPhone
+      } else {
+        document.getElementById('msg').textContent = 'Convertendo…';
+        try { audioBlob = await paraWav(bruto); }      // webm/opus vira WAV (iPhone não toca opus)
+        catch(e){ audioBlob = bruto; }                 // se falhar, sobe o original
+      }
       mostraPreview();
     };
     mediaRec.start();
@@ -211,7 +222,7 @@ function mostraPreview(){
     <audio controls src="${url}"></audio>
     <button class="primary" style="width:100%;margin-top:8px" onclick="enviarAudio()">✅ Enviar pro aluno</button>
     <button style="width:100%;margin-top:8px" onclick="descartarAudio()">🗑 Apagar essa gravação</button>`;
-  document.getElementById('msg').textContent = 'Escuta antes de enviar. Ficou ruim? Grava de novo ou apaga.';
+  document.getElementById('msg').textContent = '⚠ Ainda NÃO foi enviado. Escuta e toca em ENVIAR PRO ALUNO. Ficou ruim? Grava de novo ou apaga.';
 }
 function descartarAudio(){
   audioBlob = null;
@@ -244,15 +255,39 @@ async function enviarAudio(){
   const a = AVALS[IDX];
   const inicio = Date.now();
   document.getElementById('msg').textContent = 'Enviando…';
-  const dataUrl = await new Promise(res => { const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.readAsDataURL(audioBlob); });
   let d = null, semConexao = false;
+  const mime = (audioBlob.type || 'audio/wav').split(';')[0];
+  // Caminho principal: o arquivo vai DIRETO pro Drive por sessão resumable. O corpo
+  // nunca passa pelo servidor: áudio de minutos estourava o limite de 4.5MB por
+  // request do Vercel e o envio morria justamente nos áudios de verdade.
   try{
-    const r = await fetch(`${API}/api/admin/aval`, {
+    const u = await fetch(`${API}/api/admin/aval/upload-url`, {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ secret: SECRET, email: a.email, dataUrl })
-    });
-    d = await r.json();
+      body: JSON.stringify({ secret: SECRET, email: a.email, mime, bytes: audioBlob.size })
+    }).then(r=>r.json());
+    if (u && u.ok && u.uploadUrl){
+      const put = await fetch(u.uploadUrl, { method:'PUT', headers:{'Content-Type':mime}, body: audioBlob });
+      if (put.ok){
+        const criado = await put.json();
+        d = await fetch(`${API}/api/admin/aval`, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ secret: SECRET, email: a.email, fileId: criado.id })
+        }).then(r=>r.json());
+      }
+    } else if (u && u.error) { d = u; }
   }catch(e){ semConexao = true; }
+  // Fallback: áudio pequeno ainda pode ir no corpo do request (caminho antigo)
+  if ((!d || !d.ok) && audioBlob.size < 3*1024*1024){
+    try{
+      const dataUrl = await new Promise(res => { const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.readAsDataURL(audioBlob); });
+      const r = await fetch(`${API}/api/admin/aval`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ secret: SECRET, email: a.email, dataUrl })
+      });
+      d = await r.json();
+      semConexao = false;
+    }catch(e){ semConexao = true; }
+  }
   // Upload grande pode SALVAR e a confirmação se perder no caminho. Antes de acusar
   // falha (e te fazer regravar à toa), confere no servidor se o áudio chegou.
   if (!d || !d.ok){

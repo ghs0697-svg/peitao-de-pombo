@@ -3196,6 +3196,15 @@ async function carregarAvalStatus() {
   } catch (e) {}
   return null;
 }
+// App aberto atrás quando o áudio do GH chega (ou o push acorda o aluno): ao voltar
+// pro app, re-consulta o status; o card verde aparece sem precisar recarregar.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !state.user) return;
+  const antes = JSON.stringify(_avalStatus);
+  carregarAvalStatus().then(() => {
+    if (JSON.stringify(_avalStatus) !== antes && state.tab === 'peito') renderPeito();
+  });
+});
 
 function avalCardHtml() {
   if (!state.user) return '';
