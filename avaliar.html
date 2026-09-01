@@ -116,7 +116,7 @@ function abrir(i){
     <div class="nav">
       <button onclick="anterior()">← anterior</button>
       <div><span class="tag">#${a.numero}</span> <b>${a.nome || a.email}</b>
-        ${a.status!=='enviada' ? '<span class="feito"> · ✓ já avaliada</span>' : ''}</div>
+        ${a.status!=='enviada' ? `<span class="feito"> · ✓ já avaliada${janelaAudio(a)}</span>` : ''}</div>
       <button onclick="proxima()">próxima →</button>
     </div>
     <div class="medidas">${meds}</div>
@@ -126,6 +126,13 @@ function abrir(i){
     <div class="msg" id="msg"></div>`;
 }
 function primeiroNome(a){ return String(a.nome||a.email).trim().split(/\s+/)[0]; }
+// O aluno ouve o áudio por 7 dias; o arquivo fica pra sempre no teu Drive.
+function janelaAudio(a){
+  if (!a.audioEm) return '';
+  const ate = new Date(a.audioEm + 7*86400000);
+  const txt = `${String(ate.getDate()).padStart(2,'0')}/${String(ate.getMonth()+1).padStart(2,'0')}`;
+  return Date.now() > ate.getTime() ? ' (áudio já saiu do app; o arquivo segue no Drive)' : ` (áudio no app até ${txt})`;
+}
 function anterior(){ if (IDX>0) abrir(IDX-1); }
 function proxima(){ if (IDX<AVALS.length-1) abrir(IDX+1); }
 function zoom(src){ document.getElementById('zoomImg').src = src; document.getElementById('zoom').style.display = 'flex'; }
@@ -190,26 +197,47 @@ async function paraWav(blob){
 async function enviarAudio(){
   if (!audioBlob || IDX<0) return;
   const a = AVALS[IDX];
+  const inicio = Date.now();
   document.getElementById('msg').textContent = 'Enviando…';
   const dataUrl = await new Promise(res => { const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.readAsDataURL(audioBlob); });
+  let d = null, semConexao = false;
   try{
     const r = await fetch(`${API}/api/admin/aval`, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ secret: SECRET, email: a.email, dataUrl })
     });
+    d = await r.json();
+  }catch(e){ semConexao = true; }
+  // Upload grande pode SALVAR e a confirmação se perder no caminho. Antes de acusar
+  // falha (e te fazer regravar à toa), confere no servidor se o áudio chegou.
+  if (!d || !d.ok){
+    const chegouEm = await confereSeChegou(a.email, inicio);
+    if (chegouEm) d = { ok: true, audioEm: chegouEm };
+  }
+  if (d && d.ok){
+    a.status = 'avaliada'; a.temAudio = true; a.audioEm = d.audioEm || Date.now(); audioBlob = null;
+    document.getElementById('preview').innerHTML = '';
+    const pushTxt = (d.push && d.push.sent) ? ' Aluno avisado por push.' : '';
+    document.getElementById('msg').innerHTML = `<span class="feito">✓ Áudio enviado pro app do aluno.${pushTxt}</span>`;
+    const resto = AVALS.filter(x=>x.status==='enviada').length;
+    document.getElementById('resumo').textContent = `${resto} PENDENTES · ${AVALS.length} NO TOTAL`;
+    montaLista();
+    setTimeout(()=>{ const prox = AVALS.findIndex(x=>x.status==='enviada'); if (prox>=0) abrir(prox); }, 900);
+  } else if (d) {
+    document.getElementById('msg').textContent = 'Falhou: ' + (d.error||'erro');
+  } else {
+    document.getElementById('msg').textContent = semConexao ? 'Sem conexão. O áudio segue aqui, tenta de novo.' : 'Falhou. O áudio segue aqui, tenta de novo.';
+  }
+}
+// Consulta a lista no servidor e diz se o áudio desse aluno chegou DEPOIS do início do envio.
+async function confereSeChegou(email, inicio){
+  try{
+    const r = await fetch(`${API}/api/admin/aval?secret=${encodeURIComponent(SECRET)}`);
     const d = await r.json();
-    if (d.ok){
-      a.status = 'avaliada'; a.temAudio = true; audioBlob = null;
-      document.getElementById('preview').innerHTML = '';
-      document.getElementById('msg').innerHTML = `<span class="feito">✓ Áudio enviado pro app do aluno.</span>`;
-      const resto = AVALS.filter(x=>x.status==='enviada').length;
-      document.getElementById('resumo').textContent = `${resto} PENDENTES · ${AVALS.length} NO TOTAL`;
-      montaLista();
-      setTimeout(()=>{ const prox = AVALS.findIndex(x=>x.status==='enviada'); if (prox>=0) abrir(prox); }, 900);
-    } else {
-      document.getElementById('msg').textContent = 'Falhou: ' + (d.error||'erro');
-    }
-  }catch(e){ document.getElementById('msg').textContent = 'Sem conexão. O áudio segue aqui, tenta de novo.'; }
+    const a = (d.avaliacoes||[]).find(x=>x.email===email);
+    if (a && a.temAudio && a.audioEm && a.audioEm >= inicio - 120000) return a.audioEm;
+  }catch(e){}
+  return null;
 }
 if (SECRET) carregar();
 </script>

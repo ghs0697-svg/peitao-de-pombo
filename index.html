@@ -3197,19 +3197,33 @@ async function carregarAvalStatus() {
 function avalCardHtml() {
   if (!state.user) return '';
   const s = _avalStatus;
-  if (s && s.existe && s.temAudio) {
+  // Sem resposta do servidor não aparece nada: o bônus vale só pra compra nova
+  // (o servidor decide quem é elegível) e mostrar o convite pra todo mundo
+  // enquanto carrega prometeria o bônus pra quem não tem.
+  if (!s) return '';
+  if (s.existe && s.temAudio && !s.audioExpirado) {
+    const d = s.audioAte ? new Date(s.audioAte) : null;
+    const ate = d ? `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}` : '';
     return `<div class="seca-card" style="border-color: rgba(80,200,120,.45); background: rgba(80,200,120,.06);">
       <div class="seca-card-tag" style="color:#6fd695;">🎙 TUA AVALIAÇÃO CHEGOU</div>
       <div class="seca-card-main">O GH olhou tuas fotos e medidas e gravou um áudio pra ti.</div>
       <audio controls preload="none" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
+      ${ate ? `<div class="seca-card-sub" style="margin-top:8px;">O áudio fica no app até <b>${ate}</b>, depois sai. Escuta enquanto está aqui.</div>` : ''}
     </div>`;
   }
-  if (s && s.existe) {
+  if (s.existe && s.temAudio && s.audioExpirado) {
+    return `<div class="seca-card">
+      <div class="seca-card-tag">🎙 AVALIAÇÃO Nº ${s.numero} · RESPONDIDA</div>
+      <div class="seca-card-main">O áudio do GH ficou disponível por 7 dias e já saiu do app.</div>
+    </div>`;
+  }
+  if (s.existe) {
     return `<div class="seca-card">
       <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA · Nº ${s.numero}</div>
       <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app.</div>
     </div>`;
   }
+  if (!s.elegivel) return '';
   return `<div class="seca-card" style="cursor:pointer;" onclick="abrirAval()">
     <div class="seca-card-tag">🎖 AVALIAÇÃO CORPORAL PELO GH</div>
     <div class="seca-card-main">Manda tuas fotos e medidas que o GH olha e te responde com um áudio, anexado aqui no teu app.</div>
@@ -3289,7 +3303,7 @@ async function enviarAval() {
   try {
     const r = await api('/api/aval', { method: 'POST', body: JSON.stringify(corpo) });
     if (r && r.ok) {
-      _avalStatus = { ok: true, existe: true, numero: r.numero, status: r.status, temAudio: false };
+      _avalStatus = { ok: true, existe: true, elegivel: true, numero: r.numero, status: r.status, temAudio: false };
       fecharAval();
       showToast('🎖 Avaliação nº ' + r.numero + ' enviada! O GH te responde com um áudio aqui.');
       renderPeito();
