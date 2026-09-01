@@ -3175,7 +3175,8 @@ function migrarCargaD5UmaVez() {
 }
 
 // ════════ AVALIAÇÃO CORPORAL PELO GH (bônus da oferta: fotos+medidas → áudio dele) ════════
-let _avalStatus = null;   // cache do GET /api/aval
+let _avalStatus = null;     // cache do GET /api/aval
+let _avalVerEnvio = false;  // bloco "ver o que tu enviou" aberto ou fechado
 
 const AVAL_CAMPOS = [
   { k: 'idade',   l: 'Idade',                       ph: 'anos',  hint: '' },
@@ -3206,6 +3207,31 @@ document.addEventListener('visibilitychange', () => {
   });
 });
 
+// O aluno revê o que mandou: medidas do envio + as 4 fotos (do servidor, então
+// funciona até em aparelho trocado). Fica dobrado pra não inflar o card.
+function avalEnvioHtml() {
+  const s = _avalStatus;
+  if (!s || !s.existe || !s.dados || !state.user) return '';
+  if (!_avalVerEnvio) {
+    return `<div class="seca-card-sub" style="margin-top:8px;cursor:pointer;" onclick="_avalVerEnvio=true;renderPeito()"><b style="color:var(--accent-hi);">Ver as medidas e fotos que tu enviou →</b></div>`;
+  }
+  const labels = [['idade','Idade',''],['peso','Peso',' kg'],['altura','Altura',' cm'],['cintura','Cintura',' cm'],['abdomen','Abdômen',' cm'],['quadril','Quadril',' cm'],['braco','Braço D',' cm'],['coxa','Coxa D',' cm']];
+  const meds = labels.map(([k, l, un]) => `
+    <div style="background:rgba(255,255,255,.04);border-radius:8px;padding:6px 8px;">
+      <div style="font-size:10px;opacity:.6;">${l}</div>
+      <b style="font-size:13px;">${s.dados[k] || '?'}${un}</b>
+    </div>`).join('');
+  const fotos = FOTO_ANGLES.map(a => `
+    <img loading="lazy" alt="${a.l}" onerror="this.style.display='none'"
+      style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;"
+      src="${API_BASE}/api/aval/foto?angle=${a.k}&t=${encodeURIComponent(state.user.token)}">`).join('');
+  return `<div style="margin-top:10px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">${meds}</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;">${fotos}</div>
+    <div class="seca-card-sub" style="margin-top:8px;cursor:pointer;" onclick="_avalVerEnvio=false;renderPeito()">esconder ↑</div>
+  </div>`;
+}
+
 function avalCardHtml() {
   if (!state.user) return '';
   const s = _avalStatus;
@@ -3221,18 +3247,21 @@ function avalCardHtml() {
       <div class="seca-card-main">O GH olhou tuas fotos e medidas e gravou um áudio pra ti.</div>
       <audio controls preload="none" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
       ${ate ? `<div class="seca-card-sub" style="margin-top:8px;">O áudio fica no app até <b>${ate}</b>, depois sai. Escuta enquanto está aqui.</div>` : ''}
+      ${avalEnvioHtml()}
     </div>`;
   }
   if (s.existe && s.temAudio && s.audioExpirado) {
     return `<div class="seca-card">
       <div class="seca-card-tag">🎙 AVALIAÇÃO RESPONDIDA</div>
       <div class="seca-card-main">O áudio do GH ficou disponível por 7 dias e já saiu do app.</div>
+      ${avalEnvioHtml()}
     </div>`;
   }
   if (s.existe) {
     return `<div class="seca-card">
       <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA</div>
       <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app.</div>
+      ${avalEnvioHtml()}
     </div>`;
   }
   if (!s.elegivel) return '';
@@ -3319,7 +3348,7 @@ async function enviarAval() {
   try {
     const r = await api('/api/aval', { method: 'POST', body: JSON.stringify(corpo) });
     if (r && r.ok) {
-      _avalStatus = { ok: true, existe: true, elegivel: true, numero: r.numero, status: r.status, temAudio: false };
+      _avalStatus = { ok: true, existe: true, elegivel: true, numero: r.numero, status: r.status, temAudio: false, dados: corpo };
       fecharAval();
       // o número da avaliação é controle interno do GH, o aluno nunca vê
       showToast('🎖 Avaliação enviada! O GH te responde com um áudio aqui.');
