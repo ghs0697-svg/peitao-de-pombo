@@ -214,6 +214,14 @@
   .exp-opt .auth-btn { margin-top: 2px; }
   .auth-btn.seca { background: linear-gradient(135deg, #FFB02A, #FF6A1A); }
 
+  /* Avaliação corporal: formulário */
+  .aval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .aval-campo label { font-size: 12px; font-weight: 800; display: block; margin-bottom: 3px; }
+  .aval-hint { font-size: 10.5px; color: var(--text-mute); margin-bottom: 4px; line-height: 1.3; }
+  .aval-campo input { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; color: var(--text); font-size: 15px; font-family: inherit; }
+  .aval-campo input:focus { outline: none; border-color: var(--accent); }
+
   /* Modo Seca — fogo em duas faixas: brasa no rodapé e o título pegando fogo. Os dois
      lugares onde o fogo nunca disputa espaço com texto de treino. */
   .seca-fogo { position: fixed; left: 0; right: 0; pointer-events: none; z-index: 40;
@@ -1364,6 +1372,17 @@
   </div>
 </div>
 
+<!-- Modal da avaliação corporal -->
+<div class="vmodal" id="avalModal" onclick="if(event.target.id==='avalModal')fecharAval()">
+  <div class="vmodal-inner" style="max-width:520px;">
+    <div class="vmodal-bar">
+      <div class="vmodal-title">🎖 Avaliação corporal pelo GH</div>
+      <button class="vmodal-close" onclick="fecharAval()">✕</button>
+    </div>
+    <div id="avalBody" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;max-height:74vh;overflow-y:auto;"></div>
+  </div>
+</div>
+
 <!-- Modal guia do Modo Seca -->
 <div class="vmodal" id="secaGuiaModal" onclick="if(event.target.id==='secaGuiaModal')closeSecaGuia()">
   <div class="vmodal-inner" style="max-width:480px;">
@@ -1639,6 +1658,7 @@ function enterApp() {
   }
   loadModoSeca();
   loadDietaEscolha();
+  carregarAvalStatus().then(() => { if (state.tab === 'peito') renderPeito(); });
   aplicarFogoSeca();
   migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
   renderTabs();
@@ -3038,6 +3058,7 @@ function renderPeito() {
     ${secaCardioHtml()}
     ${miolo}
     ${reguaCardHtml()}
+    ${avalCardHtml()}
     ${desafioHtml()}
     ${gamiStripHtml()}
     ${recordesHtml()}
@@ -3148,6 +3169,134 @@ function migrarCargaD5UmaVez() {
       console.log('[migracao ' + migr.tag + '] ' + chaves.length + ' chaves processadas');
     }
   } catch (e) {}
+}
+
+// ════════ AVALIAÇÃO CORPORAL PELO GH (bônus da oferta: fotos+medidas → áudio dele) ════════
+let _avalStatus = null;   // cache do GET /api/aval
+
+const AVAL_CAMPOS = [
+  { k: 'idade',   l: 'Idade',                       ph: 'anos',  hint: '' },
+  { k: 'peso',    l: 'Peso (kg)',                   ph: 'ex: 82,5', hint: '' },
+  { k: 'altura',  l: 'Altura (cm)',                 ph: 'ex: 178',  hint: '' },
+  { k: 'cintura', l: 'Cintura (cm)',                ph: 'cm', hint: 'Acima do umbigo.' },
+  { k: 'abdomen', l: 'Abdômen (cm)',                ph: 'cm', hint: 'Maior circunferência abaixo do umbigo.' },
+  { k: 'quadril', l: 'Quadril/glúteo (cm)',         ph: 'cm', hint: 'Maior circunferência do glúteo.' },
+  { k: 'braco',   l: 'Braço direito relaxado (cm)', ph: 'cm', hint: 'Ponto médio entre ombro e cotovelo.' },
+  { k: 'coxa',    l: 'Coxa direita (cm)',           ph: 'cm', hint: 'Parte mais grossa, ponto médio entre joelho e quadril.' },
+];
+
+async function carregarAvalStatus() {
+  if (!state.user || !state.user.token) return null;
+  try {
+    const r = await api('/api/aval');
+    if (r && r.ok) { _avalStatus = r; return r; }
+  } catch (e) {}
+  return null;
+}
+
+function avalCardHtml() {
+  if (!state.user) return '';
+  const s = _avalStatus;
+  if (s && s.existe && s.temAudio) {
+    return `<div class="seca-card" style="border-color: rgba(80,200,120,.45); background: rgba(80,200,120,.06);">
+      <div class="seca-card-tag" style="color:#6fd695;">🎙 TUA AVALIAÇÃO CHEGOU</div>
+      <div class="seca-card-main">O GH olhou tuas fotos e medidas e gravou um áudio pra ti.</div>
+      <audio controls preload="none" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
+    </div>`;
+  }
+  if (s && s.existe) {
+    return `<div class="seca-card">
+      <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA · Nº ${s.numero}</div>
+      <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app.</div>
+    </div>`;
+  }
+  return `<div class="seca-card" style="cursor:pointer;" onclick="abrirAval()">
+    <div class="seca-card-tag">🎖 AVALIAÇÃO CORPORAL PELO GH</div>
+    <div class="seca-card-main">Manda tuas fotos e medidas que o GH olha e te responde com um áudio, anexado aqui no teu app.</div>
+    <div class="seca-card-sub" style="margin-top:6px;"><b style="color:var(--accent-hi);">Toca aqui pra preencher →</b></div>
+  </div>`;
+}
+
+function abrirAval() {
+  const m = document.getElementById('avalModal');
+  if (!m) return;
+  document.getElementById('avalBody').innerHTML = avalFormHtml();
+  m.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  hydrateAvalFotos();
+}
+function fecharAval() {
+  const m = document.getElementById('avalModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function avalFormHtml() {
+  const campos = AVAL_CAMPOS.map(c => `
+    <div class="aval-campo">
+      <label>${c.l}</label>
+      ${c.hint ? `<div class="aval-hint">${c.hint}</div>` : ''}
+      <input id="aval-${c.k}" inputmode="decimal" placeholder="${c.ph}" maxlength="8">
+    </div>`).join('');
+  return `
+    <p class="hint" style="margin:0 0 14px;">Preenche as medidas e anexa as 4 fotos. O GH olha tudo e te responde com um áudio aqui no app.</p>
+    <div class="aval-grid">${campos}</div>
+    <div style="font-weight:800;font-size:13px;margin:16px 0 6px;">📸 As 4 fotos (de frente pro espelho, luz boa, sunga ou shorts)</div>
+    <div class="foto-row">
+      ${FOTO_ANGLES.map(a => `<div class="foto-slot" id="avslot-${a.k}" onclick="pickFoto('${a.k}')"><span class="foto-slot-plus">+</span><span class="foto-slot-label">${a.l}</span></div>`).join('')}
+    </div>
+    <div class="seca-card-sub" style="margin:8px 0 14px;">Se tu já tirou as fotos da Régua do Peito desta semana, elas aparecem aqui e valem pra avaliação.</div>
+    <button class="auth-btn" onclick="enviarAval()">Enviar pra avaliação do GH</button>
+    <div id="avalMsg" class="auth-msg"></div>`;
+}
+
+// os slots do modal reusam as fotos da semana ATUAL da régua (mesmo storage/upload)
+async function hydrateAvalFotos() {
+  for (const a of FOTO_ANGLES) {
+    const slot = document.getElementById('avslot-' + a.k);
+    if (!slot) continue;
+    const rec = await fotoGet(state.week, a.k);
+    if (rec && rec.dataUrl) {
+      slot.style.backgroundImage = `url(${rec.dataUrl})`;
+      slot.classList.add('has');
+      const plus = slot.querySelector('.foto-slot-plus');
+      if (plus) plus.style.display = 'none';
+    }
+  }
+}
+
+async function enviarAval() {
+  const msg = document.getElementById('avalMsg');
+  msg.textContent = '';
+  const corpo = {};
+  for (const c of AVAL_CAMPOS) {
+    const v = (document.getElementById('aval-' + c.k) || {}).value || '';
+    if (!String(v).trim()) { msg.textContent = 'Preenche o campo: ' + c.l; return; }
+    corpo[c.k] = String(v).trim();
+  }
+  // as 4 fotos precisam existir E já ter subido pro servidor (senão o GH não vê)
+  const fotosDates = {};
+  for (const a of FOTO_ANGLES) {
+    const rec = await fotoGet(state.week, a.k);
+    if (!rec || !rec.dataUrl) { msg.textContent = 'Falta a foto: ' + a.l; return; }
+    if (!rec.uploaded) { await uploadFoto(state.week, a.k); }
+    const rec2 = await fotoGet(state.week, a.k);
+    if (!rec2 || !rec2.uploaded) { msg.textContent = 'A foto ' + a.l + ' ainda não subiu. Confere tua internet e tenta de novo.'; return; }
+    fotosDates[a.k] = rec2.date;
+  }
+  corpo.fotosDates = fotosDates;
+  msg.textContent = 'Enviando...';
+  try {
+    const r = await api('/api/aval', { method: 'POST', body: JSON.stringify(corpo) });
+    if (r && r.ok) {
+      _avalStatus = { ok: true, existe: true, numero: r.numero, status: r.status, temAudio: false };
+      fecharAval();
+      showToast('🎖 Avaliação nº ' + r.numero + ' enviada! O GH te responde com um áudio aqui.');
+      renderPeito();
+    } else {
+      msg.textContent = (r && r.error) ? r.error : 'Não consegui enviar. Tenta de novo.';
+    }
+  } catch (e) { msg.textContent = 'Sem conexão. Tenta de novo.'; }
 }
 
 // ════════ MODO SECA (Seca Pança) — protocolo de queima de 90 dias ════════
