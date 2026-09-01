@@ -3709,7 +3709,9 @@ function renderDieta() {
   // (vale inclusive pra quem tem o Seca sem o Pombo Completo)
   if (secaAtivo()) { renderDietaSeca(c); return; }
   if (!state.upsellUnlocked) {
-    c.innerHTML = paywall('dieta');
+    // quem tem o Seca sem o Completo liga o modo por aqui também (a dieta seca dele
+    // mora nesta aba; sem o strip ele só conseguia ativar na aba TREINO)
+    c.innerHTML = (state.seca ? `<h2>Dieta</h2>${secaStripHtml()}` : '') + paywall('dieta');
     return;
   }
   // Seletor de faixa calórica
@@ -3739,6 +3741,7 @@ function renderDieta() {
   c.innerHTML = `
     <h2>Dieta</h2>
     <p class="hint">Tua dieta pra ficar com o peito de pombo. Escolhe a faixa de calorias e segue.</p>
+    ${secaStripHtml()}
     <div class="ver-row">
       ${vers.map(v => `
         <button class="ver-btn ${state.dietaVer===v?'active':''}" onclick="setDietaVer('${v}')">
