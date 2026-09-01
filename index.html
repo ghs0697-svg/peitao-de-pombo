@@ -3653,6 +3653,13 @@ const AULAS = [
   { id: 'c8PNnIpwVDI', titulo: 'Menos supino, mais abraço' },
   { id: 'M9z4L1nQYA8', titulo: 'A ordem certa: livre antes, máquina no fim' },
   { id: 'mFiXV_QDIko', titulo: 'Execução perfeita e 2x na semana' },
+  // Aula nova entra SEMPRE no fim: a conclusão é guardada por POSIÇÃO neste array,
+  // inserir no meio deslocaria o progresso já marcado pelos alunos.
+  // id vazio = aula ainda sem vídeo, não aparece na aba até o GH mandar o link.
+  { id: '', slug: 'encaixe', titulo: 'Como encaixar o Peitão no meu treino atual',
+    desc: 'Se tu faz PPL, upper lower ou full body: onde o Peitão entra sem bagunçar o resto do treino.' },
+  { id: '', slug: 'seca', titulo: 'Seca Pança',
+    desc: 'O protocolo de queima de 90 dias: o que é, o que muda no app e como seguir o Modo Seca.' },
 ];
 function aulasKey() { return `peitao_sets_${setsEmail()}_aulas`; }
 function loadAulasDone() {
@@ -3668,33 +3675,43 @@ function toggleAula(i) {
   const arr = done.map(v => ({ d: v ? '1' : '0' }));
   try { localStorage.setItem(aulasKey(), JSON.stringify(arr)); } catch (e) {}
   queueSetsSync(aulasKey(), arr);
-  if (done[i] && done.every(Boolean)) showToast('🏆 Curso completo! Agora executa: peito 2x na semana.');
+  if (done[i] && AULAS.every((a, j) => !a.id || done[j])) showToast('🏆 Curso completo! Agora executa: peito 2x na semana.');
   renderAulas();
 }
 function renderAulas() {
   const c = document.getElementById('screen-aulas');
   if (!c) return;
   const done = loadAulasDone();
-  const n = done.filter(Boolean).length;
+  const ativas = AULAS.filter(a => a.id);
+  const n = done.filter((v, i) => v && AULAS[i].id).length;
   c.innerHTML = `
     <h2>🎓 Aulas do Peitão</h2>
-    <p class="hint">O método explicado em ${AULAS.length} aulas rápidas. Assiste na ordem antes de treinar: muda o jeito que tu executa cada série.</p>
-    <div class="aulas-prog"><div class="aulas-prog-bar" style="width:${Math.round((n / AULAS.length) * 100)}%"></div></div>
-    <p class="aulas-prog-lbl">${n} de ${AULAS.length} aulas concluídas${n === AULAS.length ? ' · curso completo 🏆' : ''}</p>
-    ${AULAS.map((a, i) => `
-      <div class="aula-card${done[i] ? ' done' : ''}">
+    <p class="hint">O método explicado em ${ativas.length} aulas rápidas. Assiste na ordem antes de treinar: muda o jeito que tu executa cada série.</p>
+    <div class="aulas-prog"><div class="aulas-prog-bar" style="width:${Math.round((n / ativas.length) * 100)}%"></div></div>
+    <p class="aulas-prog-lbl">${n} de ${ativas.length} aulas concluídas${n === ativas.length ? ' · curso completo 🏆' : ''}</p>
+    ${AULAS.map((a, i) => a.id ? `
+      <div class="aula-card${done[i] ? ' done' : ''}"${a.slug ? ` id="aula-${a.slug}"` : ''}>
         <div class="aula-head">
-          <span class="aula-num">${done[i] ? '✓' : i + 1}</span>
+          <span class="aula-num">${done[i] ? '✓' : ativas.indexOf(a) + 1}</span>
           <span class="aula-tit">${a.titulo}</span>
           ${done[i] ? '<span class="aula-badge">CONCLUÍDA</span>' : ''}
         </div>
+        ${a.desc ? `<p class="hint" style="margin:6px 0 8px;">${a.desc}</p>` : ''}
         <div class="aula-vid">
           <iframe src="https://www.youtube.com/embed/${a.id}?rel=0&playsinline=1&modestbranding=1" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="${a.titulo}"></iframe>
         </div>
         <button class="aula-btn${done[i] ? ' on' : ''}" onclick="toggleAula(${i})">${done[i] ? '✓ Aula concluída' : 'Marcar como concluída'}</button>
       </div>
-    `).join('')}
+    ` : '').join('')}
   `;
+}
+// atalho do banner do Seca: mostra a aula que explica o produto antes da compra
+function abrirAulaSeca() {
+  showTab('aulas');
+  setTimeout(() => {
+    const el = document.getElementById('aula-seca');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
 }
 
 // ════════ SEMANA COMPLETA (upsell) ════════
@@ -4039,7 +4056,11 @@ function initSecaBanner() {
       + '<div style="display:flex;gap:10px;margin-top:12px;">'
       + '<button onclick="abrirSecaCheckout()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">QUERO CHEGAR SECO · R$37</button>'
       + '<button onclick="dismissSecaBanner()" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
-      + '</div>';
+      + '</div>'
+      // atalho pra aula que explica o produto: só existe quando o vídeo estiver no ar
+      + (AULAS.find(a => a.slug === 'seca' && a.id)
+        ? '<div style="margin-top:10px;font-size:12.5px;"><a onclick="abrirAulaSeca()" style="color:var(--accent-hi,#FF8642);cursor:pointer;text-decoration:underline;">Quer entender o que é antes? Vê a aula do Seca Pança →</a></div>'
+        : '');
     tabs.parentNode.insertBefore(el, tabs);
   } catch (e) {}
 }
