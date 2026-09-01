@@ -2512,6 +2512,9 @@ async function onFotoPicked(input) {
     const dataUrl = await compressImage(file, 1280, 0.82);
     await fotoPut(w, angle, { dataUrl, w, angle, date: fotoDateBR(), ts: Date.now(), uploaded: false });
     await hydrateFotos(state.week);
+    // Se a foto foi escolhida com o formulário da avaliação aberto, os slots dele
+    // são OUTROS elementos: sem isso a foto só aparecia ao fechar e reabrir.
+    if (avalAberta()) hydrateAvalFotos();
     showToast('✓ Foto salva no teu aparelho');
     uploadFoto(w, angle);
   } catch (e) { showToast('Não consegui salvar essa foto. Tenta de novo.'); }
@@ -3213,13 +3216,13 @@ function avalCardHtml() {
   }
   if (s.existe && s.temAudio && s.audioExpirado) {
     return `<div class="seca-card">
-      <div class="seca-card-tag">🎙 AVALIAÇÃO Nº ${s.numero} · RESPONDIDA</div>
+      <div class="seca-card-tag">🎙 AVALIAÇÃO RESPONDIDA</div>
       <div class="seca-card-main">O áudio do GH ficou disponível por 7 dias e já saiu do app.</div>
     </div>`;
   }
   if (s.existe) {
     return `<div class="seca-card">
-      <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA · Nº ${s.numero}</div>
+      <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA</div>
       <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app.</div>
     </div>`;
   }
@@ -3243,6 +3246,10 @@ function fecharAval() {
   const m = document.getElementById('avalModal');
   if (m) m.classList.remove('show');
   document.body.style.overflow = '';
+}
+function avalAberta() {
+  const m = document.getElementById('avalModal');
+  return !!(m && m.classList.contains('show'));
 }
 
 function avalFormHtml() {
@@ -3305,7 +3312,8 @@ async function enviarAval() {
     if (r && r.ok) {
       _avalStatus = { ok: true, existe: true, elegivel: true, numero: r.numero, status: r.status, temAudio: false };
       fecharAval();
-      showToast('🎖 Avaliação nº ' + r.numero + ' enviada! O GH te responde com um áudio aqui.');
+      // o número da avaliação é controle interno do GH, o aluno nunca vê
+      showToast('🎖 Avaliação enviada! O GH te responde com um áudio aqui.');
       renderPeito();
     } else {
       msg.textContent = (r && r.error) ? r.error : 'Não consegui enviar. Tenta de novo.';
