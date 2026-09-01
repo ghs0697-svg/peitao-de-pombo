@@ -71,6 +71,7 @@ const API = 'https://peitao-de-pombo-api-es21.vercel.app';
 let SECRET = localStorage.getItem('aval_secret') || '';
 let AVALS = [], IDX = -1;
 let mediaRec = null, chunks = [], gravando = false, audioBlob = null;
+let pausadoRec = false, descartaStop = false;
 
 function entrar(){
   const v = document.getElementById('secret').value.trim();
@@ -121,9 +122,34 @@ function abrir(i){
     </div>
     <div class="medidas">${meds}</div>
     <div class="fotos">${fotos}</div>
-    <button class="rec" id="btnRec" onclick="toggleGravacao()">🎙 Gravar áudio pra ${primeiroNome(a)}</button>
+    <button class="rec" id="btnRec" onclick="toggleGravacao()">🎙 ${a.temAudio ? 'Regravar o áudio (substitui o que está no app)' : 'Gravar áudio pra ' + primeiroNome(a)}</button>
     <div id="preview"></div>
-    <div class="msg" id="msg"></div>`;
+    <div class="msg" id="msg"></div>
+    ${a.temAudio ? `
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
+      <div style="font-size:12px;opacity:.65;margin-bottom:6px">ÁUDIO QUE ESTÁ NO APP DO ALUNO</div>
+      <audio controls style="width:100%" src="${API}/api/admin/aval/audio?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&v=${a.audioEm||0}"></audio>
+      <button style="width:100%;margin-top:8px" onclick="apagarAudioEnviado()">🗑 Apagar do app do aluno</button>
+    </div>` : ''}`;
+}
+async function apagarAudioEnviado(){
+  const a = AVALS[IDX];
+  if (!a || !a.temAudio) return;
+  if (!confirm(`Apagar o áudio do app do ${primeiroNome(a)}? Ele volta pra fila de pendentes até tu gravar outro. O arquivo vai pra lixeira do teu Drive.`)) return;
+  document.getElementById('msg').textContent = 'Apagando…';
+  try{
+    const r = await fetch(`${API}/api/admin/aval?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&audio=1`, { method:'DELETE' });
+    const d = await r.json();
+    if (d.ok){
+      a.temAudio = false; a.audioEm = null; a.status = 'enviada';
+      abrir(IDX); montaLista();
+      const resto = AVALS.filter(x=>x.status==='enviada').length;
+      document.getElementById('resumo').textContent = `${resto} PENDENTES · ${AVALS.length} NO TOTAL`;
+      document.getElementById('msg').textContent = 'Áudio apagado do app. Grava outro quando quiser.';
+    } else {
+      document.getElementById('msg').textContent = 'Falhou: ' + (d.error||'erro');
+    }
+  }catch(e){ document.getElementById('msg').textContent = 'Sem conexão. Tenta de novo.'; }
 }
 function primeiroNome(a){ return String(a.nome||a.email).trim().split(/\s+/)[0]; }
 // O aluno ouve o áudio por 7 dias; o arquivo fica pra sempre no teu Drive.
@@ -148,6 +174,8 @@ async function toggleGravacao(){
     mediaRec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
     mediaRec.onstop = async () => {
       stream.getTracks().forEach(t=>t.stop());
+      // parada silenciosa (trocou de aluno no meio): descarta o take, sem preview
+      if (descartaStop){ descartaStop = false; return; }
       const bruto = new Blob(chunks, { type: mediaRec.mimeType || 'audio/webm' });
       document.getElementById('msg').textContent = 'Convertendo…';
       try { audioBlob = await paraWav(bruto); }        // WAV toca em QUALQUER iPhone
@@ -155,16 +183,25 @@ async function toggleGravacao(){
       mostraPreview();
     };
     mediaRec.start();
-    gravando = true;
+    gravando = true; pausadoRec = false;
     const b = document.getElementById('btnRec');
     b.classList.add('gravando'); b.textContent = '⏹ Parar (gravando…)';
+    document.getElementById('preview').innerHTML =
+      `<button class="rec" id="btnPause" onclick="pausaGravacao()" style="margin-top:8px">⏸ Pausar a gravação</button>`;
   }catch(e){
     document.getElementById('msg').textContent = 'Não consegui acessar o microfone: ' + (e.message||e);
   }
 }
 function pararGravacao(silencioso){
-  if (mediaRec && gravando) { gravando = false; mediaRec.stop(); }
-  if (silencioso){ audioBlob = null; }
+  if (mediaRec && gravando) { gravando = false; pausadoRec = false; descartaStop = !!silencioso; mediaRec.stop(); }
+  if (silencioso){ audioBlob = null; const p = document.getElementById('preview'); if (p) p.innerHTML = ''; }
+}
+// pausa e retoma a MESMA gravação (errou uma palavra? pausa, respira, continua)
+function pausaGravacao(){
+  if (!mediaRec || !gravando) return;
+  const b = document.getElementById('btnPause');
+  if (!pausadoRec){ mediaRec.pause(); pausadoRec = true; if (b) b.textContent = '▶ Continuar a gravação (pausado)'; }
+  else { mediaRec.resume(); pausadoRec = false; if (b) b.textContent = '⏸ Pausar a gravação'; }
 }
 function mostraPreview(){
   const b = document.getElementById('btnRec');
@@ -172,8 +209,16 @@ function mostraPreview(){
   const url = URL.createObjectURL(audioBlob);
   document.getElementById('preview').innerHTML = `
     <audio controls src="${url}"></audio>
-    <button class="primary" style="width:100%;margin-top:8px" onclick="enviarAudio()">✅ Enviar pro aluno</button>`;
-  document.getElementById('msg').textContent = 'Escuta antes de enviar. Ficou ruim? Grava de novo.';
+    <button class="primary" style="width:100%;margin-top:8px" onclick="enviarAudio()">✅ Enviar pro aluno</button>
+    <button style="width:100%;margin-top:8px" onclick="descartarAudio()">🗑 Apagar essa gravação</button>`;
+  document.getElementById('msg').textContent = 'Escuta antes de enviar. Ficou ruim? Grava de novo ou apaga.';
+}
+function descartarAudio(){
+  audioBlob = null;
+  document.getElementById('preview').innerHTML = '';
+  const b = document.getElementById('btnRec');
+  if (b && IDX >= 0) b.textContent = '🎙 Gravar áudio pra ' + primeiroNome(AVALS[IDX]);
+  document.getElementById('msg').textContent = 'Gravação apagada, nada foi enviado.';
 }
 // converte pra WAV 16kHz mono: toca em qualquer aparelho (iPhone não abre webm/opus)
 async function paraWav(blob){
