@@ -1525,6 +1525,8 @@ async function doLogin() {
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
     state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
+    state.seca = !!d.seca;
+    state.secaDaysSince = (d.secaDaysSince ?? null);
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -1554,6 +1556,8 @@ async function doFirstAccess() {
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
     state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
+    state.seca = !!d.seca;
+    state.secaDaysSince = (d.secaDaysSince ?? null);
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
@@ -1583,6 +1587,8 @@ async function doReset() {
     state.daysLeft = d.daysLeft ?? null;
     state.daysSincePurchase = d.daysSincePurchase ?? null;
     state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
+    state.seca = !!d.seca;
+    state.secaDaysSince = (d.secaDaysSince ?? null);
     saveSession();
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
