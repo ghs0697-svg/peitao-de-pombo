@@ -1722,7 +1722,10 @@ const CONSULTORIA = {
     "Ajuste direto no app, sem fila no WhatsApp. Pediu? Tá resolvido!"
   ],
   cta: "Quero migrar pro Método GH",
-  link: "https://wa.me/5520130783?text=" + encodeURIComponent("Olá, vim do Peitão de Pombo! Quero construir um corpo mais forte e definido com o Método GH.")
+  // Destino é o QUIZ da consultoria (decisão do GH, 07/09): o quiz filtra o lead e
+  // entrega no comercial com a mensagem pronta. O wa.me antigo tinha número inválido
+  // (lead caía no vazio). utm_source=app-peitao separa essa origem do tráfego da bio.
+  link: "https://www.metodogh.com.br/quiz/?utm_source=app-peitao&utm_medium=app&utm_campaign=consultoria"
 };
 
 // ════════ 3 UPSELLS — em ordem ════════
