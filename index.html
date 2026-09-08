@@ -3308,6 +3308,10 @@ function avalFormHtml() {
     </div>`).join('');
   return `
     <p class="hint" style="margin:0 0 14px;">Preenche as medidas e anexa as 4 fotos. O GH olha tudo e te responde com um áudio aqui no app.</p>
+    <div class="aval-campo" style="margin-bottom:10px;">
+      <label>Teu nome (como o GH deve te chamar no áudio)</label>
+      <input id="aval-nome" maxlength="60" placeholder="ex: Fábio" value="${esc(state.user && state.user.name ? state.user.name : '')}">
+    </div>
     <div class="aval-grid">${campos}</div>
     <div style="font-weight:800;font-size:13px;margin:16px 0 6px;">📸 As 4 fotos (de frente pro espelho, luz boa, sunga ou shorts)</div>
     <div class="foto-row">
@@ -3342,6 +3346,8 @@ async function enviarAval() {
     if (!String(v).trim()) { msg.textContent = 'Preenche o campo: ' + c.l; return; }
     corpo[c.k] = String(v).trim();
   }
+  // nome de quem treina (a compra pode estar no cadastro de outra pessoa)
+  corpo.nome = String(((document.getElementById('aval-nome') || {}).value || '')).trim();
   // as 4 fotos precisam existir E já ter subido pro servidor (senão o GH não vê)
   const fotosDates = {};
   for (const a of FOTO_ANGLES) {
