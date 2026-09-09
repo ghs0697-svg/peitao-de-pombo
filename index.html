@@ -1248,6 +1248,7 @@
       <h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">Redefinir senha</h2>
       <p class="hint" style="margin-bottom:16px;">Digita o e-mail da compra e cria uma senha nova. A senha antiga deixa de valer.</p>
       <input type="email" id="resetEmail" placeholder="E-mail da compra" autocomplete="email" inputmode="email">
+      <input type="tel" id="resetTel" placeholder="WhatsApp usado na compra (com DDD)" autocomplete="tel" inputmode="tel">
       <input type="password" id="resetPwd" placeholder="Nova senha (mín. 6)" autocomplete="new-password">
       <input type="password" id="resetPwd2" placeholder="Confirmar senha" autocomplete="new-password">
       <button class="auth-btn" onclick="doReset()">Redefinir senha</button>
@@ -1564,17 +1565,19 @@ async function doFirstAccess() {
 }
 async function doReset() {
   const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  const telefone = (document.getElementById('resetTel') || {}).value || '';
   const pwd = document.getElementById('resetPwd').value;
   const pwd2 = document.getElementById('resetPwd2').value;
   const msg = document.getElementById('resetMsg');
   if (!email || !pwd) { msg.textContent = 'Preenche todos os campos.'; return; }
+  if (!telefone.trim()) { msg.textContent = 'Confirma o WhatsApp usado na compra (com DDD): é a tua prova de que a conta é tua.'; return; }
   if (pwd.length < 6) { msg.textContent = 'Senha precisa de no mínimo 6 caracteres.'; return; }
   if (pwd !== pwd2) { msg.textContent = 'As senhas não conferem.'; return; }
   msg.textContent = 'Redefinindo...';
   try {
     const res = await fetch(API_BASE + '/api/auth/reset', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password: pwd })
+      body: JSON.stringify({ email, password: pwd, telefone })
     });
     const d = await res.json();
     if (!res.ok) {
