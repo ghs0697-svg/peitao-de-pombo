@@ -72,6 +72,28 @@ let SECRET = localStorage.getItem('aval_secret') || '';
 let AVALS = [], IDX = -1;
 let mediaRec = null, chunks = [], gravando = false, audioBlob = null;
 let pausadoRec = false, descartaStop = false;
+let _blobUrls = [];
+// A chave vai por CABEÇALHO, nunca na URL: URL completa fica em log de request e
+// no histórico do navegador; cabeçalho não.
+const AH = () => ({ Authorization: 'Bearer ' + SECRET });
+// Fotos e áudio também: busca autenticada por dentro e vira blob local
+async function carregaMidias(a){
+  for (const u of _blobUrls) URL.revokeObjectURL(u);
+  _blobUrls = [];
+  document.querySelectorAll('#detalhe img[data-ang]').forEach(img => {
+    fetch(`${API}/api/admin/aval/foto?email=${encodeURIComponent(a.email)}&angle=${img.dataset.ang}`, { headers: AH() })
+      .then(r => r.ok ? r.blob() : null)
+      .then(b => { if (!b) { img.style.opacity = .25; img.alt = 'sem ' + img.dataset.ang; return; } const u = URL.createObjectURL(b); _blobUrls.push(u); img.src = u; })
+      .catch(() => { img.style.opacity = .25; });
+  });
+  const au = document.querySelector('#detalhe audio[data-enviado]');
+  if (au) {
+    fetch(`${API}/api/admin/aval/audio?email=${encodeURIComponent(a.email)}`, { headers: AH() })
+      .then(r => r.ok ? r.blob() : null)
+      .then(b => { if (b) { const u = URL.createObjectURL(b); _blobUrls.push(u); au.src = u; } })
+      .catch(() => {});
+  }
+}
 
 function entrar(){
   const v = document.getElementById('secret').value.trim();
@@ -81,7 +103,7 @@ function entrar(){
 }
 async function carregar(){
   try{
-    const r = await fetch(`${API}/api/admin/aval?secret=${encodeURIComponent(SECRET)}`);
+    const r = await fetch(`${API}/api/admin/aval`, { headers: AH() });
     if (r.status === 401){ document.getElementById('loginMsg').textContent = 'Chave errada.'; localStorage.removeItem('aval_secret'); return; }
     const d = await r.json();
     AVALS = d.avaliacoes || [];
@@ -116,9 +138,7 @@ function abrir(i){
     ['ABDÔMEN', d.abdomen+' cm'], ['QUADRIL', d.quadril+' cm'], ['BRAÇO D', d.braco+' cm'], ['COXA D', d.coxa+' cm'],
   ].map(([l,v])=>`<div class="med"><span>${l}</span><b>${esc(v||'?')}</b></div>`).join('');
   const fotos = ['frente','costas','ladoD','ladoE'].map(ang=>`
-    <img loading="lazy" alt="${ang}" onclick="zoom(this.src)"
-      src="${API}/api/admin/aval/foto?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&angle=${ang}"
-      onerror="this.style.opacity=.25;this.alt='sem ${ang}'">`).join('');
+    <img loading="lazy" alt="${ang}" data-ang="${ang}" onclick="if(this.src)zoom(this.src)">`).join('');
   document.getElementById('detalhe').innerHTML = `
     <div class="nav">
       <button onclick="anterior()">← anterior</button>
@@ -134,9 +154,10 @@ function abrir(i){
     ${a.temAudio ? `
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
       <div style="font-size:12px;opacity:.65;margin-bottom:6px">ÁUDIO QUE ESTÁ NO APP DO ALUNO</div>
-      <audio controls style="width:100%" src="${API}/api/admin/aval/audio?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&v=${a.audioEm||0}"></audio>
+      <audio controls style="width:100%" data-enviado></audio>
       <button style="width:100%;margin-top:8px" onclick="apagarAudioEnviado()">🗑 Apagar do app do aluno</button>
     </div>` : ''}`;
+  carregaMidias(a);
 }
 async function apagarAudioEnviado(){
   const a = AVALS[IDX];
@@ -144,7 +165,7 @@ async function apagarAudioEnviado(){
   if (!confirm(`Apagar o áudio do app do ${primeiroNome(a)}? Ele volta pra fila de pendentes até tu gravar outro. O arquivo vai pra lixeira do teu Drive.`)) return;
   document.getElementById('msg').textContent = 'Apagando…';
   try{
-    const r = await fetch(`${API}/api/admin/aval?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&audio=1`, { method:'DELETE' });
+    const r = await fetch(`${API}/api/admin/aval?email=${encodeURIComponent(a.email)}&audio=1`, { method:'DELETE', headers: AH() });
     const d = await r.json();
     if (d.ok){
       a.temAudio = false; a.audioEm = null; a.status = 'enviada';
@@ -266,16 +287,16 @@ async function enviarAudio(){
   // request do Vercel e o envio morria justamente nos áudios de verdade.
   try{
     const u = await fetch(`${API}/api/admin/aval/upload-url`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ secret: SECRET, email: a.email, mime, bytes: audioBlob.size })
+      method:'POST', headers:{'Content-Type':'application/json', ...AH()},
+      body: JSON.stringify({ email: a.email, mime, bytes: audioBlob.size })
     }).then(r=>r.json());
     if (u && u.ok && u.uploadUrl){
       const put = await fetch(u.uploadUrl, { method:'PUT', headers:{'Content-Type':mime}, body: audioBlob });
       if (put.ok){
         const criado = await put.json();
         d = await fetch(`${API}/api/admin/aval`, {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ secret: SECRET, email: a.email, fileId: criado.id })
+          method:'POST', headers:{'Content-Type':'application/json', ...AH()},
+          body: JSON.stringify({ email: a.email, fileId: criado.id })
         }).then(r=>r.json());
       }
     } else if (u && u.error) { d = u; }
@@ -285,8 +306,8 @@ async function enviarAudio(){
     try{
       const dataUrl = await new Promise(res => { const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.readAsDataURL(audioBlob); });
       const r = await fetch(`${API}/api/admin/aval`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ secret: SECRET, email: a.email, dataUrl })
+        method:'POST', headers:{'Content-Type':'application/json', ...AH()},
+        body: JSON.stringify({ email: a.email, dataUrl })
       });
       d = await r.json();
       semConexao = false;
@@ -316,7 +337,7 @@ async function enviarAudio(){
 // Consulta a lista no servidor e diz se o áudio desse aluno chegou DEPOIS do início do envio.
 async function confereSeChegou(email, inicio){
   try{
-    const r = await fetch(`${API}/api/admin/aval?secret=${encodeURIComponent(SECRET)}`);
+    const r = await fetch(`${API}/api/admin/aval`, { headers: AH() });
     const d = await r.json();
     const a = (d.avaliacoes||[]).find(x=>x.email===email);
     if (a && a.temAudio && a.audioEm && a.audioEm >= inicio - 120000) return a.audioEm;
