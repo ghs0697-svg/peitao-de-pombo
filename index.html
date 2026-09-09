@@ -4006,8 +4006,8 @@ async function registerPeitaoPush() {
     }
     const r = await fetch(API_BASE + '/api/push/subscribe', {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ email: (state.user && state.user.email) || '', name: (state.user && state.user.name) || '', subscription: sub.toJSON() })
+      headers: { 'Content-Type': 'text/plain;charset=utf-8', 'Authorization': 'Bearer ' + ((state.user && state.user.token) || '') },
+      body: JSON.stringify({ subscription: sub.toJSON() })
     });
     if (!r.ok) return { ok: false, reason: 'server-' + r.status };
     localStorage.setItem('gh_pushEndpoint', sub.endpoint);

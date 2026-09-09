@@ -96,8 +96,8 @@ async function carregar(){
 function montaLista(){
   document.getElementById('lista').innerHTML = AVALS.map((a,i)=>`
     <div class="item ${i===IDX?'ativo':''} ${a.status!=='enviada'?'feita':''}" onclick="abrir(${i})">
-      <span class="n">#${a.numero}</span> ${a.nome || a.email}
-      <div class="st">${a.status==='enviada' ? 'pendente' : '✓ avaliada'} · ${a.email}</div>
+      <span class="n">#${a.numero}</span> ${esc(a.nome || a.email)}
+      <div class="st">${a.status==='enviada' ? 'pendente' : '✓ avaliada'} · ${esc(a.email)}</div>
     </div>`).join('');
 }
 function abrir(i){
@@ -114,7 +114,7 @@ function abrir(i){
   const meds = [
     ['IDADE', d.idade], ['PESO', d.peso+' kg'], ['ALTURA', d.altura+' cm'], ['CINTURA', d.cintura+' cm'],
     ['ABDÔMEN', d.abdomen+' cm'], ['QUADRIL', d.quadril+' cm'], ['BRAÇO D', d.braco+' cm'], ['COXA D', d.coxa+' cm'],
-  ].map(([l,v])=>`<div class="med"><span>${l}</span><b>${v||'?'}</b></div>`).join('');
+  ].map(([l,v])=>`<div class="med"><span>${l}</span><b>${esc(v||'?')}</b></div>`).join('');
   const fotos = ['frente','costas','ladoD','ladoE'].map(ang=>`
     <img loading="lazy" alt="${ang}" onclick="zoom(this.src)"
       src="${API}/api/admin/aval/foto?secret=${encodeURIComponent(SECRET)}&email=${encodeURIComponent(a.email)}&angle=${ang}"
@@ -122,13 +122,13 @@ function abrir(i){
   document.getElementById('detalhe').innerHTML = `
     <div class="nav">
       <button onclick="anterior()">← anterior</button>
-      <div><span class="tag">#${a.numero}</span> <b>${a.nome || a.email}</b>
+      <div><span class="tag">#${a.numero}</span> <b>${esc(a.nome || a.email)}</b>
         ${a.status!=='enviada' ? `<span class="feito"> · ✓ já avaliada${janelaAudio(a)}</span>` : ''}</div>
       <button onclick="proxima()">próxima →</button>
     </div>
     <div class="medidas">${meds}</div>
     <div class="fotos">${fotos}</div>
-    <button class="rec" id="btnRec" onclick="toggleGravacao()">🎙 ${a.temAudio ? 'Regravar o áudio (substitui o que está no app)' : 'Gravar áudio pra ' + primeiroNome(a)}</button>
+    <button class="rec" id="btnRec" onclick="toggleGravacao()">🎙 ${a.temAudio ? 'Regravar o áudio (substitui o que está no app)' : 'Gravar áudio pra ' + esc(primeiroNome(a))}</button>
     <div id="preview"></div>
     <div class="msg" id="msg"></div>
     ${a.temAudio ? `
@@ -158,6 +158,10 @@ async function apagarAudioEnviado(){
   }catch(e){ document.getElementById('msg').textContent = 'Sem conexão. Tenta de novo.'; }
 }
 function primeiroNome(a){ return String(a.nome||a.email).trim().split(/\s+/)[0]; }
+// Qualquer dado vindo do servidor passa por aqui antes de entrar em innerHTML: o NOME é
+// digitado pelo aluno no formulário; sem escape, um nome com script rodaria AQUI no
+// teu navegador e levaria a chave de admin do localStorage.
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 // O aluno ouve o áudio por 7 dias; o arquivo fica pra sempre no teu Drive.
 function janelaAudio(a){
   if (!a.audioEm) return '';
