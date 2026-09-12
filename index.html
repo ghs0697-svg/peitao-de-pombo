@@ -2012,15 +2012,23 @@ function renderErgo() {
 }
 
 // ════════ PARCEIROS ════════
-// Link do Renato (Arte e Ciência) numa constante só: ele aparece aqui E dentro do
-// Modo Seca (o stack é manipulado lá). Fonte única pra nunca divergirem.
-const LINK_RENATO = "https://api.whatsapp.com/send?phone=5516997693445&text=" + encodeURIComponent("Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH.");
+// Link do Renato (Arte e Ciência) numa função só: ele aparece na aba PARCEIROS E
+// dentro do Modo Seca (o stack é manipulado lá). Fonte única pra nunca divergirem.
+// A mensagem já vai com o NOME do aluno: sem isso ele cai numa conversa vazia e não
+// se apresenta (achado da lane Site MetodoGH, Sala #2049, que apanhou disso no app dela).
+function linkRenato() {
+  const nome = (state.user && state.user.name ? String(state.user.name).trim().split(/\s+/)[0] : '');
+  const msg = nome
+    ? `Olá, sou ${nome}, aluno do Peitão de Pombo. Vim por indicação do GH.`
+    : 'Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH.';
+  return 'https://api.whatsapp.com/send?phone=5516997693445&text=' + encodeURIComponent(msg);
+}
 const PARCEIROS = {
   "🤝 Parceiros com desconto": [
-    { nome: "👕 AlphaCo", tag: "CUPOM GH", tagcls: "off", desc: "Linha de roupas esportivas. Cupom GH, já aplicado se tu entrar pelo botão.", cupom: "GH", link: "https://usealphaco.com.br/discount/GH" },
-    { nome: "🏋️ YangFit", tag: "CUPOM GH15", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Usa o cupom GH15 no checkout.", cupom: "GH15", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
+    { nome: "👕 AlphaCo", tag: "5% OFF", tagcls: "off", desc: "Linha de roupas esportivas. Cupom GH, já aplicado se tu entrar pelo botão.", cupom: "GH", link: "https://usealphaco.com.br/discount/GH" },
+    { nome: "🏋️ YangFit", tag: "15% OFF", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Usa o cupom GH15 no checkout.", cupom: "GH15", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
     { nome: "💉 Biotech (Aquiles)", tag: "DESCONTO", tagcls: "wpp", desc: "Ergogênicos e peptídeos. Atendimento direto no WhatsApp pra desconto exclusivo.", link: "https://w.app/m4akut", wpp: true },
-    { nome: "💊 Arte e Ciência (Renato)", tag: "MANIPULAÇÃO", tagcls: "wpp", desc: "Farmácia de manipulação do GH há mais de 7 anos. É onde tu manipula o stack do Modo Seca.", link: LINK_RENATO, wpp: true }
+    { nome: "💊 Arte e Ciência (Renato)", tag: "MANIPULAÇÃO", tagcls: "wpp", desc: "Farmácia de manipulação do GH há mais de 7 anos. É onde tu manipula o stack do Modo Seca. A mensagem já abre pronta, é só enviar.", link: null, linkFn: linkRenato, wpp: true }
   ],
   "💊 Suplementos (FTW)": [
     { nome: "Whey Protein Concentrado 1kg", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · refil · R$ 64,90 (62% OFF). Proteína de soro do leite.", link: "https://s.shopee.com.br/6VKciJh60W?share_channel_code=1" },
@@ -2056,10 +2064,14 @@ const PARCEIROS = {
 };
 
 function copiarCupom(c) {
+  const ok = () => showToast('✓ Cupom ' + c + ' copiado. Cola no checkout.');
+  // WebView antiga bloqueia a área de transferência: nunca falhar calado, mostra o
+  // cupom pro aluno copiar na mão (lição da lane Site MetodoGH, Sala #2049).
+  const naoDeu = () => { try { window.prompt('Copia o cupom:', c); } catch (e) { showToast('Cupom: ' + c); } };
   try {
-    navigator.clipboard.writeText(c);
-    showToast('✓ Cupom ' + c + ' copiado. Cola no checkout.');
-  } catch (e) { showToast('Cupom: ' + c); }
+    const r = navigator.clipboard && navigator.clipboard.writeText(c);
+    if (r && typeof r.then === 'function') r.then(ok).catch(naoDeu); else if (r === undefined && navigator.clipboard) ok(); else naoDeu();
+  } catch (e) { naoDeu(); }
 }
 function renderParceiros() {
   const c = document.getElementById('screen-parc');
@@ -2079,7 +2091,7 @@ function renderParceiros() {
         </div>
         <div class="parc-desc">${p.desc}</div>
         ${p.cupom ? `<div class="parc-cupom" onclick="copiarCupom('${p.cupom}')">CUPOM <b>${p.cupom}</b> <span>toca pra copiar</span></div>` : ''}
-        <a class="parc-link ${p.wpp?'wpp':''}" href="${p.link}" target="_blank" rel="noopener">${p.wpp?'Falar no WhatsApp':'Acessar'} →</a>
+        <a class="parc-link ${p.wpp?'wpp':''}" href="${p.linkFn ? p.linkFn() : p.link}" target="_blank" rel="noopener">${p.wpp?'Falar no WhatsApp':'Acessar'} →</a>
         ${p.store ? `<div class="parc-store">✓ ${p.store}</div>` : ''}
       </div>
     `).join('');
@@ -3661,7 +3673,7 @@ function secaStackHtml() {
     <div class="seca-card-tag">🔥 SUPLEMENTAÇÃO DO MÊS ${mes}</div>
     ${itens}
     <div class="seca-card-sub" style="margin-top:8px;">${sup.onde_comprar || ''}</div>
-    <a class="parc-link wpp" style="margin-top:8px;display:inline-block;" href="${LINK_RENATO}" target="_blank" rel="noopener">💊 Falar com o Renato (Arte e Ciência) →</a>
+    <a class="parc-link wpp" style="margin-top:8px;display:inline-block;" href="${linkRenato()}" target="_blank" rel="noopener">💊 Falar com o Renato (Arte e Ciência) →</a>
     <div class="seca-card-sub">${sup.aviso_motor || ''}</div>
     <div class="seca-card-warn">⚠️ ${sup.contraindicacao || ''}</div>
   </div>`;
