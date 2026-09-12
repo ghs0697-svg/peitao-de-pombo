@@ -3301,14 +3301,14 @@ function avalCardHtml() {
   if (s.existe) {
     return `<div class="seca-card">
       <div class="seca-card-tag">🎖 AVALIAÇÃO ENVIADA</div>
-      <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app.</div>
+      <div class="seca-card-main">Recebi teus dados. O GH vai olhar tuas fotos e medidas e te responder com um áudio aqui no app em até <b>7 dias úteis</b>.</div>
       ${avalEnvioHtml()}
     </div>`;
   }
   if (!s.elegivel) return '';
   return `<div class="seca-card" style="cursor:pointer;" onclick="abrirAval()">
     <div class="seca-card-tag">🎖 AVALIAÇÃO CORPORAL PELO GH</div>
-    <div class="seca-card-main">Manda tuas fotos e medidas que o GH olha e te responde com um áudio, anexado aqui no teu app.</div>
+    <div class="seca-card-main">Manda tuas fotos e medidas que o GH olha e te responde com um áudio, anexado aqui no teu app em até 7 dias úteis.</div>
     <div class="seca-card-sub" style="margin-top:6px;"><b style="color:var(--accent-hi);">Toca aqui pra preencher →</b></div>
   </div>`;
 }
@@ -3339,7 +3339,7 @@ function avalFormHtml() {
       <input id="aval-${c.k}" inputmode="decimal" placeholder="${c.ph}" maxlength="8">
     </div>`).join('');
   return `
-    <p class="hint" style="margin:0 0 14px;">Preenche as medidas e anexa as 4 fotos. O GH olha tudo e te responde com um áudio aqui no app.</p>
+    <p class="hint" style="margin:0 0 14px;">Preenche as medidas e anexa as 4 fotos. O GH olha tudo e te responde com um áudio aqui no app em até <b>7 dias úteis</b>.</p>
     <div class="aval-campo" style="margin-bottom:10px;">
       <label>Teu nome (como o GH deve te chamar no áudio)</label>
       <input id="aval-nome" maxlength="60" placeholder="ex: Fábio" value="${esc(state.user && state.user.name ? state.user.name : '')}">
@@ -3398,7 +3398,7 @@ async function enviarAval() {
       _avalStatus = { ok: true, existe: true, elegivel: true, numero: r.numero, status: r.status, temAudio: false, dados: corpo };
       fecharAval();
       // o número da avaliação é controle interno do GH, o aluno nunca vê
-      showToast('🎖 Avaliação enviada! O GH te responde com um áudio aqui.');
+      showToast('🎖 Avaliação enviada! O GH te responde em áudio aqui, em até 7 dias úteis.');
       renderPeito();
     } else {
       msg.textContent = (r && r.error) ? r.error : 'Não consegui enviar. Tenta de novo.';
