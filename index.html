@@ -1381,6 +1381,16 @@
   </div>
 </div>
 
+<!-- Aviso do áudio da avaliação (abertura, 1x por áudio) -->
+<div class="gmodal" id="avalAudioModal">
+  <div class="gmodal-card">
+    <div class="gmodal-ic">🎙</div>
+    <div class="gmodal-txt" id="avalAudioModalTxt"><b>O GH gravou tua avaliação.</b></div>
+    <button class="gmodal-cta" style="background:#3fbf7f;color:#06140c;" onclick="ouvirAvalAgora()">▶ OUVIR AGORA</button>
+    <button class="gmodal-later" onclick="fecharAvalAudioModal()">Depois</button>
+  </div>
+</div>
+
 <!-- Modal da avaliação corporal -->
 <div class="vmodal" id="avalModal" onclick="if(event.target.id==='avalModal')fecharAval()">
   <div class="vmodal-inner" style="max-width:520px;">
@@ -1675,7 +1685,7 @@ function enterApp() {
   }
   loadModoSeca();
   loadDietaEscolha();
-  carregarAvalStatus().then(() => { if (state.tab === 'peito') renderPeito(); });
+  carregarAvalStatus().then(() => { if (state.tab === 'peito') renderPeito(); initAvalAviso(); });
   aplicarFogoSeca();
   migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
   renderTabs();
@@ -3238,13 +3248,86 @@ async function carregarAvalStatus() {
   } catch (e) {}
   return null;
 }
+// ════════ AVISO DO ÁUDIO DA AVALIAÇÃO ════════
+// Push só chega pra quem ativou os avisos (e no iPhone exige o app instalado), então
+// o aviso de verdade é DENTRO do app: tela cheia na 1ª abertura depois que o áudio
+// chega (uma vez por áudio) + banner no topo até o aluno dar play, porque o áudio
+// sai do app em 7 dias. A identidade do áudio é o audioEm: regravação avisa de novo.
+function avalChaveOuvido() { return 'gh_avalOuvido_' + setsEmail(); }
+function avalAudioNaoOuvido() {
+  const s = _avalStatus;
+  if (!s || !s.existe || !s.temAudio || s.audioExpirado || !s.audioEm) return false;
+  try { return localStorage.getItem(avalChaveOuvido()) !== String(s.audioEm); } catch (e) { return true; }
+}
+function marcarAvalOuvido() {
+  const s = _avalStatus;
+  if (!s || !s.audioEm) return;
+  try { localStorage.setItem(avalChaveOuvido(), String(s.audioEm)); } catch (e) {}
+  const b = document.getElementById('avalBanner');
+  if (b) b.remove();
+}
+function ouvirAvalAgora() {
+  // play() DENTRO do toque: o iPhone bloqueia áudio disparado fora de um gesto
+  const au = document.getElementById('avalAudioPlayer');
+  if (au) { try { au.play().catch(() => {}); } catch (e) {} }
+  const m = document.getElementById('avalAudioModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+  showTab('peito');
+  setTimeout(() => {
+    const c = document.getElementById('avalCard');
+    if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 80);
+}
+function fecharAvalAudioModal() {
+  const m = document.getElementById('avalAudioModal');
+  if (m) m.classList.remove('show');
+  document.body.style.overflow = '';
+}
+function initAvalAviso() {
+  try {
+    if (!avalAudioNaoOuvido()) return;
+    const s = _avalStatus;
+    const d = s.audioAte ? new Date(s.audioAte) : null;
+    const ate = d ? `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}` : '';
+
+    // Banner: prioridade máxima. Tira os banners de campanha DESTA sessão sem marcar
+    // como dispensados (eles voltam depois que o aluno ouvir).
+    const tabs = document.getElementById('tabs');
+    if (tabs && !document.getElementById('avalBanner')) {
+      ['secaBanner', 'grupoBanner', 'pushBanner'].forEach(id => { const x = document.getElementById(id); if (x) x.remove(); });
+      const el = document.createElement('div');
+      el.id = 'avalBanner';
+      el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(80,200,120,.5);background:linear-gradient(135deg, rgba(80,200,120,.16), rgba(80,200,120,.05));border-radius:14px;font-size:13.5px;line-height:1.5;';
+      el.innerHTML = '<b style="color:#6fd695;">🎙 O GH gravou tua avaliação.</b> Teu áudio está no app' + (ate ? ' até <b>' + ate + '</b>' : '') + ', depois sai.'
+        + '<button onclick="ouvirAvalAgora()" style="display:block;width:100%;margin-top:11px;padding:11px 14px;border:none;border-radius:10px;background:#3fbf7f;color:#06140c;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">▶ OUVIR AGORA</button>';
+      tabs.parentNode.insertBefore(el, tabs);
+    }
+
+    // Tela cheia: só UMA vez por áudio, e nunca por cima de outro modal aberto
+    let visto = '';
+    try { visto = localStorage.getItem('gh_avalModalVisto_' + setsEmail()) || ''; } catch (e) {}
+    const outroModal = document.querySelector('.gmodal.show, .vmodal.show');
+    if (visto !== String(s.audioEm) && !outroModal) {
+      try { localStorage.setItem('gh_avalModalVisto_' + setsEmail(), String(s.audioEm)); } catch (e) {}
+      const txt = document.getElementById('avalAudioModalTxt');
+      if (txt) txt.innerHTML = '<b>O GH gravou tua avaliação.</b> Ele olhou tuas fotos e medidas e mandou um áudio só pra ti.' + (ate ? '<br><span style="opacity:.75;font-size:13px;">Fica no app até ' + ate + '.</span>' : '');
+      const m = document.getElementById('avalAudioModal');
+      if (m) { m.classList.add('show'); document.body.style.overflow = 'hidden'; }
+    }
+  } catch (e) {}
+}
+
 // App aberto atrás quando o áudio do GH chega (ou o push acorda o aluno): ao voltar
 // pro app, re-consulta o status; o card verde aparece sem precisar recarregar.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible' || !state.user) return;
   const antes = JSON.stringify(_avalStatus);
   carregarAvalStatus().then(() => {
-    if (JSON.stringify(_avalStatus) !== antes && state.tab === 'peito') renderPeito();
+    if (JSON.stringify(_avalStatus) !== antes) {
+      if (state.tab === 'peito') renderPeito();
+      initAvalAviso();
+    }
   });
 });
 
@@ -3283,10 +3366,10 @@ function avalCardHtml() {
   if (s.existe && s.temAudio && !s.audioExpirado) {
     const d = s.audioAte ? new Date(s.audioAte) : null;
     const ate = d ? `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}` : '';
-    return `<div class="seca-card" style="border-color: rgba(80,200,120,.45); background: rgba(80,200,120,.06);">
+    return `<div class="seca-card" id="avalCard" style="border-color: rgba(80,200,120,.45); background: rgba(80,200,120,.06);">
       <div class="seca-card-tag" style="color:#6fd695;">🎙 TUA AVALIAÇÃO CHEGOU</div>
       <div class="seca-card-main">O GH olhou tuas fotos e medidas e gravou um áudio pra ti.</div>
-      <audio controls preload="none" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
+      <audio id="avalAudioPlayer" controls preload="none" onplay="marcarAvalOuvido()" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
       ${ate ? `<div class="seca-card-sub" style="margin-top:8px;">O áudio fica no app até <b>${ate}</b>, depois sai. Escuta enquanto está aqui.</div>` : ''}
       ${avalEnvioHtml()}
     </div>`;
