@@ -1024,6 +1024,28 @@
   }
   .mgh-aluno b { color: #E8C97A; }
   .mgh-aluno s { color: #8f8878; }
+  /* Dois planos da consultoria lado a lado. Em 360px cada coluna fica com ~160px,
+     então o parcelado (que é o número grande, padrão do GH) tem que caber sem quebrar. */
+  .planos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .plano-box {
+    display: flex; flex-direction: column; padding: 13px 11px; border-radius: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.34); background: rgba(201, 162, 75, 0.05);
+  }
+  .plano-nome { font-size: 11px; font-weight: 900; letter-spacing: 1px; color: #E8C97A; }
+  .plano-selo { font-size: 10px; color: #b0a890; margin-top: 3px; min-height: 26px; line-height: 1.3; }
+  .plano-de { font-size: 11px; color: #8f8878; margin-top: 6px; }
+  .plano-de s { color: #8f8878; }
+  .plano-parcela { font-size: 17px; font-weight: 900; color: var(--text); line-height: 1.2; margin-top: 2px; }
+  .plano-avista { font-size: 11px; color: #b0a890; margin-top: 4px; }
+  .plano-avista b { color: #E8C97A; }
+  .plano-btn {
+    margin-top: 11px; display: block; text-align: center; text-decoration: none;
+    background: linear-gradient(135deg, #E8C97A, #C9A24B); color: #2A2213;
+    font-weight: 900; font-size: 12px; padding: 11px 8px; border-radius: 10px;
+    min-height: 40px; display: flex; align-items: center; justify-content: center;
+  }
+  .plano-btn:active { transform: scale(.98); }
+  @media (max-width: 330px) { .planos-grid { grid-template-columns: 1fr; } }
   /* caminho secundário do card da consultoria: planos maiores / falar antes vão pro whats */
   .mgh-wa-soft {
     display: block; margin-top: 12px; text-align: center;
@@ -1855,12 +1877,9 @@ const UPSELLS = [
     headline: 'Quero atendimento individualizado, conhecer o Método GH',
     sub: CONSULTORIA.subtitle,
     bullets: CONSULTORIA.bullets,
-    cta: 'Garantir minha vaga na consultoria',
-    link: 'https://payfast.greenn.com.br/redirect/302606',
-    priceFrom: 'R$597',
-    priceNow: 'R$497',
-    priceLabel: 'no Pix ou',
-    priceParcel: '12x de R$51,10'
+    // O preço deste card vem de PLANOS_CONSULTORIA (dois planos lado a lado),
+    // não do priceBlock de um preço só.
+    planos: true,
   },
   {
     id: 'shape-elite',
@@ -1886,6 +1905,43 @@ const UPSELLS = [
     priceParcel: '12x de R$30,72'
   }
 ];
+
+// Planos da consultoria. Os valores foram conferidos ABRINDO cada checkout: o app
+// não pode anunciar um preço e a página de pagamento cobrar outro. Quando o preço
+// mudar, troca aqui e confere o checkout de novo.
+const PLANOS_CONSULTORIA = [
+  {
+    nome: 'TRIMESTRAL',
+    meses: 3,
+    de: 'R$597',
+    aVista: 'R$497',
+    parcela: '12x de R$51,10',
+    porMes: 'R$166/mês',
+    link: 'https://payfast.greenn.com.br/redirect/302606',
+    selo: 'R$100 off de aluno',
+  },
+  {
+    nome: 'SEMESTRAL',
+    meses: 6,
+    de: null,
+    aVista: 'R$997',
+    parcela: '12x de R$102,51',
+    porMes: 'R$166/mês',
+    link: 'https://payfast.greenn.com.br/120446/offer/2eUfsO?ch_id=21679&b_id_1=120433&b_offer_1=7TELaf&b_id_2=ungwnyg&b_offer_2=LNEse1',
+    selo: 'dobro de tempo, sem renovar no meio',
+  },
+];
+function planosConsultoriaHtml() {
+  return `<div class="planos-grid">` + PLANOS_CONSULTORIA.map(p => `
+    <div class="plano-box">
+      <div class="plano-nome">${p.nome}</div>
+      <div class="plano-selo">${p.selo}</div>
+      ${p.de ? `<div class="plano-de">de <s>${p.de}</s> por</div>` : `<div class="plano-de">&nbsp;</div>`}
+      <div class="plano-parcela">${p.parcela}</div>
+      <div class="plano-avista">ou <b>${p.aVista}</b> à vista no Pix</div>
+      <a class="plano-btn" href="${p.link}" target="_blank" rel="noopener">Quero o ${p.nome.toLowerCase()} →</a>
+    </div>`).join('') + `</div>`;
+}
 
 // Renderiza os cards de upsell — esconde 5x pra quem já tem, vitalício pra quem já tem
 // Padrão de preço (GH): âncora riscada em cima, PARCELADO grande, à vista pequeno embaixo.
@@ -1923,11 +1979,12 @@ function renderUpsells() {
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.</div>` : ''}
-        ${priceBlock(u)}
-        <a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom. O Semestral vai pelo valor de tabela.</div>
+        ${planosConsultoriaHtml()}` : ''}
+        ${u.planos ? '' : priceBlock(u)}
+        ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
         ${u.id === 'consultoria' ? `
-        <a class="mgh-wa-soft" href="${CONSULTORIA.link}" target="_blank" rel="noopener">Quer um plano mais longo ou falar comigo antes? Me chama no whats →</a>` : ''}
+        <a class="mgh-wa-soft" href="${CONSULTORIA.link}" target="_blank" rel="noopener">Quer o plano anual ou falar comigo antes? Me chama no whats →</a>` : ''}
       </div>
     `).join('');
 }
@@ -2006,8 +2063,13 @@ function ebookOwned(id) {
 async function baixarEbook(ev, id) {
   if (ev) ev.preventDefault();
   const btn = ev && ev.currentTarget;
-  const txt = btn ? btn.textContent : '';
-  if (btn) { btn.textContent = 'Liberando...'; btn.style.pointerEvents = 'none'; }
+  const simples = btn && btn.children.length === 0;   // botão de texto puro
+  const txt = simples ? btn.textContent : '';
+  if (btn) {
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '.6';
+    if (simples) btn.textContent = 'Liberando...';
+  }
   try {
     const r = await api('/api/ebook/ticket', { method: 'POST', body: JSON.stringify({ id }) });
     if (!r || !r.url) throw new Error((r && r.error) || 'falhou');
@@ -2015,7 +2077,10 @@ async function baixarEbook(ev, id) {
   } catch (e) {
     alert('Não consegui liberar o ebook agora. Tenta de novo em instantes, e se persistir fala no suporte.');
   } finally {
-    if (btn) { btn.textContent = txt; btn.style.pointerEvents = ''; }
+    if (btn) {
+      btn.style.pointerEvents = ''; btn.style.opacity = '';
+      if (simples) btn.textContent = txt;
+    }
   }
 }
 function ebookCard(e) {
@@ -3214,12 +3279,12 @@ function renderPeito() {
     ${gamiStripHtml()}
     ${recordesHtml()}
     <div class="mat-row">
-      <a class="mat-card" href="pdfs/regua-do-peito.pdf" target="_blank" rel="noopener">
+      <a class="mat-card" href="#" onclick="baixarEbook(event,'regua')">
         <div class="mat-ic">📐</div>
         <div class="mat-title">Régua do Peito</div>
         <div class="mat-sub">Protocolo de medição, 4 semanas</div>
       </a>
-      <a class="mat-card" href="pdfs/engenharia-do-peito.pdf" target="_blank" rel="noopener">
+      <a class="mat-card" href="#" onclick="baixarEbook(event,'engenharia')">
         <div class="mat-ic">🔧</div>
         <div class="mat-title">Engenharia do Peito</div>
         <div class="mat-sub">Manual de reconstrução, 4 semanas</div>
@@ -4013,7 +4078,7 @@ function renderDieta() {
         </button>
       `).join('')}
     </div>
-    <a class="dl-pdf" href="pdfs/dieta-${state.dietaVer.toLowerCase()}.pdf" download="Dieta ${state.dietaVer} - Metodo GH.pdf" target="_blank" rel="noopener">
+    <a class="dl-pdf" href="#" onclick="baixarEbook(event,'dieta' + String(state.dietaVer).replace(/[^0-9]/g,''))">
       <span class="dl-ic">⬇</span> Baixar PDF da dieta · ${state.dietaVer}
     </a>
     ${refs}
