@@ -34,6 +34,7 @@
     --accent-border: rgba(255, 106, 26, 0.34);
     --gold: #E8B84B;
     --ok: #2DD881;
+    --danger: #FF3B30;   /* era usada em 3 regras e nunca definida: o botão de apagar foto nascia sem fundo */
     --safe-top: env(safe-area-inset-top);
     --safe-bottom: env(safe-area-inset-bottom);
   }
@@ -155,7 +156,7 @@
     transition: all .15s;
     text-align: center;
   }
-  .ver-btn .ver-lbl { font-size: 9px; letter-spacing: 1px; color: var(--text-mute); display: block; margin-bottom: 2px; }
+  .ver-btn .ver-lbl { font-size: 10px; letter-spacing: 1px; color: var(--text-mute); display: block; margin-bottom: 2px; }
   .ver-btn.active {
     background: var(--surface-2);
     border-color: var(--accent);
@@ -347,7 +348,7 @@
     padding: 9px 6px;
     text-align: center;
   }
-  .ex-meta .lbl { font-size: 9px; color: var(--text-mute); letter-spacing: .8px; margin-bottom: 3px; }
+  .ex-meta .lbl { font-size: 10px; color: var(--text-mute); letter-spacing: .8px; margin-bottom: 3px; }
   .ex-meta .val { font-size: 13px; font-weight: 800; }
   /* Timer de descanso — célula clicável + estados */
   .ex-meta .timer-cell { cursor: pointer; user-select: none; transition: all .15s; position: relative; }
@@ -661,7 +662,7 @@
   .sets-grid { display: flex; flex-direction: column; gap: 5px; width: 100%; }
   .set-head, .set-row { display: flex; align-items: center; gap: 6px; }
   .set-head { padding: 0 2px; }
-  .set-head span { font-size: 9px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .4px; text-align: center; }
+  .set-head span { font-size: 10px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .4px; text-align: center; }
   .set-head .sh-kg { width: 54px; } .set-head .sh-pl { width: 42px; } .set-head .sh-reps { width: 50px; }
   .set-num { width: 18px; min-width: 18px; text-align: center; font-size: 12px; font-weight: 700; color: var(--text-mute); transition: color .2s; }
   .set-in {
@@ -680,10 +681,14 @@
     color: var(--text-mute); font-size: 16px; line-height: 1; cursor: pointer; border-radius: 5px; padding: 0;
   }
   .set-del:active { color: var(--danger); background: rgba(255,59,48,.12); }
+  /* Área de toque de 36x34 por fora do desenho de 20x26: o botão que apaga uma série
+     era pequeno demais pra um dedo e apagava carga por acidente. */
+  .set-del { position: relative; }
+  .set-del::after { content: ''; position: absolute; top: -4px; bottom: -4px; left: -8px; right: -8px; }
   .set-add {
     align-self: flex-start; margin-top: 4px; background: transparent; border: 1px dashed var(--accent-border);
-    color: var(--accent-hi); font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 8px;
-    cursor: pointer; font-family: inherit;
+    color: var(--accent-hi); font-size: 11px; font-weight: 700; padding: 8px 14px; border-radius: 8px;
+    cursor: pointer; font-family: inherit; min-height: 30px;
   }
   .set-add:active { background: var(--accent-soft); }
 
@@ -776,7 +781,7 @@
   .wk-nav:not(:disabled):active { border-color: var(--accent); background: var(--accent-soft); }
   .wk-label { font-size: 13px; font-weight: 700; color: var(--text-dim); }
   .wk-label b { color: var(--text); font-size: 16px; }
-  .wk-now { font-size: 9px; font-weight: 800; color: var(--accent-hi); background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; margin-left: 5px; text-transform: uppercase; letter-spacing: .3px; }
+  .wk-now { font-size: 10px; font-weight: 800; color: var(--accent-hi); background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; margin-left: 5px; text-transform: uppercase; letter-spacing: .3px; }
 
   /* ════════ Assistente do app (chat) ════════ */
   #installBtn.install-fab { bottom: calc(88px + var(--safe-bottom)); }
@@ -986,7 +991,7 @@
     font-size: 17px; font-weight: 900; color: #C9A24B; flex-shrink: 0;
   }
   .mgh-marca { font-size: 16px; font-weight: 900; color: #C9A24B; letter-spacing: 1.5px; }
-  .mgh-badge { font-size: 9px; letter-spacing: 1.5px; color: #E8C97A; font-weight: 800; }
+  .mgh-badge { font-size: 10px; letter-spacing: 1.5px; color: #E8C97A; font-weight: 800; }
   .mgh-headline { font-size: 18px; font-weight: 900; line-height: 1.25; margin-bottom: 8px; }
   .mgh-sub { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 12px; }
   .mgh-bullets { list-style: none; margin: 0 0 14px; padding: 0; }
@@ -1207,7 +1212,7 @@
     background: transparent; border: 1px solid var(--border);
     color: var(--text-dim); font-family: inherit;
     font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    padding: 7px 10px; border-radius: 6px; cursor: pointer; min-height: 30px;
     text-transform: uppercase; margin-left: auto; flex-shrink: 0;
   }
   .ex-swap:active { transform: scale(.97); }
@@ -1320,12 +1325,6 @@
       style="width:100%;padding:13px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:inherit;margin-bottom:8px;">
     <canvas id="achCanvas" width="1080" height="1920"></canvas>
     <input type="file" id="achPhotoInput" accept="image/*" style="display:none;">
-<input type="file" id="fotoInput" accept="image/*" style="display:none;" onchange="onFotoPicked(this)">
-<div class="foto-viewer" id="fotoViewer" onclick="if(event.target.id==='fotoViewer')closeFotoViewer()">
-  <button class="foto-viewer-x" onclick="closeFotoViewer()" aria-label="Fechar">✕</button>
-  <img id="fotoViewerImg" alt="Foto de acompanhamento">
-  <button class="foto-viewer-del" id="fotoViewerDel">🗑 Apagar foto</button>
-</div>
     <div class="ach-actions">
       <button class="ach-btn" onclick="achPickPhoto()" id="achPhotoBtn">📷 Foto do pump</button>
     </div>
@@ -1335,6 +1334,13 @@
       <button class="ach-btn ghost" onclick="achClose()">Fechar</button>
     </div>
   </div>
+</div>
+
+<input type="file" id="fotoInput" accept="image/*" style="display:none;" onchange="onFotoPicked(this)">
+<div class="foto-viewer" id="fotoViewer" onclick="if(event.target.id==='fotoViewer')closeFotoViewer()">
+  <button class="foto-viewer-x" onclick="closeFotoViewer()" aria-label="Fechar">✕</button>
+  <img id="fotoViewerImg" alt="Foto de acompanhamento">
+  <button class="foto-viewer-del" id="fotoViewerDel">🗑 Apagar foto</button>
 </div>
 
 <!-- Botão flutuante "Instalar app" -->
@@ -1614,11 +1620,28 @@ async function doReset() {
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
 }
-function logout() {
-  stopHeartbeat();
+// Tudo que é do aluno sai da memória na saída. Sem isso o próximo a entrar no mesmo
+// aparelho herdava a semana (carga na semana errada), as trocas de exercício e o
+// cartão de avaliação com as medidas e as fotos de quem saiu.
+function limpaEstadoDoAluno() {
+  flushSetsPendentes();          // a última série digitada vai embora antes de trocar de conta
   state.user = null;
   state.upsellUnlocked = false;
   state.lifetime = false;
+  state.seca = false;
+  state.secaDaysSince = null;
+  state.ebooks = { ergo1: false, ergo2: false, pept: false };
+  state.week = 1;
+  state.subs = {};
+  state.tab = 'peito';
+  _checks = {};
+  _avalStatus = null;
+  _avalVerEnvio = false;
+  try { _syncPending = {}; } catch (e) {}
+}
+function logout() {
+  stopHeartbeat();
+  limpaEstadoDoAluno();
   try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
   document.getElementById('appWrap').classList.add('hidden');
   document.getElementById('authScreen').classList.remove('hidden');
@@ -1627,9 +1650,7 @@ function logout() {
 // Acesso de 3 meses expirou — sai do app e mostra a tela de upsell vitalício
 function logoutToExpired() {
   stopHeartbeat();
-  state.user = null;
-  state.upsellUnlocked = false;
-  state.lifetime = false;
+  limpaEstadoDoAluno();
   try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
   document.getElementById('appWrap').classList.add('hidden');
   document.getElementById('authScreen').classList.remove('hidden');
@@ -1667,7 +1688,7 @@ async function boot() {
   showAuth('login');
 }
 
-function enterApp() {
+async function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('appWrap').classList.remove('hidden');
   // Aviso de acesso prestes a expirar (base, ≤14 dias) — upsell é vitalício (daysLeft null)
@@ -1688,13 +1709,22 @@ function enterApp() {
   carregarAvalStatus().then(() => { if (state.tab === 'peito') renderPeito(); initAvalAviso(); });
   aplicarFogoSeca();
   migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
+  loadSubs();                // chaves por aluno: recarrega agora que o e-mail é conhecido
+  loadChecks();
   renderTabs();
+  // Corrida curta: a grade só nasce depois do restore quando a rede ajuda. Antes
+  // ela nascia vazia e quem digitava rápido num aparelho novo enterrava a carga antiga.
+  try {
+    await Promise.race([
+      restoreSetsFromServer(),
+      new Promise(r => setTimeout(r, 1500)),
+    ]);
+  } catch (e) { /* rede ruim não pode impedir o app de desenhar */ }
   renderPeito();
   renderAulas();
   renderSemana();
   renderDieta();
   renderErgo();
-  restoreSetsFromServer();   // backup de cargas: restaura da conta (aparelho novo) + sobe o que só existe local
   renderParceiros();
   startHeartbeat();
   initSecaBanner();          // campanha projeto verão (liga sozinho em 01/09, prioridade máxima)
@@ -2235,13 +2265,21 @@ function playBeep() {
 }
 
 // Substitutos — persistido por exercício (ctxKey + idx)
-const SUBS_KEY = 'peitao_subs';
+// Por aluno, igual às cargas: a chave antiga era global e a troca de exercício de
+// um valia pro outro no mesmo aparelho (e a carga segue a troca, então embaralhava
+// carga). Lê a antiga uma vez pra ninguém perder o que já tinha escolhido.
+function subsKey() { return 'peitao_subs_' + (typeof setsEmail === 'function' ? setsEmail() : 'anon'); }
 function loadSubs() {
-  try { state.subs = JSON.parse(localStorage.getItem(SUBS_KEY) || '{}'); }
-  catch (e) { state.subs = {}; }
+  try {
+    const nova = localStorage.getItem(subsKey());
+    if (nova !== null) { state.subs = JSON.parse(nova || '{}'); return; }
+    const velha = localStorage.getItem('peitao_subs');   // migração da chave global
+    state.subs = velha ? JSON.parse(velha) : {};
+    if (velha) saveSubs();
+  } catch (e) { state.subs = {}; }
 }
 function saveSubs() {
-  try { localStorage.setItem(SUBS_KEY, JSON.stringify(state.subs || {})); } catch (e) {}
+  try { localStorage.setItem(subsKey(), JSON.stringify(state.subs || {})); } catch (e) {}
 }
 function isSubbed(ctxKey, idx) {
   if (isSecaForced(ctxKey, idx)) return true;   // modo seca força o substituto oficial
@@ -2289,6 +2327,7 @@ function initWeekPhaseOnce() { if (state.week == null) state.week = computeWeek(
 function setWeek(w) {
   w = Math.min(maxUnlockedWeek(), Math.max(1, w));
   if (w === state.week) return;
+  flushSetsPendentes();   // grava o que estava sendo digitado na semana que fica pra trás
   state.week = w;
   syncPhaseToWeek(); // cruzar a fronteira da semana troca a fase sozinho
   if (state.tab === 'peito') renderPeito();
@@ -2343,6 +2382,23 @@ function queueSetsSync(localKey, sets) {
       await api('/api/sets', { method: 'POST', body: JSON.stringify({ key: k, sets: payload }) });
     } catch (e) { /* offline/erro: fica no localStorage; re-tenta no próximo save */ }
   }, 1200);
+}
+// Envia na hora tudo que está na fila do debounce, com keepalive pro envio
+// sobreviver ao app sendo fechado (antes a carga ficava só no aparelho).
+function flushSetsSync() {
+  const pend = _syncPending; _syncPending = {};
+  const chaves = Object.keys(pend);
+  if (!chaves.length || !state.user || !state.user.token) return;
+  for (const k of chaves) clearTimeout(_syncTimers[k]);
+  const entries = {};
+  for (const k of chaves) entries[k] = pend[k];
+  try {
+    fetch(API_BASE + '/api/sets', {
+      method: 'POST', keepalive: true,
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.user.token },
+      body: JSON.stringify({ entries }),
+    }).catch(() => {});
+  } catch (e) {}
 }
 // Restore no login: baixa o snapshot da conta e semeia o localStorage
 // (só chaves que não existem localmente; o aparelho atual é a versão mais fresca).
@@ -2414,19 +2470,39 @@ function readSetsFromDom(gid) {
     reps: (r.querySelector('.set-reps') || {}).value || ''
   }));
 }
-let _setTimers = {};
+let _setTimers = {}, _setPend = {};
+function gravaSetPend(d) {
+  saveSets(d.ctxKey, d.idx, d.w, d.arr);
+  stampTrainingDay();
+  checkPRs(d.ctxKey, d.idx, d.exname || '', d.arr);
+}
 function onSetField(ctxKey, idx) {
   const gid = 'sets_' + ctxKey + '_' + idx;
+  // Semana E valores são capturados AGORA, no instante da digitação. Ler o DOM lá
+  // dentro do timeout de 400 ms quebrava de duas formas quando o aluno digitava e
+  // trocava de semana na sequência: a grade já tinha sido redesenhada, então o
+  // timeout lia a grade NOVA (vazia) e gravava vazio em cima da carga da semana
+  // anterior, e a carga digitada não ia pra lugar nenhum.
+  const g = document.getElementById(gid);
+  const arr = readSetsFromDom(gid);
+  if (!arr) return;
+  const d = { ctxKey, idx, w: state.week, arr, exname: (g && g.dataset.exname) || '' };
   clearTimeout(_setTimers[gid]);
-  _setTimers[gid] = setTimeout(() => {
-    const arr = readSetsFromDom(gid);
-    if (!arr) return;
-    saveSets(ctxKey, idx, state.week, arr);
-    stampTrainingDay();
-    const g = document.getElementById(gid);
-    checkPRs(ctxKey, idx, (g && g.dataset.exname) || '', arr);
-  }, 400);
+  _setPend[gid] = d;
+  _setTimers[gid] = setTimeout(() => { delete _setPend[gid]; gravaSetPend(d); }, 400);
 }
+// Fechar o app (ou trocar de aba) antes dos 400 ms fazia a última série digitada
+// não chegar nem ao localStorage. Aqui o pendente é gravado na hora.
+function flushSetsPendentes() {
+  for (const gid of Object.keys(_setPend)) {
+    const d = _setPend[gid]; delete _setPend[gid];
+    clearTimeout(_setTimers[gid]);
+    try { gravaSetPend(d); } catch (e) {}
+  }
+  if (typeof flushSetsSync === 'function') flushSetsSync();
+}
+window.addEventListener('pagehide', flushSetsPendentes);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushSetsPendentes(); });
 function reRenderGrid(ctxKey, idx) {
   const gid = 'sets_' + ctxKey + '_' + idx;
   const g = document.getElementById(gid); if (!g) return;
@@ -2441,7 +2517,14 @@ function addSet(ctxKey, idx) {
 }
 function removeSet(ctxKey, idx, si) {
   const gid = 'sets_' + ctxKey + '_' + idx;
-  const arr = readSetsFromDom(gid) || []; arr.splice(si, 1);
+  const arr = readSetsFromDom(gid) || [];
+  const alvo = arr[si] || {};
+  if (alvo.kg || alvo.pl || alvo.reps) {
+    const oque = [alvo.kg ? alvo.kg + 'kg' : (alvo.pl ? alvo.pl + ' placas' : ''), alvo.reps ? alvo.reps + ' reps' : '']
+      .filter(Boolean).join(' x ');
+    if (!confirm('Apagar a série ' + (si + 1) + (oque ? ' (' + oque + ')' : '') + '?')) return;
+  }
+  arr.splice(si, 1);
   saveSets(ctxKey, idx, state.week, arr);
   reRenderGrid(ctxKey, idx);
 }
@@ -3132,6 +3215,7 @@ function renderPeito() {
   `;
   hydrateFotos(state.week);
   flushFotoUploads();
+  montarAudioAval();   // busca o áudio com o token no cabeçalho, não na URL
 }
 // ════════ PHASE LOCK ════════
 // Fases 2.0 e 3.0 só destravam APÓS 7 dias da compra (fora da janela de reembolso CDC).
@@ -3256,6 +3340,24 @@ function avalAudioNaoOuvido() {
   if (!s || !s.existe || !s.temAudio || s.audioExpirado || !s.audioEm) return false;
   try { return localStorage.getItem(avalChaveOuvido()) !== String(s.audioEm); } catch (e) { return true; }
 }
+let _avalAudioBlobUrl = null;
+async function montarAudioAval() {
+  const el = document.getElementById('avalAudioPlayer');
+  if (!el || el.dataset.pronto || !state.user || !state.user.token) return;
+  el.dataset.pronto = '1';
+  const urlComToken = API_BASE + '/api/aval/audio?t=' + encodeURIComponent(state.user.token);
+  try {
+    const r = await fetch(API_BASE + '/api/aval/audio', { headers: { 'Authorization': 'Bearer ' + state.user.token } });
+    if (!r.ok) throw new Error('status ' + r.status);
+    const b = await r.blob();
+    if (!b || !b.size) throw new Error('vazio');
+    if (_avalAudioBlobUrl) URL.revokeObjectURL(_avalAudioBlobUrl);
+    _avalAudioBlobUrl = URL.createObjectURL(b);
+    el.src = _avalAudioBlobUrl;
+  } catch (e) {
+    el.src = urlComToken;   // plano B: o aluno ouvir vale mais que o token fora da URL
+  }
+}
 function marcarAvalOuvido() {
   const s = _avalStatus;
   if (!s || !s.audioEm) return;
@@ -3366,7 +3468,7 @@ function avalCardHtml() {
     return `<div class="seca-card" id="avalCard" style="border-color: rgba(80,200,120,.45); background: rgba(80,200,120,.06);">
       <div class="seca-card-tag" style="color:#6fd695;">🎙 TUA AVALIAÇÃO CHEGOU</div>
       <div class="seca-card-main">O GH olhou tuas fotos e medidas e gravou um áudio pra ti.</div>
-      <audio id="avalAudioPlayer" controls preload="none" onplay="marcarAvalOuvido()" style="width:100%;margin-top:10px;" src="${API_BASE}/api/aval/audio?t=${encodeURIComponent(state.user.token)}"></audio>
+      <audio id="avalAudioPlayer" controls preload="none" onplay="marcarAvalOuvido()" style="width:100%;margin-top:10px;"></audio>
       ${ate ? `<div class="seca-card-sub" style="margin-top:8px;">O áudio fica no app até <b>${ate}</b>, depois sai. Escuta enquanto está aqui.</div>` : ''}
       ${avalEnvioHtml()}
     </div>`;
@@ -3426,7 +3528,7 @@ function avalFormHtml() {
     </div>
     <div class="aval-grid">${campos}</div>
     <div style="font-weight:800;font-size:13px;margin:16px 0 6px;">📸 As 4 fotos (de frente pro espelho, luz boa, sunga ou shorts)</div>
-    <div class="foto-row">
+    <div class="foto-grid">
       ${FOTO_ANGLES.map(a => `<div class="foto-slot" id="avslot-${a.k}" onclick="pickFoto('${a.k}')"><span class="foto-slot-plus">+</span><span class="foto-slot-label">${a.l}</span></div>`).join('')}
     </div>
     <div class="seca-card-sub" style="margin:8px 0 14px;">Se tu já tirou as fotos da Régua do Peito desta semana, elas aparecem aqui e valem pra avaliação.</div>
@@ -4299,20 +4401,21 @@ window.addEventListener('appinstalled', () => {
 updateInstallFab();
 
 // ════════ CHECKBOXES (reset diário) ════════
-const CHECK_KEY = 'peitao_checks';
+// Chave por aluno: sem o e-mail, o aparelho compartilhado mostrava o check de um
+// pro outro. A data é a LOCAL (todayISO): com toISOString() o dia virava às 21h de
+// Brasília e o treino marcado à noite aparecia desmarcado.
+function checkKey() { return 'peitao_checks_' + (typeof setsEmail === 'function' ? setsEmail() : 'anon'); }
 let _checks = {};
-(function loadChecks() {
+function loadChecks() {
   try {
-    const raw = JSON.parse(localStorage.getItem(CHECK_KEY) || '{}');
-    const today = new Date().toISOString().slice(0, 10);
-    _checks = (raw.date === today) ? (raw.data || {}) : {};
+    const raw = JSON.parse(localStorage.getItem(checkKey()) || '{}');
+    _checks = (raw.date === todayISO()) ? (raw.data || {}) : {};
   } catch (e) { _checks = {}; }
-})();
+}
+loadChecks();
 function saveChecks() {
   try {
-    localStorage.setItem(CHECK_KEY, JSON.stringify({
-      date: new Date().toISOString().slice(0, 10), data: _checks
-    }));
+    localStorage.setItem(checkKey(), JSON.stringify({ date: todayISO(), data: _checks }));
   } catch (e) {}
 }
 function isChecked(ctxKey, idx) { return !!(_checks[ctxKey] && _checks[ctxKey][idx]); }
