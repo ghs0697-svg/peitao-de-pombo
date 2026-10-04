@@ -1027,6 +1027,9 @@
   /* Dois planos da consultoria lado a lado. Em 360px cada coluna fica com ~160px,
      então o parcelado (que é o número grande, padrão do GH) tem que caber sem quebrar. */
   .planos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .planos-grid.planos-um { grid-template-columns: 1fr; }   /* um plano só ocupa a largura toda */
+  .planos-um .plano-selo { min-height: 0; }
+  .planos-um .plano-parcela { font-size: 20px; }
   .plano-box {
     display: flex; flex-direction: column; padding: 13px 11px; border-radius: 12px;
     border: 1px solid rgba(201, 162, 75, 0.34); background: rgba(201, 162, 75, 0.05);
@@ -1920,19 +1923,20 @@ const PLANOS_CONSULTORIA = [
     link: 'https://payfast.greenn.com.br/redirect/302606',
     selo: 'R$100 off de aluno',
   },
-  {
-    nome: 'SEMESTRAL',
-    meses: 6,
-    de: null,
-    aVista: 'R$997',
-    parcela: '12x de R$102,51',
-    porMes: 'R$166/mês',
-    link: 'https://payfast.greenn.com.br/120446/offer/2eUfsO?ch_id=21679&b_id_1=120433&b_offer_1=7TELaf&b_id_2=ungwnyg&b_offer_2=LNEse1',
-    selo: 'dobro de tempo, sem renovar no meio',
-  },
+  // SEMESTRAL fora do card por ordem do GH (04/10): a R$997 sem condição de aluno ele
+  // dava R$166/mês, igualzinho ao trimestral com os R$100 off, então ninguém tinha
+  // motivo pra escolher. Volta quando tiver condição de aluno (R$897 = R$149/mês):
+  // descomentar e CONFERIR o valor abrindo o checkout antes de publicar.
+  // {
+  //   nome: 'SEMESTRAL', meses: 6, de: null, aVista: 'R$997',
+  //   parcela: '12x de R$102,51', porMes: 'R$166/mês',
+  //   link: 'https://payfast.greenn.com.br/120446/offer/2eUfsO?ch_id=21679&b_id_1=120433&b_offer_1=7TELaf&b_id_2=ungwnyg&b_offer_2=LNEse1',
+  //   selo: 'dobro de tempo, sem renovar no meio',
+  // },
 ];
 function planosConsultoriaHtml() {
-  return `<div class="planos-grid">` + PLANOS_CONSULTORIA.map(p => `
+  const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
+  return `<div class="planos-grid${unico}">` + PLANOS_CONSULTORIA.map(p => `
     <div class="plano-box">
       <div class="plano-nome">${p.nome}</div>
       <div class="plano-selo">${p.selo}</div>
@@ -1979,12 +1983,12 @@ function renderUpsells() {
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom. O Semestral vai pelo valor de tabela.</div>
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.</div>
         ${planosConsultoriaHtml()}` : ''}
         ${u.planos ? '' : priceBlock(u)}
         ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
         ${u.id === 'consultoria' ? `
-        <a class="mgh-wa-soft" href="${CONSULTORIA.link}" target="_blank" rel="noopener">Quer o plano anual ou falar comigo antes? Me chama no whats →</a>` : ''}
+        <a class="mgh-wa-soft" href="${CONSULTORIA.link}" target="_blank" rel="noopener">Quer um plano mais longo ou falar comigo antes? Me chama no whats →</a>` : ''}
       </div>
     `).join('');
 }
