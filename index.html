@@ -1933,7 +1933,9 @@ function renderUpsells() {
 }
 
 // ════════ EBOOKS (order bumps) ════════
-// id = chave do flag em state.ebooks. PDF (quando comprado) em pdfs/ebooks/*.pdf.
+// id = chave do flag em state.ebooks. O PDF NÃO mora mais na pasta do app (estava
+// aberto na web pra qualquer um): vem da API com login, via baixarEbook().
+// temPdf marca quem tem arquivo pra baixar; o combo não tem, libera os individuais.
 const EBOOKS_ERGO = [
   {
     id: 'ergo1',
@@ -1943,7 +1945,7 @@ const EBOOKS_ERGO = [
     bullets: ['Fundamentos de cada classe', 'Doses iniciais seguras', 'O que esperar de cada ciclo'],
     cta: 'Quero a Parte 1',
     link: CHECKOUT_ERGO_1,
-    pdf: 'pdfs/ebooks/ergogenicos-pt-1.pdf',
+    temPdf: true,
     priceNow: 'R$9,90',
   },
   {
@@ -1954,7 +1956,7 @@ const EBOOKS_ERGO = [
     bullets: ['Stacks que funcionam', 'Suporte hormonal e PCT', 'Ajuste de doses por objetivo'],
     cta: 'Quero a Parte 2',
     link: CHECKOUT_ERGO_2,
-    pdf: 'pdfs/ebooks/ergogenicos-pt-2.pdf',
+    temPdf: true,
     priceNow: 'R$9,90',
   },
   {
@@ -1979,7 +1981,7 @@ const EBOOKS_PEPT = [
     bullets: ['Todos os peptídeos relevantes', 'Doses, vias e horários', 'Stacks por objetivo', 'Monitoramento e exames'],
     cta: 'Quero os Peptídeos',
     link: CHECKOUT_PEPT,
-    pdf: 'pdfs/ebooks/peptideos.pdf',
+    temPdf: true,
     priceNow: 'R$14,90',
   },
   {
@@ -2001,11 +2003,26 @@ function ebookOwned(id) {
   return !!state.ebooks?.[id];
 }
 
+async function baixarEbook(ev, id) {
+  if (ev) ev.preventDefault();
+  const btn = ev && ev.currentTarget;
+  const txt = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Liberando...'; btn.style.pointerEvents = 'none'; }
+  try {
+    const r = await api('/api/ebook/ticket', { method: 'POST', body: JSON.stringify({ id }) });
+    if (!r || !r.url) throw new Error((r && r.error) || 'falhou');
+    window.open(API_BASE + r.url, '_blank', 'noopener');
+  } catch (e) {
+    alert('Não consegui liberar o ebook agora. Tenta de novo em instantes, e se persistir fala no suporte.');
+  } finally {
+    if (btn) { btn.textContent = txt; btn.style.pointerEvents = ''; }
+  }
+}
 function ebookCard(e) {
   const owned = ebookOwned(e.id);
   // Combo "owned" não renderiza (não tem PDF próprio, ebooks individuais aparecem como liberados)
   if (e.id === 'combo' && owned) return '';
-  if (owned && e.pdf) {
+  if (owned && e.temPdf) {
     return `
       <div class="mgh-card theme-pp" style="margin-top:14px;">
         <div class="mgh-head">
@@ -2016,7 +2033,7 @@ function ebookCard(e) {
           </div>
         </div>
         <div class="mgh-sub">${e.desc}</div>
-        <a class="mgh-cta" href="${e.pdf}" download target="_blank" rel="noopener">📥 Baixar PDF →</a>
+        <a class="mgh-cta" href="#" onclick="baixarEbook(event,'${e.id}')">📥 Baixar PDF →</a>
       </div>
     `;
   }
