@@ -1,18 +1,41 @@
-# Ebooks PDFs
+# Ebooks: NÃO coloque os PDFs aqui
 
-Coloca os 3 PDFs dos ebooks aqui com exatamente esses nomes:
+Esta pasta está vazia de propósito. Os PDFs dos ebooks **saíram daqui em 04/10/2026**.
 
-| Arquivo | Ebook |
-|---|---|
-| `ergogenicos-pt-1.pdf` | Ergogênicos · Parte 1 (R$15) |
-| `ergogenicos-pt-2.pdf` | Ergogênicos · Parte 2 (R$15) |
-| `peptideos.pdf` | Peptídeos (R$27) |
+Antes eles ficavam neste caminho e eram servidos como arquivo estático pelo GitHub
+Pages, sem nenhuma verificação: qualquer pessoa com o endereço baixava os 31 MB
+inteiros sem ser aluna. O README anterior chamava isso de "segurança por obfuscação",
+o que não é segurança: o endereço não era secreto, estava no código do app, que é
+público neste mesmo repositório.
 
-O frontend procura nesses caminhos:
-- `pdfs/ebooks/ergogenicos-pt-1.pdf`
-- `pdfs/ebooks/ergogenicos-pt-2.pdf`
-- `pdfs/ebooks/peptideos.pdf`
+## Onde os ebooks moram agora
 
-Acesso é controlado pelo backend — quem comprou na Hotmart (qualquer dos 3 produtos ou o Super Combo) recebe `purchase.ergo1/ergo2/pept = true` via webhook, e o app libera o botão "📥 Baixar PDF" automaticamente.
+No Google Drive, pasta `Ebooks (protegidos)`, e só saem pela API com login:
 
-Quem não comprou só vê o card de venda (com link Hotmart pra checkout). Não tem auth da URL direta do PDF — segurança vem da obfuscação igual aos outros PDFs do app (régua, engenharia, dietas).
+| Ebook | id | Preço |
+|---|---|---|
+| Ergogênicos, Parte 1 | `ergo1` | R$15 |
+| Ergogênicos, Parte 2 | `ergo2` | R$15 |
+| Peptídeos | `pept` | R$27 |
+
+O caminho é: o app chama `POST /api/ebook/ticket` com o login no cabeçalho, a API
+confere a flag da compra (`ergo1`/`ergo2`/`pept`) e devolve um endereço que vale 5
+minutos; esse endereço entrega o arquivo. Quem não comprou leva 403, e sem a
+passagem o download dá 401.
+
+## Para trocar um ebook por uma versão nova
+
+Não commite o PDF. Suba o arquivo em algum lugar que a API alcance e chame:
+
+```
+GET /api/admin/ebook-import?secret=<ADMIN_SECRET>&id=ergo1&url=<url do PDF>
+```
+
+Isso grava no Drive e atualiza o apontamento. O mesmo `id` sobrescreve a versão
+anterior, então reimportar não enche o Drive de cópias.
+
+## Aviso sobre o histórico
+
+Os PDFs removidos **continuam no histórico do git** e este repositório é público,
+então seguem alcançáveis por hash de commit antigo. Remover de vez exige reescrever
+o histórico ou fechar o repositório. Decisão pendente com o GH.
