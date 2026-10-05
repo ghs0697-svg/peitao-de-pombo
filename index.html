@@ -1929,10 +1929,14 @@ const UPSELLS = [
       '1 ano de acesso, novo protocolo a cada 90 dias'
     ],
     cta: 'Quero o Shape de Elite',
-    link: 'https://pay.hotmart.com/K106022760P?off=ua8y7ddm&checkoutMode=10',
+    // Shape de Elite passou a ser vendido pela Greenn (GH, 05/10). Link e parcela
+    // trocam JUNTOS: a Greenn parcela em 12x de R$30,54, não nos R$30,72 da Hotmart.
+    // Valores conferidos abrindo o checkout. O link já tem "?", então parâmetro de
+    // rastreio, se um dia entrar, vai com "&".
+    link: 'https://payfast.greenn.com.br/169962/offer/htPhqs?ch_id=138909&b_id_1=170203&b_offer_1=5X9OoO&b_id_2=170204&b_offer_2=zWJmSJ&b_id_3=170205&b_offer_3=Vw3yNP&b_id_4=170351&b_offer_4=WXGcXu',
     priceNow: 'R$297',
     priceLabel: 'no Pix ou',
-    priceParcel: '12x de R$30,72'
+    priceParcel: '12x de R$30,54'
   }
 ];
 
