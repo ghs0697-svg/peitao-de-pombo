@@ -641,6 +641,17 @@
     text-transform: none; letter-spacing: 0; box-shadow: none; animation: none;
   }
   .auth-msg { font-size: 13px; color: var(--accent-hi); margin-top: 14px; line-height: 1.5; min-height: 1px; }
+  /* recuo à direita: os botões flutuantes (instalar e Assistente) ficam por cima do canto
+     inferior direito também na tela de entrada, e tapavam o fim da frase */
+  .auth-suporte {
+    display: block; margin-top: 18px; padding: 12px 78px 12px 4px; text-align: left; text-decoration: none;
+    font-size: 12px; line-height: 1.5; color: var(--text-dim); border-top: 1px solid var(--border);
+  }
+  .auth-suporte b { color: var(--accent-hi); font-weight: 700; }
+  /* rodapé de suporte dentro do app: recuo à direita pra não ficar embaixo dos botões flutuantes */
+  .app-suporte { padding: 4px 96px 30px 20px; }
+  .app-suporte a { display: inline-block; padding: 9px 0; font-size: 12px; line-height: 1.5; color: var(--text-dim); text-decoration: none; }
+  .app-suporte b { color: var(--accent-hi); font-weight: 700; }
   .hidden { display: none !important; }
   .empty { text-align: center; color: var(--text-mute); padding: 40px 20px; font-size: 14px; }
 
@@ -1349,6 +1360,11 @@
       <button class="auth-btn ghost" onclick="showAuth('login')">Voltar pro login</button>
       <div class="auth-msg" style="opacity:.7;">Já comprou? Faz login de novo.</div>
     </div>
+
+    <!-- Suporte na tela de entrada: as mensagens de erro mandam "falar no suporte" e o app
+         não dava caminho nenhum. Quem está travado aqui nem chega no Assistente. Sempre o
+         WhatsApp oficial do produto, e sem dado do aluno no endereço. -->
+    <a class="auth-suporte" href="https://wa.me/5555999717530?text=Oi%21%20Comprei%20o%20Peit%C3%A3o%20de%20Pombo%20e%20n%C3%A3o%20estou%20conseguindo%20entrar%20no%20app." target="_blank" rel="noopener">Não consegue entrar? <b>Fala com o suporte no WhatsApp →</b></a>
   </div>
 </div>
 
@@ -1370,6 +1386,10 @@
     <div class="screen" id="screen-ergo"></div>
     <div class="screen" id="screen-parc"></div>
   </main>
+
+  <footer class="app-suporte">
+    <a href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
+  </footer>
 
   <div class="footer">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
 </div>
@@ -1421,7 +1441,7 @@
     </div>
     <button class="ghchat-close" id="ghchatClose" type="button" aria-label="Fechar assistente">✕</button>
   </div>
-  <div class="ghchat-aviso">Tiro dúvida do <b>acesso ao app</b> e do <b>treino de peito</b>. Pra plano completo (dieta, suplementação, corpo todo), conhece a <a href="https://metodogh.com.br" target="_blank" rel="noopener">consultoria</a>.</div>
+  <div class="ghchat-aviso">Tiro dúvida do <b>acesso ao app</b> e do <b>treino de peito</b>. Pra plano completo (dieta, suplementação, corpo todo), conhece a <a href="https://metodogh.com.br" target="_blank" rel="noopener">consultoria</a>. Precisa falar com gente? <a href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Suporte no WhatsApp</a>.</div>
   <div class="ghchat-body" id="ghchatBody" aria-live="polite"></div>
   <form class="ghchat-foot" id="ghchatForm" autocomplete="off">
     <textarea id="ghchatInput" class="ghchat-input" rows="1" placeholder="Escreve tua dúvida..." maxlength="500" aria-label="Tua mensagem"></textarea>
@@ -1513,25 +1533,32 @@ const STORAGE_KEY = 'peitao_session';
 let DATA = null;
 
 // Estado
-let state = {
-  tab: 'peito',
-  peitoVer: '1.0',
-  peitoDay: 'A',          // legado (mantido pra compat); a grade nova usa treinoSel
-  treinoSel: 'A',         // dia selecionado na aba TREINO: 'A' | 'B' | '1'..'4' (dias do Completo)
-  semanaVer: '1.0',
-  dietaVer: '2.8K',
-  semanaDay: 1,           // a aba SEMANA começa no primeiro dia não-peito (índice real do array)
-  upsellUnlocked: false,  // vem do backend (flag upsell da compra)
-  lifetime: false,        // vem do backend (flag de acesso vitalício)
-  ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
-  seca: false,            // comprou o Seca Pança (flag do backend)
-  secaDaysSince: null,    // dias desde a compra do Seca (relógio próprio do modo)
-  modoSeca: false,        // switch do Modo Seca (por conta, localStorage)
-  daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
-  daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
-  week: null,             // semana atual do protocolo 1-12 (null = ainda não inicializada)
-  user: null              // { email, token, name }
-};
+// Valores de fábrica do estado. O logout volta a ELES (Object.assign), em vez de zerar
+// campo por campo: na v111 eu gravei week = 1 no logout, e como a semana só é
+// calculada quando está null, quem tinha a sessão derrubada e entrava de novo sem
+// recarregar a página caía na SEMANA 1, e a carga do dia ia pra semana errada.
+function estadoInicial() {
+  return {
+    tab: 'peito',
+    peitoVer: '1.0',
+    peitoDay: 'A',          // legado (mantido pra compat); a grade nova usa treinoSel
+    treinoSel: 'A',         // dia selecionado na aba TREINO: 'A' | 'B' | '1'..'4' (dias do Completo)
+    semanaVer: '1.0',
+    dietaVer: '2.8K',
+    semanaDay: 1,           // a aba SEMANA começa no primeiro dia não-peito (índice real do array)
+    upsellUnlocked: false,  // vem do backend (flag upsell da compra)
+    lifetime: false,        // vem do backend (flag de acesso vitalício)
+    ebooks: { ergo1: false, ergo2: false, pept: false }, // ebooks comprados (do backend)
+    seca: false,            // comprou o Seca Pança (flag do backend)
+    secaDaysSince: null,    // dias desde a compra do Seca (relógio próprio do modo)
+    modoSeca: false,        // switch do Modo Seca (por conta, localStorage)
+    daysLeft: null,         // dias restantes do acesso base (null = vitalício/allowlist)
+    daysSincePurchase: null,// dias passados desde a compra (pra travar fase 2.0/3.0)
+    week: null,             // semana atual do protocolo 1-12 (null = ainda não inicializada)
+    user: null              // { email, token, name }
+  };
+}
+let state = estadoInicial();
 
 // ─── Sessão (localStorage) ───
 function loadSession() {
@@ -1682,15 +1709,10 @@ async function doReset() {
 // cartão de avaliação com as medidas e as fotos de quem saiu.
 function limpaEstadoDoAluno() {
   flushSetsPendentes();          // a última série digitada vai embora antes de trocar de conta
-  state.user = null;
-  state.upsellUnlocked = false;
-  state.lifetime = false;
-  state.seca = false;
-  state.secaDaysSince = null;
-  state.ebooks = { ergo1: false, ergo2: false, pept: false };
-  state.week = 1;
+  // Volta TUDO pros valores de fábrica. week volta a null de propósito: é o sinal de
+  // "ainda não calculada", e o próximo login recalcula a semana do aluno que entrou.
+  Object.assign(state, estadoInicial());
   state.subs = {};
-  state.tab = 'peito';
   _checks = {};
   _avalStatus = null;
   _avalVerEnvio = false;
@@ -4815,14 +4837,50 @@ boot();
       return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
   }
-  // escapa e transforma metodogh.com.br (com ou sem https/www/caminho) em link clicável
+  // Escapa e transforma em link SÓ o que é nosso. Até a v118 só metodogh.com.br virava
+  // link, e o link de PAGAMENTO da consultoria que o bot manda desde 19/08 chegava como
+  // texto morto, pra copiar e colar; o do suporte no WhatsApp, a mesma coisa.
+  // Não é "qualquer http vira link" de propósito: quem escreve o texto é um modelo, e um
+  // endereço inventado (ou plantado numa conversa) ficaria a um toque do aluno, dentro do
+  // nosso app. Fora da lista o endereço aparece, mas como texto.
+  var DOMINIOS_OK = ['metodogh.com.br', 'peitaodepombo.com.br', 'shapedeelite.com.br'];   // e subdomínios
+  var HOSTS_OK = ['payfast.greenn.com.br', 'pay.hotmart.com', 'wa.me', 'api.whatsapp.com', 'chat.whatsapp.com'];
+  // WhatsApp: só número NOSSO vira link (o suporte oficial e o parceiro que já está na
+  // aba Parceiros), e só o grupo dos alunos. É lista POSITIVA de propósito: qualquer
+  // outro número fica como texto, e este arquivo, que é público, não precisa citar
+  // número nenhum que não seja pra circular.
+  var WA_OK = ['5555999717530', '5516997693445'];
+  var GRUPO_OK = 'FxtqXqzz56ALqzPI2vpozM';
+  function whatsPermitido(host, url) {
+    var h = String(host).toLowerCase();
+    if (h === 'chat.whatsapp.com') return url.indexOf('/' + GRUPO_OK) >= 0;
+    if (h !== 'wa.me' && h !== 'api.whatsapp.com') return true;   // não é WhatsApp
+    var num = h === 'wa.me' ? (url.match(/wa\.me\/(\d+)/i) || [])[1]
+                            : (url.match(/[?&](?:amp;)?phone=(\d+)/i) || [])[1];
+    return !!num && WA_OK.indexOf(num) >= 0;
+  }
+  function hostPermitido(h) {
+    h = String(h).toLowerCase().replace(/^www\./, '');
+    if (HOSTS_OK.indexOf(h) >= 0) return true;
+    for (var i = 0; i < DOMINIOS_OK.length; i++) {
+      var d = DOMINIOS_OK[i];
+      if (h === d || h.slice(-(d.length + 1)) === '.' + d) return true;
+    }
+    return false;
+  }
   function render(text) {
     var html = esc(text);
-    html = html.replace(/(https?:\/\/)?(www\.)?metodogh\.com\.br(\/[^\s)]*)?/gi, function (m) {
-      var href = /^https?:\/\//i.test(m) ? m : 'https://' + m.replace(/^www\./i, '');
-      return '<a href="' + href + '" target="_blank" rel="noopener">' + m + '</a>';
+    return html.replace(/(https?:\/\/)?((?:[a-z0-9-]+\.)+[a-z]{2,})([\/?][^\s<]*)?/gi, function (m, proto, host, resto, pos, tudo) {
+      if (pos > 0 && tudo.charAt(pos - 1) === '@') return m;   // domínio de um e-mail, não é link
+      if (!hostPermitido(host)) return m;
+      if (!whatsPermitido(host, m)) return m;
+      // pontuação (e aspa escapada) colada no fim da frase não faz parte do endereço
+      var rabo = '';
+      var fim = m.match(/(?:&quot;|&#39;|[.,;:!?)\]])+$/);
+      if (fim) { rabo = fim[0]; m = m.slice(0, -rabo.length); }
+      var href = /^https?:\/\//i.test(m) ? m : 'https://' + m;
+      return '<a href="' + href + '" target="_blank" rel="noopener">' + m + '</a>' + rabo;
     });
-    return html;
   }
 
   function scrollDown() { body.scrollTop = body.scrollHeight; }
