@@ -1975,9 +1975,17 @@ const PLANOS_CONSULTORIA = [
 // ganha +1 mês de acompanhamento, além dos R$100 de aluno. O app só ANUNCIA: quem dá
 // o mês é a automação do CRM (src/lib/promo-black.js de lá), que vale pra toda venda
 // da janela, venha do comercial ou deste card, porque o link de pagamento é o mesmo.
-// A data daqui TEM que ser a mesma de lá. Passou do dia, a frase some sozinha e o
+// A data daqui TEM que acompanhar a de lá. Passou do dia, a frase some sozinha e o
 // card volta a mostrar só a condição de aluno, sem ninguém precisar republicar.
-const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 31, 23, 59, 59), ateTxt: '31/10' };
+// Dois cuidados combinados com a Quiz Peitão e a Site Shape (Sala #2856 e #2859),
+// pra o texto ficar igual no app do Peitão, no do Shape e na /consultoria:
+//  - NÃO se escreve a data pro aluno: o comercial trabalha com prazo de urgência
+//    próprio, que muda toda semana, e um "até 31/10" fixo aqui desmentiria a
+//    mensagem que o mesmo aluno recebe no whats. O corte é só por código.
+//  - Some às 23h30, meia hora ANTES do fim da automação: Pix gerado no último
+//    minuto pode confirmar depois da virada, e o app teria prometido um mês que a
+//    planilha não dá.
+const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 31, 23, 30, 0) };
 function bonusConsultoriaAtivo() { return Date.now() <= BONUS_CONSULTORIA.ate.getTime(); }
 function planosConsultoriaHtml() {
   const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
@@ -1985,7 +1993,7 @@ function planosConsultoriaHtml() {
     <div class="plano-box">
       <div class="plano-nome">${p.nome}</div>
       <div class="plano-selo">${p.selo}</div>
-      ${(p.bonusMeses && bonusConsultoriaAtivo()) ? `<div class="plano-bonus">+ ${p.bonusMeses} mês de bônus: paga ${p.meses}, leva ${p.meses + p.bonusMeses}<span>fechando até ${BONUS_CONSULTORIA.ateTxt}</span></div>` : ''}
+      ${(p.bonusMeses && bonusConsultoriaAtivo()) ? `<div class="plano-bonus">+ ${p.bonusMeses} mês de bônus<span>paga ${p.meses}, leva ${p.meses + p.bonusMeses}</span></div>` : ''}
       ${p.de ? `<div class="plano-de">de <s>${p.de}</s> por</div>` : `<div class="plano-de">&nbsp;</div>`}
       <div class="plano-parcela">${p.parcela}</div>
       <div class="plano-avista">ou <b>${p.aVista}</b> à vista no Pix</div>
@@ -2029,7 +2037,7 @@ function renderUpsells() {
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E fechando até ${BONUS_CONSULTORIA.ateTxt} tu ainda ganha 1 mês de bônus:</b> paga 3, leva 4.` : ''}</div>
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E na minha Black Friday antecipada tu ainda leva 1 mês de bônus:</b> roda 4 meses comigo pagando 3, e pega 2 reajustes em vez de 1.` : ''}</div>
         ${planosConsultoriaHtml()}` : ''}
         ${u.planos ? '' : priceBlock(u)}
         ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
