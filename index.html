@@ -1802,6 +1802,7 @@ async function enterApp() {
   migrarCargaD5UmaVez();   // carga do dia de braços segue o exercício (reordenação 29/08)
   loadSubs();                // chaves por aluno: recarrega agora que o e-mail é conhecido
   loadChecks();
+  restaurarDiaDoTreino();    // volta pro dia em que o aluno estava (vale pelo dia)
   renderTabs();
   // Corrida curta: a grade só nasce depois do restore quando a rede ajuda. Antes
   // ela nascia vazia e quem digitava rápido num aparelho novo enterrava a carga antiga.
@@ -3532,8 +3533,34 @@ function tryPhaseChange(setter, v) {
   setter(v);
 }
 function setPeitoVer(v) { _semanaEscolhidaNaSessao = true; state.week = weekForPhase(v); renderPeito(); }
-function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; state.treinoSel = state.peitoDay; renderPeito(); }
-function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 'B') ? 'B' : 'A'; renderPeito(); }
+function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; state.treinoSel = state.peitoDay; salvarDiaDoTreino(); renderPeito(); }
+function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 'B') ? 'B' : 'A'; salvarDiaDoTreino(); renderPeito(); }
+
+// ════════ LEMBRA O DIA DO TREINO ════════
+// O app abria sempre no Peito A. Se o celular recarregava o app no meio do treino de
+// perna (acontece quando o aluno troca de aplicativo pra mudar a música), ele voltava
+// pro Peito A e tinha que achar o dia de novo. Agora o dia escolhido é lembrado.
+// Vale pelo resto do DIA em que foi escolhido, mais 6 horas de folga pra quem treina
+// virando a meia-noite. No dia seguinte o app volta a abrir no Peito A, porque aí o
+// treino é outro. Fica só no aparelho: é conveniência da sessão, não dado do aluno.
+// A SEMANA não entra aqui de propósito, ela só muda pelo botão "Estou na semana X".
+const DIA_LEMBRADO_FOLGA_MS = 6 * 60 * 60 * 1000;
+function diaKey() { return 'peitao_dia_' + setsEmail(); }
+function salvarDiaDoTreino() {
+  try { localStorage.setItem(diaKey(), JSON.stringify({ sel: state.treinoSel, d: todayISO(), ts: Date.now() })); } catch (e) {}
+}
+function restaurarDiaDoTreino() {
+  try {
+    const n = JSON.parse(localStorage.getItem(diaKey()) || 'null');
+    if (!n || !/^(A|B|[1-4])$/.test(String(n.sel))) return;
+    const vale = n.d === todayISO() || (Date.now() - (Number(n.ts) || 0)) < DIA_LEMBRADO_FOLGA_MS;
+    if (!vale) return;
+    // dia do Pombo Completo só volta pra quem tem o Completo; senão abriria na vitrine com cadeado
+    if (n.sel !== 'A' && n.sel !== 'B' && !state.upsellUnlocked) return;
+    state.treinoSel = String(n.sel);
+    state.peitoDay = (n.sel === 'B') ? 'B' : 'A';
+  } catch (e) {}
+}
 
 // ════════ MIGRAÇÃO DE CARGA — DIA 5 reordenado (bi/tri alternado, 29/08/2026) ════════
 // O dia de braços trocou de ordem. A carga do aluno é gravada por POSIÇÃO, então sem
