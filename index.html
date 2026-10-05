@@ -1063,6 +1063,11 @@
   }
   .plano-nome { font-size: 11px; font-weight: 900; letter-spacing: 1px; color: #E8C97A; }
   .plano-selo { font-size: 10px; color: #b0a890; margin-top: 3px; min-height: 26px; line-height: 1.3; }
+  .plano-bonus {
+    margin-top: 8px; padding: 8px 10px; border-radius: 8px; font-size: 12px; font-weight: 800;
+    color: #2A2213; background: linear-gradient(135deg, #E8C97A, #C9A24B); line-height: 1.3;
+  }
+  .plano-bonus span { display: block; font-size: 10px; font-weight: 700; opacity: .8; margin-top: 1px; }
   .plano-de { font-size: 11px; color: #8f8878; margin-top: 6px; }
   .plano-de s { color: #8f8878; }
   .plano-parcela { font-size: 17px; font-weight: 900; color: var(--text); line-height: 1.2; margin-top: 2px; }
@@ -1953,6 +1958,7 @@ const PLANOS_CONSULTORIA = [
     porMes: 'R$166/mês',
     link: 'https://payfast.greenn.com.br/redirect/302606',
     selo: 'R$100 off de aluno',
+    bonusMeses: 1,   // tabela do CRM: trimestral +1, semestral +2, anual +2
   },
   // SEMESTRAL fora do card por ordem do GH (04/10): a R$997 sem condição de aluno ele
   // dava R$166/mês, igualzinho ao trimestral com os R$100 off, então ninguém tinha
@@ -1965,12 +1971,21 @@ const PLANOS_CONSULTORIA = [
   //   selo: 'dobro de tempo, sem renovar no meio',
   // },
 ];
+// BÔNUS DA BLACK NO APP (GH, 05/10/2026). Quem fecha o trimestral de 25/09 a 31/10
+// ganha +1 mês de acompanhamento, além dos R$100 de aluno. O app só ANUNCIA: quem dá
+// o mês é a automação do CRM (src/lib/promo-black.js de lá), que vale pra toda venda
+// da janela, venha do comercial ou deste card, porque o link de pagamento é o mesmo.
+// A data daqui TEM que ser a mesma de lá. Passou do dia, a frase some sozinha e o
+// card volta a mostrar só a condição de aluno, sem ninguém precisar republicar.
+const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 31, 23, 59, 59), ateTxt: '31/10' };
+function bonusConsultoriaAtivo() { return Date.now() <= BONUS_CONSULTORIA.ate.getTime(); }
 function planosConsultoriaHtml() {
   const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
   return `<div class="planos-grid${unico}">` + PLANOS_CONSULTORIA.map(p => `
     <div class="plano-box">
       <div class="plano-nome">${p.nome}</div>
       <div class="plano-selo">${p.selo}</div>
+      ${(p.bonusMeses && bonusConsultoriaAtivo()) ? `<div class="plano-bonus">+ ${p.bonusMeses} mês de bônus: paga ${p.meses}, leva ${p.meses + p.bonusMeses}<span>fechando até ${BONUS_CONSULTORIA.ateTxt}</span></div>` : ''}
       ${p.de ? `<div class="plano-de">de <s>${p.de}</s> por</div>` : `<div class="plano-de">&nbsp;</div>`}
       <div class="plano-parcela">${p.parcela}</div>
       <div class="plano-avista">ou <b>${p.aVista}</b> à vista no Pix</div>
@@ -2014,7 +2029,7 @@ function renderUpsells() {
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.</div>
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$597</s> por <b>R$497</b>: R$100 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E fechando até ${BONUS_CONSULTORIA.ateTxt} tu ainda ganha 1 mês de bônus:</b> paga 3, leva 4.` : ''}</div>
         ${planosConsultoriaHtml()}` : ''}
         ${u.planos ? '' : priceBlock(u)}
         ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
