@@ -2020,7 +2020,13 @@ const PLANOS_CONSULTORIA = [
 //  - Some às 23h30, meia hora ANTES do fim da automação: Pix gerado no último
 //    minuto pode confirmar depois da virada, e o app teria prometido um mês que a
 //    planilha não dá.
-const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 31, 23, 30, 0) };
+// ENCERRADO EM 05/10/2026, por ordem do GH no fim da tarde, textual: "cancela tudo da
+// Black, não vai mais ter Black agora, nem os bônus de mês a mais, revoga tudo a partir de
+// agora pra quem entrar". A automação do CRM parou de dar o mês nesse instante, então o
+// app não pode mais anunciar. A data abaixo já passou de propósito: o bloco fica
+// desligado e o card mostra só a condição de aluno (R$100 off), que NÃO é da Black e
+// continua valendo. Pra religar um dia, é pôr aqui a data de fim que o CRM usar.
+const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 function bonusConsultoriaAtivo() { return Date.now() <= BONUS_CONSULTORIA.ate.getTime(); }
 function planosConsultoriaHtml() {
   const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
