@@ -792,6 +792,17 @@
   .wk-nav:not(:disabled):active { border-color: var(--accent); background: var(--accent-soft); }
   .wk-label { font-size: 13px; font-weight: 700; color: var(--text-dim); }
   .wk-label b { color: var(--text); font-size: 16px; }
+  .wk-aqui {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px;
+    margin: -2px 0 12px; font-size: 12px; color: var(--text-dim); text-align: center;
+  }
+  .wk-aqui b { color: var(--text); }
+  .wk-aqui button {
+    background: var(--accent-soft); border: 1px solid var(--accent-border); color: var(--accent-hi);
+    font-family: inherit; font-size: 12px; font-weight: 800; padding: 8px 14px; border-radius: 10px;
+    min-height: 34px; cursor: pointer;
+  }
+  .wk-aqui button:active { transform: scale(.97); }
   .wk-now { font-size: 10px; font-weight: 800; color: var(--accent-hi); background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; margin-left: 5px; text-transform: uppercase; letter-spacing: .3px; }
 
   /* ════════ Assistente do app (chat) ════════ */
@@ -1713,6 +1724,7 @@ function limpaEstadoDoAluno() {
   // "ainda não calculada", e o próximo login recalcula a semana do aluno que entrou.
   Object.assign(state, estadoInicial());
   state.subs = {};
+  _semanaEscolhidaNaSessao = false;
   _checks = {};
   _avalStatus = null;
   _avalVerEnvio = false;
@@ -2532,13 +2544,61 @@ function maxUnlockedWeek() { return isPhaseLocked('2.0') ? 4 : 12; }
 // A fase sempre segue a semana atual (a semana manda).
 function syncPhaseToWeek() { const v = phaseOfWeek(state.week); state.peitoVer = v; state.semanaVer = v; }
 // Ao escolher uma fase: cai na semana "agora" se ela pertence à fase, senão na 1ª da fase.
-function weekForPhase(v) { const cur = computeWeek(); const [a, b] = phaseWeekRange(v); return (cur >= a && cur <= b) ? cur : a; }
+function weekForPhase(v) { const cur = semanaAtual(); const [a, b] = phaseWeekRange(v); return (cur >= a && cur <= b) ? cur : a; }
+
+// ════════ A SEMANA EM QUE O ALUNO ESTÁ ════════
+// O app abria sempre na semana do CALENDÁRIO, contada da data da compra. Quem estava
+// atrasado no protocolo, ou já tinha passado das 12 semanas e recomeçado o ciclo, tinha
+// que voltar pelas setas toda vez que abria, e se esquecia gravava a carga na semana
+// errada (caso real: aluno vitalício na "semana 12" treinando na semana 1 desde 21/09).
+// Agora ele pode dizer "estou nesta semana": o app guarda a semana e o dia em que ele
+// disse (a âncora), abre nela e segue contando dali, uma semana a cada 7 dias.
+// É escolha EXPLÍCITA, por botão. Navegar pra olhar uma semana antiga não muda nada, de
+// propósito: se a âncora andasse sozinha, bastaria espiar a semana passada e fechar o app
+// pra, no dia seguinte, gravar o treino por cima dela.
+// A âncora vai pelo mesmo canal das cargas (chave "ancora", item {d: dia, w: semana}),
+// então acompanha a conta se o aluno trocar de aparelho. A trava de fase não muda: ela é
+// regra de acesso e continua contando da compra.
+let _semanaEscolhidaNaSessao = false;   // o aluno mexeu na semana nesta sessão?
+function ancoraKey() { return 'peitao_sets_' + setsEmail() + '_ancora'; }
+function lerAncora() {
+  try {
+    const a = JSON.parse(localStorage.getItem(ancoraKey()) || 'null');
+    const it = Array.isArray(a) ? a[0] : null;
+    const w = it ? parseInt(it.w, 10) : NaN;
+    if (!it || !/^\d{4}-\d{2}-\d{2}$/.test(String(it.d || '')) || !(w >= 1 && w <= 12)) return null;
+    return { w, d: it.d };
+  } catch (e) { return null; }
+}
+function diasEntre(isoA, isoB) {   // dias corridos de A até B, em data local
+  const dt = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+  return Math.round((dt(isoB) - dt(isoA)) / 86400000);
+}
+function semanaAtual() {
+  const a = lerAncora();
+  if (!a) return computeWeek();   // sem escolha do aluno: calendário da compra, como sempre foi
+  const passou = Math.max(0, diasEntre(a.d, todayISO()));
+  return Math.max(1, Math.min(12, maxUnlockedWeek(), a.w + Math.floor(passou / 7)));
+}
+function marcarSemanaAtual() {
+  const w = state.week;
+  if (!(w >= 1 && w <= 12)) return;
+  flushSetsPendentes();
+  const arr = [{ d: todayISO(), w: String(w) }];
+  try { localStorage.setItem(ancoraKey(), JSON.stringify(arr)); } catch (e) {}
+  queueSetsSync(ancoraKey(), arr);
+  _semanaEscolhidaNaSessao = true;
+  showToast('📍 Semana ' + w + ' marcada como a tua. O app abre nela e segue contando daqui.');
+  if (state.tab === 'peito') renderPeito();
+  else if (state.tab === 'semana') renderSemana();
+}
 // 1ª renderização: semana = a real (pelos dias de compra); a fase se deriva dela.
-function initWeekPhaseOnce() { if (state.week == null) state.week = computeWeek(); }
+function initWeekPhaseOnce() { if (state.week == null) state.week = semanaAtual(); }
 function setWeek(w) {
   w = Math.min(maxUnlockedWeek(), Math.max(1, w));
   if (w === state.week) return;
   flushSetsPendentes();   // grava o que estava sendo digitado na semana que fica pra trás
+  _semanaEscolhidaNaSessao = true;
   state.week = w;
   syncPhaseToWeek(); // cruzar a fronteira da semana troca a fase sozinho
   if (state.tab === 'peito') renderPeito();
@@ -2546,12 +2606,15 @@ function setWeek(w) {
 }
 function weekSelectorHtml() {
   const max = maxUnlockedWeek();
-  const w = state.week, cur = computeWeek();
+  const w = state.week, cur = semanaAtual();
   return `<div class="wk-row">
     <button class="wk-nav" onclick="setWeek(${w - 1})" ${w <= 1 ? 'disabled' : ''} aria-label="Semana anterior">‹</button>
     <div class="wk-label">SEMANA <b>${w}</b> / 12${w === cur ? ' <span class="wk-now">agora</span>' : ''}</div>
     <button class="wk-nav" onclick="setWeek(${w + 1})" ${w >= max ? 'disabled' : ''} aria-label="Próxima semana">›</button>
-  </div>`;
+  </div>${w === cur ? '' : `<div class="wk-aqui">
+    <span>Tua semana de agora é a <b>${cur}</b>.</span>
+    <button onclick="marcarSemanaAtual()">Estou na semana ${w}</button>
+  </div>`}`;
 }
 function setsEmail() { return (state.user && state.user.email) || 'anon'; }
 function setsKey(ctxKey, idx, w) {
@@ -2620,11 +2683,29 @@ async function restoreSetsFromServer() {
     const r = await api('/api/sets');
     if (!r || !r.ok || !r.sets) return;
     const prefix = 'peitao_sets_' + setsEmail() + '_';
+    const ancoraAntes = localStorage.getItem(prefix + 'ancora');
     for (const k of Object.keys(r.sets)) {
       const lk = prefix + k;
       if (localStorage.getItem(lk) === null) {
         try { localStorage.setItem(lk, JSON.stringify(r.sets[k])); } catch (e) {}
       }
+    }
+    // A âncora da semana é a única chave em que a mais NOVA vence, e não a local: o
+    // aluno pode ter dito "estou nesta semana" em outro aparelho depois deste.
+    try {
+      const srv = r.sets.ancora && r.sets.ancora[0];
+      const loc = lerAncora();
+      if (srv && srv.d && (!loc || String(srv.d) > loc.d)) {
+        localStorage.setItem(prefix + 'ancora', JSON.stringify(r.sets.ancora));
+      } else if (loc && srv && loc.d > String(srv.d || '')) {
+        queueSetsSync(prefix + 'ancora', JSON.parse(localStorage.getItem(prefix + 'ancora')));
+      }
+    } catch (e) {}
+    // Se a âncora chegou só agora (rede lenta) e o aluno ainda não mexeu na semana,
+    // a tela vai pra semana dele. O que estava sendo digitado é gravado antes.
+    if (localStorage.getItem(prefix + 'ancora') !== ancoraAntes && !_semanaEscolhidaNaSessao && state.week != null) {
+      flushSetsPendentes();
+      state.week = null;
     }
     // upload do que só existe local (migração/primeira vez)
     const missing = {};
@@ -3450,7 +3531,7 @@ function tryPhaseChange(setter, v) {
   }
   setter(v);
 }
-function setPeitoVer(v) { state.week = weekForPhase(v); renderPeito(); }
+function setPeitoVer(v) { _semanaEscolhidaNaSessao = true; state.week = weekForPhase(v); renderPeito(); }
 function setPeitoDay(d) { state.peitoDay = d === 'B' ? 'B' : 'A'; state.treinoSel = state.peitoDay; renderPeito(); }
 function setTreinoSel(s) { state.treinoSel = String(s); state.peitoDay = (s === 'B') ? 'B' : 'A'; renderPeito(); }
 
@@ -4157,7 +4238,7 @@ function abrirAulaSeca() {
 
 // ════════ SEMANA COMPLETA (upsell) ════════
 function renderSemana() { /* aba unificada: o treino da semana vive em renderPeito() */ }
-function setSemanaVer(v) { state.semanaDay = 1; state.week = weekForPhase(v); renderSemana(); }
+function setSemanaVer(v) { _semanaEscolhidaNaSessao = true; state.semanaDay = 1; state.week = weekForPhase(v); renderSemana(); }
 function setSemanaDay(i) { state.semanaDay = i; renderSemana(); }
 
 // ════════ DIETA (upsell) ════════
@@ -4743,7 +4824,7 @@ function drawAch() {
   // Cards de números: exercícios · kg levantados · semana do protocolo
   const stats = [{ v: String(_achData.count), l: 'EXERCÍCIOS' }];
   if (_achData.vol > 0) stats.push({ v: fmtVol(_achData.vol), l: 'KG LEVANTADOS' });
-  stats.push({ v: (state.week || computeWeek()) + '/12', l: 'SEMANA' });
+  stats.push({ v: (state.week || semanaAtual()) + '/12', l: 'SEMANA' });
   const ch = 150, cy = userText ? 1440 : 1385;
   const cw = stats.length === 3 ? 300 : 340, gap = 20;
   let sx = W/2 - (stats.length * cw + (stats.length - 1) * gap) / 2;
