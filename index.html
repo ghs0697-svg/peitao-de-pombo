@@ -1024,6 +1024,33 @@
   }
   .mgh-aluno b { color: #E8C97A; }
   .mgh-aluno s { color: #8f8878; }
+  /* Leitor do ebook dentro do app: ocupa a tela toda, respeitando a faixa do topo e
+     a do rodapé do celular. O conteúdo vai num iframe porque o ebook traz o próprio
+     :root e as próprias fontes, que colidiriam com o app. */
+  .leitor-wrap {
+    position: fixed; inset: 0; z-index: 120; background: #14181d;
+    display: flex; flex-direction: column;
+  }
+  .leitor-topo {
+    display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    padding: calc(10px + var(--safe-top)) 12px 10px;
+    background: #1b1f27; border-bottom: 1px solid #323a46;
+  }
+  .leitor-tit {
+    flex: 1; min-width: 0; color: #e9e6dd; font-size: 13px; font-weight: 800;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .leitor-x {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; border: 1px solid #323a46;
+    background: transparent; color: #e9e6dd; font-size: 17px; cursor: pointer; font-family: inherit;
+  }
+  .leitor-x:active { background: #222834; }
+  .leitor-frame { flex: 1; width: 100%; border: 0; background: #14181d; }
+  /* o baixar vira secundário: ler no app é o caminho principal */
+  .mgh-cta.ghost-cta {
+    background: transparent; border: 1px solid var(--accent-border);
+    color: var(--accent-hi); margin-top: 8px;
+  }
   /* Dois planos da consultoria lado a lado. Em 360px cada coluna fica com ~160px,
      então o parcelado (que é o número grande, padrão do GH) tem que caber sem quebrar. */
   .planos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
@@ -2064,6 +2091,54 @@ function ebookOwned(id) {
   return !!state.ebooks?.[id];
 }
 
+// Abre o ebook pra LER dentro do app, sem baixar nada. A versão de leitura tem
+// 24 a 48 KB contra 1,6 MB do PDF, e se ajusta à tela: o PDF é uma folha A4 fixa,
+// que no celular obriga a dar zoom. O conteúdo entra num iframe isolado porque o
+// ebook traz o próprio :root e as próprias fontes, que colidiriam com o app.
+let _lendoEbook = null;
+async function lerEbook(ev, id, titulo) {
+  if (ev) ev.preventDefault();
+  const btn = ev && ev.currentTarget;
+  const txt = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Abrindo...'; btn.style.pointerEvents = 'none'; }
+  try {
+    const r = await api('/api/ebook/ticket', { method: 'POST', body: JSON.stringify({ id: id + '-html' }) });
+    if (!r || !r.url) throw new Error((r && r.error) || 'falhou');
+    const html = await fetch(API_BASE + r.url).then(x => { if (!x.ok) throw new Error('status ' + x.status); return x.text(); });
+    abrirLeitor(html, titulo || 'Ebook');
+  } catch (e) {
+    alert('Não consegui abrir o ebook agora. Tenta de novo, ou baixa o PDF aqui embaixo.');
+  } finally {
+    if (btn) { btn.textContent = txt; btn.style.pointerEvents = ''; }
+  }
+}
+function abrirLeitor(html, titulo) {
+  fecharLeitor();
+  const wrap = document.createElement('div');
+  wrap.className = 'leitor-wrap';
+  wrap.id = 'leitorEbook';
+  wrap.innerHTML = `
+    <div class="leitor-topo">
+      <div class="leitor-tit">${titulo}</div>
+      <button class="leitor-x" onclick="fecharLeitor()" aria-label="Fechar">✕</button>
+    </div>
+    <iframe class="leitor-frame" sandbox="allow-same-origin"></iframe>`;
+  document.body.appendChild(wrap);
+  document.body.style.overflow = 'hidden';
+  const fr = wrap.querySelector('.leitor-frame');
+  fr.srcdoc = html;
+  _lendoEbook = wrap;
+  // voltar no celular fecha o leitor em vez de sair do app
+  history.pushState({ leitor: 1 }, '');
+  window.addEventListener('popstate', fecharLeitorPorVoltar);
+}
+function fecharLeitorPorVoltar() { if (_lendoEbook) fecharLeitor(true); }
+function fecharLeitor(doVoltar) {
+  window.removeEventListener('popstate', fecharLeitorPorVoltar);
+  if (_lendoEbook) { _lendoEbook.remove(); _lendoEbook = null; }
+  document.body.style.overflow = '';
+  if (!doVoltar && history.state && history.state.leitor) history.back();
+}
 async function baixarEbook(ev, id) {
   if (ev) ev.preventDefault();
   const btn = ev && ev.currentTarget;
@@ -2102,7 +2177,8 @@ function ebookCard(e) {
           </div>
         </div>
         <div class="mgh-sub">${e.desc}</div>
-        <a class="mgh-cta" href="#" onclick="baixarEbook(event,'${e.id}')">📥 Baixar PDF →</a>
+        <a class="mgh-cta" href="#" onclick="lerEbook(event,'${e.id}','${String(e.titulo).replace(/'/g, "\\'")}')">📖 Ler agora →</a>
+        <a class="mgh-cta ghost-cta" href="#" onclick="baixarEbook(event,'${e.id}')">📥 Baixar o PDF</a>
       </div>
     `;
   }
