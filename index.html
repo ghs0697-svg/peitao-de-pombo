@@ -1845,8 +1845,8 @@ async function enterApp() {
   renderErgo();
   renderParceiros();
   startHeartbeat();
-  if (!_modoPrimeiroTreino) {   // campanhas só depois do primeiro treino (ver _modoPrimeiroTreino)
-    initSecaBanner();          // campanha projeto verão (liga sozinho em 01/09, prioridade máxima)
+  initSecaBanner();          // campanha projeto verão: fica desde o 1º dia (GH, 06/10)
+  if (!_modoPrimeiroTreino) {   // o grupo só depois do primeiro treino (ver _modoPrimeiroTreino)
     initGrupoModal();          // 1ª abertura DEPOIS do primeiro treino: convite em tela cheia pro grupo
     initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
   }
@@ -2082,8 +2082,9 @@ function priceBlock(p) {
     </div>
   `;
 }
-function renderUpsells() {
+function renderUpsells(soIds) {   // soIds: lista de ids pra mostrar só esses (1º dia: só o Pombo Completo)
   return UPSELLS
+    .filter(u => !soIds || soIds.includes(u.id))
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
     .filter(u => !(u.hideIfLifetime && state.lifetime))
     .filter(u => !(u.onlyIfUpsell && !state.upsellUnlocked))
@@ -3088,10 +3089,12 @@ function primeiroTreinoFeito() {
 // de quem treina, 86% começa na 1ª semana. Na primeira abertura o app pedia o grupo do
 // whats em tela cheia, vendia o Seca no topo e punha 12 cartões de venda na aba; o
 // primeiro exercício ficava a uma tela inteira de rolagem. Enquanto o aluno não tem
-// nenhum dia de treino: sem tela do grupo, sem banners de campanha, sem cartões de
-// venda, e um bloco "Começa aqui" no topo. Treinou um dia, tudo volta na próxima
-// abertura. É decidido uma vez por sessão, de propósito: as ofertas não podem brotar
-// no meio do primeiro treino, no instante em que ele marca o primeiro exercício.
+// nenhum dia de treino: sem tela do grupo, sem os cartões de consultoria e Shape, sem
+// banner de aviso (ele é pedido no fim do treino), e um bloco "Começa aqui" no topo.
+// O banner do Seca e o cartão do Pombo Completo FICAM desde o primeiro dia, por
+// decisão do GH (06/10): são as ofertas do próprio Peitão. Treinou um dia, tudo volta
+// na próxima abertura. É decidido uma vez por sessão, de propósito: o resto não pode
+// brotar no meio do primeiro treino, no instante em que ele marca o primeiro exercício.
 let _modoPrimeiroTreino = false;
 function weekHasTraining(wk) {
   try { const a = JSON.parse(localStorage.getItem(daysKey(wk)) || 'null'); return Array.isArray(a) && a.length > 0; } catch (e) { return false; }
@@ -3608,7 +3611,7 @@ function renderPeito() {
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF do treino · Fase ${state.peitoVer}
     </button>
-    ${_modoPrimeiroTreino ? '' : renderUpsells()}
+    ${renderUpsells(_modoPrimeiroTreino ? ['5x'] : null)}
   `;
   hydrateFotos(state.week);
   flushFotoUploads();
