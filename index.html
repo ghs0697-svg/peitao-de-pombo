@@ -3089,12 +3089,12 @@ function primeiroTreinoFeito() {
 // de quem treina, 86% começa na 1ª semana. Na primeira abertura o app pedia o grupo do
 // whats em tela cheia, vendia o Seca no topo e punha 12 cartões de venda na aba; o
 // primeiro exercício ficava a uma tela inteira de rolagem. Enquanto o aluno não tem
-// nenhum dia de treino: sem tela do grupo, sem os cartões de consultoria e Shape, sem
-// banner de aviso (ele é pedido no fim do treino), e um bloco "Começa aqui" no topo.
-// O banner do Seca e o cartão do Pombo Completo FICAM desde o primeiro dia, por
-// decisão do GH (06/10): são as ofertas do próprio Peitão. Treinou um dia, tudo volta
-// na próxima abertura. É decidido uma vez por sessão, de propósito: o resto não pode
-// brotar no meio do primeiro treino, no instante em que ele marca o primeiro exercício.
+// nenhum dia de treino: sem a tela cheia do grupo (que travava a página) e sem o banner
+// de aviso (ele é pedido no fim do treino), e um bloco "Começa aqui" no topo.
+// AS OFERTAS NÃO SE ESCONDEM (GH, 06/10: "não precisamos boicotar as ofertas, ebooks
+// também têm que aparecer, o pessoal compra e usa"): banner do Seca e todos os
+// cartões ficam como sempre. Treinou um dia, o convite do grupo volta na próxima
+// abertura. Decidido uma vez por sessão, de propósito.
 let _modoPrimeiroTreino = false;
 function weekHasTraining(wk) {
   try { const a = JSON.parse(localStorage.getItem(daysKey(wk)) || 'null'); return Array.isArray(a) && a.length > 0; } catch (e) { return false; }
@@ -3611,7 +3611,7 @@ function renderPeito() {
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF do treino · Fase ${state.peitoVer}
     </button>
-    ${renderUpsells(_modoPrimeiroTreino ? ['5x'] : null)}
+    ${renderUpsells()}
   `;
   hydrateFotos(state.week);
   flushFotoUploads();
