@@ -772,6 +772,31 @@
   .rec-item b { color: var(--text); }
   .rec-item .rec-marca { color: var(--accent-hi); font-weight: 800; white-space: nowrap; }
   .conclude-vol { font-size: 11.5px; font-weight: 700; color: var(--text-dim); margin-top: 5px; }
+  /* bloco do primeiro treino: único destaque da tela enquanto o aluno não treinou */
+  .comeca-aqui {
+    background: linear-gradient(135deg, #2A1505 0%, var(--surface) 100%); border: 1.5px solid var(--accent);
+    border-radius: 14px; padding: 16px; margin: 0 0 16px;
+  }
+  .comeca-tag { font-size: 10px; font-weight: 900; letter-spacing: 1.2px; color: var(--accent-hi); }
+  .comeca-tit { font-size: 17px; font-weight: 900; color: var(--text); margin-top: 6px; line-height: 1.25; }
+  .comeca-sub { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-top: 8px; }
+  .comeca-btn {
+    display: block; width: 100%; margin-top: 12px; padding: 13px 16px; border: none; border-radius: 10px;
+    background: var(--accent); color: #0A0A0B; font-family: inherit; font-weight: 900; font-size: 14px; cursor: pointer;
+  }
+  .comeca-btn:active { transform: scale(.98); }
+  /* fim do treino: o próximo e o lembrete */
+  .proximo-treino {
+    border: 1px solid rgba(45,216,129,.4); background: rgba(45,216,129,.07); border-radius: 14px;
+    padding: 13px 16px; margin-bottom: 12px;
+  }
+  .proximo-tit { font-size: 14px; font-weight: 800; color: var(--text); }
+  .proximo-tit b { color: var(--ok); }
+  .proximo-sub { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; margin-top: 4px; }
+  .proximo-btn {
+    display: block; width: 100%; margin-top: 10px; padding: 11px 14px; border: none; border-radius: 10px;
+    background: var(--ok); color: #062b16; font-family: inherit; font-weight: 900; font-size: 13px; cursor: pointer;
+  }
   .conclude-vol b { color: var(--accent-hi); }
   .gh-toast {
     position: fixed; top: calc(14px + var(--safe-top)); left: 50%; transform: translate(-50%, -140%);
@@ -1812,6 +1837,7 @@ async function enterApp() {
       new Promise(r => setTimeout(r, 1500)),
     ]);
   } catch (e) { /* rede ruim não pode impedir o app de desenhar */ }
+  _modoPrimeiroTreino = !primeiroTreinoFeito();
   renderPeito();
   renderAulas();
   renderSemana();
@@ -1819,9 +1845,11 @@ async function enterApp() {
   renderErgo();
   renderParceiros();
   startHeartbeat();
-  initSecaBanner();          // campanha projeto verão (liga sozinho em 01/09, prioridade máxima)
-  initGrupoModal();          // 1ª abertura: convite em tela cheia pro grupo do whats
-  initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
+  if (!_modoPrimeiroTreino) {   // campanhas só depois do primeiro treino (ver _modoPrimeiroTreino)
+    initSecaBanner();          // campanha projeto verão (liga sozinho em 01/09, prioridade máxima)
+    initGrupoModal();          // 1ª abertura DEPOIS do primeiro treino: convite em tela cheia pro grupo
+    initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
+  }
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
 }
 
@@ -3041,6 +3069,30 @@ function isoWeekKey(d) {
   return dt.getFullYear() + '-W' + String(wk).padStart(2, '0');
 }
 function daysKey(wk) { return 'peitao_sets_' + setsEmail() + '_days_' + wk; }
+// O aluno já tem algum dia de treino registrado (marcou exercício ou digitou carga)?
+// Lê o aparelho, que depois do restore já tem os dias que vieram da conta.
+function primeiroTreinoFeito() {
+  try {
+    const prefix = 'peitao_sets_' + setsEmail() + '_days_';
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith(prefix)) continue;
+      const a = JSON.parse(localStorage.getItem(k) || 'null');
+      if (Array.isArray(a) && a.length) return true;
+    }
+  } catch (e) {}
+  return false;
+}
+// PRIMEIRO TREINO ANTES DE QUALQUER OFERTA (GH, 06/10/2026). Medido na safra de
+// 16/07 a 22/09: 85% criam conta, mas 43% dos que criam NUNCA registram um treino, e
+// de quem treina, 86% começa na 1ª semana. Na primeira abertura o app pedia o grupo do
+// whats em tela cheia, vendia o Seca no topo e punha 12 cartões de venda na aba; o
+// primeiro exercício ficava a uma tela inteira de rolagem. Enquanto o aluno não tem
+// nenhum dia de treino: sem tela do grupo, sem banners de campanha, sem cartões de
+// venda, e um bloco "Começa aqui" no topo. Treinou um dia, tudo volta na próxima
+// abertura. É decidido uma vez por sessão, de propósito: as ofertas não podem brotar
+// no meio do primeiro treino, no instante em que ele marca o primeiro exercício.
+let _modoPrimeiroTreino = false;
 function weekHasTraining(wk) {
   try { const a = JSON.parse(localStorage.getItem(daysKey(wk)) || 'null'); return Array.isArray(a) && a.length > 0; } catch (e) { return false; }
 }
@@ -3389,12 +3441,53 @@ async function downloadTreinoPDF(kind) {
 }
 
 // Conclude bar — progresso + botão compartilhar
-function concludeBar(ctxKey, exList, contextLabel) {
+// O NÚMERO QUE SEPARA QUEM FICA DE QUEM SOME É O SEGUNDO TREINO (CRM, 06/10/2026):
+// só 26% chegam nele em 14 dias; quem faz 2 treinos nos primeiros 14 dias segue na
+// 3ª e 4ª semana em 44%, quem faz 1 segue em 11%. Até aqui o fim do treino era só o
+// botão de compartilhar. Agora diz qual é o próximo treino e oferece o lembrete pelo
+// aviso do próprio app, no momento em que o aluno tem motivo pra querer.
+function proximoTreinoHtml(proximo) {
+  if (!proximo) return '';
+  const temNotif = ('Notification' in window);
+  const granted = temNotif && Notification.permission === 'granted';
+  const denied = temNotif && Notification.permission === 'denied';
+  const sub = granted ? 'Te aviso quando for o dia.'
+            : denied ? 'Pra eu te lembrar, libera as notificações do app nas configurações do celular.'
+            : 'Dá 1 ou 2 dias de descanso e volta. Quer que eu te lembre?';
+  return `<div class="proximo-treino">
+    <div class="proximo-tit">✅ Feito. Próximo treino: <b>${esc(proximo)}</b></div>
+    <div class="proximo-sub">${sub}</div>
+    ${(!granted && !denied) ? `<button class="proximo-btn" onclick="ativarAvisosPeitao('treino')">🔔 Me lembra do próximo treino</button>` : ''}
+  </div>`;
+}
+function comecaAquiHtml(cur, exList, nomeDia) {
+  if (!_modoPrimeiroTreino || !exList || !exList.length) return '';
+  const feitos = exList.reduce((a, _, i) => a + (isChecked(cur.ctx, i) ? 1 : 0), 0);
+  if (feitos > 0) return '';   // já começou, o bloco sai
+  const n = exList.length, min = Math.round(n * 6.5 / 5) * 5;
+  return `<div class="comeca-aqui">
+    <div class="comeca-tag">TEU PRIMEIRO TREINO</div>
+    <div class="comeca-tit">${esc(nomeDia)}: ${n} exercícios, uns ${min} minutos</div>
+    <div class="comeca-sub">Toca no play pra ver a execução, marca cada exercício quando fizer e anota a carga. Quem anota a carga, segue no protocolo.</div>
+    <button class="comeca-btn" onclick="irPrimeiroExercicio()">Começar agora →</button>
+  </div>`;
+}
+function irPrimeiroExercicio() {
+  const ex = document.querySelector('#screen-peito .ex');
+  if (!ex) return;
+  // as abas são fixas no topo: rolar o exercício pro "start" deixaria ele escondido atrás delas
+  const tabs = document.getElementById('tabs');
+  const tampa = tabs ? tabs.getBoundingClientRect().height : 0;
+  const alvo = ex.getBoundingClientRect().top + window.scrollY - tampa - 10;
+  window.scrollTo(0, Math.max(0, alvo));   // imediato: a rolagem suave não é garantida em todo WebView
+}
+function concludeBar(ctxKey, exList, contextLabel, proximo) {
   const total = exList.length;
   const done = exList.reduce((a, _, i) => a + (isChecked(ctxKey, i) ? 1 : 0), 0);
   const allDone = done === total && total > 0;
   const vol = volumeOfDay(ctxKey, exList);
   return `
+    ${allDone ? proximoTreinoHtml(proximo) : ''}
     <div class="conclude">
       <div class="conclude-info">
         ${allDone ? '🎉 <b>Treino completo!</b>' : `<b>${done}/${total}</b> exercícios feitos`}
@@ -3461,6 +3554,10 @@ function renderPeito() {
   ];
   const cur = DIAS.find(d => d.id === sel) || DIAS[0];
   const locked = !cur.livre && !state.upsellUnlocked;
+  // O treino que vem depois deste, pulando os que o aluno não tem (vitrine com cadeado)
+  let proximo = null;
+  { const i0 = Math.max(0, DIAS.findIndex(d => d.id === cur.id));
+    for (let k = 1; k <= DIAS.length; k++) { const d = DIAS[(i0 + k) % DIAS.length]; if (d.livre || state.upsellUnlocked) { proximo = d; break; } } }
   const diaBtns = `<div class="day-row">${DIAS.map(d => {
     const dLock = !d.livre && !state.upsellUnlocked;
     return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}" onclick="setTreinoSel('${d.id}')">${dLock ? '🔒 ' : ''}${d.label}</button>`;
@@ -3471,11 +3568,12 @@ function renderPeito() {
   const nomeDia = cur.livre ? ('Treino de Peito ' + cur.id) : ((cur.dia && cur.dia.nome) || cur.label).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, '');
   const miolo = locked
     ? paywall('semana')
-    : `${concludeBar(ctxKey, exList, nomeDia + ' · Fase ' + state.peitoVer)}${exs}${secaFinalizadorHtml(cur.fin)}`;
+    : `${concludeBar(ctxKey, exList, nomeDia + ' · Fase ' + state.peitoVer, proximo ? proximo.label : '')}${exs}${secaFinalizadorHtml(cur.fin)}`;
   const isB = sel === 'B';
   c.innerHTML = `
     <h2>Treino da Semana</h2>
     <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). Os outros dias completam o corpo inteiro.</p>
+    ${comecaAquiHtml(cur, exList, nomeDia)}
     ${secaStripHtml()}
     <div class="ver-row">
       ${['1.0','2.0','3.0'].map(v => {
@@ -3510,7 +3608,7 @@ function renderPeito() {
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
       <span class="dl-ic">⬇</span> Baixar PDF do treino · Fase ${state.peitoVer}
     </button>
-    ${renderUpsells()}
+    ${_modoPrimeiroTreino ? '' : renderUpsells()}
   `;
   hydrateFotos(state.week);
   flushFotoUploads();
@@ -4557,7 +4655,7 @@ async function registerPeitaoPush() {
   }
 }
 
-async function ativarAvisosPeitao() {
+async function ativarAvisosPeitao(motivo) {
   const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (iOS && !standalone) { openInstallModal(); return; }
@@ -4570,7 +4668,10 @@ async function ativarAvisosPeitao() {
   const r = await registerPeitaoPush();
   if (r.ok) {
     dismissPushBanner(true);
-    alert('🔔 Avisos ativados! Novidade do método e condição especial de aluno agora chegam direto aqui.');
+    alert(motivo === 'treino'
+      ? '🔔 Combinado. Te aviso no dia do próximo treino.'
+      : '🔔 Avisos ativados! Novidade do método e condição especial de aluno agora chegam direto aqui.');
+    if (state.tab === 'peito') renderPeito();
   } else if (r.reason === 'ios-not-installed') {
     openInstallModal();
   } else {
@@ -4684,6 +4785,9 @@ function initPeitaoPush() {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) return;
     if (Notification.permission === 'granted') { registerPeitaoPush(); return; }
     if (Notification.permission === 'denied') return;
+    // No primeiro treino o pedido de aviso não vem em banner: vem no fim do treino,
+    // junto do "próximo treino", que é quando o aluno tem motivo pra querer o lembrete.
+    if (_modoPrimeiroTreino) return;
     // Nunca empilha com os banners de campanha (seca/grupo têm prioridade; o push tenta depois)
     if (document.getElementById('grupoBanner') || document.getElementById('secaBanner')) return;
     // banner adiado por 7 dias depois de "agora não"

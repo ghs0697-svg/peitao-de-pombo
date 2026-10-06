@@ -1,4 +1,4 @@
-const CACHE_NAME = 'peitao-de-pombo-v122';
+const CACHE_NAME = 'peitao-de-pombo-v123';
 const ASSETS = [
   './',
   './index.html',
