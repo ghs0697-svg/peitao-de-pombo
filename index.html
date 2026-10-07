@@ -1420,7 +1420,7 @@
     <!-- Suporte na tela de entrada: as mensagens de erro mandam "falar no suporte" e o app
          não dava caminho nenhum. Quem está travado aqui nem chega no Assistente. Sempre o
          WhatsApp oficial do produto, e sem dado do aluno no endereço. -->
-    <a class="auth-suporte" data-suporte="Oi! Comprei o Peitão de Pombo e não estou conseguindo entrar no app." href="https://wa.me/5555999717530?text=Oi%21%20Comprei%20o%20Peit%C3%A3o%20de%20Pombo%20e%20n%C3%A3o%20estou%20conseguindo%20entrar%20no%20app." target="_blank" rel="noopener">Não consegue entrar? <b>Fala com o suporte no WhatsApp →</b></a>
+    <a class="auth-suporte" onclick="registrarCliqueSuporte('login')" data-suporte="Oi! Comprei o Peitão de Pombo e não estou conseguindo entrar no app." href="https://wa.me/5555999717530?text=Oi%21%20Comprei%20o%20Peit%C3%A3o%20de%20Pombo%20e%20n%C3%A3o%20estou%20conseguindo%20entrar%20no%20app." target="_blank" rel="noopener">Não consegue entrar? <b>Fala com o suporte no WhatsApp →</b></a>
   </div>
 </div>
 
@@ -1445,7 +1445,7 @@
 
   <footer class="app-suporte">
     <a href="comeca?de=app" target="_blank" rel="noopener" id="linkComeca" hidden>Comece por aqui: <b>o caminho do Peitão passo a passo →</b></a>
-    <a data-suporte="Oi! Sou aluno do Peitão de Pombo e preciso de ajuda com o app." href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
+    <a onclick="registrarCliqueSuporte('rodape')" data-suporte="Oi! Sou aluno do Peitão de Pombo e preciso de ajuda com o app." href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
   </footer>
 
   <div class="footer">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
@@ -4879,6 +4879,10 @@ function dismissGrupoBanner(entrou) {
 }
 // Registra o toque com a origem (faixa, tela-cheia, aviso) antes de abrir: é o único número
 // que existe de quem vai pro grupo (pedido da CRM, Sala #3002). O WhatsApp não conta pra gente.
+function registrarCliqueSuporte(origem) {
+  // toque nos links do suporte (login e rodapé): conta pra saber onde o aluno trava (CRM, Sala #3230)
+  try { fetch(API_BASE + '/api/clique?para=suporte&de=' + encodeURIComponent(origem || 'outro'), { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+}
 function registrarCliqueGrupo(origem) {
   try {
     fetch(API_BASE + '/api/clique?para=grupo&de=' + encodeURIComponent(origem || 'outro'), { method: 'POST', keepalive: true }).catch(function () {});
