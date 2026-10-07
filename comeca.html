@@ -142,7 +142,7 @@
   <div class="card passo"><div class="num">💬</div><div>
     <h3>Dúvida de treino, dieta ou app</h3>
     <p id="fraseSuporte">É no <b>WhatsApp do Peitão</b> ou no <b>chat dentro do app</b>: um <b>WhatsApp inteligente, que responde na hora</b>, 24 horas por dia.</p>
-    <a class="btn btn-cinza" href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20tenho%20uma%20d%C3%BAvida." data-clique="link-suporte" target="_blank" rel="noopener">Falar no WhatsApp do Peitão</a>
+    <a class="btn btn-cinza" id="btnSuporte" href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20tenho%20uma%20d%C3%BAvida." data-clique="link-suporte" target="_blank" rel="noopener">Falar no WhatsApp do Peitão</a>
   </div></div>
   <div class="card passo"><div class="num">🔔</div><div>
     <h3>Quer ser cobrado? Pede o guardião</h3>
@@ -177,6 +177,13 @@
 <script>
 (function () {
   var API = 'https://peitao-de-pombo-api-es21.vercel.app';
+  // o número do suporte vem de /api/config (plano B do número, Sala #3210); o do HTML é só reserva
+  try {
+    fetch(API + '/api/config', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+      var n = String((j && j.suporteWhats) || '').replace(/\D/g, '');
+      if (/^\d{12,13}$/.test(n)) document.getElementById('btnSuporte').href = 'https://wa.me/' + n + '?text=' + encodeURIComponent('Oi! Sou aluno do Peitão de Pombo e tenho uma dúvida.');
+    }).catch(function () {});
+  } catch (e) {}
   var VIDEO_ID = '';   // id do vídeo de boas-vindas no YouTube (o GH grava; vazio = sem bloco de vídeo)
   var ORIGENS = ['whats', 'app', 'pagina', 'bot', 'chat', 'grupo', 'outro'];   // grupo: link postado no grupo dos alunos
   var de = (new URLSearchParams(location.search).get('de') || 'outro').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 20);

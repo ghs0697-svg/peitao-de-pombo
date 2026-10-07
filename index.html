@@ -1420,7 +1420,7 @@
     <!-- Suporte na tela de entrada: as mensagens de erro mandam "falar no suporte" e o app
          não dava caminho nenhum. Quem está travado aqui nem chega no Assistente. Sempre o
          WhatsApp oficial do produto, e sem dado do aluno no endereço. -->
-    <a class="auth-suporte" href="https://wa.me/5555999717530?text=Oi%21%20Comprei%20o%20Peit%C3%A3o%20de%20Pombo%20e%20n%C3%A3o%20estou%20conseguindo%20entrar%20no%20app." target="_blank" rel="noopener">Não consegue entrar? <b>Fala com o suporte no WhatsApp →</b></a>
+    <a class="auth-suporte" data-suporte="Oi! Comprei o Peitão de Pombo e não estou conseguindo entrar no app." href="https://wa.me/5555999717530?text=Oi%21%20Comprei%20o%20Peit%C3%A3o%20de%20Pombo%20e%20n%C3%A3o%20estou%20conseguindo%20entrar%20no%20app." target="_blank" rel="noopener">Não consegue entrar? <b>Fala com o suporte no WhatsApp →</b></a>
   </div>
 </div>
 
@@ -1445,7 +1445,7 @@
 
   <footer class="app-suporte">
     <a href="comeca?de=app" target="_blank" rel="noopener" id="linkComeca" hidden>Comece por aqui: <b>o caminho do Peitão passo a passo →</b></a>
-    <a href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
+    <a data-suporte="Oi! Sou aluno do Peitão de Pombo e preciso de ajuda com o app." href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
   </footer>
 
   <div class="footer">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
@@ -1578,6 +1578,27 @@
 <script>
 // ════════ CONFIG ════════
 const API_BASE = 'https://peitao-de-pombo-api-es21.vercel.app';
+// WhatsApp do suporte: o oficial fica aqui como reserva, mas o que VALE vem de /api/config
+// (plano B do número, Sala #3210): trocar o número é uma chamada de admin, sem versão nova do app.
+var SUPORTE_WHATS = '5555999717530';
+function waSuporte(texto) { return 'https://wa.me/' + SUPORTE_WHATS + '?text=' + encodeURIComponent(texto); }
+function aplicarSuporte() {
+  try {
+    document.querySelectorAll('a[data-suporte]').forEach(function (a) { a.href = waSuporte(a.getAttribute('data-suporte')); });
+  } catch (e) {}
+}
+function carregarConfig() {
+  try { const c = localStorage.getItem('gh_suporteWhats'); if (/^\d{12,13}$/.test(c || '')) SUPORTE_WHATS = c; } catch (e) {}
+  aplicarSuporte();
+  try {
+    const ctrl = new AbortController(); const t = setTimeout(function () { ctrl.abort(); }, 4000);
+    fetch(API_BASE + '/api/config', { signal: ctrl.signal, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+      clearTimeout(t);
+      const n = String((j && j.suporteWhats) || '').replace(/\D/g, '');
+      if (/^\d{12,13}$/.test(n)) { SUPORTE_WHATS = n; try { localStorage.setItem('gh_suporteWhats', n); } catch (e) {} aplicarSuporte(); }
+    }).catch(function () {});
+  } catch (e) {}
+}
 // Links de checkout — Hotmart
 const CHECKOUT_5X        = 'https://pay.hotmart.com/X106025440Q?off=yh12bqml';  // Pombo Completo R$37 → libera SEMANA + DIETA + VITALÍCIO (desde 10/08/2026)
 const CHECKOUT_VITALICIO = 'https://pay.hotmart.com/H106024755Q?off=hiziwk8x';  // legado: vitalício avulso R$14, fora do checkout; só pros alunos antigos do 5x sem lifetime
@@ -1798,6 +1819,7 @@ function logoutToExpired() {
 async function boot() {
   loadSession();
   loadSubs();
+  carregarConfig();
   // ?criar=1 (botão do passo 1 da página Comece por aqui): quem ainda não tem sessão cai direto
   // na tela de criar senha, sem o toque a mais na entrada (pedido da CRM, Sala #3122)
   try {
@@ -2140,7 +2162,7 @@ function pedirGuardiao(origem) {
   try { fetch(API_BASE + '/api/clique?para=guardiao&de=' + encodeURIComponent(origem || 'outro'), { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
   try { localStorage.setItem('gh_guardiaoPedido', String(Date.now())); } catch (e) {}
   const texto = GUARDIAO.frase + ' Código ' + codigoGuardiao();
-  window.open('https://wa.me/5555999717530?text=' + encodeURIComponent(texto), '_blank');
+  window.open(waSuporte(texto), '_blank');
   if (state.tab === 'peito') renderPeito();
 }
 // linha pequena (bloco do primeiro treino) e botão (fim do treino)
@@ -5216,7 +5238,7 @@ boot();
     if (h !== 'wa.me' && h !== 'api.whatsapp.com') return true;   // não é WhatsApp
     var num = h === 'wa.me' ? (url.match(/wa\.me\/(\d+)/i) || [])[1]
                             : (url.match(/[?&](?:amp;)?phone=(\d+)/i) || [])[1];
-    return !!num && WA_OK.indexOf(num) >= 0;
+    return !!num && (WA_OK.indexOf(num) >= 0 || num === SUPORTE_WHATS);
   }
   function hostPermitido(h) {
     h = String(h).toLowerCase().replace(/^www\./, '');
