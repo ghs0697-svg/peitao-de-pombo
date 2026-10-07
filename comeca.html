@@ -49,6 +49,9 @@
   .honesto { border-color:rgba(45,216,129,.35); background:rgba(45,216,129,.06); }
   .rodape { text-align:center; color:var(--mute); font-size:11.5px; margin-top:34px; letter-spacing:.5px; }
   .ps { font-size:12.5px; color:var(--mute); margin-top:10px; }
+  .tempo { display:inline-block; font-size:11px; font-weight:800; color:var(--accent-hi); background:var(--accent-soft); border-radius:6px; padding:2px 7px; margin-left:6px; vertical-align:middle; letter-spacing:.3px; }
+  .poster { width:100%; height:100%; display:flex; align-items:center; justify-content:center; cursor:pointer; background:radial-gradient(ellipse at center, rgba(255,106,26,.25), #000 70%); color:#fff; font-weight:900; font-size:15px; gap:10px; }
+  .poster .play { width:54px; height:54px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-size:22px; color:#0A0A0B; }
 </style>
 </head>
 <body>
@@ -65,64 +68,67 @@
   <h2>O que é o Peitão</h2>
   <div class="card"><p>É a parte de peito do Método GH, pronta pra tu aplicar sozinho: <b>dois treinos de peito por semana</b> (Peito A e Peito B), <b>12 semanas</b> subindo a carga aos poucos, tudo dentro do app, sem PDF perdido. O resto do corpo e a dieta ficam no Pombo Completo, no mesmo app.</p></div>
 
-  <h2>Teu caminho, passo a passo</h2>
+  <h2>Teu caminho</h2>
 
   <div class="card passo"><div class="num">1</div><div>
-    <h3>Entra no app</h3>
-    <p>Abre <b>app.peitaodepombo.com.br</b>, toca em <b>"Primeiro acesso? Criar senha"</b> e usa o <b>e-mail da compra</b>. Cria uma senha e tá dentro. Quando o app pedir, instala na tela de início: abre mais rápido e fica com cara de app.</p>
+    <h3>Entra no app <span class="tempo">2 minutos</span></h3>
+    <p>Abre <b>app.peitaodepombo.com.br</b>, toca em <b>"Primeiro acesso? Criar senha"</b> e usa o <b>e-mail da compra</b>. Cria uma senha e tá dentro. Quando o app pedir, instala na tela de início. Depois disso o treino já está aberto na tela.</p>
     <a class="btn btn-laranja" href="https://app.peitaodepombo.com.br/" data-clique="link-app">Entrar no app</a>
   </div></div>
 
   <div class="card passo"><div class="num">2</div><div>
-    <h3>Faz o primeiro treino hoje</h3>
-    <p>Na aba <b>TREINO</b> o bloco <b>"Teu primeiro treino"</b> já te espera: toca em <b>"Começar agora"</b>. Em cada exercício, toca no play pra ver a execução, marca quando fizer e <b>anota a carga</b> (kg, placa e repetições). São uns 45 minutos. Quem anota a carga segue no protocolo; quem não anota, se perde.</p>
+    <h3>Faz o primeiro treino hoje <span class="tempo">uns 45 minutos</span></h3>
+    <p>Na aba <b>TREINO</b> o bloco <b>"Teu primeiro treino"</b> já te espera: toca em <b>"Começar agora"</b>. Em cada exercício, toca no play pra ver a execução, marca quando fizer e <b>anota a carga</b> (kg, placa e repetições). Quem anota a carga segue no protocolo; quem não anota, se perde. No fim, o app te mostra o próximo treino.</p>
   </div></div>
 
   <div class="card passo"><div class="num">3</div><div>
-    <h3>Dois dias de descanso e volta pro Peito B</h3>
-    <p>Peito 2x na semana, com 2 dias de folga entre eles (ex: A na segunda, B na quinta). No fim do treino o app mostra o próximo e, se tu quiser, te lembra no dia: botão <b>"Me lembra do próximo treino"</b>.</p>
+    <h3>Dois dias de descanso e volta pro Peito B <span class="tempo">na mesma semana</span></h3>
+    <p>Peito 2x na semana, com 2 dias de folga entre eles (ex: A na segunda, B na quinta). Se tu quiser, o app te lembra no dia: botão <b>"Me lembra do próximo treino"</b>. Depois do segundo treino tu já está no ritmo.</p>
   </div></div>
 
   <div class="card passo"><div class="num">4</div><div>
-    <h3>Semana a semana, carga subindo</h3>
-    <p>O app guarda a semana em que tu está (1 a 12) e mostra a <b>última carga</b> em cada exercício. A regra é simples: repete o que fez e tenta subir um pouco. Sem pular treino.</p>
+    <h3>Semana a semana, carga subindo <span class="tempo">12 semanas</span></h3>
+    <p>O app guarda a semana em que tu está (1 a 12) e mostra a <b>última carga</b> em cada exercício. A regra é simples: repete o que fez e tenta subir um pouco. Sem pular treino. Ao fim das 12 semanas, teu peito é outro e tu passa pra próxima fase.</p>
   </div></div>
 
-  <div class="card passo"><div class="num">5</div><div>
-    <h3>Fases e o resto do corpo</h3>
-    <p>Tu começa na <b>fase 1.0</b>. As fases 2.0 e 3.0, os treinos dos outros dias (costas, ombro, braço e perna), a <b>dieta completa</b> e o <b>acesso vitalício</b> vêm com o <b>Pombo Completo</b>, dentro do mesmo app.</p>
-  </div></div>
+  <h2>O que tu tem no app</h2>
+  <div class="chips">
+    <div class="chip"><b>Treino de peito, fase 1.0:</b> Peito A e Peito B com vídeo de execução, cronômetro de descanso e registro de carga.</div>
+    <div class="chip"><b>Aulas:</b> como encaixar o Peitão no treino que tu já faz.</div>
+    <div class="chip"><b>Com o Pombo Completo:</b> fases 2.0 e 3.0, os treinos dos outros dias (costas, ombro, braço e perna), a dieta completa (2.8K ou 3.2K, tu escolhe no app) e acesso vitalício. Na dieta, tudo que vai ao fogo se pesa <b>PRONTO</b>, do jeito que vai pro prato.</div>
+    <div class="chip"><b>Seca Pança:</b> se o objetivo for secar, liga o Modo Seca no app e dieta, cardio e suplementação trocam mês a mês.</div>
+    <div class="chip"><b>Ebooks:</b> se tu comprou, ficam na aba EBOOKS, pra ler no app ou baixar.</div>
+  </div>
 
-  <div class="card passo"><div class="num">6</div><div>
-    <h3>Dieta: pesa a comida pronta</h3>
-    <p>Com o Pombo Completo tu escolhe a dieta no app (2.8K ou 3.2K). Tudo que vai ao fogo se pesa <b>PRONTO</b>, do jeito que vai pro prato. E se o objetivo for secar, o <b>Seca Pança</b> liga o Modo Seca no app e troca dieta, cardio e suplementação mês a mês.</p>
-  </div></div>
-
-  <div class="card passo"><div class="num">7</div><div>
-    <h3>Entra no grupo</h3>
-    <p>Grupo fechado pra receber minhas novidades, descontos, upgrades e aulas ao vivo. É por onde eu mando recado; dúvida é no privado.</p>
-    <a class="btn btn-verde" href="https://app.peitaodepombo.com.br/grupo?de=playbook" data-clique="link-grupo" target="_blank" rel="noopener">Entrar no grupo do Peitão de Pombo</a>
-  </div></div>
-
-  <div class="card passo"><div class="num">8</div><div>
-    <h3>Quer ser cobrado? Pede o guardião</h3>
-    <p>No app tem o botão <b>"Quero ser cobrado"</b> (no bloco do primeiro treino e no fim dele). Toca, manda a mensagem pronta e o WhatsApp do Peitão passa a te cobrar o treino toda semana. Quem pede, não some.</p>
-  </div></div>
-
-  <div class="card passo honesto"><div class="num">9</div><div>
-    <h3>Suporte 24 horas, sem segredo</h3>
-    <p>Qualquer dúvida de treino, dieta ou app é no <b>WhatsApp do Peitão</b> ou no <b>chat dentro do app</b>. Quem te responde ali é uma <b>inteligência artificial que eu treinei com toda a minha metodologia</b>, 24 horas por dia. Quando precisa de gente, a minha equipe entra na conversa.</p>
-    <a class="btn btn-cinza" href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20tenho%20uma%20d%C3%BAvida." data-clique="link-suporte" target="_blank" rel="noopener">Falar no WhatsApp do Peitão</a>
-  </div></div>
-
-  <h2>O que esperar</h2>
+  <h2>O que esperar e quando</h2>
   <div class="chips">
     <div class="chip"><b>Semanas 1 e 2:</b> aprender a execução e achar a tua carga. Não é pra ir no máximo, é pra ir certo.</div>
     <div class="chip"><b>Semana 4:</b> a carga já sobe e o treino fica curto na cabeça. É aqui que a maioria para; tu não.</div>
     <div class="chip"><b>Semana 12:</b> se tu não faltar, teu peito é outro. Regras que não falham: não pula treino, anota a carga, dorme e come proteína.</div>
   </div>
 
-  <h2>O próximo passo, quando o peito engrenar</h2>
+  <h2>Onde pedir ajuda e quem te acompanha</h2>
+  <div class="card passo"><div class="num">💬</div><div>
+    <h3>Dúvida de treino, dieta ou app</h3>
+    <p id="fraseSuporte">É no <b>WhatsApp do Peitão</b> ou no <b>chat dentro do app</b>, 24 horas por dia. Quando precisa de gente, a equipe do GH entra na conversa.</p>
+    <a class="btn btn-cinza" href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20tenho%20uma%20d%C3%BAvida." data-clique="link-suporte" target="_blank" rel="noopener">Falar no WhatsApp do Peitão</a>
+  </div></div>
+  <div class="card passo"><div class="num">🔔</div><div>
+    <h3>Quer ser cobrado? Pede o guardião</h3>
+    <p>No app tem o botão <b>"Quero ser cobrado"</b> (no bloco do primeiro treino e no fim dele). Toca, manda a mensagem pronta e o WhatsApp do Peitão passa a te cobrar o treino toda semana. Quem pede, não some.</p>
+  </div></div>
+  <div class="card passo"><div class="num">👥</div><div>
+    <h3>Entra no grupo</h3>
+    <p>Grupo fechado pra receber minhas novidades, descontos, upgrades e aulas ao vivo. É por onde eu mando recado; dúvida é no privado.</p>
+    <a class="btn btn-verde" href="https://app.peitaodepombo.com.br/grupo?de=playbook" data-clique="link-grupo" target="_blank" rel="noopener">Entrar no grupo do Peitão de Pombo</a>
+  </div></div>
+
+  <div id="casos" hidden>
+    <h2>Quem já passou por aqui</h2>
+    <div class="chips" id="casosLista"></div>
+  </div>
+
+  <h2>O próximo nível, quando o peito engrenar</h2>
   <div class="card">
     <p><b>Pombo Completo.</b> O resto do corpo, a dieta completa e o acesso vitalício, no mesmo app. Paga uma vez, é teu pra sempre.</p>
     <div class="preco"><b>4x de R$10,07</b> ou R$37 à vista no Pix</div>
@@ -135,6 +141,7 @@
   </div>
   <div class="card">
     <p><b>Consultoria individual (Método GH).</b> Quando tu quiser o método comigo no teu pé, protocolo feito pra ti e reajustes. Aluno do Peitão tem R$100 off.</p>
+    <div class="preco"><b>12x de R$51,10</b> ou R$497 à vista, no trimestral, já com os R$100 off</div>
     <a class="btn btn-cinza" href="https://payfast.greenn.com.br/redirect/302606" data-clique="link-consultoria" target="_blank" rel="noopener">Conhecer a consultoria</a>
   </div>
 
@@ -153,7 +160,18 @@
   if (VIDEO_ID) {
     var v = document.getElementById('video');
     v.hidden = false;
-    v.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?rel=0" title="Boas-vindas do GH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    // poster primeiro: o toque no play é contado (etapa "deu play") e só então o YouTube carrega
+    v.innerHTML = '<div class="poster" id="poster"><span class="play">▶</span>Vídeo de boas-vindas do GH</div>';
+    document.getElementById('poster').addEventListener('click', function () {
+      conta('play');
+      v.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?rel=0&autoplay=1" title="Boas-vindas do GH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    });
+  }
+  // casos de alunos: só do que o GH já publica; entram aqui quando ele ou a Bruna escolherem
+  var CASOS = [];
+  if (CASOS.length) {
+    document.getElementById('casos').hidden = false;
+    document.getElementById('casosLista').innerHTML = CASOS.map(function (c) { return '<div class="chip"><b>' + c.nome + ':</b> ' + c.texto + '</div>'; }).join('');
   }
   document.querySelectorAll('[data-clique]').forEach(function (a) {
     a.addEventListener('click', function () { conta(a.getAttribute('data-clique')); });

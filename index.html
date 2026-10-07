@@ -1443,7 +1443,7 @@
   </main>
 
   <footer class="app-suporte">
-    <a href="comeca?de=app" target="_blank" rel="noopener">Começa por aqui: <b>o caminho do Peitão passo a passo →</b></a><br>
+    <a href="comeca?de=app" target="_blank" rel="noopener" id="linkComeca" hidden>Começa por aqui: <b>o caminho do Peitão passo a passo →</b></a>
     <a href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Precisa de ajuda com o app? <b>Fala com o suporte no WhatsApp →</b></a>
   </footer>
 
@@ -2079,11 +2079,14 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 // Botão no app abre o whats do Peitão com uma frase pronta + código do aluno; o bot da Agentes
 // reconhece a frase por regra e casa o código com a conta (quem escreve de outro número).
 // Pra desligar: ligado = false (o app esconde a linha e o botão na hora). Pré-visualização com a chave desligada: localStorage gh_guardiaoPreview = '1'.
+// Página "Começa por aqui" (playbook inicial, Sala #3118): atalhos no app só com o sim do GH.
+const COMECA_LIGADO = false;
 const GUARDIAO = {
   ligado: true,    // LIGADO em 07/10/2026 00h10: GH aprovou o botão ("Sim sim, já vi, aprovo o botão", via CRM #3062)
   nome: 'Quero ser cobrado',
   frase: 'Quero o guardião do Peitão de Pombo pra me cobrar o treino.',
 };
+try { if (COMECA_LIGADO) { const l = document.getElementById('linkComeca'); if (l) l.hidden = false; } } catch (e) {}
 function guardiaoLigado() {
   try { if (localStorage.getItem('gh_guardiaoPreview') === '1') return true; } catch (e) {}
   return !!GUARDIAO.ligado;
@@ -3537,7 +3540,7 @@ function comecaAquiHtml(cur, exList, nomeDia) {
     <div class="comeca-sub">Toca no play pra ver a execução, marca cada exercício quando fizer e anota a carga. Quem anota a carga, segue no protocolo.</div>
     <button class="comeca-btn" onclick="irPrimeiroExercicio()">Começar agora →</button>
     ${guardiaoLinhaHtml('primeiro-treino')}
-    <div class="guardiao-linha">Primeira vez aqui? <a href="comeca?de=app" target="_blank" rel="noopener">Vê o caminho completo →</a></div>
+    ${COMECA_LIGADO ? `<div class="guardiao-linha">Primeira vez aqui? <a href="comeca?de=app" target="_blank" rel="noopener">Vê o caminho completo →</a></div>` : ''}
   </div>`;
 }
 // Faixa pequena do grupo (pedido da Bruna via CRM, Sala #3002): uma linha só, desde o primeiro
