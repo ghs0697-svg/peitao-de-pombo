@@ -809,6 +809,13 @@
     display: block; width: 100%; margin-top: 10px; padding: 11px 14px; border: none; border-radius: 10px;
     background: var(--ok); color: #062b16; font-family: inherit; font-weight: 900; font-size: 13px; cursor: pointer;
   }
+  /* guardião: pedir pra ser cobrado (desligado até o GH aprovar) */
+  .guardiao-btn {
+    display: block; width: 100%; margin-top: 10px; padding: 11px 14px; border: 1px solid rgba(45,216,129,.5); border-radius: 10px;
+    background: none; color: var(--ok); font-family: inherit; font-weight: 800; font-size: 13px; cursor: pointer;
+  }
+  .guardiao-linha { margin-top: 10px; font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+  .guardiao-linha a { color: var(--ok); font-weight: 800; cursor: pointer; text-decoration: underline; }
   .conclude-vol b { color: var(--accent-hi); }
   .gh-toast {
     position: fixed; top: calc(14px + var(--safe-top)); left: 50%; transform: translate(-50%, -140%);
@@ -2067,6 +2074,48 @@ const PLANOS_CONSULTORIA = [
 // desligado e o card mostra só a condição de aluno (R$100 off), que NÃO é da Black e
 // continua valendo. Pra religar um dia, é pôr aqui a data de fim que o CRM usar.
 const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
+// ── Guardião (Sala #3033/#3040, 06/10/2026): o aluno PEDE pra ser cobrado pelo WhatsApp ──
+// Botão no app abre o whats do Peitão com uma frase pronta + código do aluno; o bot da Agentes
+// reconhece a frase por regra e casa o código com a conta (quem escreve de outro número).
+// DESLIGADO até o GH aprovar nome, frase e lugar. Pré-visualização: localStorage gh_guardiaoPreview = '1'.
+const GUARDIAO = {
+  ligado: false,
+  nome: 'Quero ser cobrado',
+  frase: 'Quero o guardião do Peitão de Pombo pra me cobrar o treino.',
+};
+function guardiaoLigado() {
+  try { if (localStorage.getItem('gh_guardiaoPreview') === '1') return true; } catch (e) {}
+  return !!GUARDIAO.ligado;
+}
+// Código curto e estável do aluno, derivado do e-mail (a API calcula o mesmo pra casar a conta).
+function codigoGuardiao() {
+  const em = String((state.user && state.user.email) || '').trim().toLowerCase();
+  let h = 5381;
+  for (let i = 0; i < em.length; i++) h = ((h * 33) ^ em.charCodeAt(i)) >>> 0;
+  return 'P-' + h.toString(36).toUpperCase().slice(-4).padStart(4, '0');
+}
+function guardiaoPedido() {
+  try { return !!localStorage.getItem('gh_guardiaoPedido'); } catch (e) { return false; }
+}
+function pedirGuardiao(origem) {
+  try { fetch(API_BASE + '/api/clique?para=guardiao&de=' + encodeURIComponent(origem || 'outro'), { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+  try { localStorage.setItem('gh_guardiaoPedido', String(Date.now())); } catch (e) {}
+  const texto = GUARDIAO.frase + ' Código ' + codigoGuardiao();
+  window.open('https://wa.me/5555999717530?text=' + encodeURIComponent(texto), '_blank');
+  if (state.tab === 'peito') renderPeito();
+}
+// linha pequena (bloco do primeiro treino) e botão (fim do treino)
+function guardiaoLinhaHtml(origem) {
+  if (!guardiaoLigado()) return '';
+  if (guardiaoPedido()) return `<div class="guardiao-linha">✅ Guardião pedido. Ele te chama no WhatsApp.</div>`;
+  return `<div class="guardiao-linha">Quer que a gente te cobre o treino toda semana? <a onclick="pedirGuardiao('${origem}')">${esc(GUARDIAO.nome)} →</a></div>`;
+}
+function guardiaoBotaoHtml(origem) {
+  if (!guardiaoLigado()) return '';
+  if (guardiaoPedido()) return `<div class="proximo-sub" style="margin-top:8px;">✅ Guardião pedido. Ele te chama no WhatsApp pra cobrar o treino.</div>`;
+  return `<button class="guardiao-btn" onclick="pedirGuardiao('${origem}')">💬 ${esc(GUARDIAO.nome)} no WhatsApp</button>
+    <div class="proximo-sub" style="margin-top:6px;">O guardião te cobra o treino toda semana, pelo WhatsApp do Peitão.</div>`;
+}
 function bonusConsultoriaAtivo() { return Date.now() <= BONUS_CONSULTORIA.ate.getTime(); }
 function planosConsultoriaHtml() {
   const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
@@ -3473,6 +3522,7 @@ function proximoTreinoHtml(proximo) {
     <div class="proximo-tit">✅ Feito. Próximo treino: <b>${esc(proximo)}</b></div>
     <div class="proximo-sub">${sub}</div>
     ${(!granted && !denied) ? `<button class="proximo-btn" onclick="ativarAvisosPeitao('treino')">🔔 Me lembra do próximo treino</button>` : ''}
+    ${guardiaoBotaoHtml('fim-do-treino')}
   </div>`;
 }
 function comecaAquiHtml(cur, exList, nomeDia) {
@@ -3485,6 +3535,7 @@ function comecaAquiHtml(cur, exList, nomeDia) {
     <div class="comeca-tit">${esc(nomeDia)}: ${n} exercícios, uns ${min} minutos</div>
     <div class="comeca-sub">Toca no play pra ver a execução, marca cada exercício quando fizer e anota a carga. Quem anota a carga, segue no protocolo.</div>
     <button class="comeca-btn" onclick="irPrimeiroExercicio()">Começar agora →</button>
+    ${guardiaoLinhaHtml('primeiro-treino')}
   </div>`;
 }
 // Faixa pequena do grupo (pedido da Bruna via CRM, Sala #3002): uma linha só, desde o primeiro
