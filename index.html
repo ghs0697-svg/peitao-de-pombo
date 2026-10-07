@@ -2113,23 +2113,33 @@ const COMECA_LIGADO = true;   // ligado pelo GH em 07/10 ("liga a então", via C
 // DESLIGADA pelo GH em 07/10 ("isso", via CRM, Sala #3264). Escada é um degrau por vez: o Shape é o único
 // upsell do Peitão; protocolo individual com o GH é a consultoria, e isso o bot indica quando o aluno pede.
 const CONSULTORIA_NO_APP = false;
-// Meteórico do Shape (Roteiros #3162): de 18 a 26/10 uma linha na aba TREINO chama pro grupo do
-// lançamento. Fica DESLIGADA enquanto o link estiver vazio (a Roteiros passa quando o grupo existir).
-// Texto é o dela; o toque conta em para=meteorico e abre o grupo.
+// Meteórico do Shape (Roteiros #3162 e #3265): uma linha na aba TREINO chama pro grupo do lançamento,
+// em DUAS fases com o mesmo link contado: convite (18 a 26/10) e carrinho (27/10 9h a 28/10 23h59, a
+// segunda linha aprovada pelo GH em 07/10: "se tu recomenda, fazemos"). Textos são da Roteiros; o toque
+// conta em para=meteorico e abre o grupo. Fechar a linha vale só pra fase em que ela foi fechada.
 const METEORICO = {
   link: 'https://chat.whatsapp.com/I6HvtegVKmd2H8eIBTcIH1?mode=gi_t',
-  de: new Date(2026, 9, 18, 0, 0, 0),
-  ate: new Date(2026, 9, 26, 23, 59, 59),
-  texto: 'Dia 27 o Shape de Elite abre numa condição especial, só dentro de um grupo. Toca aqui pra entrar.',
+  fases: [
+    { id: 'convite', de: new Date(2026, 9, 18, 0, 0, 0), ate: new Date(2026, 9, 26, 23, 59, 59),
+      texto: 'Dia 27 o Shape de Elite abre numa condição especial, só dentro de um grupo. Toca aqui pra entrar.' },
+    { id: 'carrinho', de: new Date(2026, 9, 27, 9, 0, 0), ate: new Date(2026, 9, 28, 23, 59, 59),
+      texto: 'Shape de Elite em condição especial até quarta 23h59, só no grupo. Toca aqui.' },
+  ],
 };
+function meteoricoFase(agora) {
+  if (!METEORICO.link) return null;
+  for (const f of METEORICO.fases) if (agora >= f.de && agora <= f.ate) return f;
+  return null;
+}
 function meteoricoHtml() {
+  let f = null;
   try {
-    const agora = new Date();
-    if (!METEORICO.link || agora < METEORICO.de || agora > METEORICO.ate) return '';
-    if (localStorage.getItem('gh_meteoricoOff') === '1') return '';
+    f = meteoricoFase(new Date());
+    if (!f) return '';
+    if (localStorage.getItem('gh_meteoricoOff_' + f.id) === '1') return '';
   } catch (e) { return ''; }
-  return `<div class="grupo-faixa meteorico-faixa" id="meteoricoFaixa">
-    <button class="grupo-faixa-btn" onclick="abrirMeteorico()">🔥 ${esc(METEORICO.texto)}</button>
+  return `<div class="grupo-faixa meteorico-faixa" id="meteoricoFaixa" data-fase="${f.id}">
+    <button class="grupo-faixa-btn" onclick="abrirMeteorico()">🔥 ${esc(f.texto)}</button>
     <button class="grupo-faixa-x" onclick="fecharMeteorico()" aria-label="Fechar">×</button>
   </div>`;
 }
@@ -2138,7 +2148,7 @@ function abrirMeteorico() {
   window.open(METEORICO.link, '_blank');
 }
 function fecharMeteorico() {
-  try { localStorage.setItem('gh_meteoricoOff', '1'); } catch (e) {}
+  try { const f = meteoricoFase(new Date()); localStorage.setItem('gh_meteoricoOff_' + (f ? f.id : 'x'), '1'); } catch (e) {}
   const f = document.getElementById('meteoricoFaixa');
   if (f) f.remove();
 }
