@@ -49,6 +49,11 @@
   .honesto { border-color:rgba(45,216,129,.35); background:rgba(45,216,129,.06); }
   .rodape { text-align:center; color:var(--mute); font-size:11.5px; margin-top:34px; letter-spacing:.5px; }
   .ps { font-size:12.5px; color:var(--mute); margin-top:10px; }
+  .dv { border-top:1px solid var(--border); padding:10px 0 2px; }
+  .dv summary { cursor:pointer; font-weight:800; font-size:14px; color:var(--text); list-style:none; display:flex; justify-content:space-between; gap:10px; }
+  .dv summary::after { content:'+'; color:var(--accent-hi); font-weight:900; }
+  .dv[open] summary::after { content:'\2013'; }
+  .dv p { color:var(--dim); font-size:13.5px; margin:8px 0 6px; }
   .casos { display:grid; grid-template-columns:1fr; gap:10px; }
   .caso { margin:0; background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
   .caso img { display:block; width:100%; height:auto; }
@@ -113,6 +118,20 @@
   </div>
 
   <h2>Onde pedir ajuda e quem te acompanha</h2>
+
+  <div id="duvidas" hidden>
+    <div class="card">
+      <p><b>Paguei, e agora?</b> As dúvidas de quem acabou de entrar, respondidas aqui mesmo, sem precisar chamar ninguém.</p>
+      <details class="dv"><summary>Com qual e-mail eu entro?</summary><p>Com o e-mail que tu usou na compra na Hotmart. É o mesmo que está no e-mail de confirmação da compra e na mensagem de boas-vindas do WhatsApp.</p></details>
+      <details class="dv"><summary>Não recebi a mensagem no WhatsApp. Perdi o acesso?</summary><p>Não. A mensagem é só um atalho. Entra direto em <b>app.peitaodepombo.com.br</b>, toca em <b>"Primeiro acesso? Criar senha"</b> e usa o e-mail da compra.</p></details>
+      <details class="dv"><summary>Já criei a senha e não consigo entrar</summary><p>Na tela de entrar, toca em <b>"Esqueci minha senha"</b>: ela pede o e-mail da compra, o WhatsApp usado na compra (com DDD) e uma senha nova. A senha antiga deixa de valer. Se o WhatsApp não bater com o da compra, fala no WhatsApp do Peitão.</p></details>
+      <details class="dv"><summary>Comprei e-book junto. Onde aparece?</summary><p>Na aba <b>EBOOKS</b>, pra ler no app ou baixar. Compra feita depois libera sozinha em alguns minutos; se a aba continuar com cadeado, fecha e abre o app. Se não liberar, fala no WhatsApp do Peitão.</p></details>
+      <details class="dv"><summary>O que é "placa" na hora de anotar a carga?</summary><p>É o número da placa do aparelho, quando o exercício é em máquina com pino. Em peso livre tu anota o <b>kg</b>. E <b>reps</b> é quantas repetições fez. Anota o que usou na última série: é a tua meta da semana que vem.</p></details>
+      <details class="dv"><summary>Onde está o resto do corpo e a dieta?</summary><p>Os treinos dos outros dias, as fases 2.0 e 3.0 e a aba <b>DIETA</b> vêm com o <b>Pombo Completo</b> (por isso o cadeado). Comprou, libera sozinho em alguns minutos.</p></details>
+      <details class="dv"><summary>Como entro no grupo?</summary><p>Pelo botão <b>"Entrar no grupo do Peitão de Pombo"</b> na aba TREINO, ou pelo botão verde logo abaixo nesta página.</p></details>
+    </div>
+  </div>
+
   <div class="card passo"><div class="num">💬</div><div>
     <h3>Dúvida de treino, dieta ou app</h3>
     <p id="fraseSuporte">É no <b>WhatsApp do Peitão</b> ou no <b>chat dentro do app</b>: um <b>WhatsApp inteligente, que responde na hora</b>, 24 horas por dia.</p>
@@ -174,6 +193,10 @@
       v.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?rel=0&autoplay=1" title="Boas-vindas do GH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
     });
   }
+  // bloco "Paguei, e agora?" (plano B da CRM, peça 2, #3169): página parada, sem bot nem chave.
+  // DESLIGADO até o GH aprovar os textos pelo pacote da CRM.
+  var DUVIDAS_LIGADO = false;
+  if (DUVIDAS_LIGADO) document.getElementById('duvidas').hidden = false;
   // casos de alunos: só os que o GH já publica na página de venda do Peitão (ordem dele, 07/10:
   // "tirar dos banners, sem repetir entre produtos"). A foto fica no site de venda; aqui só o endereço.
   var CASOS = [
