@@ -2077,9 +2077,9 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 // ── Guardião (Sala #3033/#3040, 06/10/2026): o aluno PEDE pra ser cobrado pelo WhatsApp ──
 // Botão no app abre o whats do Peitão com uma frase pronta + código do aluno; o bot da Agentes
 // reconhece a frase por regra e casa o código com a conta (quem escreve de outro número).
-// DESLIGADO até o GH aprovar nome, frase e lugar. Pré-visualização: localStorage gh_guardiaoPreview = '1'.
+// Pra desligar: ligado = false (o app esconde a linha e o botão na hora). Pré-visualização com a chave desligada: localStorage gh_guardiaoPreview = '1'.
 const GUARDIAO = {
-  ligado: false,
+  ligado: true,    // LIGADO em 07/10/2026 00h10: GH aprovou o botão ("Sim sim, já vi, aprovo o botão", via CRM #3062)
   nome: 'Quero ser cobrado',
   frase: 'Quero o guardião do Peitão de Pombo pra me cobrar o treino.',
 };
