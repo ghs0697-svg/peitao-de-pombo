@@ -54,11 +54,13 @@
   .dv summary::after { content:'+'; color:var(--accent-hi); font-weight:900; }
   .dv[open] summary::after { content:'\2013'; }
   .dv p { color:var(--dim); font-size:13.5px; margin:8px 0 6px; }
-  .casos { display:grid; grid-template-columns:1fr; gap:10px; }
-  .caso { margin:0; background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .casos { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .caso { margin:0; background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
   .caso img { display:block; width:100%; height:auto; }
-  .caso figcaption { display:flex; justify-content:space-between; padding:9px 12px; font-size:12.5px; color:var(--dim); }
+  .caso figcaption { display:flex; justify-content:space-between; padding:6px 8px; font-size:10.5px; color:var(--dim); }
   .caso figcaption b { color:var(--accent-hi); }
+  .upsell { margin:0 0 10px; border-radius:14px; overflow:hidden; border:1px solid var(--accent-border); background:#000; aspect-ratio:9/16; max-height:520px; }
+  .upsell video { width:100%; height:100%; display:block; object-fit:cover; }
   .tempo { display:inline-block; font-size:11px; font-weight:800; color:var(--accent-hi); background:var(--accent-soft); border-radius:6px; padding:2px 7px; margin-left:6px; vertical-align:middle; letter-spacing:.3px; }
   .poster { width:100%; height:100%; display:flex; align-items:center; justify-content:center; cursor:pointer; background:radial-gradient(ellipse at center, rgba(255,106,26,.25), #000 70%); color:#fff; font-weight:900; font-size:15px; gap:10px; }
   .poster .play { width:54px; height:54px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-size:22px; color:#0A0A0B; }
@@ -74,6 +76,11 @@
   </div>
 
   <div class="video" id="video" hidden></div>
+
+  <div id="casos" hidden>
+    <h2>Quem já passou por aqui</h2>
+    <div class="casos" id="casosLista"></div>
+  </div>
 
   <h2>O que é o Peitão</h2>
   <div class="card"><p>É a parte de peito do Método GH, pronta pra tu aplicar sozinho: <b>dois treinos de peito por semana</b> (Peito A e Peito B), <b>12 semanas</b> subindo a carga aos poucos, tudo dentro do app, sem PDF perdido. O resto do corpo e a dieta ficam no Pombo Completo, no mesmo app.</p></div>
@@ -147,25 +154,20 @@
     <a class="btn btn-verde" href="https://app.peitaodepombo.com.br/grupo?de=playbook" data-clique="link-grupo" target="_blank" rel="noopener">Entrar no grupo do Peitão de Pombo</a>
   </div></div>
 
-  <div id="casos" hidden>
-    <h2>Quem já passou por aqui</h2>
-    <div class="casos" id="casosLista"></div>
-  </div>
-
   <h2>O próximo nível, quando o peito engrenar</h2>
   <div class="card">
     <p><b>Pombo Completo.</b> O resto do corpo, a dieta completa e o acesso vitalício, no mesmo app. Paga uma vez, é teu pra sempre.</p>
     <div class="preco"><b>4x de R$10,07</b> ou R$37 à vista no Pix</div>
     <a class="btn btn-laranja" href="https://pay.hotmart.com/X106025440Q?off=yh12bqml" data-clique="link-completo" target="_blank" rel="noopener">Quero o Pombo Completo</a>
   </div>
+  <div class="upsell" id="upsellShape">
+    <video id="vidShape" src="https://peitaodepombo.com.br/consultoria/vsl-shape-web.mp4" poster="https://peitaodepombo.com.br/consultoria/vsl-shape-poster.jpg" controls playsinline preload="metadata"></video>
+  </div>
   <div class="card">
     <p><b>Shape de Elite.</b> O Método GH inteiro, no teu ritmo: a calculadora monta teu protocolo em 1 minuto (treino do corpo todo, dieta, suplementação), mais de 500 treinos, 1 ano de acesso com protocolo novo a cada 90 dias e suporte no WhatsApp. É o passo de quem quer o método por conta própria, além do peito.</p>
     <div class="preco"><b>12x de R$30,54</b> ou R$297 no Pix</div>
     <a class="btn btn-linha" href="https://payfast.greenn.com.br/169962/offer/htPhqs?ch_id=138909&b_id_1=170203&b_offer_1=5X9OoO&b_id_2=170204&b_offer_2=zWJmSJ&b_id_3=170205&b_offer_3=Vw3yNP&b_id_4=170351&b_offer_4=WXGcXu" data-clique="link-shape" target="_blank" rel="noopener">Quero o Shape de Elite</a>
   </div>
-  <div class="card">
-    <p><b>Consultoria individual (Método GH).</b> Quando tu quiser o método comigo no teu pé, protocolo feito pra ti e reajustes. Aluno do Peitão tem R$100 off.</p>
-    <div class="preco"><b>12x de R$51,10</b> ou R$497 à vista, no trimestral, já com os R$100 off</div>
     <a class="btn btn-cinza" href="https://payfast.greenn.com.br/redirect/302606" data-clique="link-consultoria" target="_blank" rel="noopener">Conhecer a consultoria</a>
   </div>
 
@@ -211,6 +213,8 @@
         + '<figcaption><span>' + c.legenda + '</span><b>' + c.tempo + '</b></figcaption></figure>';
     }).join('');
   }
+  var vs = document.getElementById('vidShape');
+  if (vs) { var jaContou = false; vs.addEventListener('play', function () { if (!jaContou) { jaContou = true; conta('play-shape'); } }); }
   document.querySelectorAll('[data-clique]').forEach(function (a) {
     a.addEventListener('click', function () { conta(a.getAttribute('data-clique')); });
   });
