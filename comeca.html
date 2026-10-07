@@ -230,16 +230,17 @@
   var DUVIDAS_LIGADO = true;
   if (DUVIDAS_LIGADO) document.getElementById('duvidas').hidden = false;
   // casos de alunos: só os que o GH já publica na página de venda do Peitão (ordem dele, 07/10:
-  // "tirar dos banners, sem repetir entre produtos"). A foto fica no site de venda; aqui só o endereço.
+  // "tirar dos banners, sem repetir entre produtos"). Cópia das fotos no domínio do app (img/cases/),
+  // porque puxar do site de venda falhava no celular (07/10 16h35, fotos em branco); lá segue o original.
   var CASOS = [
-    { img: 'https://peitaodepombo.com.br/img/cases/passa-01.jpg', legenda: 'Aluno GH', tempo: '60 dias' },
-    { img: 'https://peitaodepombo.com.br/img/cases/passa-03.jpg', legenda: 'Aluno GH', tempo: '90 dias' },
-    { img: 'https://peitaodepombo.com.br/img/cases/passa-06.jpg', legenda: 'Aluno GH', tempo: '90 dias' }
+    { img: 'img/cases/passa-01.jpg', legenda: 'Aluno GH', tempo: '60 dias' },
+    { img: 'img/cases/passa-03.jpg', legenda: 'Aluno GH', tempo: '90 dias' },
+    { img: 'img/cases/passa-06.jpg', legenda: 'Aluno GH', tempo: '90 dias' }
   ];
   if (CASOS.length) {
     document.getElementById('casos').hidden = false;
     document.getElementById('casosLista').innerHTML = CASOS.map(function (c) {
-      return '<figure class="caso"><a href="' + c.img + '" target="_blank" rel="noopener"><img src="' + c.img + '" alt="Antes e depois, ' + c.legenda + ', ' + c.tempo + '" loading="lazy"></a>'
+      return '<figure class="caso"><a href="' + c.img + '" target="_blank" rel="noopener"><img src="' + c.img + '" alt="Antes e depois, ' + c.legenda + ', ' + c.tempo + '" decoding="async"></a>'
         + '<figcaption><span>' + c.legenda + '</span><b>' + c.tempo + '</b></figcaption></figure>';
     }).join('');
   }
