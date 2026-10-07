@@ -793,6 +793,7 @@
     text-align: left; cursor: pointer;
   }
   .grupo-faixa-btn:active { transform: scale(.98); }
+  .meteorico-faixa .grupo-faixa-btn { border-color: var(--accent-border); background: var(--accent-soft); color: var(--accent-hi); }
   .grupo-faixa-x {
     width: 36px; min-height: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: none;
     color: #8f8878; font-size: 18px; line-height: 1; cursor: pointer; font-family: inherit;
@@ -2086,6 +2087,35 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 // Pra desligar: ligado = false (o app esconde a linha e o botão na hora). Pré-visualização com a chave desligada: localStorage gh_guardiaoPreview = '1'.
 // Página "Começa por aqui" (playbook inicial, Sala #3118): atalhos no app só com o sim do GH.
 const COMECA_LIGADO = false;
+// Meteórico do Shape (Roteiros #3162): de 18 a 26/10 uma linha na aba TREINO chama pro grupo do
+// lançamento. Fica DESLIGADA enquanto o link estiver vazio (a Roteiros passa quando o grupo existir).
+// Texto é o dela; o toque conta em para=meteorico e abre o grupo.
+const METEORICO = {
+  link: '',
+  de: new Date(2026, 9, 18, 0, 0, 0),
+  ate: new Date(2026, 9, 26, 23, 59, 59),
+  texto: 'Dia 27 o Shape de Elite abre numa condição especial, só dentro de um grupo. Toca aqui pra entrar.',
+};
+function meteoricoHtml() {
+  try {
+    const agora = new Date();
+    if (!METEORICO.link || agora < METEORICO.de || agora > METEORICO.ate) return '';
+    if (localStorage.getItem('gh_meteoricoOff') === '1') return '';
+  } catch (e) { return ''; }
+  return `<div class="grupo-faixa meteorico-faixa" id="meteoricoFaixa">
+    <button class="grupo-faixa-btn" onclick="abrirMeteorico()">🔥 ${esc(METEORICO.texto)}</button>
+    <button class="grupo-faixa-x" onclick="fecharMeteorico()" aria-label="Fechar">×</button>
+  </div>`;
+}
+function abrirMeteorico() {
+  try { fetch(API_BASE + '/api/clique?para=meteorico&de=app', { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+  window.open(METEORICO.link, '_blank');
+}
+function fecharMeteorico() {
+  try { localStorage.setItem('gh_meteoricoOff', '1'); } catch (e) {}
+  const f = document.getElementById('meteoricoFaixa');
+  if (f) f.remove();
+}
 const GUARDIAO = {
   ligado: true,    // LIGADO em 07/10/2026 00h10: GH aprovou o botão ("Sim sim, já vi, aprovo o botão", via CRM #3062)
   nome: 'Quero ser cobrado',
@@ -3672,6 +3702,7 @@ function renderPeito() {
     <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). Os outros dias completam o corpo inteiro.</p>
     ${comecaAquiHtml(cur, exList, nomeDia)}
     ${faixaGrupoHtml()}
+    ${meteoricoHtml()}
     ${secaStripHtml()}
     <div class="ver-row">
       ${['1.0','2.0','3.0'].map(v => {
