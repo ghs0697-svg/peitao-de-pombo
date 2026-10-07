@@ -1498,7 +1498,7 @@
     </div>
     <button class="ghchat-close" id="ghchatClose" type="button" aria-label="Fechar assistente">✕</button>
   </div>
-  <div class="ghchat-aviso">Tiro dúvida do <b>acesso ao app</b> e do <b>treino de peito</b>. Pra plano completo (dieta, suplementação, corpo todo), conhece a <a href="https://metodogh.com.br" target="_blank" rel="noopener">consultoria</a>. Precisa falar com gente? <a href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Suporte no WhatsApp</a>.</div>
+  <div class="ghchat-aviso">Tiro dúvida do <b>acesso ao app</b> e do <b>treino de peito</b>. Pra cuidar do corpo todo (dieta, suplementação, treino completo), conhece o <a href="https://app.peitaodepombo.com.br/shape?de=app" target="_blank" rel="noopener">Shape de Elite</a>. Precisa de ajuda com o app? <a data-suporte="Oi! Sou aluno do Peitão de Pombo e preciso de ajuda com o app." href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20preciso%20de%20ajuda%20com%20o%20app." target="_blank" rel="noopener">Suporte no WhatsApp</a>.</div>
   <div class="ghchat-body" id="ghchatBody" aria-live="polite"></div>
   <form class="ghchat-foot" id="ghchatForm" autocomplete="off">
     <textarea id="ghchatInput" class="ghchat-input" rows="1" placeholder="Escreve tua dúvida..." maxlength="500" aria-label="Tua mensagem"></textarea>
@@ -2108,7 +2108,11 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 // reconhece a frase por regra e casa o código com a conta (quem escreve de outro número).
 // Pra desligar: ligado = false (o app esconde a linha e o botão na hora). Pré-visualização com a chave desligada: localStorage gh_guardiaoPreview = '1'.
 // Página "Começa por aqui" (playbook inicial, Sala #3118): atalhos no app só com o sim do GH.
-const COMECA_LIGADO = false;
+const COMECA_LIGADO = true;   // ligado pelo GH em 07/10 ("liga a então", via CRM, Sala #3264)
+// Consultoria DENTRO do app do Peitão (cartão nos upsells, banner e card do Método GH na aba de treino):
+// DESLIGADA pelo GH em 07/10 ("isso", via CRM, Sala #3264). Escada é um degrau por vez: o Shape é o único
+// upsell do Peitão; protocolo individual com o GH é a consultoria, e isso o bot indica quando o aluno pede.
+const CONSULTORIA_NO_APP = false;
 // Meteórico do Shape (Roteiros #3162): de 18 a 26/10 uma linha na aba TREINO chama pro grupo do
 // lançamento. Fica DESLIGADA enquanto o link estiver vazio (a Roteiros passa quando o grupo existir).
 // Texto é o dela; o toque conta em para=meteorico e abre o grupo.
@@ -2206,6 +2210,7 @@ function priceBlock(p) {
 }
 function renderUpsells(soIds) {   // soIds: lista de ids pra mostrar só esses (1º dia: só o Pombo Completo)
   return UPSELLS
+    .filter(u => CONSULTORIA_NO_APP || u.id !== 'consultoria')
     .filter(u => !soIds || soIds.includes(u.id))
     .filter(u => !(u.hideIfUpsell && state.upsellUnlocked))
     .filter(u => !(u.hideIfLifetime && state.lifetime))
@@ -3650,6 +3655,7 @@ function concludeBar(ctxKey, exList, contextLabel, proximo) {
 // ════════ TREINO DE PEITO (base) ════════
 // Banner compacto Método GH (topo)
 function mghBanner() {
+  if (!CONSULTORIA_NO_APP) return '';
   return `
     <a class="mgh-banner" href="${CONSULTORIA.link}" target="_blank" rel="noopener">
       <div class="mgh-banner-logo">GH</div>
@@ -3663,6 +3669,7 @@ function mghBanner() {
 }
 // Card completo Método GH (fim)
 function mghCard() {
+  if (!CONSULTORIA_NO_APP) return '';
   return `
     <div class="mgh-card" style="margin-top:18px;">
       <div class="mgh-head">
