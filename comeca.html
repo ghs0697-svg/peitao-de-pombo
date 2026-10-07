@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0908">
+<title>Começa por aqui · Peitão de Pombo</title>
+<!--
+  PLAYBOOK INICIAL do Peitão (pedido do GH em 07/10/2026): a página que vai junto com a boas-vindas,
+  com o caminho do aluno passo a passo, o vídeo de boas-vindas e o próximo passo (Pombo Completo, Shape).
+  Endereço: app.peitaodepombo.com.br/comeca?de=whats|app|pagina|bot|chat (a origem é contada na API).
+  Os links de compra vêm do index.html (gerado por script: não editar os links aqui à mão).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0A0908; --surface:#1A1714; --border:rgba(255,255,255,.08); --text:#F4F6F4; --dim:#9AA19C; --mute:#5C615D;
+    --accent:#FF6A1A; --accent-hi:#FF8C42; --accent-soft:rgba(255,106,26,.12); --accent-border:rgba(255,106,26,.34); --ok:#2DD881; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,-apple-system,system-ui,sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:560px; margin:0 auto; padding:22px 16px 48px; }
+  .topo { text-align:center; padding:8px 0 18px; }
+  .marca { font-size:11px; letter-spacing:3px; color:var(--dim); font-weight:700; }
+  h1 { font-size:26px; font-weight:900; line-height:1.15; margin:6px 0 8px; }
+  h1 b { color:var(--accent); }
+  .lead { color:var(--dim); font-size:14.5px; margin:0 auto; max-width:440px; }
+  .video { margin:18px 0 6px; border-radius:14px; overflow:hidden; border:1px solid var(--accent-border); background:#000; aspect-ratio:16/9; }
+  .video iframe { width:100%; height:100%; border:0; display:block; }
+  h2 { font-size:12px; letter-spacing:2px; color:var(--accent-hi); font-weight:900; margin:28px 0 10px; text-transform:uppercase; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
+  .card p { margin:0; font-size:14.5px; }
+  .passo { display:flex; gap:12px; align-items:flex-start; }
+  .num { flex:0 0 30px; height:30px; border-radius:50%; background:var(--accent); color:#0A0A0B; font-weight:900; font-size:14px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .passo h3 { margin:0 0 3px; font-size:15.5px; font-weight:800; }
+  .passo p { color:var(--dim); font-size:13.5px; }
+  .passo p b, .card b { color:var(--text); font-weight:700; }
+  .btn { display:block; text-align:center; text-decoration:none; font-weight:900; font-size:14px; padding:13px 16px; border-radius:11px; margin-top:12px; }
+  .btn-laranja { background:var(--accent); color:#0A0A0B; }
+  .btn-verde { background:#25D366; color:#062b16; }
+  .btn-linha { border:1px solid var(--accent-border); color:var(--accent-hi); background:var(--accent-soft); }
+  .btn-cinza { border:1px solid rgba(255,255,255,.14); color:var(--text); background:none; }
+  .chips { display:flex; flex-direction:column; gap:8px; }
+  .chip { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:11px 14px; font-size:13.5px; color:var(--dim); }
+  .chip b { color:var(--ok); font-weight:800; }
+  .preco { font-size:12.5px; color:var(--mute); margin-top:8px; }
+  .preco b { color:var(--accent-hi); font-size:16px; display:block; }
+  .honesto { border-color:rgba(45,216,129,.35); background:rgba(45,216,129,.06); }
+  .rodape { text-align:center; color:var(--mute); font-size:11.5px; margin-top:34px; letter-spacing:.5px; }
+  .ps { font-size:12.5px; color:var(--mute); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topo">
+    <div class="marca">PEITÃO DE POMBO · MÉTODO GH</div>
+    <h1>Começa por aqui. <b>Teu primeiro treino é hoje.</b></h1>
+    <p class="lead">Esta página é o teu caminho no Peitão, passo a passo: o que fazer agora, o que esperar e quem te acompanha. Leva 2 minutos e tu não se perde.</p>
+  </div>
+
+  <div class="video" id="video" hidden></div>
+
+  <h2>O que é o Peitão</h2>
+  <div class="card"><p>É a parte de peito do Método GH, pronta pra tu aplicar sozinho: <b>dois treinos de peito por semana</b> (Peito A e Peito B), <b>12 semanas</b> subindo a carga aos poucos, tudo dentro do app, sem PDF perdido. O resto do corpo e a dieta ficam no Pombo Completo, no mesmo app.</p></div>
+
+  <h2>Teu caminho, passo a passo</h2>
+
+  <div class="card passo"><div class="num">1</div><div>
+    <h3>Entra no app</h3>
+    <p>Abre <b>app.peitaodepombo.com.br</b>, toca em <b>"Primeiro acesso? Criar senha"</b> e usa o <b>e-mail da compra</b>. Cria uma senha e tá dentro. Quando o app pedir, instala na tela de início: abre mais rápido e fica com cara de app.</p>
+    <a class="btn btn-laranja" href="https://app.peitaodepombo.com.br/" data-clique="link-app">Entrar no app</a>
+  </div></div>
+
+  <div class="card passo"><div class="num">2</div><div>
+    <h3>Faz o primeiro treino hoje</h3>
+    <p>Na aba <b>TREINO</b> o bloco <b>"Teu primeiro treino"</b> já te espera: toca em <b>"Começar agora"</b>. Em cada exercício, toca no play pra ver a execução, marca quando fizer e <b>anota a carga</b> (kg, placa e repetições). São uns 45 minutos. Quem anota a carga segue no protocolo; quem não anota, se perde.</p>
+  </div></div>
+
+  <div class="card passo"><div class="num">3</div><div>
+    <h3>Dois dias de descanso e volta pro Peito B</h3>
+    <p>Peito 2x na semana, com 2 dias de folga entre eles (ex: A na segunda, B na quinta). No fim do treino o app mostra o próximo e, se tu quiser, te lembra no dia: botão <b>"Me lembra do próximo treino"</b>.</p>
+  </div></div>
+
+  <div class="card passo"><div class="num">4</div><div>
+    <h3>Semana a semana, carga subindo</h3>
+    <p>O app guarda a semana em que tu está (1 a 12) e mostra a <b>última carga</b> em cada exercício. A regra é simples: repete o que fez e tenta subir um pouco. Sem pular treino.</p>
+  </div></div>
+
+  <div class="card passo"><div class="num">5</div><div>
+    <h3>Fases e o resto do corpo</h3>
+    <p>Tu começa na <b>fase 1.0</b>. As fases 2.0 e 3.0, os treinos dos outros dias (costas, ombro, braço e perna), a <b>dieta completa</b> e o <b>acesso vitalício</b> vêm com o <b>Pombo Completo</b>, dentro do mesmo app.</p>
+  </div></div>
+
+  <div class="card passo"><div class="num">6</div><div>
+    <h3>Dieta: pesa a comida pronta</h3>
+    <p>Com o Pombo Completo tu escolhe a dieta no app (2.8K ou 3.2K). Tudo que vai ao fogo se pesa <b>PRONTO</b>, do jeito que vai pro prato. E se o objetivo for secar, o <b>Seca Pança</b> liga o Modo Seca no app e troca dieta, cardio e suplementação mês a mês.</p>
+  </div></div>
+
+  <div class="card passo"><div class="num">7</div><div>
+    <h3>Entra no grupo</h3>
+    <p>Grupo fechado pra receber minhas novidades, descontos, upgrades e aulas ao vivo. É por onde eu mando recado; dúvida é no privado.</p>
+    <a class="btn btn-verde" href="https://app.peitaodepombo.com.br/grupo?de=playbook" data-clique="link-grupo" target="_blank" rel="noopener">Entrar no grupo do Peitão de Pombo</a>
+  </div></div>
+
+  <div class="card passo"><div class="num">8</div><div>
+    <h3>Quer ser cobrado? Pede o guardião</h3>
+    <p>No app tem o botão <b>"Quero ser cobrado"</b> (no bloco do primeiro treino e no fim dele). Toca, manda a mensagem pronta e o WhatsApp do Peitão passa a te cobrar o treino toda semana. Quem pede, não some.</p>
+  </div></div>
+
+  <div class="card passo honesto"><div class="num">9</div><div>
+    <h3>Suporte 24 horas, sem segredo</h3>
+    <p>Qualquer dúvida de treino, dieta ou app é no <b>WhatsApp do Peitão</b> ou no <b>chat dentro do app</b>. Quem te responde ali é uma <b>inteligência artificial que eu treinei com toda a minha metodologia</b>, 24 horas por dia. Quando precisa de gente, a minha equipe entra na conversa.</p>
+    <a class="btn btn-cinza" href="https://wa.me/5555999717530?text=Oi%21%20Sou%20aluno%20do%20Peit%C3%A3o%20de%20Pombo%20e%20tenho%20uma%20d%C3%BAvida." data-clique="link-suporte" target="_blank" rel="noopener">Falar no WhatsApp do Peitão</a>
+  </div></div>
+
+  <h2>O que esperar</h2>
+  <div class="chips">
+    <div class="chip"><b>Semanas 1 e 2:</b> aprender a execução e achar a tua carga. Não é pra ir no máximo, é pra ir certo.</div>
+    <div class="chip"><b>Semana 4:</b> a carga já sobe e o treino fica curto na cabeça. É aqui que a maioria para; tu não.</div>
+    <div class="chip"><b>Semana 12:</b> se tu não faltar, teu peito é outro. Regras que não falham: não pula treino, anota a carga, dorme e come proteína.</div>
+  </div>
+
+  <h2>O próximo passo, quando o peito engrenar</h2>
+  <div class="card">
+    <p><b>Pombo Completo.</b> O resto do corpo, a dieta completa e o acesso vitalício, no mesmo app. Paga uma vez, é teu pra sempre.</p>
+    <div class="preco"><b>4x de R$10,07</b> ou R$37 à vista no Pix</div>
+    <a class="btn btn-laranja" href="https://pay.hotmart.com/X106025440Q?off=yh12bqml" data-clique="link-completo" target="_blank" rel="noopener">Quero o Pombo Completo</a>
+  </div>
+  <div class="card">
+    <p><b>Shape de Elite.</b> O Método GH inteiro, no teu ritmo: a calculadora monta teu protocolo em 1 minuto (treino do corpo todo, dieta, suplementação), mais de 500 treinos, 1 ano de acesso com protocolo novo a cada 90 dias e suporte no WhatsApp. É o passo de quem quer o método por conta própria, além do peito.</p>
+    <div class="preco"><b>12x de R$30,54</b> ou R$297 no Pix</div>
+    <a class="btn btn-linha" href="https://payfast.greenn.com.br/169962/offer/htPhqs?ch_id=138909&b_id_1=170203&b_offer_1=5X9OoO&b_id_2=170204&b_offer_2=zWJmSJ&b_id_3=170205&b_offer_3=Vw3yNP&b_id_4=170351&b_offer_4=WXGcXu" data-clique="link-shape" target="_blank" rel="noopener">Quero o Shape de Elite</a>
+  </div>
+  <div class="card">
+    <p><b>Consultoria individual (Método GH).</b> Quando tu quiser o método comigo no teu pé, protocolo feito pra ti e reajustes. Aluno do Peitão tem R$100 off.</p>
+    <a class="btn btn-cinza" href="https://payfast.greenn.com.br/redirect/302606" data-clique="link-consultoria" target="_blank" rel="noopener">Conhecer a consultoria</a>
+  </div>
+
+  <div class="rodape">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
+</div>
+
+<script>
+(function () {
+  var API = 'https://peitao-de-pombo-api-es21.vercel.app';
+  var VIDEO_ID = '';   // id do vídeo de boas-vindas no YouTube (o GH grava; vazio = sem bloco de vídeo)
+  var de = (new URLSearchParams(location.search).get('de') || 'outro').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 20) || 'outro';
+  function conta(origem) {
+    try { fetch(API + '/api/clique?para=playbook&de=' + encodeURIComponent(origem), { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+  }
+  conta(de);
+  if (VIDEO_ID) {
+    var v = document.getElementById('video');
+    v.hidden = false;
+    v.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?rel=0" title="Boas-vindas do GH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  }
+  document.querySelectorAll('[data-clique]').forEach(function (a) {
+    a.addEventListener('click', function () { conta(a.getAttribute('data-clique')); });
+  });
+})();
+</script>
+</body>
+</html>
