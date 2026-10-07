@@ -59,6 +59,16 @@
   .caso img { display:block; width:100%; height:auto; }
   .caso figcaption { display:flex; justify-content:space-between; padding:6px 8px; font-size:10.5px; color:var(--dim); }
   .caso figcaption b { color:var(--accent-hi); }
+  .oferta h3 { margin:0 0 8px; font-size:20px; font-weight:900; line-height:1.2; }
+  .oferta h3 b { color:var(--accent); }
+  .centro { text-align:center; margin:6px 0 12px; }
+  .pilha .chip b { display:block; color:var(--text); font-size:14px; margin-bottom:2px; }
+  .oferta-preco { text-align:center; border-color:var(--accent-border); margin-top:12px; }
+  .preco-grande { font-size:30px; font-weight:900; color:var(--accent-hi); line-height:1.1; }
+  .preco-mini { font-size:12.5px; color:var(--mute); margin-top:4px; }
+  .garantia { font-size:13px; color:var(--dim); margin:10px 0 0; text-align:left; }
+  .garantia b { color:var(--text); }
+  .completo { margin-top:14px; }
   .upsell { margin:0 0 10px; border-radius:14px; overflow:hidden; border:1px solid var(--accent-border); background:#000; aspect-ratio:9/16; max-height:520px; }
   .upsell video { width:100%; height:100%; display:block; object-fit:cover; }
   .tempo { display:inline-block; font-size:11px; font-weight:800; color:var(--accent-hi); background:var(--accent-soft); border-radius:6px; padding:2px 7px; margin-left:6px; vertical-align:middle; letter-spacing:.3px; }
@@ -154,21 +164,34 @@
     <a class="btn btn-verde" href="https://app.peitaodepombo.com.br/grupo?de=playbook" data-clique="link-grupo" target="_blank" rel="noopener">Entrar no grupo do Peitão de Pombo</a>
   </div></div>
 
-  <h2>O próximo nível, quando o peito engrenar</h2>
-  <div class="card">
-    <p><b>Pombo Completo.</b> O resto do corpo, a dieta completa e o acesso vitalício, no mesmo app. Paga uma vez, é teu pra sempre.</p>
-    <div class="preco"><b>4x de R$10,07</b> ou R$37 à vista no Pix</div>
-    <a class="btn btn-laranja" href="https://pay.hotmart.com/X106025440Q?off=yh12bqml" data-clique="link-completo" target="_blank" rel="noopener">Quero o Pombo Completo</a>
+  <h2>O próximo nível</h2>
+  <div class="card oferta">
+    <h3>Peito é 1 músculo. <b>Shape é o conjunto.</b></h3>
+    <p>O Peitão resolve teu peito. Costas, ombro, braço, perna e a dieta, que é onde a maioria perde o jogo, é o corpo inteiro. O Shape de Elite é o Método GH completo pra tu aplicar sozinho: a calculadora te guia pergunta a pergunta e monta dieta e treino em volta da <b>TUA</b> prioridade.</p>
   </div>
   <div class="upsell" id="upsellShape">
     <video id="vidShape" src="https://peitaodepombo.com.br/consultoria/vsl-shape-web.mp4" poster="https://peitaodepombo.com.br/consultoria/vsl-shape-poster.jpg" controls playsinline preload="metadata"></video>
   </div>
-  <div class="card">
-    <p><b>Shape de Elite.</b> O Método GH inteiro, no teu ritmo: a calculadora monta teu protocolo em 1 minuto (treino do corpo todo, dieta, suplementação), mais de 500 treinos, 1 ano de acesso com protocolo novo a cada 90 dias e suporte no WhatsApp. É o passo de quem quer o método por conta própria, além do peito.</p>
-    <div class="preco"><b>12x de R$30,54</b> ou R$297 no Pix</div>
-    <a class="btn btn-linha" href="https://payfast.greenn.com.br/169962/offer/htPhqs?ch_id=138909&b_id_1=170203&b_offer_1=5X9OoO&b_id_2=170204&b_offer_2=zWJmSJ&b_id_3=170205&b_offer_3=Vw3yNP&b_id_4=170351&b_offer_4=WXGcXu" data-clique="link-shape" target="_blank" rel="noopener">Quero o Shape de Elite</a>
+  <p class="ps centro">são 39 segundos: aperta o play e assiste com som</p>
+  <div class="chips pilha">
+    <div class="chip"><b>Calculadora Método GH</b>Ela te guia nas perguntas (dados, objetivo, prioridade) e define tua entrega: kcal, dieta e treino, em 1 minuto.</div>
+    <div class="chip"><b>Dietas completas</b>Pra secar até definir ou ganhar massa sem engordar, com lista de substituições.</div>
+    <div class="chip"><b>Mais de 500 protocolos de treino</b>Tu escolhe a divisão (por grupo, Push Pull Legs, Upper Lower ou Full body), a frequência de 2x a 7x e a prioridade, o músculo que tu mais quer ver crescer. 4 níveis, novo protocolo a cada 90 dias.</div>
+    <div class="chip"><b>Modo rápido</b>Um botão no app enxuga o treino do dia pros exercícios principais, sem mexer no descanso, e tu fecha em cerca de 50 minutos. Pros dias em que a agenda não colabora.</div>
+    <div class="chip"><b>Manual dos 6 Potes</b>Suplementação com doses exatas e ordem do dia, sem combo enrolado.</div>
+    <div class="chip"><b>8 aulas + WhatsApp inteligente</b>Domínio operacional completo do Método, e o suporte é por um WhatsApp inteligente, que responde tuas dúvidas na hora.</div>
   </div>
-    <a class="btn btn-cinza" href="https://payfast.greenn.com.br/redirect/302606" data-clique="link-consultoria" target="_blank" rel="noopener">Conhecer a consultoria</a>
+  <div class="card oferta-preco">
+    <div class="preco-grande">12x de R$30,54</div>
+    <div class="preco-mini">ou R$297 à vista · acesso por 1 ano</div>
+    <a class="btn btn-laranja" href="https://payfast.greenn.com.br/169962/offer/htPhqs?ch_id=138909&b_id_1=170203&b_offer_1=5X9OoO&b_id_2=170204&b_offer_2=zWJmSJ&b_id_3=170205&b_offer_3=Vw3yNP&b_id_4=170351&b_offer_4=WXGcXu" data-clique="link-shape" target="_blank" rel="noopener">QUERO O SHAPE DE ELITE</a>
+    <p class="ps centro">🔒 Pagamento seguro · acesso em minutos no teu WhatsApp</p>
+    <p class="garantia">🛡️ <b>Garantia de 7 dias.</b> Entra, abre a calculadora, olha os protocolos. Se não fizer sentido pra ti, eu te devolvo o dinheiro sem perguntar nada.</p>
+  </div>
+  <div class="card completo">
+    <p><b>Pombo Completo.</b> Complemento do próprio Peitão: o resto do corpo, a dieta completa e o acesso vitalício, no mesmo app. Paga uma vez, é teu pra sempre.</p>
+    <div class="preco"><b>4x de R$10,07</b> ou R$37 à vista no Pix</div>
+    <a class="btn btn-linha" href="https://pay.hotmart.com/X106025440Q?off=yh12bqml" data-clique="link-completo" target="_blank" rel="noopener">Quero o Pombo Completo</a>
   </div>
 
   <div class="rodape">PEITÃO DE POMBO · MÉTODO GH · @gh.scheuermann</div>
