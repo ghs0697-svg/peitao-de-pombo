@@ -152,7 +152,7 @@
 (function () {
   var API = 'https://peitao-de-pombo-api-es21.vercel.app';
   var VIDEO_ID = '';   // id do vídeo de boas-vindas no YouTube (o GH grava; vazio = sem bloco de vídeo)
-  var ORIGENS = ['whats', 'app', 'pagina', 'bot', 'chat', 'outro'];
+  var ORIGENS = ['whats', 'app', 'pagina', 'bot', 'chat', 'grupo', 'outro'];   // grupo: link postado no grupo dos alunos
   var de = (new URLSearchParams(location.search).get('de') || 'outro').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 20);
   if (ORIGENS.indexOf(de) < 0) de = (de === 'teste') ? '' : 'outro';   // origem errada vira "outro"; "teste" não conta
   function conta(origem) {
