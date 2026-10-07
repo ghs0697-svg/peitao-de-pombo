@@ -49,6 +49,11 @@
   .honesto { border-color:rgba(45,216,129,.35); background:rgba(45,216,129,.06); }
   .rodape { text-align:center; color:var(--mute); font-size:11.5px; margin-top:34px; letter-spacing:.5px; }
   .ps { font-size:12.5px; color:var(--mute); margin-top:10px; }
+  .casos { display:grid; grid-template-columns:1fr; gap:10px; }
+  .caso { margin:0; background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .caso img { display:block; width:100%; height:auto; }
+  .caso figcaption { display:flex; justify-content:space-between; padding:9px 12px; font-size:12.5px; color:var(--dim); }
+  .caso figcaption b { color:var(--accent-hi); }
   .tempo { display:inline-block; font-size:11px; font-weight:800; color:var(--accent-hi); background:var(--accent-soft); border-radius:6px; padding:2px 7px; margin-left:6px; vertical-align:middle; letter-spacing:.3px; }
   .poster { width:100%; height:100%; display:flex; align-items:center; justify-content:center; cursor:pointer; background:radial-gradient(ellipse at center, rgba(255,106,26,.25), #000 70%); color:#fff; font-weight:900; font-size:15px; gap:10px; }
   .poster .play { width:54px; height:54px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-size:22px; color:#0A0A0B; }
@@ -125,7 +130,7 @@
 
   <div id="casos" hidden>
     <h2>Quem já passou por aqui</h2>
-    <div class="chips" id="casosLista"></div>
+    <div class="casos" id="casosLista"></div>
   </div>
 
   <h2>O próximo nível, quando o peito engrenar</h2>
@@ -169,11 +174,19 @@
       v.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?rel=0&autoplay=1" title="Boas-vindas do GH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
     });
   }
-  // casos de alunos: só do que o GH já publica; entram aqui quando ele ou a Bruna escolherem
-  var CASOS = [];
+  // casos de alunos: só os que o GH já publica na página de venda do Peitão (ordem dele, 07/10:
+  // "tirar dos banners, sem repetir entre produtos"). A foto fica no site de venda; aqui só o endereço.
+  var CASOS = [
+    { img: 'https://peitaodepombo.com.br/img/cases/passa-01.jpg', legenda: 'Aluno GH', tempo: '60 dias' },
+    { img: 'https://peitaodepombo.com.br/img/cases/passa-03.jpg', legenda: 'Aluno GH', tempo: '90 dias' },
+    { img: 'https://peitaodepombo.com.br/img/cases/passa-06.jpg', legenda: 'Aluno GH', tempo: '90 dias' }
+  ];
   if (CASOS.length) {
     document.getElementById('casos').hidden = false;
-    document.getElementById('casosLista').innerHTML = CASOS.map(function (c) { return '<div class="chip"><b>' + c.nome + ':</b> ' + c.texto + '</div>'; }).join('');
+    document.getElementById('casosLista').innerHTML = CASOS.map(function (c) {
+      return '<figure class="caso"><a href="' + c.img + '" target="_blank" rel="noopener"><img src="' + c.img + '" alt="Antes e depois, ' + c.legenda + ', ' + c.tempo + '" loading="lazy"></a>'
+        + '<figcaption><span>' + c.legenda + '</span><b>' + c.tempo + '</b></figcaption></figure>';
+    }).join('');
   }
   document.querySelectorAll('[data-clique]').forEach(function (a) {
     a.addEventListener('click', function () { conta(a.getAttribute('data-clique')); });
