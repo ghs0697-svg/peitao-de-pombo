@@ -232,8 +232,8 @@
   } catch (e) {}
   // Vídeo de boas-vindas (GH gravou em 14/10/2026; versão leve pra web feita pela CRM, Sala #3530), hospedado no app.
   // VIDEO_MP4 vazio E VIDEO_ID vazio = sem bloco de vídeo. Com os dois, o MP4 manda.
-  var VIDEO_MP4 = '';
-  var VIDEO_POSTER = '';
+  var VIDEO_MP4 = 'videos/bem-vindo-peitao.mp4';          // edição da Bruna de 15/10 (2min23), versão leve hospedada no app
+  var VIDEO_POSTER = 'videos/bem-vindo-peitao-poster.jpg';
   var VIDEO_ID = '';   // alternativa: id do YouTube não listado
   var ORIGENS = ['whats', 'app', 'pagina', 'bot', 'chat', 'grupo', 'outro'];   // grupo: link postado no grupo dos alunos
   var de = (new URLSearchParams(location.search).get('de') || 'outro').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 20);
