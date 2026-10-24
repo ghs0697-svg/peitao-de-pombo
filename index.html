@@ -793,6 +793,19 @@
     text-align: left; cursor: pointer;
   }
   .grupo-faixa-btn:active { transform: scale(.98); }
+  .feedback-faixa .grupo-faixa-btn { border-color: rgba(120,170,255,.45); background: rgba(120,170,255,.08); color: #9DC1FF; }
+  .fb-box { text-align: left; }
+  .fb-box label { display: block; font-size: 13px; font-weight: 800; color: var(--text); margin: 12px 0 6px; }
+  .fb-box textarea {
+    width: 100%; min-height: 74px; padding: 11px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
+    color: var(--text); font-size: 14px; font-family: inherit; resize: vertical; box-sizing: border-box;
+  }
+  .fb-notas { display: flex; gap: 3px; }
+  .fb-nota {
+    flex: 1 1 0; min-width: 0; padding: 0; min-height: 36px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg);
+    color: var(--text-dim); font-family: inherit; font-weight: 800; font-size: 13px; cursor: pointer;
+  }
+  .fb-nota.on { background: var(--accent); color: #0A0A0B; border-color: var(--accent); }
   .meteorico-faixa .grupo-faixa-btn { border-color: var(--accent-border); background: var(--accent-soft); color: var(--accent-hi); }
   .grupo-faixa-x {
     width: 36px; min-height: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: none;
@@ -2151,6 +2164,83 @@ function fecharMeteorico() {
   try { const f = meteoricoFase(new Date()); localStorage.setItem('gh_meteoricoOff_' + (f ? f.id : 'x'), '1'); } catch (e) {}
   const f = document.getElementById('meteoricoFaixa');
   if (f) f.remove();
+}
+// Feedback dos alunos (GH 23/10): linha na aba TREINO pedindo o que sentem falta. As respostas vão pro
+// /api/feedback e a gente lê em /api/admin/feedback pra implementar. Fechar some por 7 dias; respondeu, some de vez.
+const FEEDBACK_LIGADO = true;
+function feedbackHtml() {
+  if (!FEEDBACK_LIGADO || !state.user?.token) return '';
+  try {
+    if (localStorage.getItem('gh_feedbackFeito') === '1') return '';
+    const off = Number(localStorage.getItem('gh_feedbackOff') || 0);
+    if (off && Date.now() - off < 7 * 86400000) return '';
+  } catch (e) { return ''; }
+  return `<div class="grupo-faixa feedback-faixa" id="feedbackFaixa">
+    <button class="grupo-faixa-btn" onclick="abrirFeedback()">💬 O que tu sente falta no app? Me conta, eu leio tudo.</button>
+    <button class="grupo-faixa-x" onclick="fecharFeedback()" aria-label="Fechar">×</button>
+  </div>`;
+}
+function fecharFeedback() {
+  try { localStorage.setItem('gh_feedbackOff', String(Date.now())); } catch (e) {}
+  const f = document.getElementById('feedbackFaixa');
+  if (f) f.remove();
+}
+let _fbNota = null;
+function abrirFeedback() {
+  let o = document.getElementById('fbOverlay');
+  if (!o) {
+    o = document.createElement('div');
+    o.id = 'fbOverlay'; o.className = 'ach-overlay';
+    o.onclick = function (e) { if (e.target.id === 'fbOverlay') o.classList.remove('show'); };
+    let notas = '';
+    for (let i = 0; i <= 10; i++) notas += `<button type="button" class="fb-nota" data-n="${i}" onclick="fbNota(${i})">${i}</button>`;
+    o.innerHTML = `<div class="ach-box fb-box">
+      <div class="ach-title" style="text-align:center">💬 Me ajuda a deixar o app melhor</div>
+      <p class="hint" style="margin:0;text-align:center">Responde o que quiser. Tudo que tu escrever chega pra mim e as ideias boas entram nas próximas versões.</p>
+      <label for="fbFalta">O que tu sente falta no app? O que queria que tivesse?</label>
+      <textarea id="fbFalta" maxlength="1500" placeholder="Ex.: queria ver meu progresso de carga num gráfico"></textarea>
+      <label for="fbAtrapalha">Tem algo que atrapalha, confunde ou deu erro?</label>
+      <textarea id="fbAtrapalha" maxlength="1500" placeholder="Ex.: não achei onde troca o exercício"></textarea>
+      <label for="fbGosta">O que tu mais curte nele?</label>
+      <textarea id="fbGosta" maxlength="1500"></textarea>
+      <label>De 0 a 10, quanto tu indicaria o Peitão de Pombo pra um amigo?</label>
+      <div class="fb-notas">${notas}</div>
+      <div class="ach-actions" style="margin-top:14px">
+        <button class="ach-btn primary" id="fbEnviar" onclick="enviarFeedback()">Enviar</button>
+        <button class="ach-btn ghost" onclick="document.getElementById('fbOverlay').classList.remove('show')">Agora não</button>
+      </div>
+    </div>`;
+    document.body.appendChild(o);
+  }
+  o.classList.add('show');
+}
+function fbNota(n) {
+  _fbNota = n;
+  document.querySelectorAll('#fbOverlay .fb-nota').forEach(b => b.classList.toggle('on', Number(b.dataset.n) === n));
+}
+async function enviarFeedback() {
+  const v = id => (document.getElementById(id)?.value || '').trim();
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, versao: 'v140' };
+  if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
+  const btn = document.getElementById('fbEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    const r = await fetch(API_BASE + '/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.user.token },
+      body: JSON.stringify(corpo),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok && r.status !== 429) throw new Error(j.error || 'erro');
+    try { localStorage.setItem('gh_feedbackFeito', '1'); } catch (e) {}
+    document.getElementById('fbOverlay').classList.remove('show');
+    const f = document.getElementById('feedbackFaixa'); if (f) f.remove();
+    showToast('Valeu demais! Recebi tuas respostas 💪');
+  } catch (e) {
+    showToast('Não consegui enviar agora. Tenta de novo daqui a pouco.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Enviar';
+  }
 }
 const GUARDIAO = {
   ligado: true,    // LIGADO em 07/10/2026 00h10: GH aprovou o botão ("Sim sim, já vi, aprovo o botão", via CRM #3062)
@@ -3742,6 +3832,7 @@ function renderPeito() {
     ${comecaAquiHtml(cur, exList, nomeDia)}
     ${faixaGrupoHtml()}
     ${meteoricoHtml()}
+    ${feedbackHtml()}
     ${secaStripHtml()}
     <div class="ver-row">
       ${['1.0','2.0','3.0'].map(v => {
