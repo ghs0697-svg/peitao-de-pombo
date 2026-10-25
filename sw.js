@@ -1,4 +1,4 @@
-const CACHE_NAME = 'peitao-de-pombo-v140';
+const CACHE_NAME = 'peitao-de-pombo-v141';
 const ASSETS = [
   './',
   './index.html',
@@ -58,7 +58,11 @@ self.addEventListener('notificationclick', e => {
   e.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
       for (const c of list) {
-        if (c.url.includes(self.registration.scope) && 'focus' in c) return c.focus();
+        if (c.url.includes(self.registration.scope) && 'focus' in c) {
+          // aviso com destino próprio (ex.: ?feedback=1) leva o app aberto pra ele
+          if (url !== './' && 'navigate' in c) return c.navigate(url).then(w => (w || c).focus()).catch(() => c.focus());
+          return c.focus();
+        }
       }
       if (self.clients.openWindow) return self.clients.openWindow(url);
     })

@@ -1480,6 +1480,10 @@
       <button class="ach-btn" onclick="achSave()">💾 Salvar</button>
       <button class="ach-btn ghost" onclick="achClose()">Fechar</button>
     </div>
+    <div id="achFeedback" hidden style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:800;color:var(--text)">Antes de ir: o que tu sente falta no app?</div>
+      <button class="ach-btn" style="width:100%;margin-top:8px;border-color:rgba(120,170,255,.45);color:#9DC1FF" onclick="achClose();abrirFeedback('fim-do-treino')">💬 Responder em 30 segundos</button>
+    </div>
   </div>
 </div>
 
@@ -1912,6 +1916,13 @@ async function enterApp() {
     initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
   }
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
+  try {   // aviso no celular "me conta o que tu sente falta" abre o app com ?feedback=1
+    const q = new URLSearchParams(location.search);
+    if (FEEDBACK_LIGADO && q.get('feedback') === '1') {
+      history.replaceState(null, '', location.pathname);
+      setTimeout(function () { abrirFeedback('aviso'); }, 600);
+    }
+  } catch (e) {}
 }
 
 // ─── Heartbeat: re-checa sessão + upsell a cada 5 min ───
@@ -2176,7 +2187,7 @@ function feedbackHtml() {
     if (off && Date.now() - off < 7 * 86400000) return '';
   } catch (e) { return ''; }
   return `<div class="grupo-faixa feedback-faixa" id="feedbackFaixa">
-    <button class="grupo-faixa-btn" onclick="abrirFeedback()">💬 O que tu sente falta no app? Me conta, eu leio tudo.</button>
+    <button class="grupo-faixa-btn" onclick="abrirFeedback('faixa')">💬 O que tu sente falta no app? Me conta, eu leio tudo.</button>
     <button class="grupo-faixa-x" onclick="fecharFeedback()" aria-label="Fechar">×</button>
   </div>`;
 }
@@ -2185,8 +2196,9 @@ function fecharFeedback() {
   const f = document.getElementById('feedbackFaixa');
   if (f) f.remove();
 }
-let _fbNota = null;
-function abrirFeedback() {
+let _fbNota = null, _fbDe = 'faixa';
+function abrirFeedback(de) {
+  _fbDe = de || 'faixa';
   let o = document.getElementById('fbOverlay');
   if (!o) {
     o = document.createElement('div');
@@ -2220,7 +2232,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, versao: 'v140' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v141' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -5142,6 +5154,7 @@ function openAchievement(label, count, vol) {
   document.getElementById('achPhotoBtn').textContent = '📷 Foto do pump';
   document.getElementById('achUserText').value = '';
   drawAch();
+  try { document.getElementById('achFeedback').hidden = !(FEEDBACK_LIGADO && localStorage.getItem('gh_feedbackFeito') !== '1'); } catch (e) {}
   document.getElementById('achOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
