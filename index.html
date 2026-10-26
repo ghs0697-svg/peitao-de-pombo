@@ -793,6 +793,19 @@
     text-align: left; cursor: pointer;
   }
   .grupo-faixa-btn:active { transform: scale(.98); }
+  .ex-nota { margin-top: 10px; }
+  .ex-nota textarea {
+    display: none; width: 100%; box-sizing: border-box; min-height: 52px; padding: 10px; margin-top: 6px;
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text);
+    font-size: 14px; font-family: inherit; resize: vertical;
+  }
+  .ex-nota.aberta textarea { display: block; }
+  .ex-nota.aberta .ex-nota-btn { display: none; }
+  .ex-nota-btn {
+    padding: 7px 12px; border: 1px dashed var(--border); border-radius: 9px; background: none;
+    color: var(--text-dim); font-family: inherit; font-weight: 700; font-size: 12.5px; cursor: pointer;
+  }
+  .ex-nota-ant { font-size: 12.5px; color: var(--text-dim); line-height: 1.45; margin-bottom: 6px; white-space: pre-wrap; }
   .feedback-faixa .grupo-faixa-btn { border-color: rgba(120,170,255,.45); background: rgba(120,170,255,.08); color: #9DC1FF; }
   .fb-box { text-align: left; }
   .fb-box label { display: block; font-size: 13px; font-weight: 800; color: var(--text); margin: 12px 0 6px; }
@@ -2232,7 +2245,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v141' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v142' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2999,6 +3012,47 @@ async function restoreSetsFromServer() {
     else if (state.tab === 'semana') renderSemana();
   } catch (e) { /* silencioso */ }
 }
+// ── Anotação por exercício (pedido do aluno Weverton no feedback, 25/10) ──
+// Uma por semana, na mesma chave da carga com "nota_" na frente: sobe e volta pela mesma
+// rota /api/sets (restore no login traz junto). Semana sem anotação mostra a da última semana.
+function notaKey(ctxKey, idx, w) {
+  const pre = 'peitao_sets_' + setsEmail() + '_';
+  return pre + 'nota_' + setsKey(ctxKey, idx, w).slice(pre.length);
+}
+function loadNota(ctxKey, idx, w) {
+  try { const a = JSON.parse(localStorage.getItem(notaKey(ctxKey, idx, w)) || 'null'); return (a && a[0] && a[0].nota) || ''; } catch (e) { return ''; }
+}
+function notaAnterior(ctxKey, idx, w) {
+  for (let ww = w - 1; ww >= 1; ww--) { const n = loadNota(ctxKey, idx, ww); if (n) return { w: ww, nota: n }; }
+  return null;
+}
+function escHtml(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function salvarNota(ctxKey, idx, el) {
+  const w = state.week;
+  const texto = String(el.value || '').slice(0, 300);   // valor lido NA HORA do toque, nunca no timeout
+  const k = notaKey(ctxKey, idx, w);
+  const val = texto.trim() ? [{ nota: texto.trim() }] : [{}];
+  try { localStorage.setItem(k, JSON.stringify(val)); } catch (e) {}
+  queueSetsSync(k, val);
+  const b = el.closest('.ex-nota'); if (b) b.classList.toggle('tem', !!texto.trim());
+}
+function abrirNota(btn) {
+  const box = btn.closest('.ex-nota');
+  box.classList.add('aberta');
+  const ta = box.querySelector('textarea'); if (ta) ta.focus();
+}
+function notaHtml(ctxKey, idx) {
+  const w = state.week;
+  const atual = loadNota(ctxKey, idx, w);
+  const ant = atual ? null : notaAnterior(ctxKey, idx, w);
+  const antHtml = ant ? `<div class="ex-nota-ant">Semana ${ant.w}: ${escHtml(ant.nota)}</div>` : '';
+  return `<div class="ex-nota${atual ? ' tem aberta' : ''}">
+    ${antHtml}
+    <button class="ex-nota-btn" onclick="abrirNota(this)">📝 ${ant ? 'Anotar nesta semana' : 'Anotação'}</button>
+    <textarea maxlength="300" rows="2" placeholder="Ex.: banco na posição 4, senti o ombro, subir 2 kg na próxima"
+      oninput="salvarNota('${ctxKey}',${idx},this)" onblur="flushSetsSync()">${escHtml(atual)}</textarea>
+  </div>`;
+}
 function getPrevSets(ctxKey, idx, w) {
   for (let ww = w - 1; ww >= 1; ww--) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
   return null;
@@ -3538,7 +3592,7 @@ function exerciseCard(ex, ctxKey, idx) {
         </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
-      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series, active.exercicio)}</div>` : ''}
+      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series, active.exercicio)}${notaHtml(ctxKey, idx)}</div>` : ''}
     </div>
   `;
 }
