@@ -46,7 +46,7 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .wrap { max-width: 600px; margin: 0 auto; min-height: 100vh; padding-bottom: calc(30px + var(--safe-bottom)); }
+  .wrap { max-width: 600px; margin: 0 auto; min-height: 100vh; padding-bottom: calc(84px + var(--safe-bottom)); }   /* folga pros botões flutuantes não taparem o fim da página */
 
   /* Header */
   header {
@@ -785,6 +785,9 @@
     background: var(--accent); color: #0A0A0B; font-family: inherit; font-weight: 900; font-size: 14px; cursor: pointer;
   }
   .comeca-btn:active { transform: scale(.98); }
+  /* sem conexão na abertura: aviso curto acima das abas, some quando a rede volta */
+  .aviso-offline { margin: 0 16px 10px; padding: 9px 12px; border: 1px solid rgba(232,184,75,.4); background: rgba(232,184,75,.08); border-radius: 10px; font-size: 12.5px; line-height: 1.45; color: #E8C97A; }
+  .aviso-offline b { color: #F2D27A; }
   /* faixa pequena do grupo (Sala #3002): uma linha, verde, sem empurrar o treino */
   .grupo-faixa { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; }
   .grupo-faixa-btn {
@@ -1677,6 +1680,7 @@ function estadoInicial() {
   };
 }
 let state = estadoInicial();
+let _offline = false;   // abriu sem rede, com as flags guardadas na sessão
 
 // ─── Sessão (localStorage) ───
 function loadSession() {
@@ -1687,6 +1691,23 @@ function loadSession() {
 }
 function saveSession() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.user)); } catch (e) {}
+}
+// O que o servidor diz da conta (Completo, vitalício, ebooks, Seca, dias) vai pro estado
+// E fica guardado na sessão do aparelho: sem internet o app abre com a última verificação.
+function aplicarFlags(v) {
+  state.upsellUnlocked = !!v.upsell;
+  state.lifetime = !!v.lifetime;
+  state.daysLeft = v.daysLeft ?? null;
+  state.daysSincePurchase = v.daysSincePurchase ?? null;
+  state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
+  state.seca = !!v.seca;
+  state.secaDaysSince = (v.secaDaysSince ?? null);
+  if (state.user) {
+    state.user.flags = { upsell: state.upsellUnlocked, lifetime: state.lifetime, daysLeft: state.daysLeft,
+      daysSincePurchase: state.daysSincePurchase, ebooks: state.ebooks, seca: state.seca,
+      secaDaysSince: state.secaDaysSince, em: Date.now() };
+    saveSession();
+  }
 }
 
 // ─── API helper ───
@@ -1747,14 +1768,7 @@ async function doLogin() {
       msg.textContent = d.error || 'E-mail ou senha incorretos.'; return;
     }
     state.user = { email: d.email, token: d.token, name: d.name };
-    state.upsellUnlocked = !!d.upsell;
-    state.lifetime = !!d.lifetime;
-    state.daysLeft = d.daysLeft ?? null;
-    state.daysSincePurchase = d.daysSincePurchase ?? null;
-    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
-    state.seca = !!d.seca;
-    state.secaDaysSince = (d.secaDaysSince ?? null);
-    saveSession();
+    aplicarFlags(d);
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
 }
@@ -1778,14 +1792,7 @@ async function doFirstAccess() {
       msg.textContent = d.error || 'Não consegui criar tua senha. Verifica se é o e-mail da compra.'; return;
     }
     state.user = { email: d.email, token: d.token, name: d.name };
-    state.upsellUnlocked = !!d.upsell;
-    state.lifetime = !!d.lifetime;
-    state.daysLeft = d.daysLeft ?? null;
-    state.daysSincePurchase = d.daysSincePurchase ?? null;
-    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
-    state.seca = !!d.seca;
-    state.secaDaysSince = (d.secaDaysSince ?? null);
-    saveSession();
+    aplicarFlags(d);
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
 }
@@ -1811,14 +1818,7 @@ async function doReset() {
       msg.textContent = d.error || 'Não consegui redefinir. Verifica se é o e-mail da compra.'; return;
     }
     state.user = { email: d.email, token: d.token, name: d.name };
-    state.upsellUnlocked = !!d.upsell;
-    state.lifetime = !!d.lifetime;
-    state.daysLeft = d.daysLeft ?? null;
-    state.daysSincePurchase = d.daysSincePurchase ?? null;
-    state.ebooks = d.ebooks || { ergo1: false, ergo2: false, pept: false };
-    state.seca = !!d.seca;
-    state.secaDaysSince = (d.secaDaysSince ?? null);
-    saveSession();
+    aplicarFlags(d);
     enterApp();
   } catch (e) { msg.textContent = 'Erro de conexão. Tenta de novo.'; }
 }
@@ -1836,6 +1836,9 @@ function limpaEstadoDoAluno() {
   _avalStatus = null;
   _avalVerEnvio = false;
   try { _syncPending = {}; } catch (e) {}
+  _offline = false;
+  try { const ao = document.getElementById('avisoOffline'); if (ao) ao.remove(); } catch (e) {}
+  try { for (const k of Object.keys(_tabScroll)) delete _tabScroll[k]; } catch (e) {}
 }
 function logout() {
   stopHeartbeat();
@@ -1865,7 +1868,12 @@ async function boot() {
   try {
     if (!(state.user && state.user.token) && new URLSearchParams(location.search).get('criar') === '1') showAuth('first');
   } catch (e) {}
-  DATA = await fetch('data/peitao-data.json').then(r => r.json());
+  try {
+    DATA = await fetch('data/peitao-data.json').then(r => { if (!r.ok) throw new Error('status ' + r.status); return r.json(); });
+  } catch (e) {
+    mostrarFalhaCarga();   // sem o pacote do treino não tem app: diz o que houve em vez da tela em branco
+    return;
+  }
   // Pacote do Modo Seca: carrega em paralelo; sem ele o modo só não aparece
   fetch('data/seca-panca-data.json').then(r => r.json()).then(j => {
     SECA_DATA = j; secaBuildIndex();
@@ -1876,20 +1884,71 @@ async function boot() {
     try {
       const v = await api('/api/auth/verify');
       if (v && v.ok) {
-        state.upsellUnlocked = !!v.upsell;
-        state.lifetime = !!v.lifetime;
-        state.daysLeft = v.daysLeft ?? null;
-        state.daysSincePurchase = v.daysSincePurchase ?? null;
-        state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
-        state.seca = !!v.seca;
-        state.secaDaysSince = (v.secaDaysSince ?? null);
+        aplicarFlags(v);
         enterApp();
         return;
       }
-    } catch (e) { return; } // api() já mandou pro login em 401/403
+    } catch (e) {
+      if (/^(401|403|EXPIRED)$/.test(String(e && e.message))) return;   // api() já mandou pro login
+      // Sem rede (ou servidor fora): entra com o que o aparelho guardou da última verificação.
+      // Na academia sem sinal o aluno ficava preso na tela de login, com o treino todo em cache.
+      if (entrarOffline()) return;
+    }
   }
   document.getElementById('authScreen').classList.remove('hidden');
   showAuth('login');
+  try { if (!navigator.onLine) document.getElementById('authMsg').textContent = 'Tu está sem internet. Conecta pra entrar.'; } catch (e) {}
+}
+
+// ════════ SEM CONEXÃO ════════
+// Entra com as flags da última verificação (guardadas na sessão por aplicarFlags), no
+// máximo 14 dias depois dela. Os dias de acesso continuam contando no aparelho: quem já
+// venceu não entra. O aviso sai quando uma verificação dá certo (rede voltou).
+function entrarOffline() {
+  const f = state.user && state.user.flags;
+  if (!f || !f.em) return false;
+  const passou = Math.max(0, Math.floor((Date.now() - f.em) / 86400000));
+  if (passou > 14) return false;
+  const daysLeft = (typeof f.daysLeft === 'number') ? f.daysLeft - passou : null;
+  if (typeof daysLeft === 'number' && daysLeft <= 0) return false;
+  state.upsellUnlocked = !!f.upsell;
+  state.lifetime = !!f.lifetime;
+  state.daysLeft = daysLeft;
+  state.daysSincePurchase = (typeof f.daysSincePurchase === 'number') ? f.daysSincePurchase + passou : null;
+  state.ebooks = f.ebooks || { ergo1: false, ergo2: false, pept: false };
+  state.seca = !!f.seca;
+  state.secaDaysSince = (typeof f.secaDaysSince === 'number') ? f.secaDaysSince + passou : null;
+  _offline = true;
+  enterApp();
+  mostrarAvisoOffline();
+  return true;
+}
+function mostrarAvisoOffline() {
+  try {
+    const tabs = document.getElementById('tabs');
+    if (!tabs || document.getElementById('avisoOffline')) return;
+    const el = document.createElement('div');
+    el.id = 'avisoOffline'; el.className = 'aviso-offline';
+    el.innerHTML = '📡 <b>Sem conexão.</b> Tu está vendo o app como ficou da última vez. Pode treinar e anotar carga normal: tudo sobe sozinho quando a internet voltar.';
+    tabs.parentNode.insertBefore(el, tabs);
+  } catch (e) {}
+}
+function voltouOnline() {
+  _offline = false;
+  try { const el = document.getElementById('avisoOffline'); if (el) el.remove(); } catch (e) {}
+}
+function mostrarFalhaCarga() {
+  try {
+    const box = document.querySelector('#authScreen .auth-box');
+    if (!box || document.getElementById('bootErro')) return;
+    box.querySelectorAll('#authLogin, #authFirst, #authReset, #authExpired').forEach(el => el.classList.add('hidden'));
+    const el = document.createElement('div');
+    el.id = 'bootErro';
+    el.innerHTML = '<h2 style="font-size:18px;font-weight:800;margin:24px 0 4px;">Não consegui carregar o treino</h2>'
+      + '<p class="hint" style="margin-bottom:16px;">' + (navigator.onLine ? 'Deu um erro na carga do app.' : 'Tu está sem internet.') + ' Confere a conexão e tenta de novo.</p>'
+      + '<button class="auth-btn" onclick="location.reload()">Tentar de novo</button>';
+    box.insertBefore(el, box.querySelector('.auth-suporte'));
+  } catch (e) {}
 }
 
 async function enterApp() {
@@ -1925,6 +1984,7 @@ async function enterApp() {
       new Promise(r => setTimeout(r, 1500)),
     ]);
   } catch (e) { /* rede ruim não pode impedir o app de desenhar */ }
+  reenviarFila();            // carga anotada sem rede numa sessão anterior sobe agora
   _modoPrimeiroTreino = !primeiroTreinoFeito();
   renderPeito();
   renderAulas();
@@ -1950,27 +2010,28 @@ async function enterApp() {
 }
 
 // ─── Heartbeat: re-checa sessão + upsell a cada 5 min ───
+// A mesma verificação roda na hora quando a rede volta (evento online): tira o aviso de
+// sem conexão, guarda as flags novas na sessão e sobe o que ficou na fila.
 let _hb = null;
+async function verificarConta() {
+  try {
+    const v = await api('/api/auth/verify');
+    if (!v || !v.ok) return;
+    const newEbooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
+    const ebooksChanged = JSON.stringify(state.ebooks) !== JSON.stringify(newEbooks);
+    const mudou = state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged || state.seca !== !!v.seca;
+    aplicarFlags(v);
+    voltouOnline();
+    reenviarFila();
+    if (mudou) { renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderErgo(); renderParceiros(); }
+  } catch (e) {}
+}
 function startHeartbeat() {
   if (_hb) return;
-  _hb = setInterval(async () => {
-    try {
-      const v = await api('/api/auth/verify');
-      if (!v || !v.ok) return;
-      const newEbooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
-      const ebooksChanged = JSON.stringify(state.ebooks) !== JSON.stringify(newEbooks);
-      if (state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged || state.seca !== !!v.seca) {
-        state.upsellUnlocked = !!v.upsell;
-        state.lifetime = !!v.lifetime;
-        state.ebooks = newEbooks;
-        state.seca = !!v.seca;
-        state.secaDaysSince = (v.secaDaysSince ?? null);
-        renderTabs(); renderPeito(); renderSemana(); renderDieta(); renderErgo(); renderParceiros();
-      }
-    } catch (e) {}
-  }, 5 * 60 * 1000);
+  _hb = setInterval(verificarConta, 5 * 60 * 1000);
 }
 function stopHeartbeat() { if (_hb) { clearInterval(_hb); _hb = null; } }
+window.addEventListener('online', () => { if (state.user && state.user.token) verificarConta(); });
 
 // ════════ UPSELL CONSULTORIA — Método GH ════════
 const CONSULTORIA = {
@@ -2256,7 +2317,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v143' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v144' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2683,16 +2744,35 @@ function renderTabs() {
     </button>
   `;
 }
+// Cada aba lembra onde o aluno parou: ir na DIETA e voltar pro TREINO não joga mais pro
+// topo (ele tinha que rolar de novo até o exercício). Tocar na aba que já está aberta sobe.
+const _tabScroll = {};
 function showTab(t) {
+  const mesma = (t === state.tab);
+  _tabScroll[state.tab] = window.scrollY;
   state.tab = t;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + t).classList.add('active');
   renderTabs();
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  window.scrollTo({ top: mesma ? 0 : (_tabScroll[t] || 0), behavior: 'instant' });
 }
 
 // ════════ HELPERS ════════
 function esc(s) { return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+// Redesenha a tela segurando um elemento no mesmo lugar da janela. O innerHTML inteiro
+// troca a cada marcação, e quando um bloco acima some (o "Começa aqui" depois do 1º
+// check), o cartão que o aluno acabou de tocar pulava uma tela pra cima.
+function manterPosicao(acha, redesenha) {
+  let antes = null;
+  try { const el = acha(); if (el) antes = el.getBoundingClientRect().top; } catch (e) {}
+  redesenha();
+  if (antes === null) return;
+  try {
+    const el = acha(); if (!el) return;
+    const delta = el.getBoundingClientRect().top - antes;
+    if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+  } catch (e) {}
+}
 
 // ════════ TIMER DE DESCANSO ════════
 // Extrai os segundos de strings tipo "60 seg", "90 seg", "1 min", "1 min 30 seg"
@@ -2709,53 +2789,57 @@ function fmtMMSS(s) {
   const m = Math.floor(s / 60), r = s % 60;
   return m + ':' + String(r).padStart(2, '0');
 }
-// Estado dos timers ativos: { "ctxKey_idx": { intervalId, remaining } }
+// Estado dos cronômetros, por exercício: { "ctxKey_idx": { fim, done, doneAte } }.
+// Relógio de PAREDE (fim = agora + segundos): com a tela bloqueada o celular congela o
+// setInterval, e o descanso de 90 s voltava mostrando 1:10. E o estado vive aqui, não no
+// elemento: marcar um exercício redesenha a aba inteira, e o cronômetro que estava
+// rodando sumia junto com o elemento antigo (o toque seguinte "resetava" um invisível).
 const _timers = {};
+let _timerTick = null;
 function timerKey(el) { return el.dataset.ctx + '_' + el.dataset.idx; }
+function timerEl(k) { return document.querySelector('.timer-cell[data-key="' + k + '"]'); }
+function pintaTimer(k) {
+  const t = _timers[k], el = timerEl(k);
+  if (!el) return;
+  const val = el.querySelector('.timer-val');
+  if (!t) { el.classList.remove('running', 'done'); val.textContent = el.dataset.original || val.textContent; return; }
+  if (t.done) { el.classList.remove('running'); el.classList.add('done'); val.textContent = '✓ vai!'; return; }
+  el.classList.add('running'); el.classList.remove('done');
+  val.textContent = fmtMMSS(Math.max(0, Math.ceil((t.fim - Date.now()) / 1000)));
+}
+function tickTimers() {
+  const agora = Date.now();
+  let vivos = 0;
+  for (const k of Object.keys(_timers)) {
+    const t = _timers[k];
+    if (t.done) {
+      if (agora >= t.doneAte) { delete _timers[k]; pintaTimer(k); } else vivos++;   // "vai!" fica 4 s
+      continue;
+    }
+    if (agora >= t.fim) {
+      t.done = true; t.doneAte = agora + 4000;
+      try { navigator.vibrate && navigator.vibrate([200, 100, 200, 100, 400]); } catch (e) {}
+      playBeep();
+    }
+    vivos++;
+    pintaTimer(k);
+  }
+  if (!vivos && _timerTick) { clearInterval(_timerTick); _timerTick = null; }
+}
 function toggleTimer(el) {
   const k = timerKey(el);
   const total = parseInt(el.dataset.seconds, 10) || 0;
-  if (!total) return; // sem tempo definido — não faz nada
+  if (!total) return; // sem tempo definido, não faz nada
   unlockAudio(); // destrava o som agora (no toque), pra conseguir bipar quando zerar no iPhone
-  // Se tá rodando ou já completou → reseta pro estado original
-  if (_timers[k]) {
-    clearInterval(_timers[k].intervalId);
-    delete _timers[k];
-    el.classList.remove('running','done');
-    el.querySelector('.timer-val').textContent = el.dataset.original;
-    return;
-  }
-  // Salva valor original (1ª vez)
-  if (!el.dataset.original) el.dataset.original = el.querySelector('.timer-val').textContent;
-  let rem = total;
-  el.classList.add('running');
-  el.classList.remove('done');
-  el.querySelector('.timer-val').textContent = fmtMMSS(rem);
-  _timers[k] = {
-    intervalId: setInterval(() => {
-      rem--;
-      if (rem <= 0) {
-        clearInterval(_timers[k].intervalId);
-        delete _timers[k];
-        el.classList.remove('running');
-        el.classList.add('done');
-        el.querySelector('.timer-val').textContent = '✓ vai!';
-        try { navigator.vibrate && navigator.vibrate([200, 100, 200, 100, 400]); } catch(e){}
-        playBeep();
-        // Volta pro estado original depois de 4 seg
-        setTimeout(() => {
-          if (!_timers[k]) { // só reseta se não foi reiniciado nesse meio tempo
-            el.classList.remove('done');
-            el.querySelector('.timer-val').textContent = el.dataset.original;
-          }
-        }, 4000);
-        return;
-      }
-      el.querySelector('.timer-val').textContent = fmtMMSS(rem);
-    }, 1000),
-    remaining: rem,
-  };
+  if (_timers[k]) { delete _timers[k]; pintaTimer(k); return; }   // rodando ou zerado: volta ao normal
+  _timers[k] = { fim: Date.now() + total * 1000, done: false, doneAte: 0 };
+  pintaTimer(k);
+  if (!_timerTick) _timerTick = setInterval(tickTimers, 500);
 }
+// depois de redesenhar a aba, os cronômetros que estavam rodando voltam pros elementos novos
+function rehydrateTimers() { for (const k of Object.keys(_timers)) pintaTimer(k); }
+// voltou pro app: acerta o relógio na hora (o intervalo pode ter ficado parado)
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Object.keys(_timers).length) tickTimers(); });
 // AudioContext único, destravado no toque que inicia o descanso.
 // iPhone só libera áudio dentro de um gesto do usuário; criar o contexto na hora
 // que o cronômetro zera (sem toque) fica mudo. Destravando aqui, o bipe soa depois.
@@ -2812,7 +2896,7 @@ function toggleSub(ctxKey, idx) {
   state.subs = state.subs || {};
   state.subs[k] = !state.subs[k];
   saveSubs();
-  if (state.tab === 'peito') renderPeito();
+  if (state.tab === 'peito') manterPosicao(() => document.querySelectorAll('#screen-peito .ex')[idx], renderPeito);
   else if (state.tab === 'semana') renderSemana();
 }
 
@@ -2952,10 +3036,40 @@ function queueSetsSync(localKey, sets) {
   _syncTimers[k] = setTimeout(async () => {
     const payload = _syncPending[k]; delete _syncPending[k];
     try {
-      await api('/api/sets', { method: 'POST', body: JSON.stringify({ key: k, sets: payload }) });
-    } catch (e) { /* offline/erro: fica no localStorage; re-tenta no próximo save */ }
+      const r = await api('/api/sets', { method: 'POST', body: JSON.stringify({ key: k, sets: payload }) });
+      if (!r || !r.ok) throw new Error('resposta');
+      filaTira({ [k]: payload });
+    } catch (e) { filaPoe({ [k]: payload }); }   // sem rede: fica na fila e sobe quando a conexão voltar
   }, 1200);
 }
+// ── Fila do que não subiu (sem rede): guardada no aparelho, por conta, sobe na volta ──
+// Antes a carga anotada sem internet ficava SÓ no aparelho: o restore do login só sobe
+// chave que o servidor nunca viu, então uma carga nova numa chave já existente nunca
+// chegava no backup (trocou de celular, perdeu). Caminho de carga é sagrado.
+function filaKey() { return 'peitao_syncfila_' + setsEmail(); }
+function filaLer() { try { const f = JSON.parse(localStorage.getItem(filaKey()) || 'null'); return (f && typeof f === 'object' && !Array.isArray(f)) ? f : {}; } catch (e) { return {}; } }
+function filaGravar(f) { try { if (Object.keys(f).length) localStorage.setItem(filaKey(), JSON.stringify(f)); else localStorage.removeItem(filaKey()); } catch (e) {} }
+function filaPoe(entries) { if (!state.user || !state.user.token) return; const f = filaLer(); Object.assign(f, entries); filaGravar(f); }
+function filaTira(entries) {
+  const f = filaLer(); let mudou = false;
+  for (const k of Object.keys(entries)) {
+    if (k in f && JSON.stringify(f[k]) === JSON.stringify(entries[k])) { delete f[k]; mudou = true; }
+  }
+  if (mudou) filaGravar(f);
+}
+let _filaEnviando = false;
+async function reenviarFila() {
+  if (_filaEnviando || !state.user || !state.user.token) return;
+  const f = filaLer();
+  if (!Object.keys(f).length) return;
+  _filaEnviando = true;
+  try {
+    const r = await api('/api/sets', { method: 'POST', body: JSON.stringify({ entries: f }) });
+    if (r && r.ok) filaTira(f);
+  } catch (e) { /* ainda sem rede: fica pra próxima */ }
+  _filaEnviando = false;
+}
+window.addEventListener('online', () => reenviarFila());
 // Envia na hora tudo que está na fila do debounce, com keepalive pro envio
 // sobreviver ao app sendo fechado (antes a carga ficava só no aparelho).
 function flushSetsSync() {
@@ -2965,12 +3079,13 @@ function flushSetsSync() {
   for (const k of chaves) clearTimeout(_syncTimers[k]);
   const entries = {};
   for (const k of chaves) entries[k] = pend[k];
+  filaPoe(entries);   // entra na fila ANTES de mandar: se o app fechar no meio, sobe na próxima abertura
   try {
     fetch(API_BASE + '/api/sets', {
       method: 'POST', keepalive: true,
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.user.token },
       body: JSON.stringify({ entries }),
-    }).catch(() => {});
+    }).then(r => { if (r && r.ok) filaTira(entries); }).catch(() => {});
   } catch (e) {}
 }
 // Restore no login: baixa o snapshot da conta e semeia o localStorage
@@ -3560,13 +3675,13 @@ function allPRs() {
 
 // ── Toast de celebração ──
 let _toastTimer = null;
-function showToast(html) {
+function showToast(html, ms) {
   let t = document.getElementById('ghToast');
   if (!t) { t = document.createElement('div'); t.id = 'ghToast'; t.className = 'gh-toast'; document.body.appendChild(t); }
   t.innerHTML = html;
   requestAnimationFrame(() => t.classList.add('show'));
   clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => t.classList.remove('show'), 3400);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), ms || 3400);
 }
 
 // ── Volume do dia (kg x reps das séries preenchidas do contexto atual) ──
@@ -3656,7 +3771,7 @@ function exerciseCard(ex, ctxKey, idx) {
       <div class="ex-meta">
         <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'-'}</div></div>
         <div><div class="lbl">REPS</div><div class="val">${active.reps||'-'}</div></div>
-        <div class="timer-cell" data-ctx="${ctxKey}" data-idx="${idx}" data-seconds="${parseIntervalSeconds(active.intervalo)}" onclick="toggleTimer(this)">
+        <div class="timer-cell" data-ctx="${ctxKey}" data-idx="${idx}" data-key="${ctxKey}_${idx}" data-original="${active.intervalo||'-'}" data-seconds="${parseIntervalSeconds(active.intervalo)}" onclick="toggleTimer(this)">
           <div class="lbl">DESCANSO</div>
           <div class="val timer-val">${active.intervalo||'-'}</div>
         </div>
@@ -3671,7 +3786,7 @@ function exerciseCard(ex, ctxKey, idx) {
 // Gera o PDF na hora com os substitutos que o aluno escolheu.
 async function downloadTreinoPDF(kind) {
   if (!window.jspdf || !window.jspdf.jsPDF) {
-    alert('Aguarda um segundo, ainda tô carregando o gerador de PDF…');
+    showToast('Aguarda um segundo, ainda tô carregando o gerador de PDF…');
     return;
   }
   const { jsPDF } = window.jspdf;
@@ -3722,20 +3837,20 @@ async function downloadTreinoPDF(kind) {
     const t5p = DATA.treino5x[state.peitoVer] || { dias: [] };
     const b = tp.dias[1] || t5p.dias[0];
     const bCtx = tp.dias[1] ? ('peitoB_' + state.peitoVer) : ('semana_' + state.peitoVer + '_0');
-    entries = [{ dia: tp.dias[0], nome: 'TREINO A (ex: segunda) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'peito_' + state.peitoVer }];
-    if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta) — PEITO / TRÍCEPS / ABDÔMEN', ctxKey: bCtx });
+    entries = [{ dia: tp.dias[0], nome: 'TREINO A (ex: segunda): PEITO / TRÍCEPS / ABDÔMEN', ctxKey: 'peito_' + state.peitoVer }];
+    if (b) entries.push({ dia: b, nome: 'TREINO B (ex: quinta): PEITO / TRÍCEPS / ABDÔMEN', ctxKey: bCtx });
     if (state.upsellUnlocked) {
       [1, 2, 3, 4].forEach(di => {
         const dia = t5p.dias[di];
         if (dia) entries.push({ dia, ctxKey: 'semana_' + state.peitoVer + '_' + di,
-          nome: (dia.nome || ('DIA ' + di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + di + ' — ') });
+          nome: (dia.nome || ('DIA ' + di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + di + ': ') });
       });
     }
   } else {
     const ts = DATA.treino5x[state.semanaVer];
     entries = ts.dias.map((dia, di) => ({ dia, di, ctxKey: 'semana_' + state.semanaVer + '_' + di }))
       .filter(e => e.di !== 0)
-      .map(e => ({ ...e, nome: (e.dia.nome || ('DIA ' + e.di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + e.di + ' — ') }));
+      .map(e => ({ ...e, nome: (e.dia.nome || ('DIA ' + e.di)).replace(/^DIA\s*\d+\s*[—–-]*\s*/i, 'DIA ' + e.di + ': ') }));
   }
   for (let di = 0; di < entries.length; di++) {
     const dia = entries[di].dia;
@@ -4008,6 +4123,7 @@ function renderPeito() {
   hydrateFotos(state.week);
   flushFotoUploads();
   montarAudioAval();   // busca o áudio com o token no cabeçalho, não na URL
+  rehydrateTimers();   // cronômetro que estava rodando volta pro elemento novo
 }
 // ════════ PHASE LOCK ════════
 // Fases 2.0 e 3.0 só destravam APÓS 7 dias da compra (fora da janela de reembolso CDC).
@@ -4026,7 +4142,7 @@ function daysUntilPhaseUnlock() {
 function tryPhaseChange(setter, v) {
   if (isPhaseLocked(v)) {
     const d = daysUntilPhaseUnlock();
-    alert(`🔒 Fase ${v} libera em ${d} dia${d===1?'':'s'}.\n\nFoca em executar a fase 1.0, a ${v} já tá te esperando.`);
+    showToast(`🔒 <b>Fase ${v} libera em ${d} dia${d===1?'':'s'}.</b><br>Foca em executar a fase 1.0, a ${v} já tá te esperando.`, 4500);
     return;
   }
   setter(v);
@@ -4126,6 +4242,7 @@ function migrarCargaD5UmaVez() {
 
 // ════════ AVALIAÇÃO CORPORAL PELO GH (bônus da oferta: fotos+medidas → áudio dele) ════════
 let _avalStatus = null;     // cache do GET /api/aval
+let _avalVistoEm = 0;       // quando foi a última consulta (ver visibilitychange)
 let _avalVerEnvio = false;  // bloco "ver o que tu enviou" aberto ou fechado
 
 const AVAL_CAMPOS = [
@@ -4141,6 +4258,7 @@ const AVAL_CAMPOS = [
 
 async function carregarAvalStatus() {
   if (!state.user || !state.user.token) return null;
+  _avalVistoEm = Date.now();
   try {
     const r = await api('/api/aval');
     if (r && r.ok) { _avalStatus = r; return r; }
@@ -4239,6 +4357,7 @@ function initAvalAviso() {
 // pro app, re-consulta o status; o card verde aparece sem precisar recarregar.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible' || !state.user) return;
+  if (Date.now() - _avalVistoEm < 10 * 60 * 1000) return;   // no máximo uma consulta a cada 10 min
   const antes = JSON.stringify(_avalStatus);
   carregarAvalStatus().then(() => {
     if (JSON.stringify(_avalStatus) !== antes) {
@@ -4915,7 +5034,13 @@ function closeVideo() {
   document.getElementById('vwrap').innerHTML = '';
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeVideo(); achClose(); closeInstallModal(); const gm = document.getElementById('grupoModal'); if (gm && gm.classList.contains('show')) closeGrupoModal(false); } });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  closeVideo(); achClose(); closeInstallModal(); fecharAval(); closeSecaGuia(); closeFotoViewer(); fecharAvalAudioModal();
+  const fb = document.getElementById('fbOverlay'); if (fb) fb.classList.remove('show');
+  const nov = document.getElementById('novOverlay'); if (nov && nov.classList.contains('show')) fecharNovidade(false);
+  const gm = document.getElementById('grupoModal'); if (gm && gm.classList.contains('show')) closeGrupoModal(false);
+});
 
 // ════════ INSTALL PWA — Botão flutuante + modal por plataforma ════════
 let _deferredInstallPrompt = null;
@@ -5037,6 +5162,11 @@ async function registerPeitaoPush() {
     if (!sub) {
       sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: pushB64ToU8(PUSH_VAPID_PUBLIC) });
     }
+    // Mesma inscrição mandada há menos de 3 dias: não gasta a chamada (nem o banco)
+    try {
+      const epAntes = localStorage.getItem('gh_pushEndpoint'), emAntes = parseInt(localStorage.getItem('gh_pushSubAt') || '0', 10);
+      if (epAntes === sub.endpoint && emAntes && Date.now() - emAntes < 3 * 86400000) return { ok: true, cache: true };
+    } catch (e) {}
     const r = await fetch(API_BASE + '/api/push/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8', 'Authorization': 'Bearer ' + ((state.user && state.user.token) || '') },
@@ -5044,6 +5174,7 @@ async function registerPeitaoPush() {
     });
     if (!r.ok) return { ok: false, reason: 'server-' + r.status };
     localStorage.setItem('gh_pushEndpoint', sub.endpoint);
+    localStorage.setItem('gh_pushSubAt', String(Date.now()));
     return { ok: true };
   } catch (e) {
     return { ok: false, reason: String((e && e.message) || e).slice(0, 90) };
@@ -5057,20 +5188,20 @@ async function ativarAvisosPeitao(motivo) {
   let perm = ('Notification' in window) ? Notification.permission : 'denied';
   if (perm === 'default') perm = await Notification.requestPermission();
   if (perm !== 'granted') {
-    alert('Sem permissão, sem aviso. Se mudar de ideia, libera as notificações do app nas configurações do teu celular.');
+    showToast('Sem permissão, sem aviso. Se mudar de ideia, libera as notificações do app nas configurações do teu celular.', 5000);
     return;
   }
   const r = await registerPeitaoPush();
   if (r.ok) {
     dismissPushBanner(true);
-    alert(motivo === 'treino'
-      ? '🔔 Combinado. Te aviso no dia do próximo treino.'
-      : '🔔 Avisos ativados! Novidade do método e condição especial de aluno agora chegam direto aqui.');
+    showToast(motivo === 'treino'
+      ? '🔔 <b>Combinado.</b> Te aviso no dia do próximo treino.'
+      : '🔔 <b>Avisos ativados!</b> Novidade do método e condição especial de aluno agora chegam direto aqui.', 4500);
     if (state.tab === 'peito') renderPeito();
   } else if (r.reason === 'ios-not-installed') {
     openInstallModal();
   } else {
-    alert('Não consegui ativar agora (' + r.reason + '). Tenta de novo daqui a pouco.');
+    showToast('Não consegui ativar agora (' + r.reason + '). Tenta de novo daqui a pouco.', 4500);
   }
 }
 
@@ -5264,7 +5395,8 @@ function toggleCheck(ctxKey, idx) {
   _checks[ctxKey][idx] = !_checks[ctxKey][idx];
   saveChecks();
   if (_checks[ctxKey][idx]) stampTrainingDay();
-  if (state.tab === 'peito') renderPeito();
+  // redesenha sem a tela pular: o cartão tocado fica onde estava no olho do aluno
+  if (state.tab === 'peito') manterPosicao(() => document.querySelectorAll('#screen-peito .ex')[idx], renderPeito);
   else if (state.tab === 'semana') renderSemana();
 }
 
@@ -5294,6 +5426,18 @@ function spaced(ctx, text, x, y, sp) {
   let cx = x - tot / 2;
   for (let i = 0; i < ch.length; i++) { ctx.fillText(ch[i], cx, y); cx += w[i] + sp; }
   ctx.textAlign = prev;
+}
+// Android/Chrome antigos (antes de 2022) não têm roundRect: o cartão não desenhava e o
+// botão "Compartilhar" parecia morto.
+if (window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    r = Math.max(0, Math.min(Number(r) || 0, w / 2, h / 2));
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y, x + w, y + h, r); this.arcTo(x + w, y + h, x, y + h, r);
+    this.arcTo(x, y + h, x, y, r); this.arcTo(x, y, x + w, y, r);
+    this.closePath();
+    return this;
+  };
 }
 function drawAch() {
   if (!_achData) return;
@@ -5439,6 +5583,21 @@ function achSave() {
   }, 'image/png');
 }
 
+// Enter nos campos de entrada: vai pro próximo campo e, no último, envia. Não há <form>,
+// então o "ir" do teclado do celular não fazia nada e o aluno tinha que achar o botão.
+[['loginEmail', 'loginPwd'], ['loginPwd', doLogin],
+ ['firstEmail', 'firstPwd'], ['firstPwd', 'firstPwd2'], ['firstPwd2', doFirstAccess],
+ ['resetEmail', 'resetTel'], ['resetTel', 'resetPwd'], ['resetPwd', 'resetPwd2'], ['resetPwd2', doReset]
+].forEach(([id, prox]) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    if (typeof prox === 'function') prox();
+    else { const n = document.getElementById(prox); if (n) n.focus(); }
+  });
+});
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 boot();
 </script>
