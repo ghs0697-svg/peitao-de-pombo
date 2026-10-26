@@ -793,6 +793,16 @@
     text-align: left; cursor: pointer;
   }
   .grupo-faixa-btn:active { transform: scale(.98); }
+  .nov-box { text-align: left; }
+  .nov-box .ach-title { text-align: left; font-size: 18px; margin: 4px 0 12px; }
+  .nov-tag { font-size: 10px; font-weight: 900; letter-spacing: 1.2px; color: var(--accent-hi); }
+  .nov-demo { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: var(--bg); margin-bottom: 12px; }
+  .nov-demo-ant { font-size: 12.5px; color: var(--text-dim); margin-bottom: 8px; }
+  .nov-demo-btn { display: inline-block; padding: 7px 12px; border: 1px dashed var(--accent-border); border-radius: 9px; color: var(--accent-hi); font-weight: 700; font-size: 12.5px; }
+  .nov-p { font-size: 14px; color: var(--text); line-height: 1.5; margin: 0 0 8px; }
+  .nov-cred { font-size: 12.5px; color: var(--text-dim); line-height: 1.45; margin: 10px 0 0; }
+  .nov-pulso { animation: novPulso 1.2s ease-in-out 3; border-color: var(--accent) !important; color: var(--accent-hi) !important; }
+  @keyframes novPulso { 0%,100% { box-shadow: 0 0 0 0 rgba(255,106,26,0); } 50% { box-shadow: 0 0 0 6px rgba(255,106,26,.35); } }
   .ex-nota { margin-top: 10px; }
   .ex-nota textarea {
     display: none; width: 100%; box-sizing: border-box; min-height: 52px; padding: 10px; margin-top: 6px;
@@ -1929,6 +1939,7 @@ async function enterApp() {
     initGrupoBanner();         // lembrete em banner pra quem ainda não entrou
   }
   initPeitaoPush();          // avisos: re-inscreve silencioso ou oferece o banner de ativar
+  initNovidade();            // tutorial da função nova, uma vez por aluno
   try {   // aviso no celular "me conta o que tu sente falta" abre o app com ?feedback=1
     const q = new URLSearchParams(location.search);
     if (FEEDBACK_LIGADO && q.get('feedback') === '1') {
@@ -2245,7 +2256,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v142' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v143' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -3031,17 +3042,76 @@ function salvarNota(ctxKey, idx, el) {
   const w = state.week;
   const texto = String(el.value || '').slice(0, 300);   // valor lido NA HORA do toque, nunca no timeout
   const k = notaKey(ctxKey, idx, w);
-  const val = texto.trim() ? [{ nota: texto.trim() }] : [{}];
+  const ex = String(el.dataset.ex || '').slice(0, 80);
+  const val = texto.trim() ? [{ nota: texto.trim(), ex }] : [{}];
   try { localStorage.setItem(k, JSON.stringify(val)); } catch (e) {}
   queueSetsSync(k, val);
   const b = el.closest('.ex-nota'); if (b) b.classList.toggle('tem', !!texto.trim());
+}
+// ── Novidade (tutorial de função nova): aparece UMA vez por aluno, depois que ele já treinou ──
+// Não disputa tela: espera o app assentar e pula se outra janela (grupo, feedback) estiver aberta.
+const NOVIDADE = {
+  id: 'anotacao-v142',
+  titulo: 'Anotação no treino',
+  linhas: [
+    'Agora cada exercício tem um espaço pra tu anotar o que quiser: ajuste da máquina, como sentiu, o que mudar na próxima.',
+    'Fica salvo na semana. Na semana seguinte, a anotação anterior aparece em cima, pra tu lembrar.',
+  ],
+  credito: 'Essa ideia veio de um aluno, pelo "o que tu sente falta no app". Continua mandando as tuas.',
+};
+function initNovidade() {
+  try {
+    if (!NOVIDADE || !state.user?.token) return;
+    if (localStorage.getItem('gh_novidade_' + NOVIDADE.id) === '1') return;
+    if (_modoPrimeiroTreino) return;   // quem nunca treinou vê a função no próprio treino
+  } catch (e) { return; }
+  setTimeout(function () {
+    if (document.querySelector('.ach-overlay.show, .modal.show, .gmodal.show') || document.body.style.overflow === 'hidden') return;
+    mostrarNovidade();
+  }, 2500);
+}
+function mostrarNovidade() {
+  let o = document.getElementById('novOverlay');
+  if (!o) {
+    o = document.createElement('div');
+    o.id = 'novOverlay'; o.className = 'ach-overlay';
+    o.innerHTML = `<div class="ach-box nov-box">
+      <div class="nov-tag">NOVIDADE NO APP</div>
+      <div class="ach-title">${NOVIDADE.titulo}</div>
+      <div class="nov-demo">
+        <div class="nov-demo-ant">Semana 2: banco na posição 4, subir 2 kg</div>
+        <div class="nov-demo-btn">📝 Anotar nesta semana</div>
+      </div>
+      ${NOVIDADE.linhas.map(l => `<p class="nov-p">${l}</p>`).join('')}
+      <p class="nov-cred">${NOVIDADE.credito}</p>
+      <div class="ach-actions" style="margin-top:14px">
+        <button class="ach-btn primary" onclick="fecharNovidade(true)">Ver onde fica</button>
+        <button class="ach-btn ghost" onclick="fecharNovidade(false)">Entendi</button>
+      </div>
+    </div>`;
+    document.body.appendChild(o);
+  }
+  o.classList.add('show');
+}
+function fecharNovidade(mostrar) {
+  try { localStorage.setItem('gh_novidade_' + NOVIDADE.id, '1'); } catch (e) {}
+  const o = document.getElementById('novOverlay'); if (o) o.classList.remove('show');
+  if (!mostrar) return;
+  try { if (state.tab !== 'peito') showTab('peito'); } catch (e) {}
+  setTimeout(function () {
+    const b = document.querySelector('.ex-nota-btn') || document.querySelector('.ex-nota textarea');
+    if (!b) return;
+    b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    b.classList.add('nov-pulso');
+    setTimeout(function () { b.classList.remove('nov-pulso'); }, 4200);
+  }, 250);
 }
 function abrirNota(btn) {
   const box = btn.closest('.ex-nota');
   box.classList.add('aberta');
   const ta = box.querySelector('textarea'); if (ta) ta.focus();
 }
-function notaHtml(ctxKey, idx) {
+function notaHtml(ctxKey, idx, nomeEx) {
   const w = state.week;
   const atual = loadNota(ctxKey, idx, w);
   const ant = atual ? null : notaAnterior(ctxKey, idx, w);
@@ -3050,7 +3120,7 @@ function notaHtml(ctxKey, idx) {
     ${antHtml}
     <button class="ex-nota-btn" onclick="abrirNota(this)">📝 ${ant ? 'Anotar nesta semana' : 'Anotação'}</button>
     <textarea maxlength="300" rows="2" placeholder="Ex.: banco na posição 4, senti o ombro, subir 2 kg na próxima"
-      oninput="salvarNota('${ctxKey}',${idx},this)" onblur="flushSetsSync()">${escHtml(atual)}</textarea>
+      data-ex="${escHtml(nomeEx || '')}" oninput="salvarNota('${ctxKey}',${idx},this)" onblur="flushSetsSync()">${escHtml(atual)}</textarea>
   </div>`;
 }
 function getPrevSets(ctxKey, idx, w) {
@@ -3592,7 +3662,7 @@ function exerciseCard(ex, ctxKey, idx) {
         </div>
       </div>
       ${active.obs ? `<div class="ex-obs">${active.obs}</div>` : ''}
-      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series, active.exercicio)}${notaHtml(ctxKey, idx)}</div>` : ''}
+      ${showVideo ? `<div class="sets-wrap"><div class="sets-title">Progressão de carga</div>${setsGridHtml(ctxKey, idx, active.series, active.exercicio)}${notaHtml(ctxKey, idx, active.exercicio)}</div>` : ''}
     </div>
   `;
 }
