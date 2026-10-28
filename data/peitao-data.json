@@ -37,12 +37,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -259,12 +259,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -481,12 +481,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -705,12 +705,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -1238,12 +1238,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg)",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -1771,12 +1771,12 @@
               "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
               "video_key": "SUPINO RETO NA MAQUINA",
               "sub": {
-                "exercicio": "Supino reto na máquina sentado",
+                "exercicio": "Supino reto com halteres",
                 "series": "4X",
                 "reps": "8 a 12",
                 "intervalo": "90 seg",
                 "obs": "Supino: progressão de carga; músculo prioritário · cadência na descida (3 seg) · drop-set na última série (reduz ~25% e vai até a falha)",
-                "video_key": "SUPINO RETO NA MAQUINA SENTADO"
+                "video_key": "SUPINO RETO COM HALTERES"
               }
             },
             {
@@ -2840,6 +2840,7 @@
     "ROSCA DIRETA ALTERNADA": "https://youtube.com/shorts/W0VrmE_Qcso?feature=share",
     "ROSCA UNILATERAL NO CROSS": "https://youtube.com/shorts/ZCEVU-oKMFQ?feature=share",
     "ROSCA DIRETA COM HALTER NO BANCO INCLINADO": "https://youtube.com/shorts/UxnVn3wTM-U?feature=share",
-    "ROSCA DIRETA NA PUXADA ALTA": "https://youtube.com/shorts/_Qb2gblZBlQ?feature=share"
+    "ROSCA DIRETA NA PUXADA ALTA": "https://youtube.com/shorts/_Qb2gblZBlQ?feature=share",
+    "SUPINO RETO COM HALTERES": "https://youtube.com/shorts/B1Iy51Ct0s0"
   }
 }
