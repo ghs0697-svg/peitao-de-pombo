@@ -1372,14 +1372,14 @@
   /* Botão "Trocar exercício" no card */
   .ex-swap {
     display: inline-flex; align-items: center; gap: 4px;
-    background: transparent; border: 1px solid var(--border);
-    color: var(--text-dim); font-family: inherit;
-    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-    padding: 7px 10px; border-radius: 6px; cursor: pointer; min-height: 30px;
+    background: rgba(255, 107, 26, 0.10); border: 1px solid rgba(255, 107, 26, 0.55);
+    color: var(--accent); font-family: inherit;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+    padding: 8px 12px; border-radius: 8px; cursor: pointer; min-height: 34px;
     text-transform: uppercase; margin-left: auto; flex-shrink: 0;
   }
   .ex-swap:active { transform: scale(.97); }
-  .ex.is-sub .ex-swap { color: var(--accent); border-color: var(--accent); }
+  .ex.is-sub .ex-swap { background: transparent; color: var(--text-dim); border-color: var(--border); }
   .ex.is-sub { border-color: rgba(255, 107, 26, 0.45); }
   .ex-sub-badge {
     font-size: 9px; font-weight: 900; letter-spacing: 1px;
@@ -2317,7 +2317,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v144' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v145' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
