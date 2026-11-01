@@ -188,6 +188,13 @@
   }
   .day-btn.active { background: var(--accent); border-color: var(--accent); color: #0A0A0B; }
   .day-btn.peito:not(.active) { border-color: rgba(255,106,26,.55); color: var(--accent-hi); }
+  /* dias do Pombo Completo pra quem só tem o Peitão: ficam DEPOIS dos dois de peito e mais discretos,
+     pra primeira tela não parecer um app trancado (v148) */
+  .day-btn.locked { opacity: .55; font-size: 12px; padding: 12px 12px; border-style: dashed; }
+  .ver-btn .ver-em { display: block; font-size: 9px; font-weight: 700; letter-spacing: .3px; color: var(--text-mute); margin-top: 3px; text-transform: uppercase; }
+  /* vídeo que não carrega (celular sem conta no YouTube, app instalado): sempre tem a saída pro YouTube */
+  .vfallback { padding: 10px 14px 12px; font-size: 12.5px; color: var(--text-dim); text-align: center; }
+  .vfallback a { color: var(--accent-hi); font-weight: 700; text-decoration: underline; }
 
   /* Modal do grupo (1ª abertura) */
   .gmodal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(5,4,3,.82); backdrop-filter: blur(4px); }
@@ -1615,6 +1622,7 @@
       <button class="vmodal-close" onclick="closeVideo()">✕</button>
     </div>
     <div class="vwrap" id="vwrap"></div>
+    <div class="vfallback" id="vfallback"></div>
   </div>
 </div>
 
@@ -2309,7 +2317,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v147' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v148' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -3946,6 +3954,7 @@ function comecaAquiHtml(cur, exList, nomeDia) {
     <button class="comeca-btn" onclick="irPrimeiroExercicio()">Começar agora →</button>
     ${guardiaoLinhaHtml('primeiro-treino')}
     ${COMECA_LIGADO ? `<div class="guardiao-linha">Primeira vez aqui? <a href="comeca?de=app" target="_blank" rel="noopener">Comece por aqui: o caminho completo →</a></div>` : ''}
+    ${(typeof isPwaInstalled === 'function' && !isPwaInstalled()) ? `<div class="guardiao-linha">Quer abrir direto da tela inicial? <a onclick="openInstallModal()" style="cursor:pointer;">Instalar o app →</a></div>` : ''}
   </div>`;
 }
 // Faixa pequena do grupo (pedido da Bruna via CRM, Sala #3002): uma linha só, desde o primeiro
@@ -4057,9 +4066,12 @@ function renderPeito() {
   let proximo = null;
   { const i0 = Math.max(0, DIAS.findIndex(d => d.id === cur.id));
     for (let k = 1; k <= DIAS.length; k++) { const d = DIAS[(i0 + k) % DIAS.length]; if (d.livre || state.upsellUnlocked) { proximo = d; break; } } }
-  const diaBtns = `<div class="day-row">${DIAS.map(d => {
+  // Quem só tem o Peitão vê PEITO A e PEITO B primeiro (os dois cabem na tela) e os dias do
+  // Pombo Completo depois, discretos. Quem tem o Completo vê a semana na ordem de treinar.
+  const DIAS_VIS = state.upsellUnlocked ? DIAS : [...DIAS.filter(d => d.livre), ...DIAS.filter(d => !d.livre)];
+  const diaBtns = `<div class="day-row">${DIAS_VIS.map(d => {
     const dLock = !d.livre && !state.upsellUnlocked;
-    return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}" onclick="setTreinoSel('${d.id}')">${dLock ? '🔒 ' : ''}${d.label}</button>`;
+    return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}${dLock ? ' locked' : ''}" onclick="setTreinoSel('${d.id}')">${dLock ? '🔒 ' : ''}${d.label}</button>`;
   }).join('')}</div>`;
   const ctxKey = cur.ctx;
   const exList = (cur.dia && cur.dia.exercicios) || [];
@@ -4073,6 +4085,7 @@ function renderPeito() {
     <h2>Treino da Semana</h2>
     <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). Os outros dias completam o corpo inteiro.</p>
     ${comecaAquiHtml(cur, exList, nomeDia)}
+    ${secaBannerPrimeiroDiaHtml()}
     ${faixaGrupoHtml()}
     ${meteoricoHtml()}
     ${feedbackHtml()}
@@ -4082,7 +4095,7 @@ function renderPeito() {
         const locked = isPhaseLocked(v);
         return `
         <button class="ver-btn ${state.peitoVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setPeitoVer,'${v}')">
-          <span class="ver-lbl">${locked?'🔒 ':''}FASE</span>${v}
+          <span class="ver-lbl">FASE</span>${v}${locked ? `<span class="ver-em">em ${daysUntilPhaseUnlock()} dias</span>` : ''}
         </button>`;
       }).join('')}
     </div>
@@ -4857,7 +4870,7 @@ function renderAulas() {
         </div>
         ${a.desc ? `<p class="hint" style="margin:6px 0 8px;">${a.desc}</p>` : ''}
         <div class="aula-vid">
-          <iframe src="https://www.youtube.com/embed/${a.id}?rel=0&playsinline=1&modestbranding=1" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="${a.titulo}"></iframe>
+          <iframe src="https://www.youtube.com/embed/${a.id}?rel=0&playsinline=1&modestbranding=1" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="${a.titulo}"></iframe>
         </div>
         <button class="aula-btn${done[i] ? ' on' : ''}" onclick="toggleAula(${i})">${done[i] ? '✓ Aula concluída' : 'Marcar como concluída'}</button>
       </div>
@@ -5016,8 +5029,13 @@ function openVideo(url, title) {
   const id = ytId(url);
   if (!id) { window.open(url, '_blank'); return; }
   document.getElementById('vtitle').textContent = title || 'Vídeo';
+  // referrerpolicy: o app instalado na tela inicial não mandava o endereço de origem e o YouTube
+  // respondia "vídeo indisponível" (relato de 28/10 pelo feedback). O link abaixo é a saída
+  // quando o embed não carrega por outro motivo (rede, bloqueio do aparelho).
   document.getElementById('vwrap').innerHTML =
-    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  const fb = document.getElementById('vfallback');
+  if (fb) fb.innerHTML = `Não carregou? <a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Abrir no YouTube ↗</a>`;
   document.getElementById('vmodal').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
@@ -5053,6 +5071,9 @@ function updateInstallFab() {
   const btn = document.getElementById('installBtn');
   if (!btn) return;
   if (isPwaInstalled()) { btn.classList.add('hidden'); return; }
+  // No primeiro dia o convite de instalar fica dentro do bloco do primeiro treino: o botão
+  // flutuante tapava a célula de descanso e o link "Comece por aqui" (v148).
+  if (_modoPrimeiroTreino) { btn.classList.add('hidden'); return; }
   btn.classList.remove('hidden');
 }
 function openInstallModal() {
@@ -5215,26 +5236,44 @@ function abrirSecaCheckout() {
   window.open(CHECKOUT_SECA, '_blank');
   dismissSecaBanner();
 }
+function secaBannerPode() {
+  try {
+    if (!CHECKOUT_SECA || state.seca) return false;
+    if (new Date() < new Date(SECA_BANNER_FROM + 'T00:00:00')) return false;
+    const offAt = parseInt(localStorage.getItem('gh_secaBannerOff_' + SECA_BANNER_VER) || '0', 10);
+    if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return false;
+    return true;
+  } catch (e) { return false; }
+}
+const SECA_BANNER_CSS = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,106,26,.45);background:linear-gradient(135deg, rgba(255,106,26,.14), rgba(255,140,66,.05));border-radius:14px;font-size:13.5px;line-height:1.55;';
+function secaBannerInner() {
+  return '<b style="color:var(--accent-hi,#FF8642);">🔥 Todo mundo lembra do verão em dezembro.</b> Quem chega seco lembrou AGORA. 90 dias: a conta só fecha se tu começar hoje.'
+    + '<div style="display:flex;gap:10px;margin-top:12px;">'
+    + '<button onclick="abrirSecaCheckout()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">QUERO CHEGAR SECO · R$37</button>'
+    + '<button onclick="dismissSecaBanner()" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
+    + '</div>'
+    // atalho pra aula que explica o produto: só existe quando o vídeo estiver no ar
+    + (AULAS.find(a => a.slug === 'seca' && a.id)
+      ? '<div style="margin-top:10px;font-size:12.5px;"><a onclick="abrirAulaSeca()" style="color:var(--accent-hi,#FF8642);cursor:pointer;text-decoration:underline;">Quer entender o que é antes? Vê a aula do Seca Pança →</a></div>'
+      : '');
+}
+// Até o primeiro treino, a campanha fica logo ABAIXO do bloco "Teu primeiro treino" (dentro da
+// aba TREINO), não acima das abas: quem acabou de pagar precisa ver o treino antes de outra
+// venda. Continua visível no 1º dia (decisão do GH, 06/10); só mudou a posição (v148).
+function secaBannerPrimeiroDiaHtml() {
+  if (!_modoPrimeiroTreino || !secaBannerPode()) return '';
+  return `<div id="secaBanner" style="${SECA_BANNER_CSS}">${secaBannerInner()}</div>`;
+}
 function initSecaBanner() {
   try {
-    if (!CHECKOUT_SECA || state.seca) return;
-    if (new Date() < new Date(SECA_BANNER_FROM + 'T00:00:00')) return;
-    const offAt = parseInt(localStorage.getItem('gh_secaBannerOff_' + SECA_BANNER_VER) || '0', 10);
-    if (offAt && Date.now() < offAt + 7 * 24 * 60 * 60 * 1000) return;
+    if (_modoPrimeiroTreino) return;   // ver secaBannerPrimeiroDiaHtml
+    if (!secaBannerPode()) return;
     const tabs = document.getElementById('tabs');
     if (!tabs || document.getElementById('secaBanner')) return;
     const el = document.createElement('div');
     el.id = 'secaBanner';
-    el.style.cssText = 'margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,106,26,.45);background:linear-gradient(135deg, rgba(255,106,26,.14), rgba(255,140,66,.05));border-radius:14px;font-size:13.5px;line-height:1.55;';
-    el.innerHTML = '<b style="color:var(--accent-hi,#FF8642);">🔥 Todo mundo lembra do verão em dezembro.</b> Quem chega seco lembrou AGORA. 90 dias: a conta só fecha se tu começar hoje.'
-      + '<div style="display:flex;gap:10px;margin-top:12px;">'
-      + '<button onclick="abrirSecaCheckout()" style="flex:1;padding:11px 14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-hi,#FF8642),var(--accent,#FF6B1A));color:#1a0e05;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;">QUERO CHEGAR SECO · R$37</button>'
-      + '<button onclick="dismissSecaBanner()" style="padding:11px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:none;color:#8f8878;font-size:13px;cursor:pointer;font-family:inherit;">Agora não</button>'
-      + '</div>'
-      // atalho pra aula que explica o produto: só existe quando o vídeo estiver no ar
-      + (AULAS.find(a => a.slug === 'seca' && a.id)
-        ? '<div style="margin-top:10px;font-size:12.5px;"><a onclick="abrirAulaSeca()" style="color:var(--accent-hi,#FF8642);cursor:pointer;text-decoration:underline;">Quer entender o que é antes? Vê a aula do Seca Pança →</a></div>'
-        : '');
+    el.style.cssText = SECA_BANNER_CSS;
+    el.innerHTML = secaBannerInner();
     tabs.parentNode.insertBefore(el, tabs);
   } catch (e) {}
 }
