@@ -2184,11 +2184,11 @@ const PLANOS_CONSULTORIA = [
   {
     nome: 'TRIMESTRAL',
     meses: 3,
-    de: 'R$1.397',
-    aVista: 'R$1.197',
-    parcela: '12x de R$123,07',
-    porMes: 'R$399/mês',
-    link: 'https://payfast.greenn.com.br/120431/offer/fbXCo6?ch_id=21679&b_id_1=120433&b_offer_1=A4laNh&b_id_2=168168&b_offer_2=LNEse1&utm_source=peitao&utm_medium=app&utm_campaign=escada',
+    de: 'R$1.197',
+    aVista: 'R$997',
+    parcela: '12x de R$102,51',   // lido na tela do checkout AR8JZa em 02/11
+    porMes: 'R$332/mês',
+    link: 'https://payfast.greenn.com.br/120431/offer/AR8JZa?ch_id=21679&b_id_1=120433&b_offer_1=A4laNh&b_id_2=168168&b_offer_2=LNEse1&utm_source=peitao&utm_medium=app&utm_campaign=escada',
     selo: 'R$200 off de aluno',
     bonusMeses: 1,   // tabela do CRM: trimestral +1, semestral +2, anual +2
   },
@@ -2321,7 +2321,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v149' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v150' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2435,7 +2435,7 @@ function renderUpsells(soIds) {   // soIds: lista de ids pra mostrar só esses (
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$1.397</s> por <b>R$1.197</b>: R$200 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E na minha Black Friday antecipada tu ainda leva 1 mês de bônus:</b> roda 4 meses comigo pagando 3, e pega 2 reajustes em vez de 1.` : ''}</div>
+        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$1.197</s> por <b>R$997</b>: R$200 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E na minha Black Friday antecipada tu ainda leva 1 mês de bônus:</b> roda 4 meses comigo pagando 3, e pega 2 reajustes em vez de 1.` : ''}</div>
         ${planosConsultoriaHtml()}` : ''}
         ${u.planos ? '' : priceBlock(u)}
         ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
