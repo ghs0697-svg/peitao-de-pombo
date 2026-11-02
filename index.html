@@ -2223,9 +2223,9 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 // Página "Começa por aqui" (playbook inicial, Sala #3118): atalhos no app só com o sim do GH.
 const COMECA_LIGADO = true;   // ligado pelo GH em 07/10 ("liga a então", via CRM, Sala #3264)
 // Consultoria DENTRO do app do Peitão (cartão nos upsells, banner e card do Método GH na aba de treino):
-// DESLIGADA pelo GH em 07/10 ("isso", via CRM, Sala #3264). Escada é um degrau por vez: o Shape é o único
-// upsell do Peitão; protocolo individual com o GH é a consultoria, e isso o bot indica quando o aluno pede.
-const CONSULTORIA_NO_APP = false;
+// DESLIGADA pelo GH em 07/10 ("isso", via CRM, Sala #3264) e RELIGADA por ele em 02/11 ("Deixa o card da
+// consultoria ligado no peitao"), junto com o trimestral de aluno a R$997 (v150).
+const CONSULTORIA_NO_APP = true;
 // Meteórico do Shape (Roteiros #3162 e #3265): uma linha na aba TREINO chama pro grupo do lançamento,
 // em DUAS fases com o mesmo link contado: convite (18 a 26/10) e carrinho (27/10 9h a 28/10 23h59, a
 // segunda linha aprovada pelo GH em 07/10: "se tu recomenda, fazemos"). Textos são da Roteiros; o toque
@@ -2321,7 +2321,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v150' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v151' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
