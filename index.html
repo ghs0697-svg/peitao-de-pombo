@@ -191,6 +191,11 @@
   /* dias do Pombo Completo pra quem só tem o Peitão: ficam DEPOIS dos dois de peito e mais discretos,
      pra primeira tela não parecer um app trancado (v148) */
   .day-btn.locked { opacity: .55; font-size: 12px; padding: 12px 12px; border-style: dashed; }
+  /* calendário da semana em cima de cada dia (v149): SEG, QUI... e um ponto no dia de hoje */
+  .day-btn .day-sem { display: block; font-size: 9px; font-weight: 700; letter-spacing: .4px; color: var(--text-mute); margin-bottom: 3px; }
+  .day-btn.active .day-sem { color: rgba(10,10,11,.7); }
+  .day-btn.hoje .day-sem::after { content: ' •'; color: var(--accent-hi); }
+  .day-btn.active.hoje .day-sem::after { color: #0A0A0B; }
   .ver-btn .ver-em { display: block; font-size: 9px; font-weight: 700; letter-spacing: .3px; color: var(--text-mute); margin-top: 3px; text-transform: uppercase; }
   /* vídeo que não carrega (celular sem conta no YouTube, app instalado): sempre tem a saída pro YouTube */
   .vfallback { padding: 10px 14px 12px; font-size: 12.5px; color: var(--text-dim); text-align: center; }
@@ -2078,7 +2083,6 @@ const UPSELLS = [
       'Todos os outros treinos da semana: costas, ombro, braço e perna',
       'Dieta completa pro corpo crescer sem encher de gordura',
       'Acesso vitalício: nunca expira, sem renovar',
-      '3 fases de progressão (1.0 → 2.0 → 3.0)',
       'Tudo dentro do app, sem PDF perdido'
     ],
     cta: 'Quero o Pombo Completo',
@@ -2317,7 +2321,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v148' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v149' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -3951,6 +3955,7 @@ function comecaAquiHtml(cur, exList, nomeDia) {
     <div class="comeca-tag">TEU PRIMEIRO TREINO</div>
     <div class="comeca-tit">${esc(nomeDia)}: ${n} exercícios, uns ${min} minutos</div>
     <div class="comeca-sub">Toca no play pra ver a execução, marca cada exercício quando fizer e anota a carga. Quem anota a carga, segue no protocolo.</div>
+    <div class="comeca-sub" style="margin-top:6px;">Os 3 estímulos do Peitão em todo exercício: alongar no fundo, contrair sem encostar e sustentar a descida. A observação de cada um te mostra onde.</div>
     <button class="comeca-btn" onclick="irPrimeiroExercicio()">Começar agora →</button>
     ${guardiaoLinhaHtml('primeiro-treino')}
     ${COMECA_LIGADO ? `<div class="guardiao-linha">Primeira vez aqui? <a href="comeca?de=app" target="_blank" rel="noopener">Comece por aqui: o caminho completo →</a></div>` : ''}
@@ -4069,9 +4074,16 @@ function renderPeito() {
   // Quem só tem o Peitão vê PEITO A e PEITO B primeiro (os dois cabem na tela) e os dias do
   // Pombo Completo depois, discretos. Quem tem o Completo vê a semana na ordem de treinar.
   const DIAS_VIS = state.upsellUnlocked ? DIAS : [...DIAS.filter(d => d.livre), ...DIAS.filter(d => !d.livre)];
+  // Calendário da semana (v149): cada dia ganha o dia da semana sugerido, na ordem da grade
+  // (Peito A na segunda, Peito B na quinta, 2 dias de folga entre eles, como diz a dica). Quem
+  // só tem o Peitão vê SEG e QUI; os dias com cadeado ficam sem dia. Ponto no dia de hoje.
+  const SEM = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+  const DIA_SEM = { A: 'SEG', '1': 'TER', '2': 'QUA', B: 'QUI', '3': 'SEX', '4': 'SÁB' };
+  const hoje = SEM[new Date().getDay()];
   const diaBtns = `<div class="day-row">${DIAS_VIS.map(d => {
     const dLock = !d.livre && !state.upsellUnlocked;
-    return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}${dLock ? ' locked' : ''}" onclick="setTreinoSel('${d.id}')">${dLock ? '🔒 ' : ''}${d.label}</button>`;
+    const sem = dLock ? '' : DIA_SEM[d.id];
+    return `<button class="day-btn ${sel === d.id ? 'active' : ''}${d.livre ? ' peito' : ''}${dLock ? ' locked' : ''}${sem && sem === hoje ? ' hoje' : ''}" onclick="setTreinoSel('${d.id}')">${sem ? `<span class="day-sem">${sem}</span>` : ''}${dLock ? '🔒 ' : ''}${d.label}</button>`;
   }).join('')}</div>`;
   const ctxKey = cur.ctx;
   const exList = (cur.dia && cur.dia.exercicios) || [];
@@ -4083,7 +4095,7 @@ function renderPeito() {
   const isB = sel === 'B';
   c.innerHTML = `
     <h2>Treino da Semana</h2>
-    <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). Os outros dias completam o corpo inteiro.</p>
+    <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). ${state.upsellUnlocked ? 'Os outros dias completam o corpo inteiro.' : 'Entra no lugar do peito que tu já faz; o resto do teu treino continua igual.'}</p>
     ${comecaAquiHtml(cur, exList, nomeDia)}
     ${secaBannerPrimeiroDiaHtml()}
     ${faixaGrupoHtml()}
@@ -4095,7 +4107,7 @@ function renderPeito() {
         const locked = isPhaseLocked(v);
         return `
         <button class="ver-btn ${state.peitoVer===v?'active':''} ${locked?'locked':''}" onclick="tryPhaseChange(setPeitoVer,'${v}')">
-          <span class="ver-lbl">FASE</span>${v}${locked ? `<span class="ver-em">em ${daysUntilPhaseUnlock()} dias</span>` : ''}
+          <span class="ver-lbl">FASE</span>${v}${locked ? `<span class="ver-em">semana ${phaseWeekRange(v)[0]}</span>` : ''}
         </button>`;
       }).join('')}
     </div>
@@ -4112,12 +4124,12 @@ function renderPeito() {
       <a class="mat-card" href="#" onclick="baixarEbook(event,'regua')">
         <div class="mat-ic">📐</div>
         <div class="mat-title">Régua do Peito</div>
-        <div class="mat-sub">Protocolo de medição, 4 semanas</div>
+        <div class="mat-sub">Medição semanal, 3 ciclos de 4 semanas</div>
       </a>
       <a class="mat-card" href="#" onclick="baixarEbook(event,'engenharia')">
         <div class="mat-ic">🔧</div>
         <div class="mat-title">Engenharia do Peito</div>
-        <div class="mat-sub">Manual de reconstrução, 4 semanas</div>
+        <div class="mat-sub">Esticar, contrair, sustentar: 4 semanas</div>
       </a>
     </div>
     <button class="dl-pdf" onclick="downloadTreinoPDF('peito')">
@@ -5002,7 +5014,7 @@ function renderDietaSeca(c) {
 // ════════ PAYWALL ════════
 function paywall(kind) {
   const perks = kind === 'semana'
-    ? ['Todos os outros treinos da semana: costas, pernas, ombro e braço', 'Dieta completa com opções e equivalências', 'Acesso vitalício: nunca mais expira', '3 fases de progressão, tudo com vídeo']
+    ? ['Todos os outros treinos da semana: costas, pernas, ombro e braço', 'Dieta completa com opções e equivalências', 'Acesso vitalício: nunca mais expira', 'Tudo com vídeo e registro de carga']
     : ['Dieta completa pra secar e crescer', 'Refeições com opções e equivalências', 'Todos os outros treinos da semana inclusos', 'Acesso vitalício: nunca mais expira'];
   const titulo = 'Libera o Pombo Completo';
   return `
