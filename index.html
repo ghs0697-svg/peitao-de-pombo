@@ -1715,6 +1715,7 @@ function aplicarFlags(v) {
   state.ebooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
   state.seca = !!v.seca;
   state.secaDaysSince = (v.secaDaysSince ?? null);
+  state.cortesiaShape = !!v.cortesiaShape;   // cartão dos 15 dias do Shape (só lista + chave ligada no servidor)
   if (state.user) {
     state.user.flags = { upsell: state.upsellUnlocked, lifetime: state.lifetime, daysLeft: state.daysLeft,
       daysSincePurchase: state.daysSincePurchase, ebooks: state.ebooks, seca: state.seca,
@@ -2032,7 +2033,7 @@ async function verificarConta() {
     if (!v || !v.ok) return;
     const newEbooks = v.ebooks || { ergo1: false, ergo2: false, pept: false };
     const ebooksChanged = JSON.stringify(state.ebooks) !== JSON.stringify(newEbooks);
-    const mudou = state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged || state.seca !== !!v.seca;
+    const mudou = state.upsellUnlocked !== !!v.upsell || state.lifetime !== !!v.lifetime || ebooksChanged || state.seca !== !!v.seca || !!state.cortesiaShape !== !!v.cortesiaShape;
     aplicarFlags(v);
     voltouOnline();
     reenviarFila();
@@ -2265,6 +2266,40 @@ function fecharMeteorico() {
   const f = document.getElementById('meteoricoFaixa');
   if (f) f.remove();
 }
+// Cortesia de 15 dias do Shape de Elite (GH 03/11, Sala #4130): só pros alunos que mais usam o app.
+// Quem decide quem vê é o servidor (/api/auth/verify devolve cortesiaShape com a chave ligada e o
+// e-mail na lista, rota /api/admin/cortesia-shape). Ligar e desligar não precisa de versão nova.
+// O login do Shape aceita o mesmo e-mail e senha do Peitão. "Agora não" esconde por 7 dias.
+const SHAPE_CORTESIA_URL = 'https://app.shapedeelite.com.br/?cortesia=peitao';
+function cortesiaShapeHtml() {
+  if (!state.cortesiaShape || _modoPrimeiroTreino) return '';
+  try {
+    const off = Number(localStorage.getItem('gh_cortesiaShapeOff') || 0);
+    if (off && Date.now() - off < 7 * 86400000) return '';
+  } catch (e) {}
+  return `<div class="mgh-card theme-se" id="cortesiaShape" style="margin:0 0 14px;">
+    <div class="mgh-head">
+      <div class="mgh-logo">SE</div>
+      <div>
+        <div class="mgh-marca">SHAPE DE ELITE</div>
+        <div class="mgh-badge">🎁 PRESENTE PRA TI</div>
+      </div>
+    </div>
+    <div class="mgh-headline">15 dias do Shape de Elite, por nossa conta</div>
+    <div class="mgh-sub">Tu tá entre os alunos que mais treinam no Peitão. Por isso ganhou 15 dias pra usar o Shape de Elite: o Método GH no corpo todo, com treino, dieta e suplementação prontos no app.</div>
+    <div class="mgh-sub" style="margin-bottom:14px;"><b>Entra com o mesmo e-mail e senha que tu usa aqui</b>, sem pagar nada.</div>
+    <a class="mgh-cta" href="${SHAPE_CORTESIA_URL}" target="_blank" rel="noopener" onclick="cliqueCortesiaShape()">Ativar meus 15 dias →</a>
+    <button class="mgh-wa-soft" style="width:100%;background:transparent;font-family:inherit;cursor:pointer;" onclick="fecharCortesiaShape()">Agora não</button>
+  </div>`;
+}
+function cliqueCortesiaShape() {
+  try { fetch(API_BASE + '/api/clique?para=cortesia-shape&de=app', { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+}
+function fecharCortesiaShape() {
+  try { localStorage.setItem('gh_cortesiaShapeOff', String(Date.now())); } catch (e) {}
+  const el = document.getElementById('cortesiaShape');
+  if (el) el.remove();
+}
 // Feedback dos alunos (GH 23/10): linha na aba TREINO pedindo o que sentem falta. As respostas vão pro
 // /api/feedback e a gente lê em /api/admin/feedback pra implementar. Fechar some por 7 dias; respondeu, some de vez.
 const FEEDBACK_LIGADO = true;
@@ -2321,7 +2356,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v151' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v152' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -4098,6 +4133,7 @@ function renderPeito() {
     <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). ${state.upsellUnlocked ? 'Os outros dias completam o corpo inteiro.' : 'Entra no lugar do peito que tu já faz; o resto do teu treino continua igual.'}</p>
     ${comecaAquiHtml(cur, exList, nomeDia)}
     ${secaBannerPrimeiroDiaHtml()}
+    ${cortesiaShapeHtml()}
     ${faixaGrupoHtml()}
     ${meteoricoHtml()}
     ${feedbackHtml()}
