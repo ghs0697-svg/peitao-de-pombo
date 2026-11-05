@@ -2217,12 +2217,13 @@ const UPSELLS = [
       '1 ano de acesso, treino e dieta que mudam a cada 30 dias'
     ],
     cta: 'Quero o Shape de Elite',
-    // Shape de Elite passou a ser vendido pela Greenn (GH, 05/10). Desde 05/11 o único link é o anual LbSOOi
-    // (R$297, 12x R$30,54 conferido), e-books só como order bump pago (Sala #4252 e #4253). Link e parcela
+    // Shape de Elite passou a ser vendido pela Greenn (GH, 05/10). Desde 05/11 o único link é o anual com
+    // recorrência 6daYq5 (produto 201937, assinatura de 365 dias, R$297 em até 12x, conferido; antes era o
+    // LbSOOi sem recorrência), e-books só como order bump pago (Sala #4252 e #4253). Link e parcela
     // trocam JUNTOS: a Greenn parcela em 12x de R$30,54, não nos R$30,72 da Hotmart.
     // Valores conferidos abrindo o checkout. O link já tem "?", então parâmetro de
     // rastreio, se um dia entrar, vai com "&".
-    link: 'https://payfast.greenn.com.br/169962/offer/LbSOOi?ch_id=138909&b_id_1=170351&b_offer_1=WXGcXu&b_id_2=170203&b_offer_2=5X9OoO&b_id_3=170204&b_offer_3=zWJmSJ&b_id_4=170205&b_offer_4=Vw3yNP&utm_source=peitao&utm_medium=app&utm_campaign=escada',
+    link: 'https://payfast.greenn.com.br/201937/offer/6daYq5?ch_id=138909&b_id_1=170351&b_offer_1=WXGcXu&b_id_2=170203&b_offer_2=5X9OoO&b_id_3=170204&b_offer_3=zWJmSJ&b_id_4=170205&b_offer_4=Vw3yNP&utm_source=peitao&utm_medium=app&utm_campaign=escada',
     priceNow: 'R$297',
     priceLabel: 'no Pix ou',
     priceParcel: '12x de R$30,54'
@@ -2406,7 +2407,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v157' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v158' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
