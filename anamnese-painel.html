@@ -98,7 +98,7 @@ function desenha() {
   h += '<div class="nums"><div class="num"><b>' + L.length + '</b><span>responderam</span></div><div class="num"><b style="color:var(--quente)">' + c.QUENTE + '</b><span>quentes</span></div><div class="num"><b style="color:var(--morno)">' + c.MORNO + '</b><span>mornos</span></div><div class="num"><b style="color:var(--frio)">' + c.FRIO + '</b><span>frios</span></div><div class="num"><b>' + de.peitao + ' / ' + de.shape + '</b><span>Peitão / Shape</span></div></div>';
   h += '<div class="apps">' + ['peitao', 'shape'].map(function (a) {
     var on = !!dados.config[a];
-    return '<div class="app">Anamnese obrigatória no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + ': <span class="st ' + (on ? 'on' : 'off') + '">' + (on ? 'LIGADA' : 'DESLIGADA') + '</span><button class="btn sec" data-liga="' + a + '" data-on="' + (on ? 1 : 0) + '">' + (on ? 'Desligar' : 'Ligar') + '</button></div>';
+    return '<div class="app">Anamnese no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + ': <span class="st ' + (on ? 'on' : 'off') + '">' + (on ? 'LIGADA' : 'DESLIGADA') + '</span><button class="btn sec" data-liga="' + a + '" data-on="' + (on ? 1 : 0) + '">' + (on ? 'Desligar' : 'Ligar') + '</button></div>';
   }).join('') + '</div>';
   h += '<div class="barra">' + ['TODOS', 'QUENTE', 'MORNO', 'FRIO'].map(function (f) { return '<button class="chip' + (filtroFx === f ? ' on' : '') + '" data-fx="' + f + '">' + (f === 'TODOS' ? 'Todos' : f.charAt(0) + f.slice(1).toLowerCase() + 's') + '</button>'; }).join('')
     + [['TODOS', 'Os dois apps'], ['peitao', 'Peitão'], ['shape', 'Shape']].map(function (f) { return '<button class="chip' + (filtroDe === f[0] ? ' on' : '') + '" data-de="' + f[0] + '">' + f[1] + '</button>'; }).join('') + '</div>';
@@ -130,7 +130,7 @@ function liga() {
     b.onclick = function () {
       var a = b.getAttribute('data-liga'), on = b.getAttribute('data-on') === '1';
       if (dados.demo) return toast('No exemplo não liga nada.');
-      if (!confirm((on ? 'Desligar' : 'Ligar') + ' a anamnese obrigatória no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + '?')) return;
+      if (!confirm((on ? 'Desligar' : 'Ligar') + ' a anamnese no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + '?')) return;
       pede('POST', { acao: on ? 'desligar' : 'ligar', app: a }).then(function (j) { dados.config = j.config; desenha(); toast('Feito.'); });
     };
   });
