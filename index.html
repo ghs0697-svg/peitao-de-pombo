@@ -1134,7 +1134,7 @@
     0%, 100% { box-shadow: 0 8px 24px rgba(201, 162, 75, 0.3), inset 0 1px 0 rgba(255,255,255,.25); }
     50%      { box-shadow: 0 8px 36px rgba(201, 162, 75, 0.45), 0 0 0 3px rgba(201, 162, 75, 0.18), inset 0 1px 0 rgba(255,255,255,.25); }
   }
-  /* condição de aluno: justifica os R$200 off dentro do app (sem prazo; o prazo é só da página de upsell) */
+  /* condição de aluno: justifica o desconto dentro do app (sem prazo; o prazo é só da página de upsell) */
   .mgh-aluno {
     margin-top: 14px; padding: 12px 14px; border-radius: 12px;
     border: 1px solid rgba(201, 162, 75, 0.3); background: rgba(201, 162, 75, 0.07);
@@ -2185,12 +2185,11 @@ const PLANOS_CONSULTORIA = [
   {
     nome: 'TRIMESTRAL',
     meses: 3,
-    de: 'R$1.197',
-    aVista: 'R$997',
-    parcela: '12x de R$102,51',   // lido na tela do checkout AR8JZa em 02/11
-    porMes: 'R$332/mês',
-    link: 'https://payfast.greenn.com.br/120431/offer/AR8JZa?ch_id=21679&b_id_1=120433&b_offer_1=A4laNh&b_id_2=168168&b_offer_2=LNEse1&utm_source=peitao&utm_medium=app&utm_campaign=escada',
-    selo: 'R$200 off de aluno',
+    de: 'R$897',
+    aVista: 'R$647',
+    parcela: '12x de R$66,52',   // lido na tela do checkout KscgT3 em 04/11 (era AR8JZa a R$997)
+    porMes: 'R$216/mês',
+    link: 'https://payfast.greenn.com.br/120431/offer/KscgT3?ch_id=21679&b_id_1=120433&b_offer_1=A4laNh&b_id_2=168168&b_offer_2=LNEse1&utm_source=peitao&utm_medium=app&utm_campaign=escada',
     bonusMeses: 1,   // tabela do CRM: trimestral +1, semestral +2, anual +2
   },
   // SEMESTRAL e ANUAL fora do card por ordem do GH (04/10). Tabela de 31/10: semestral
@@ -2225,7 +2224,7 @@ const BONUS_CONSULTORIA = { ate: new Date(2026, 9, 5, 0, 0, 0) };
 const COMECA_LIGADO = true;   // ligado pelo GH em 07/10 ("liga a então", via CRM, Sala #3264)
 // Consultoria DENTRO do app do Peitão (cartão nos upsells, banner e card do Método GH na aba de treino):
 // DESLIGADA pelo GH em 07/10 ("isso", via CRM, Sala #3264) e RELIGADA por ele em 02/11 ("Deixa o card da
-// consultoria ligado no peitao"), junto com o trimestral de aluno a R$997 (v150).
+// consultoria ligado no peitao"), junto com o trimestral de aluno a R$997 (v150). Desde 04/11 (v153) o trimestral de aluno é R$647 (KscgT3).
 const CONSULTORIA_NO_APP = true;
 // Meteórico do Shape (Roteiros #3162 e #3265): uma linha na aba TREINO chama pro grupo do lançamento,
 // em DUAS fases com o mesmo link contado: convite (18 a 26/10) e carrinho (27/10 9h a 28/10 23h59, a
@@ -2356,7 +2355,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v152' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v153' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2417,13 +2416,18 @@ function guardiaoBotaoHtml(origem) {
   return `<button class="guardiao-btn" onclick="pedirGuardiao('${origem}')">💬 ${esc(GUARDIAO.nome)} no WhatsApp</button>
     <div class="proximo-sub" style="margin-top:6px;">O guardião te cobra o treino toda semana, pelo WhatsApp do Peitão.</div>`;
 }
+// TRIMESTRAL DE ALUNO NA BLACK (GH 04/11): de R$897 por R$647 pra quem já é do Peitão. Em dezembro
+// sai só a palavra Black e fica "condição especial de aluno", NOS MESMOS VALORES (ordem do GH). A troca
+// é por data, sozinha, sem republicar. O preço e o link não mudam na virada.
+const BLACK_ALUNO = { ate: new Date(2026, 11, 1, 0, 0, 0) };
+function blackAlunoAtiva() { return Date.now() < BLACK_ALUNO.ate.getTime(); }
 function bonusConsultoriaAtivo() { return Date.now() <= BONUS_CONSULTORIA.ate.getTime(); }
 function planosConsultoriaHtml() {
   const unico = PLANOS_CONSULTORIA.length === 1 ? ' planos-um' : '';
   return `<div class="planos-grid${unico}">` + PLANOS_CONSULTORIA.map(p => `
     <div class="plano-box">
       <div class="plano-nome">${p.nome}</div>
-      <div class="plano-selo">${p.selo}</div>
+      <div class="plano-selo">${blackAlunoAtiva() ? 'Black de aluno' : 'Condição de aluno'}</div>
       ${(p.bonusMeses && bonusConsultoriaAtivo()) ? `<div class="plano-bonus">+ ${p.bonusMeses} mês de bônus<span>paga ${p.meses}, leva ${p.meses + p.bonusMeses}</span></div>` : ''}
       ${p.de ? `<div class="plano-de">de <s>${p.de}</s> por</div>` : `<div class="plano-de">&nbsp;</div>`}
       <div class="plano-parcela">${p.parcela}</div>
@@ -2470,7 +2474,7 @@ function renderUpsells(soIds) {   // soIds: lista de ids pra mostrar só esses (
           <source src="assets/vsl-metodogh.mp4" type="video/mp4">
         </video>` : ''}
         ${u.id === 'consultoria' ? `
-        <div class="mgh-aluno"><b>Condição de aluno:</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$1.197</s> por <b>R$997</b>: R$200 off aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E na minha Black Friday antecipada tu ainda leva 1 mês de bônus:</b> roda 4 meses comigo pagando 3, e pega 2 reajustes em vez de 1.` : ''}</div>
+        <div class="mgh-aluno"><b>${blackAlunoAtiva() ? 'Condição especial de Black pra aluno:' : 'Condição especial de aluno:'}</b> tu já tá dentro do Peitão, já faz parte do time. Por isso o Trimestral sai de <s>R$897</s> por <b>R$647</b>, aplicado direto no botão, sem cupom.${bonusConsultoriaAtivo() ? ` <b>E na minha Black Friday antecipada tu ainda leva 1 mês de bônus:</b> roda 4 meses comigo pagando 3, e pega 2 reajustes em vez de 1.` : ''}</div>
         ${planosConsultoriaHtml()}` : ''}
         ${u.planos ? '' : priceBlock(u)}
         ${u.planos ? '' : `<a class="mgh-cta" href="${u.link}" target="_blank" rel="noopener">${u.cta} →</a>`}
