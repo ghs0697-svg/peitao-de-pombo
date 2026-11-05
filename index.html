@@ -2406,7 +2406,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v156' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v157' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -3838,13 +3838,20 @@ function recordesHtml() {
     </details>`;
 }
 
+function ehDePeito(ex) {
+  const n = String((ex && ex.exercicio) || '');
+  return /supino|crucifixo|crossover|voador|peck|flex[aã]o|pullover/i.test(n) && !/inverso/i.test(n);
+}
+
 function exerciseCard(ex, ctxKey, idx) {
   const active = activeExercise(ex, ctxKey, idx);
   const done = isChecked(ctxKey, idx);
   const subbed = ex.sub && isSubbed(ctxKey, idx);
   const secaSw = secaSwapFor(ctxKey, idx);
   const secaForced = isSecaForced(ctxKey, idx);
-  const swapBtn = (ex.sub && !secaSw && !secaForced)
+  // Troca de exercício só nos de PEITO (GH 05/11): os outros músculos ficam fixos. Quem já tinha trocado
+  // um que não é de peito ainda vê o "voltar", pra não ficar preso no substituto; depois disso o botão some.
+  const swapBtn = (ex.sub && !secaSw && !secaForced && (ehDePeito(ex) || subbed))
     ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
     : '';
   // Vídeos em todos os exercícios da aba PEITO e da aba SEMANA (treino 5x).
