@@ -1965,6 +1965,22 @@ function mostrarFalhaCarga() {
   } catch (e) {}
 }
 
+// ── Anamnese de qualificação pra consultoria (GH 05/11, Sala #4259 e #4261) ──
+// Mesma tela no Peitão e no Shape: o script vem da API (/api/qualif/widget), que também diz se está ligada
+// (chave no painel /api/admin/qualif/painel) e se o aluno já respondeu. Obrigatória: cobre o app até o fim.
+// Se o script ou a API falharem, o app segue normal: erro nosso nunca tranca o aluno fora do treino.
+let _qualifTentou = false;
+function abrirQualif() {
+  if (_qualifTentou || !state.user || !state.user.token) return;
+  _qualifTentou = true;
+  const abre = () => { try { window.GHQualif.abrir({ api: API_BASE, de: 'peitao', token: state.user.token }); } catch (e) {} };
+  if (window.GHQualif) return abre();
+  const sc = document.createElement('script');
+  sc.src = API_BASE + '/api/qualif/widget';
+  sc.async = true;
+  sc.onload = abre;
+  document.head.appendChild(sc);
+}
 async function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('appWrap').classList.remove('hidden');
@@ -1981,6 +1997,7 @@ async function enterApp() {
     sub.style.cursor = '';
     sub.onclick = null;
   }
+  abrirQualif();
   loadModoSeca();
   loadDietaEscolha();
   carregarAvalStatus().then(() => { if (state.tab === 'peito') renderPeito(); initAvalAviso(); });
@@ -2356,7 +2373,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v154' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v155' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
