@@ -1,0 +1,168 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Anamnese dos alunos</title>
+<style>
+:root{--bg:#0b0a08;--card:#16140f;--linha:#2e2a22;--txt:#f2ede2;--sub:#a39b8a;--ouro:#c9a24b;--ouro2:#e8c97a;--quente:#ff7a45;--morno:#e8c97a;--frio:#7d8a99}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
+.w{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:24px;margin:0 0 4px}.sub{color:var(--sub);margin:0 0 18px;font-size:14px}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.num{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:12px 14px}.num b{display:block;font-size:26px}.num span{color:var(--sub);font-size:12px}
+.barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+.chip{border:1px solid var(--linha);background:var(--card);color:var(--txt);border-radius:999px;padding:8px 13px;font:inherit;font-size:13px;cursor:pointer}
+.chip.on{border-color:var(--ouro2);background:rgba(201,162,75,.16)}
+input.busca{flex:1;min-width:180px;padding:9px 13px;border-radius:999px;border:1px solid var(--linha);background:var(--card);color:var(--txt);font:inherit;font-size:14px}
+.btn{border:0;border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer;background:linear-gradient(180deg,var(--ouro2),var(--ouro));color:#1a1408}
+.btn.sec{background:var(--card);color:var(--txt);border:1px solid var(--linha);font-weight:600}
+.apps{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.app{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:10px 14px;display:flex;gap:12px;align-items:center;font-size:14px}
+.app .st{font-weight:800}.app .st.on{color:#5fd38d}.app .st.off{color:var(--sub)}
+.lista{display:flex;flex-direction:column;gap:10px}
+.al{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:13px 14px}
+.al-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;cursor:pointer}
+.fx{font-size:11px;font-weight:800;letter-spacing:.06em;border-radius:6px;padding:3px 7px;color:#140f05}
+.fx.QUENTE{background:var(--quente)}.fx.MORNO{background:var(--morno)}.fx.FRIO{background:var(--frio)}
+.nome{font-weight:700;font-size:16px}.nota{color:var(--sub);font-size:13px}.nota b{color:var(--txt)}
+.meta{color:var(--sub);font-size:13px}.meta a{color:var(--ouro2)}
+.det{display:none;margin-top:12px;border-top:1px solid var(--linha);padding-top:10px;display:none}
+.al.aberto .det{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px 18px}
+.det div{font-size:14px}.det span{display:block;color:var(--sub);font-size:12px}
+.vazio{color:var(--sub);text-align:center;padding:40px 0}
+.login{max-width:380px;margin:18vh auto 0;text-align:center}.login input{width:100%;padding:13px;border-radius:12px;border:1px solid var(--linha);background:var(--card);color:var(--txt);font:inherit;margin:14px 0}
+.aviso{background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.35);border-radius:12px;padding:10px 13px;font-size:13px;margin:0 0 14px;color:var(--ouro2)}
+.ok{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1f3b2a;color:#c9f5d6;padding:10px 16px;border-radius:12px;font-size:14px;display:none}
+</style></head><body>
+<div class="w" id="app"></div><div class="ok" id="ok"></div>
+<script>
+// Painel único da anamnese de qualificação (Peitão e Shape, GH 05/11). Dado nenhum mora aqui (repo público):
+// lê a API com a chave de admin, que fica só no aparelho.
+var API = 'https://peitao-de-pombo-api-es21.vercel.app/api/admin/qualif';
+var DEMO = new URLSearchParams(location.search).get('demo') === '1';
+var chave = ''; try { chave = localStorage.getItem('ghq_admin') || ''; } catch (e) {}
+var dados = null, filtroFx = 'TODOS', filtroDe = 'TODOS', busca = '';
+var $ = function (id) { return document.getElementById(id); };
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function dia(ms) { return ms ? new Date(ms).toLocaleDateString('pt-BR') : ''; }
+function diaIso(d) { return d ? d.split('-').reverse().join('/') : 'nunca'; }
+function toast(t) { var o = $('ok'); o.textContent = t; o.style.display = 'block'; setTimeout(function () { o.style.display = 'none'; }, 2200); }
+function wa(t) { t = String(t || '').replace(/\D/g, ''); if (t.length <= 11) t = '55' + t; return 'https://wa.me/' + t; }
+function telBonito(t) { t = String(t || '').replace(/\D/g, ''); if (t.length > 11 && t.indexOf('55') === 0) t = t.slice(2); return t.length === 11 ? '(' + t.slice(0, 2) + ') ' + t.slice(2, 7) + '-' + t.slice(7) : t; }
+
+function exemplo() {
+  var base = [
+    ['QUENTE', 9, 'Rafael Exemplo', 'rafael.exemplo', 'Engenheiro', 'Peitão de Pombo', '35 a 44', 'Perder a barriga sem perder músculo', 'Muito frustrado: tô travado, sem evoluir faz tempo', 'Nutricionista, Médico (hormonal, endócrino ou do esporte)', 'Whey isolado, Creatina, Ômega 3', 335, 'Já usei', 'Sim, pelo menos 1 vez por ano', 'De R$ 500 a R$ 1.000', 'Sim, quero saber como funciona', 14, '2026-11-04', 'iPhone 16 Pro, 17 ou 18'],
+    ['MORNO', 4, 'Camila Exemplo', 'camila.ex', 'Advogada', 'Shape de Elite', '25 a 34', 'Secar e perder a barriga', 'Frustrado: pelo esforço que eu faço, era pra estar melhor', 'Ninguém ainda', 'Whey concentrado, Creatina', 175, 'Nunca usei', 'Sim, pelo menos 1 vez por ano', 'De R$ 200 a R$ 500', 'Sim, quero saber como funciona', 6, '2026-11-02', 'iPhone 12 a 14'],
+    ['FRIO', 2, 'Lucas Exemplo', 'lucas.ex', 'Estudante', 'Peitão de Pombo', 'Até 24 anos', 'Ganhar músculo e encher o shape', 'Um pouco insatisfeito: tá bom, mas poderia estar melhor', 'Ninguém ainda', 'Creatina', 25, 'Nunca usei', 'Não', 'Até R$ 200', 'Não, por agora o app me basta', 2, '2026-10-30', 'Android'],
+  ];
+  return { ok: true, demo: true, config: { peitao: false, shape: false }, linhas: base.map(function (b, i) {
+    return { email: 'exemplo' + i + '@exemplo.com', faixa: b[0], nota: b[1], nome: b[2], instagram: b[3], profissao: b[4], veio: b[5], idade: b[6], tempo: ['Mais de 5 anos', 'De 1 a 3 anos', 'Menos de 1 ano'][i], objetivo: b[7], sente: b[8], paga: b[9], suplementos: b[10], gastoSupl: b[11], caneta: b[12], exames: b[13], investe: b[14], interesse: b[15], treinos: b[16], ultimoTreino: b[17], aparelho: b[18], whatsapp: '00000000000', respondeuEm: Date.now() - i * 86400000, de: i === 1 ? 'shape' : 'peitao' };
+  }) };
+}
+
+function pede(metodo, corpo) {
+  return fetch(API, { method: metodo, headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + chave }, body: corpo ? JSON.stringify(corpo) : undefined })
+    .then(function (r) { if (r.status === 401) { throw new Error('chave'); } return r.json(); });
+}
+
+function telaLogin(erro) {
+  $('app').innerHTML = '<div class="login"><h1>Anamnese dos alunos</h1><p class="sub">Cola a chave de admin uma vez. Ela fica só neste aparelho.</p>'
+    + '<input id="k" type="password" placeholder="Chave de admin" autocomplete="off"><button class="btn" id="entrar">Entrar</button>'
+    + (erro ? '<p class="sub" style="color:#ff8a7a;margin-top:12px">Chave não confere.</p>' : '')
+    + '<p class="sub" style="margin-top:22px"><a style="color:#e8c97a" href="?demo=1">Ver com alunos de exemplo</a></p></div>';
+  $('entrar').onclick = function () { chave = $('k').value.trim(); try { localStorage.setItem('ghq_admin', chave); } catch (e) {} carrega(); };
+}
+
+function carrega() {
+  if (DEMO) { dados = exemplo(); return desenha(); }
+  if (!chave) return telaLogin();
+  pede('GET').then(function (j) { dados = j; desenha(); })['catch'](function (e) { telaLogin(e.message === 'chave'); });
+}
+
+function visiveis() {
+  var q = busca.toLowerCase();
+  return dados.linhas.filter(function (r) {
+    if (filtroFx !== 'TODOS' && r.faixa !== filtroFx) return false;
+    if (filtroDe !== 'TODOS' && r.de !== filtroDe) return false;
+    if (q && (r.nome + ' ' + r.instagram + ' ' + r.profissao + ' ' + r.email).toLowerCase().indexOf(q) < 0) return false;
+    return true;
+  });
+}
+
+function desenha() {
+  var L = dados.linhas, c = { QUENTE: 0, MORNO: 0, FRIO: 0 }, de = { peitao: 0, shape: 0 };
+  L.forEach(function (r) { c[r.faixa]++; de[r.de]++; });
+  var h = '';
+  h += '<h1>Anamnese dos alunos</h1><p class="sub">Peitão de Pombo e Shape de Elite. Quente = quer a consultoria e tem bolso (nota 6 ou mais): aborda primeiro.</p>';
+  if (dados.demo) h += '<div class="aviso">Alunos de EXEMPLO, só pra ver o painel. Nada aqui é real.</div>';
+  h += '<div class="nums"><div class="num"><b>' + L.length + '</b><span>responderam</span></div><div class="num"><b style="color:var(--quente)">' + c.QUENTE + '</b><span>quentes</span></div><div class="num"><b style="color:var(--morno)">' + c.MORNO + '</b><span>mornos</span></div><div class="num"><b style="color:var(--frio)">' + c.FRIO + '</b><span>frios</span></div><div class="num"><b>' + de.peitao + ' / ' + de.shape + '</b><span>Peitão / Shape</span></div></div>';
+  h += '<div class="apps">' + ['peitao', 'shape'].map(function (a) {
+    var on = !!dados.config[a];
+    return '<div class="app">Anamnese obrigatória no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + ': <span class="st ' + (on ? 'on' : 'off') + '">' + (on ? 'LIGADA' : 'DESLIGADA') + '</span><button class="btn sec" data-liga="' + a + '" data-on="' + (on ? 1 : 0) + '">' + (on ? 'Desligar' : 'Ligar') + '</button></div>';
+  }).join('') + '</div>';
+  h += '<div class="barra">' + ['TODOS', 'QUENTE', 'MORNO', 'FRIO'].map(function (f) { return '<button class="chip' + (filtroFx === f ? ' on' : '') + '" data-fx="' + f + '">' + (f === 'TODOS' ? 'Todos' : f.charAt(0) + f.slice(1).toLowerCase() + 's') + '</button>'; }).join('')
+    + [['TODOS', 'Os dois apps'], ['peitao', 'Peitão'], ['shape', 'Shape']].map(function (f) { return '<button class="chip' + (filtroDe === f[0] ? ' on' : '') + '" data-de="' + f[0] + '">' + f[1] + '</button>'; }).join('') + '</div>';
+  h += '<div class="barra"><input class="busca" id="busca" placeholder="Buscar nome, @, profissão" value="' + esc(busca) + '"><button class="btn" id="csv">Lista pro comercial (planilha)</button><button class="btn sec" id="zap">Copiar lista pro WhatsApp</button></div>';
+  h += '<p class="sub" style="margin:-4px 0 14px">A lista pro comercial leva só Quentes e Mornos, dentro do filtro de app e da busca, Quentes primeiro.</p>';
+  var V = visiveis();
+  h += '<div class="lista">' + (V.length ? V.map(linha).join('') : '<div class="vazio">' + (L.length ? 'Ninguém nesse filtro.' : 'Ninguém respondeu ainda.') + '</div>') + '</div>';
+  $('app').innerHTML = h;
+  liga();
+}
+
+function linha(r) {
+  var ig = r.instagram ? '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener">@' + esc(r.instagram) + '</a>' : '';
+  return '<div class="al"><div class="al-top"><span class="fx ' + r.faixa + '">' + r.faixa + '</span><span class="nome">' + esc(r.nome) + '</span><span class="nota">nota <b>' + r.nota + '</b></span>'
+    + '<span class="meta">' + esc(r.profissao) + ' · ' + esc(r.veio) + ' · ' + esc(r.investe) + '</span>'
+    + '<span class="meta">' + ig + (ig ? ' · ' : '') + '<a href="' + wa(r.whatsapp) + '" target="_blank" rel="noopener">' + esc(telBonito(r.whatsapp)) + '</a></span>'
+    + '<span class="meta">' + r.treinos + ' treinos · último ' + diaIso(r.ultimoTreino) + '</span></div>'
+    + '<div class="det">' + [['Interesse', r.interesse], ['Idade', r.idade], ['Objetivo', r.objetivo], ['Como se sente', r.sente], ['Treina há', r.tempo], ['Já paga', r.paga], ['Suplementos', r.suplementos + (r.gastoSupl ? ' (uns R$ ' + r.gastoSupl + '/mês)' : '')], ['Caneta', r.caneta], ['Exame de sangue', r.exames], ['Investe por mês', r.investe], ['Aparelho', r.aparelho], ['Respondeu em', dia(r.respondeuEm)], ['E-mail', r.email]]
+      .map(function (x) { return '<div><span>' + x[0] + '</span>' + esc(x[1] || '') + '</div>'; }).join('') + '</div></div>';
+}
+
+function paraComercial() { return visiveis().filter(function (r) { return r.faixa !== 'FRIO'; }); }
+
+function liga() {
+  [].forEach.call(document.querySelectorAll('[data-fx]'), function (b) { b.onclick = function () { filtroFx = b.getAttribute('data-fx'); desenha(); }; });
+  [].forEach.call(document.querySelectorAll('[data-de]'), function (b) { b.onclick = function () { filtroDe = b.getAttribute('data-de'); desenha(); }; });
+  [].forEach.call(document.querySelectorAll('.al-top'), function (t) { t.onclick = function (e) { if (e.target.tagName === 'A') return; t.parentNode.classList.toggle('aberto'); }; });
+  [].forEach.call(document.querySelectorAll('[data-liga]'), function (b) {
+    b.onclick = function () {
+      var a = b.getAttribute('data-liga'), on = b.getAttribute('data-on') === '1';
+      if (dados.demo) return toast('No exemplo não liga nada.');
+      if (!confirm((on ? 'Desligar' : 'Ligar') + ' a anamnese obrigatória no ' + (a === 'peitao' ? 'Peitão' : 'Shape') + '?')) return;
+      pede('POST', { acao: on ? 'desligar' : 'ligar', app: a }).then(function (j) { dados.config = j.config; desenha(); toast('Feito.'); });
+    };
+  });
+  var bu = $('busca'); bu.oninput = function () { busca = bu.value; var pos = bu.selectionStart; desenha(); var n = $('busca'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (e) {} };
+  $('csv').onclick = baixaCsv;
+  $('zap').onclick = copiaZap;
+}
+
+var COLS = [['faixa', 'Faixa'], ['nota', 'Nota do bolso'], ['nome', 'Nome'], ['whatsapp', 'WhatsApp'], ['instagram', 'Instagram'], ['profissao', 'Profissão'], ['veio', 'Veio de'], ['idade', 'Idade'], ['objetivo', 'Objetivo'], ['sente', 'Como se sente'], ['paga', 'Já paga'], ['suplementos', 'Suplementos'], ['gastoSupl', 'Gasto estimado com suplemento (R$/mês)'], ['caneta', 'Caneta'], ['exames', 'Exames'], ['investe', 'Investe por mês'], ['interesse', 'Interesse na consultoria'], ['respondeuEm', 'Respondeu em'], ['treinos', 'Treinos feitos no app'], ['ultimoTreino', 'Último treino'], ['email', 'E-mail']];
+function baixaCsv() {
+  var R = paraComercial();
+  if (!R.length) return toast('Nenhum quente ou morno nesse filtro.');
+  var cel = function (k, v) { if (k === 'respondeuEm') v = dia(v); if (k === 'ultimoTreino') v = v ? diaIso(v) : ''; if (k === 'instagram' && v) v = '@' + v; v = String(v == null ? '' : v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  var txt = '\uFEFF' + [COLS.map(function (c) { return c[1]; }).join(';')].concat(R.map(function (r) { return COLS.map(function (c) { return cel(c[0], r[c[0]]); }).join(';'); })).join('\n');
+  var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'lista-comercial-' + new Date().toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+  toast(R.length + ' alunos na planilha.');
+}
+function copiaZap() {
+  var R = paraComercial();
+  if (!R.length) return toast('Nenhum quente ou morno nesse filtro.');
+  var t = '*Alunos dos apps pra abordar no 1 a 1* (' + new Date().toLocaleDateString('pt-BR') + ')\n\n' + R.map(function (r, i) {
+    return (i + 1) + '. *' + r.nome + '* · ' + r.faixa + ' (nota ' + r.nota + ')\n'
+      + 'WhatsApp: ' + telBonito(r.whatsapp) + (r.instagram ? ' · @' + r.instagram : '') + '\n'
+      + r.profissao + ' · ' + r.idade + ' · veio do ' + r.veio + '\n'
+      + 'Quer: ' + r.objetivo + '. ' + r.sente + '\n'
+      + 'Já paga: ' + r.paga + ' · investe ' + r.investe + ' · caneta: ' + r.caneta + '\n'
+      + 'Interesse: ' + r.interesse + ' · ' + r.treinos + ' treinos no app, último ' + diaIso(r.ultimoTreino);
+  }).join('\n\n');
+  var feito = function () { toast(R.length + ' alunos copiados.'); };
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(feito, function () { prompt('Copia:', t); });
+  else prompt('Copia:', t);
+}
+carrega();
+</script></body></html>

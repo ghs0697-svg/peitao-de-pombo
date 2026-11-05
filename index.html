@@ -1967,19 +1967,52 @@ function mostrarFalhaCarga() {
 
 // ── Anamnese de qualificação pra consultoria (GH 05/11, Sala #4259 e #4261) ──
 // Mesma tela no Peitão e no Shape: o script vem da API (/api/qualif/widget), que também diz se está ligada
-// (chave no painel /api/admin/qualif/painel) e se o aluno já respondeu. Obrigatória: cobre o app até o fim.
+// (chave no painel /api/admin/qualif/painel) e se o aluno já respondeu. Obrigatória pra conta NOVA (criada
+// depois de ligar): cobre o app até o fim. Quem já era aluno vê um banner na aba TREINO (GH 05/11).
 // Se o script ou a API falharem, o app segue normal: erro nosso nunca tranca o aluno fora do treino.
 let _qualifTentou = false;
-function abrirQualif() {
-  if (_qualifTentou || !state.user || !state.user.token) return;
-  _qualifTentou = true;
-  const abre = () => { try { window.GHQualif.abrir({ api: API_BASE, de: 'peitao', token: state.user.token }); } catch (e) {} };
-  if (window.GHQualif) return abre();
+let _qualifBanner = false;   // quem já era aluno antes de ligar: banner na aba TREINO, abre a mesma tela no toque
+function _qualifOpts(extra) {
+  return Object.assign({ api: API_BASE, de: 'peitao', token: state.user && state.user.token,
+    onBanner: function () { _qualifBanner = true; if (state.tab === 'peito') renderPeito(); },
+    onFim: function (respondeu) { if (respondeu) { _qualifBanner = false; if (state.tab === 'peito') renderPeito(); } } }, extra || {});
+}
+function _qualifScript(cb) {
+  if (window.GHQualif) return cb();
   const sc = document.createElement('script');
   sc.src = API_BASE + '/api/qualif/widget';
   sc.async = true;
-  sc.onload = abre;
+  sc.onload = cb;
   document.head.appendChild(sc);
+}
+function abrirQualif() {
+  if (_qualifTentou || !state.user || !state.user.token) return;
+  _qualifTentou = true;
+  _qualifScript(function () { try { window.GHQualif.abrir(_qualifOpts()); } catch (e) {} });
+}
+function responderQualif() {
+  _qualifScript(function () { try { window.GHQualif.abrir(_qualifOpts({ forcar: true })); } catch (e) {} });
+}
+function qualifBannerHtml() {
+  if (!_qualifBanner) return '';
+  try { const off = Number(localStorage.getItem('gh_qualifOff') || 0); if (off && Date.now() - off < 2 * 86400000) return ''; } catch (e) {}
+  return `<div class="mgh-card theme-gh" id="qualifBanner" style="margin:0 0 14px;">
+    <div class="mgh-head">
+      <div class="mgh-logo">GH</div>
+      <div>
+        <div class="mgh-marca">MÉTODO GH</div>
+        <div class="mgh-badge">📝 ME CONTA DE TI</div>
+      </div>
+    </div>
+    <div class="mgh-headline">Responde umas perguntas rápidas sobre ti</div>
+    <div class="mgh-sub" style="margin-bottom:14px;">Quero conhecer melhor quem treina com o Peitão: teu objetivo, tua rotina e o que tu já usa. Leva uns 2 minutos e é uma vez só.</div>
+    <button class="mgh-cta" style="width:100%;border:0;font-family:inherit;cursor:pointer;" onclick="responderQualif()">Responder agora →</button>
+    <button class="mgh-wa-soft" style="width:100%;background:transparent;font-family:inherit;cursor:pointer;" onclick="fecharQualifBanner()">Agora não</button>
+  </div>`;
+}
+function fecharQualifBanner() {
+  try { localStorage.setItem('gh_qualifOff', String(Date.now())); } catch (e) {}
+  const el = document.getElementById('qualifBanner'); if (el) el.remove();
 }
 async function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
@@ -2373,7 +2406,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v155' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v156' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -4155,6 +4188,7 @@ function renderPeito() {
     <p class="hint">Peito 2x na semana com 2 dias de folga (ex: A na segunda, B na quinta). ${state.upsellUnlocked ? 'Os outros dias completam o corpo inteiro.' : 'Entra no lugar do peito que tu já faz; o resto do teu treino continua igual.'}</p>
     ${comecaAquiHtml(cur, exList, nomeDia)}
     ${secaBannerPrimeiroDiaHtml()}
+    ${qualifBannerHtml()}
     ${cortesiaShapeHtml()}
     ${faixaGrupoHtml()}
     ${meteoricoHtml()}
