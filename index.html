@@ -2264,9 +2264,9 @@ const PLANOS_CONSULTORIA = [
     meses: 3,
     de: 'R$897',
     aVista: 'R$647',
-    parcela: '12x de R$66,52',   // lido na tela do checkout KscgT3 em 04/11 (era AR8JZa a R$997)
+    parcela: '12x de R$57,20',   // InfinitePay, taxa do parcelamento pelo aluno (CRM #4331, 06/11); era 66,52 no KscgT3 da Greenn e antes AR8JZa a R$997
     porMes: 'R$216/mês',
-    link: 'https://payfast.greenn.com.br/120431/offer/KscgT3?ch_id=21679&b_id_1=120433&b_offer_1=A4laNh&b_id_2=168168&b_offer_2=LNEse1&utm_source=peitao&utm_medium=app&utm_campaign=escada',
+    link: 'https://checkout.infinitepay.io/metodogh/0X0k7MBHGB',   // InfinitePay desde 06/11 (CRM #4331): sem bump; depois de pagar vai pro /pagou/trimestral do CRM
     bonusMeses: 1,   // tabela do CRM: trimestral +1, semestral +2, anual +2
   },
   // SEMESTRAL e ANUAL fora do card por ordem do GH (04/10). Tabela de 31/10: semestral
@@ -2432,7 +2432,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v159' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v160' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
