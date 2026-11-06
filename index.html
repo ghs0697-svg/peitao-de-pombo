@@ -1391,6 +1391,11 @@
     text-transform: uppercase; margin-left: auto; flex-shrink: 0;
   }
   .ex-swap:active { transform: scale(.97); }
+  .ex-trocas { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 4px; }
+  .ex-trocas-tit { font-size: 11px; letter-spacing: .5px; color: var(--text-dim); text-transform: uppercase; }
+  .ex-troca { text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: inherit; font: inherit; font-size: 14px; cursor: pointer; }
+  .ex-troca.on { border-color: var(--gold, #d4a017); font-weight: 600; }
+  .ex-troca small { color: var(--text-dim); font-weight: 400; margin-left: 4px; }
   .ex.is-sub .ex-swap { background: transparent; color: var(--text-dim); border-color: var(--border); }
   .ex.is-sub { border-color: rgba(255, 107, 26, 0.45); }
   .ex-sub-badge {
@@ -1665,6 +1670,24 @@ const CHECKOUT_SECA      = 'https://pay.hotmart.com/I107378212O?bid=178798505984
 const CHECKOUT_COMBO     = 'https://pay.hotmart.com/J106027528H?off=xw1mmse5';  // Super Combo (3 ebooks) R$19,90
 const STORAGE_KEY = 'peitao_session';
 let DATA = null;
+// Opções de troca dos exercícios de PEITO (GH 05/11, lista da Site na Sala #4274, do grupo da consultoria).
+// No Peitão só peito troca; os outros músculos não. O substituto oficial do data (ex.sub) segue
+// sendo a 1ª opção e grava na chave _sub de sempre. As opções daqui gravam carga na chave
+// _t_<nome do exercício>, pelo NOME e não pela posição: mudar esta lista nunca leva o peso de um
+// exercício pra outro. Opção igual ao titular ou ao substituto oficial é ignorada.
+const TROCAS_PEITO = {
+  'crucifixo inclinado': [['Crucifixo inclinado no cross', 'https://www.youtube.com/shorts/nVOhlOZleYU'], ['Crossover polia média', 'https://youtube.com/shorts/r4sQ08_vWSA']],
+  'supino reto na maquina': [['Supino reto', 'https://youtube.com/shorts/8cddcIpR3qA'], ['Supino reto na máquina sentado', 'https://youtube.com/shorts/rzXz_sEGG54'], ['Supino reto com halteres', 'https://youtube.com/shorts/B1Iy51Ct0s0']],
+  'supino inclinado com halteres': [['Supino inclinado', 'https://youtube.com/shorts/FjgXjHvuXYM'], ['Supino inclinado na máquina', 'https://youtube.com/shorts/7E9d83utgeQ']],
+  'voador': [['Crucifixo reto', 'https://youtube.com/shorts/dUYcnHc-2o4']],
+  'crucifixo reto': [['Voador', 'https://youtube.com/shorts/OOEOxr_q45I']],
+  'supino declinado': [['Supino declinado na máquina', 'https://youtube.com/shorts/GQLcl2lN7hg'], ['Supino declinado com halteres', 'https://youtube.com/shorts/Q3Ww5YmkwiY']],
+  'supino declinado com halteres': [['Supino declinado', 'https://youtube.com/shorts/vtCzrCUo1Lo'], ['Supino declinado na máquina', 'https://youtube.com/shorts/GQLcl2lN7hg']],
+  'crucifixo declinado': [['Crossover', 'https://youtube.com/shorts/r7OPVZeAzjg']],
+  'crossover polia media': [['Crucifixo inclinado', 'https://youtube.com/shorts/TDbrCjGA684'], ['Crucifixo inclinado no cross', 'https://www.youtube.com/shorts/nVOhlOZleYU']],
+};
+function _normEx(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim(); }
+function _slugEx(s) { return _normEx(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
 
 // Estado
 // Valores de fábrica do estado. O logout volta a ELES (Object.assign), em vez de zerar
@@ -1888,6 +1911,8 @@ async function boot() {
     mostrarFalhaCarga();   // sem o pacote do treino não tem app: diz o que houve em vez da tela em branco
     return;
   }
+  DATA.videos = DATA.videos || {};
+  for (const lista of Object.values(TROCAS_PEITO)) for (const [nome, url] of lista) DATA.videos['TROCA|' + _slugEx(nome)] = url;
   // Pacote do Modo Seca: carrega em paralelo; sem ele o modo só não aparece
   fetch('data/seca-panca-data.json').then(r => r.json()).then(j => {
     SECA_DATA = j; secaBuildIndex();
@@ -2407,7 +2432,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v158' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v159' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2986,6 +3011,44 @@ function isSubbed(ctxKey, idx) {
   if (isSecaForced(ctxKey, idx)) return true;   // modo seca força o substituto oficial
   return !!(state.subs && state.subs[ctxKey + '_' + idx]);
 }
+// Qual troca está valendo: null (titular), 'sub' (substituto oficial) ou o slug de uma opção de TROCAS_PEITO.
+// state.subs guardava só true/false; true continua sendo o substituto oficial.
+function escolhaTroca(ctxKey, idx) {
+  if (isSecaForced(ctxKey, idx)) return 'sub';
+  const v = state.subs && state.subs[ctxKey + '_' + idx];
+  if (!v) return null;
+  return v === true ? 'sub' : String(v);
+}
+function opcoesTroca(ex) {
+  const out = [];
+  if (ex.sub) out.push({ id: 'sub', ex: ex.sub });
+  if (!ehDePeito(ex)) return out;
+  const vistos = new Set([_normEx(ex.exercicio), ex.sub ? _normEx(ex.sub.exercicio) : '']);
+  for (const [nome] of (TROCAS_PEITO[_normEx(ex.exercicio)] || [])) {
+    if (vistos.has(_normEx(nome))) continue;
+    vistos.add(_normEx(nome));
+    out.push({ id: _slugEx(nome), ex: { exercicio: nome, series: ex.series, reps: ex.reps, intervalo: ex.intervalo, obs: '', video_key: 'TROCA|' + _slugEx(nome) } });
+  }
+  return out;
+}
+function _rerenderTroca(idx) {
+  if (state.tab === 'peito') manterPosicao(() => document.querySelectorAll('#screen-peito .ex')[idx], renderPeito);
+  else if (state.tab === 'semana') renderSemana();
+}
+function abrirTroca(ctxKey, idx) {
+  const k = ctxKey + '_' + idx;
+  state.trocaAberta = state.trocaAberta === k ? null : k;
+  _rerenderTroca(idx);
+}
+function escolherTroca(ctxKey, idx, id) {
+  const k = ctxKey + '_' + idx;
+  state.subs = state.subs || {};
+  if (!id) delete state.subs[k];
+  else state.subs[k] = id === 'sub' ? true : id;
+  state.trocaAberta = null;
+  saveSubs();
+  _rerenderTroca(idx);
+}
 function toggleSub(ctxKey, idx) {
   const k = ctxKey + '_' + idx;
   state.subs = state.subs || {};
@@ -2999,7 +3062,11 @@ function toggleSub(ctxKey, idx) {
 function activeExercise(ex, ctxKey, idx) {
   const sw = secaSwapFor(ctxKey, idx);
   if (sw) return { ...ex, sub: null, exercicio: sw.exercicio, video_key: sw.video_key, obs: sw.obs };
-  return (ex.sub && isSubbed(ctxKey, idx)) ? ex.sub : ex;
+  const esc = ex.sub ? escolhaTroca(ctxKey, idx) : null;
+  if (!esc) return ex;
+  if (esc === 'sub') return ex.sub;
+  const op = opcoesTroca(ex).find(o => o.id === esc);
+  return op ? op.ex : ex;
 }
 
 // ════════ PROGRESSÃO DE CARGA (séries: kg/placa/reps por série, por semana 1-12) ════════
@@ -3101,7 +3168,9 @@ function setsKey(ctxKey, idx, w) {
   if (typeof secaSwapFor === 'function' && secaSwapFor(ctxKey, idx)) {
     return `peitao_sets_${setsEmail()}_${ctxKey}_w${w}_e${idx}_seca`;
   }
-  const sf = (typeof isSubbed === 'function' && isSubbed(ctxKey, idx)) ? '_sub' : '';   // substituto tem chave própria
+  // substituto tem chave própria: o oficial grava em _sub, as opções da lista de peito em _t_<nome>
+  const esc = (typeof escolhaTroca === 'function') ? escolhaTroca(ctxKey, idx) : null;
+  const sf = esc === 'sub' ? '_sub' : (esc ? '_t_' + esc : '');
   return `peitao_sets_${setsEmail()}_${ctxKey}_w${w}_e${idx}${sf}`;
 }
 function serieCount(seriesStr) {
@@ -3852,9 +3921,20 @@ function exerciseCard(ex, ctxKey, idx) {
   const secaForced = isSecaForced(ctxKey, idx);
   // Troca de exercício só nos de PEITO (GH 05/11): os outros músculos ficam fixos. Quem já tinha trocado
   // um que não é de peito ainda vê o "voltar", pra não ficar preso no substituto; depois disso o botão some.
-  const swapBtn = (ex.sub && !secaSw && !secaForced && (ehDePeito(ex) || subbed))
-    ? `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`
-    : '';
+  const ops = (ex.sub && !secaSw && !secaForced && (ehDePeito(ex) || subbed)) ? opcoesTroca(ex) : [];
+  const kTroca = ctxKey + '_' + idx;
+  let swapBtn = '', trocasHtml = '';
+  if (ops.length > 1) {
+    // Mais de uma opção (lista de peito): abre a escolha embaixo do nome.
+    swapBtn = `<button class="ex-swap" onclick="abrirTroca('${ctxKey}',${idx})" title="Escolher outro exercício">↻ trocar</button>`;
+    if (state.trocaAberta === kTroca) {
+      const esc = escolhaTroca(ctxKey, idx) || '';
+      const item = (id, nome, rot) => `<button class="ex-troca${esc === id ? ' on' : ''}" onclick="escolherTroca('${ctxKey}',${idx},'${id}')">${esc === id ? '✓ ' : ''}${nome}${rot ? ` <small>${rot}</small>` : ''}</button>`;
+      trocasHtml = `<div class="ex-trocas"><div class="ex-trocas-tit">Faz este no lugar:</div>${item('', ex.exercicio, 'original')}${ops.map(o => item(o.id, o.ex.exercicio, '')).join('')}</div>`;
+    }
+  } else if (ops.length === 1) {
+    swapBtn = `<button class="ex-swap" onclick="toggleSub('${ctxKey}',${idx})" title="Trocar pra ${subbed?'original':'substituto'}">↻ ${subbed?'voltar':'trocar'}</button>`;
+  }
   // Vídeos em todos os exercícios da aba PEITO e da aba SEMANA (treino 5x).
   // Cards sem URL em DATA.videos viram automaticamente "no-video" (sem botão de play).
   const showVideo = ctxKey.startsWith('peito_') || ctxKey.startsWith('peitoB_') || ctxKey.startsWith('semana_');
@@ -3870,6 +3950,7 @@ function exerciseCard(ex, ctxKey, idx) {
         </div>
         ${swapBtn}
       </div>
+      ${trocasHtml}
       <div class="ex-meta">
         <div><div class="lbl">SÉRIES</div><div class="val">${active.series||'-'}</div></div>
         <div><div class="lbl">REPS</div><div class="val">${active.reps||'-'}</div></div>
