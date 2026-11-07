@@ -28,6 +28,7 @@ input.busca{flex:1;min-width:180px;padding:9px 13px;border-radius:999px;border:1
 .det{display:none;margin-top:12px;border-top:1px solid var(--linha);padding-top:10px;display:none}
 .al.aberto .det{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px 18px}
 .det div{font-size:14px}.det span{display:block;color:var(--sub);font-size:12px}
+.conta{margin-top:10px;font-size:14px;line-height:1.45;font-style:italic;color:var(--sub);border-left:3px solid var(--linha);padding-left:10px}
 .vazio{color:var(--sub);text-align:center;padding:40px 0}
 .login{max-width:380px;margin:18vh auto 0;text-align:center}.login input{width:100%;padding:13px;border-radius:12px;border:1px solid var(--linha);background:var(--card);color:var(--txt);font:inherit;margin:14px 0}
 .aviso{background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.35);border-radius:12px;padding:10px 13px;font-size:13px;margin:0 0 14px;color:var(--ouro2)}
@@ -116,8 +117,9 @@ function linha(r) {
     + '<span class="meta">' + esc(r.profissao) + ' · ' + esc(r.veio) + ' · ' + esc(r.investe) + '</span>'
     + '<span class="meta">' + ig + (ig ? ' · ' : '') + '<a href="' + wa(r.whatsapp) + '" target="_blank" rel="noopener">' + esc(telBonito(r.whatsapp)) + '</a></span>'
     + '<span class="meta">' + r.treinos + ' treinos · último ' + diaIso(r.ultimoTreino) + '</span></div>'
-    + '<div class="det">' + [['Interesse', r.interesse], ['Idade', r.idade], ['Objetivo', r.objetivo], ['Como se sente', r.sente], ['Treina há', r.tempo], ['Já paga', r.paga], ['Suplementos', r.suplementos + (r.gastoSupl ? ' (uns R$ ' + r.gastoSupl + '/mês)' : '')], ['Caneta', r.caneta], ['Exame de sangue', r.exames], ['Investe por mês', r.investe], ['Aparelho', r.aparelho], ['Respondeu em', dia(r.respondeuEm)], ['E-mail', r.email]]
-      .map(function (x) { return '<div><span>' + x[0] + '</span>' + esc(x[1] || '') + '</div>'; }).join('') + '</div></div>';
+    + (r.conta ? '<div class="conta">“' + esc(r.conta).replace(/\n/g, '<br>') + '”</div>' : '')
+    + '<div class="det">' + [['Maior dificuldade', r.impede], ['O que pesou', r.motivo]].concat(r.interesse ? [['Interesse (resposta antiga)', r.interesse]] : []).concat([['Idade', r.idade], ['Objetivo', r.objetivo], ['Como se sente', r.sente], ['Treina há', r.tempo], ['Já paga', r.paga], ['Suplementos', r.suplementos + (r.gastoSupl ? ' (uns R$ ' + r.gastoSupl + '/mês)' : '')], ['Caneta', r.caneta], ['Exame de sangue', r.exames], ['Investe por mês', r.investe], ['Aparelho', r.aparelho], ['Respondeu em', dia(r.respondeuEm)], ['E-mail', r.email]])
+      .filter(function (x) { return x[1]; }).map(function (x) { return '<div><span>' + x[0] + '</span>' + esc(x[1] || '') + '</div>'; }).join('') + '</div></div>';
 }
 
 function paraComercial() { return visiveis().filter(function (r) { return r.faixa !== 'FRIO'; }); }
@@ -139,7 +141,7 @@ function liga() {
   $('zap').onclick = copiaZap;
 }
 
-var COLS = [['faixa', 'Faixa'], ['nota', 'Nota do bolso'], ['nome', 'Nome'], ['whatsapp', 'WhatsApp'], ['instagram', 'Instagram'], ['profissao', 'Profissão'], ['veio', 'Veio de'], ['idade', 'Idade'], ['objetivo', 'Objetivo'], ['sente', 'Como se sente'], ['paga', 'Já paga'], ['suplementos', 'Suplementos'], ['gastoSupl', 'Gasto estimado com suplemento (R$/mês)'], ['caneta', 'Caneta'], ['exames', 'Exames'], ['investe', 'Investe por mês'], ['interesse', 'Interesse na consultoria'], ['respondeuEm', 'Respondeu em'], ['treinos', 'Treinos feitos no app'], ['ultimoTreino', 'Último treino'], ['email', 'E-mail']];
+var COLS = [['faixa', 'Faixa'], ['nota', 'Nota do bolso'], ['nome', 'Nome'], ['whatsapp', 'WhatsApp'], ['instagram', 'Instagram'], ['profissao', 'Profissão'], ['veio', 'Veio de'], ['idade', 'Idade'], ['objetivo', 'Objetivo'], ['sente', 'Como se sente'], ['paga', 'Já paga'], ['suplementos', 'Suplementos'], ['gastoSupl', 'Gasto estimado com suplemento (R$/mês)'], ['caneta', 'Caneta'], ['exames', 'Exames'], ['investe', 'Investe por mês'], ['impede', 'Maior dificuldade'], ['motivo', 'O que pesou'], ['conta', 'O que escreveu'], ['interesse', 'Interesse na consultoria (só resposta antiga)'], ['respondeuEm', 'Respondeu em'], ['treinos', 'Treinos feitos no app'], ['ultimoTreino', 'Último treino'], ['email', 'E-mail']];
 function baixaCsv() {
   var R = paraComercial();
   if (!R.length) return toast('Nenhum quente ou morno nesse filtro.');
@@ -157,8 +159,10 @@ function copiaZap() {
       + 'WhatsApp: ' + telBonito(r.whatsapp) + (r.instagram ? ' · @' + r.instagram : '') + '\n'
       + r.profissao + ' · ' + r.idade + ' · veio do ' + r.veio + '\n'
       + 'Quer: ' + r.objetivo + '. ' + r.sente + '\n'
+      + (r.impede ? 'Maior dificuldade: ' + r.impede + (r.motivo ? ' · ' + r.motivo : '') + '\n' : '')
+      + (r.conta ? 'Escreveu: "' + r.conta.replace(/\s+/g, ' ') + '"\n' : '')
       + 'Já paga: ' + r.paga + ' · investe ' + r.investe + ' · caneta: ' + r.caneta + '\n'
-      + 'Interesse: ' + r.interesse + ' · ' + r.treinos + ' treinos no app, último ' + diaIso(r.ultimoTreino);
+      + (r.interesse ? 'Interesse: ' + r.interesse + ' · ' : '') + r.treinos + ' treinos no app, último ' + diaIso(r.ultimoTreino);
   }).join('\n\n');
   var feito = function () { toast(R.length + ' alunos copiados.'); };
   if (navigator.clipboard) navigator.clipboard.writeText(t).then(feito, function () { prompt('Copia:', t); });
