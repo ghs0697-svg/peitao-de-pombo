@@ -800,6 +800,24 @@
   /* sem conexão na abertura: aviso curto acima das abas, some quando a rede volta */
   .aviso-offline { margin: 0 16px 10px; padding: 9px 12px; border: 1px solid rgba(232,184,75,.4); background: rgba(232,184,75,.08); border-radius: 10px; font-size: 12.5px; line-height: 1.45; color: #E8C97A; }
   .aviso-offline b { color: #F2D27A; }
+  /* Black do Shape de Elite (GH 16/11): faixa horizontal no TOPO do app, em todas as abas, até 19/11 23h59.
+     Cara do Shape (pedido do GH): preto do Shape, vermelho #B41E1E, selo SE e a marca SHAPE DE ELITE. */
+  .black-se { display: flex; align-items: center; gap: 10px; padding: calc(9px + var(--safe-top)) 8px 9px 12px;
+    background: linear-gradient(90deg, #1F1517 0%, #0F0F11 70%); border-bottom: 2px solid #B41E1E; }
+  .black-se-link { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+  .black-se-selo { flex-shrink: 0; width: 38px; height: 38px; border-radius: 8px; background: #2A0A0C; border: 1px solid rgba(180,30,30,.6);
+    display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 17px; letter-spacing: -.5px; color: #FFFFFF; }
+  .black-se-selo i { font-style: normal; color: #E53935; }
+  .black-se-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .black-se-marca { font-size: 12px; font-weight: 900; letter-spacing: 1.8px; color: #FFFFFF; white-space: nowrap; }
+  .black-se-marca i { font-style: normal; color: #E53935; }
+  .black-se-tag { font-size: 9.5px; font-weight: 900; letter-spacing: 1.2px; color: #0F0F11; background: #E53935; padding: 1px 5px; border-radius: 4px; margin-left: 4px; vertical-align: 1px; }
+  .black-se-msg { font-size: 12px; font-weight: 600; color: #D9D9DC; line-height: 1.3; }
+  .black-se-cta { flex-shrink: 0; padding: 8px 11px; border-radius: 9px; background: #B41E1E; color: #FFFFFF; font-size: 12px; font-weight: 900;
+    white-space: nowrap; animation: blackSePulso 2.4s ease-in-out infinite; }
+  @keyframes blackSePulso { 0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,0); } 50% { box-shadow: 0 0 0 5px rgba(229,57,53,.3); } }
+  .black-se-x { width: 26px; border: none; background: none; color: rgba(255,255,255,.4); font-size: 18px; line-height: 1; cursor: pointer; font-family: inherit; }
+  .com-black header { padding-top: 16px; }
   /* faixa pequena do grupo (Sala #3002): uma linha, verde, sem empurrar o treino */
   .grupo-faixa { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; }
   .grupo-faixa-btn {
@@ -1481,6 +1499,7 @@
 </div>
 
 <div class="wrap hidden" id="appWrap">
+  <div id="blackShapeSlot"></div>
   <header>
     <div class="seca-fogo" id="secaFogoTopo" aria-hidden="true"><canvas id="fogoCanvasTopo"></canvas></div>
     <div class="logo">MÉTODO GH</div>
@@ -2039,7 +2058,52 @@ function fecharQualifBanner() {
   try { localStorage.setItem('gh_qualifOff', String(Date.now())); } catch (e) {}
   const el = document.getElementById('qualifBanner'); if (el) el.remove();
 }
+// Black especial do combo Shape de Elite (GH 16/11): faixa horizontal no TOPO do app, em todas as abas,
+// até o fim do dia 19/11. Duas fases com o mesmo link (grupo da black no zenhub): aviso (até 18/11) e
+// "é hoje" (19/11). O toque conta em para=black-shape e abre o grupo; o × esconde só a fase em que foi fechado.
+const BLACK_SHAPE = {
+  link: 'https://zenhub.pro/join/black-shape-de-elite',
+  fases: [
+    { id: 'aviso', de: new Date(2026, 10, 16, 0, 0, 0), ate: new Date(2026, 10, 18, 23, 59, 59),
+      tag: 'BLACK 19/11', msg: 'Combo com desconto e bônus, só dia 19 e só pra quem está no grupo.' },
+    { id: 'hoje', de: new Date(2026, 10, 19, 0, 0, 0), ate: new Date(2026, 10, 19, 23, 59, 59),
+      tag: 'É HOJE', msg: 'Black do combo com desconto e bônus, só hoje e só no grupo.' },
+  ],
+};
+function blackShapeFase(agora) {
+  for (const f of BLACK_SHAPE.fases) if (agora >= f.de && agora <= f.ate) return f;
+  return null;
+}
+function mostrarBlackShape() {
+  const slot = document.getElementById('blackShapeSlot');
+  if (!slot) return;
+  let f = null;
+  try {
+    f = blackShapeFase(new Date());
+    if (f && localStorage.getItem('gh_blackShapeOff_' + f.id) === '1') f = null;
+  } catch (e) { f = null; }
+  if (!f) { slot.innerHTML = ''; document.body.classList.remove('com-black'); return; }
+  slot.innerHTML = `<div class="black-se" id="blackShape">
+    <a class="black-se-link" onclick="abrirBlackShape()">
+      <span class="black-se-selo">S<i>E</i></span>
+      <span class="black-se-txt"><span class="black-se-marca">SHAPE DE <i>ELITE</i><span class="black-se-tag">${esc(f.tag)}</span></span><span class="black-se-msg">${esc(f.msg)}</span></span>
+      <span class="black-se-cta">Clique aqui</span>
+    </a>
+    <button class="black-se-x" onclick="fecharBlackShape()" aria-label="Fechar">×</button>
+  </div>`;
+  document.body.classList.add('com-black');
+}
+function abrirBlackShape() {
+  try { fetch(API_BASE + '/api/clique?para=black-shape&de=faixa', { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
+  window.open(BLACK_SHAPE.link, '_blank');
+}
+function fecharBlackShape() {
+  try { const f = blackShapeFase(new Date()); localStorage.setItem('gh_blackShapeOff_' + (f ? f.id : 'x'), '1'); } catch (e) {}
+  const slot = document.getElementById('blackShapeSlot'); if (slot) slot.innerHTML = '';
+  document.body.classList.remove('com-black');
+}
 async function enterApp() {
+  mostrarBlackShape();
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('appWrap').classList.remove('hidden');
   // Aviso de acesso prestes a expirar (base, ≤14 dias) — upsell é vitalício (daysLeft null)
@@ -2432,7 +2496,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v160' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v161' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
