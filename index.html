@@ -2084,7 +2084,7 @@ function mostrarBlackShape() {
   } catch (e) { f = null; }
   if (!f) { slot.innerHTML = ''; document.body.classList.remove('com-black'); return; }
   slot.innerHTML = `<div class="black-se" id="blackShape">
-    <a class="black-se-link" onclick="abrirBlackShape()">
+    <a class="black-se-link" href="${BLACK_SHAPE.link}" target="_blank" rel="noopener" onclick="contarBlackShape()">
       <span class="black-se-selo">S<i>E</i></span>
       <span class="black-se-txt"><span class="black-se-marca">SHAPE DE <i>ELITE</i><span class="black-se-tag">${esc(f.tag)}</span></span><span class="black-se-msg">${esc(f.msg)}</span></span>
       <span class="black-se-cta">Clique aqui</span>
@@ -2093,9 +2093,9 @@ function mostrarBlackShape() {
   </div>`;
   document.body.classList.add('com-black');
 }
-function abrirBlackShape() {
+// Link de verdade (href) pra abrir o grupo em qualquer celular, inclusive no app instalado no iPhone; o toque só conta.
+function contarBlackShape() {
   try { fetch(API_BASE + '/api/clique?para=black-shape&de=faixa', { method: 'POST', keepalive: true }).catch(function () {}); } catch (e) {}
-  window.open(BLACK_SHAPE.link, '_blank');
 }
 function fecharBlackShape() {
   try { const f = blackShapeFase(new Date()); localStorage.setItem('gh_blackShapeOff_' + (f ? f.id : 'x'), '1'); } catch (e) {}
@@ -2496,7 +2496,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v161' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v162' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
