@@ -2496,7 +2496,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v162' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v163' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -3192,6 +3192,11 @@ function semanaAtual() {
 function marcarSemanaAtual() {
   const w = state.week;
   if (!(w >= 1 && w <= 12)) return;
+  const depois = [...semanasComCarga(state.tab === 'semana' ? 'semana' : 'peito')].filter(x => x > w);
+  if (depois.length) {
+    const ult = Math.max.apply(null, depois);
+    if (!confirm('Tu já anotou carga até a semana ' + ult + '. Se marcar a semana ' + w + ', o app passa a abrir nela e as cargas da semana ' + ult + ' ficam guardadas lá (não somem). Marcar a semana ' + w + ' mesmo assim?')) return;
+  }
   flushSetsPendentes();
   const arr = [{ d: todayISO(), w: String(w) }];
   try { localStorage.setItem(ancoraKey(), JSON.stringify(arr)); } catch (e) {}
@@ -3216,7 +3221,17 @@ function setWeek(w) {
 function weekSelectorHtml() {
   const max = maxUnlockedWeek();
   const w = state.week, cur = semanaAtual();
-  return `<div class="wk-row">
+  // Semana aberta sem carga nenhuma, mas com carga anotada mais à frente: avisa onde ela está.
+  let ondeEsta = '';
+  try {
+    const sem = semanasComCarga(state.tab === 'semana' ? 'semana' : 'peito');
+    const frente = [...sem].filter(x => x > w && x <= max);
+    if (!sem.has(w) && frente.length) {
+      const ult = Math.max.apply(null, frente);
+      ondeEsta = `<div class="wk-aqui"><span>Tuas cargas anotadas estão na semana <b>${ult}</b>.</span><button onclick="setWeek(${ult})">Ver semana ${ult}</button></div>`;
+    }
+  } catch (e) {}
+  return ondeEsta + `<div class="wk-row">
     <button class="wk-nav" onclick="setWeek(${w - 1})" ${w <= 1 ? 'disabled' : ''} aria-label="Semana anterior">‹</button>
     <div class="wk-label">SEMANA <b>${w}</b> / 12${w === cur ? ' <span class="wk-now">agora</span>' : ''}</div>
     <button class="wk-nav" onclick="setWeek(${w + 1})" ${w >= max ? 'disabled' : ''} aria-label="Próxima semana">›</button>
@@ -3468,7 +3483,26 @@ function notaHtml(ctxKey, idx, nomeEx) {
 }
 function getPrevSets(ctxKey, idx, w) {
   for (let ww = w - 1; ww >= 1; ww--) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
+  // Nada pra trás: mostra a carga de uma semana À FRENTE (caso Kelvin, 17/11: anotou na semana 3,
+  // depois marcou "estou na semana 1" e achou que a carga tinha sumido). Só a dica, nada é gravado.
+  for (let ww = w + 1; ww <= 12; ww++) { const v = loadSets(ctxKey, idx, ww); if (v) return v; }
   return null;
+}
+// Semanas em que o aluno tem carga anotada, no tipo de treino da aba (peito ou semana inteira).
+function semanasComCarga(tipo) {
+  const out = new Set();
+  try {
+    const prefix = 'peitao_sets_' + setsEmail() + '_' + tipo + '_';
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith(prefix)) continue;
+      const m = k.match(/_w(\d+)_e\d+/);
+      if (!m) continue;
+      const a = JSON.parse(localStorage.getItem(k) || 'null');
+      if (Array.isArray(a) && a.some(x => x && (x.kg || x.pl || x.reps))) out.add(parseInt(m[1], 10));
+    }
+  } catch (e) {}
+  return out;
 }
 function setsGridHtml(ctxKey, idx, seriesStr, nome) {
   const w = state.week;
