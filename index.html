@@ -2103,6 +2103,7 @@ function fecharBlackShape() {
   document.body.classList.remove('com-black');
 }
 async function enterApp() {
+  prepararRenatoS();
   mostrarBlackShape();
   document.getElementById('authScreen').classList.add('hidden');
   document.getElementById('appWrap').classList.remove('hidden');
@@ -2496,7 +2497,7 @@ function fbNota(n) {
 }
 async function enviarFeedback() {
   const v = id => (document.getElementById(id)?.value || '').trim();
-  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v163' };
+  const corpo = { falta: v('fbFalta'), atrapalha: v('fbAtrapalha'), gosta: v('fbGosta'), nota: _fbNota, de: _fbDe, versao: 'v164' };
   if (!corpo.falta && !corpo.atrapalha && !corpo.gosta) { showToast('Escreve pelo menos uma resposta 🙂'); return; }
   const btn = document.getElementById('fbEnviar');
   btn.disabled = true; btn.textContent = 'Enviando...';
@@ -2818,20 +2819,29 @@ function renderErgo() {
 // ════════ PARCEIROS ════════
 // Link do Renato (Arte e Ciência) numa função só: ele aparece na aba PARCEIROS E
 // dentro do Modo Seca (o stack é manipulado lá). Fonte única pra nunca divergirem.
-// A mensagem já vai com o NOME do aluno: sem isso ele cai numa conversa vazia e não
-// se apresenta (achado da lane Site MetodoGH, Sala #2049, que apanhou disso no app dela).
+// Desde a v164 (19/11/2026, pedido da CRM e do GH pela comissão do Renato) passa pelo
+// link rastreado do CRM: a rota gera o código de indicação GH-XXXXX, grava o clique
+// e abre o WhatsApp do Renato com a mensagem pronta e o código. Antes abria o WhatsApp
+// direto, sem código, e o aluno chegava na farmácia sem contar pro GH.
+// s = 12 primeiros caracteres em hexadecimal do SHA-256 do e-mail do aluno (nunca o
+// e-mail, nome ou telefone na URL). A CRM resolve casando com a base do Peitão.
+let renatoS = '';
+async function prepararRenatoS() {
+  try {
+    const em = String((state.user && state.user.email) || '').trim().toLowerCase();
+    if (!em || !(window.crypto && crypto.subtle)) return;
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(em));
+    renatoS = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 12);
+  } catch (e) {}
+}
 function linkRenato() {
-  const nome = (state.user && state.user.name ? String(state.user.name).trim().split(/\s+/)[0] : '');
-  const msg = nome
-    ? `Olá, sou ${nome}, aluno do Peitão de Pombo. Vim por indicação do GH.`
-    : 'Olá, sou aluno do Peitão de Pombo. Vim por indicação do GH.';
-  return 'https://api.whatsapp.com/send?phone=5516997693445&text=' + encodeURIComponent(msg);
+  return 'https://links.metodogh.com.br/renato?de=peitao' + (renatoS ? '&s=' + renatoS : '');
 }
 const PARCEIROS = {
   "🤝 Parceiros com desconto": [
     { nome: "👕 AlphaCo", tag: "5% OFF", tagcls: "off", desc: "Linha de roupas esportivas. Cupom GH, já aplicado se tu entrar pelo botão.", cupom: "GH", link: "https://usealphaco.com.br/discount/GH" },
     { nome: "🏋️ YangFit", tag: "15% OFF", tagcls: "off", desc: "Equipamentos e acessórios de musculação. Usa o cupom GH15 no checkout.", cupom: "GH15", link: "https://yangfit.com.br/?utm_source=instagram&utm_medium=GH&utm_campaign=afiliado&utm_content=parceiro%3D7865" },
-    { nome: "💊 Arte e Ciência (Renato)", tag: "MANIPULAÇÃO", tagcls: "wpp", desc: "Farmácia de manipulação do GH há mais de 7 anos. É onde tu manipula o stack do Modo Seca. A mensagem já abre pronta, é só enviar.", link: null, linkFn: linkRenato, wpp: true }
+    { nome: "💊 Arte e Ciência (Renato)", tag: "MANIPULAÇÃO", tagcls: "wpp", desc: "Farmácia de manipulação do GH há mais de 7 anos. É onde tu manipula o stack do Modo Seca. Abre o WhatsApp do Renato com a mensagem pronta e o teu código de indicação, é só enviar.", link: null, linkFn: linkRenato, wpp: true }
   ],
   "💊 Suplementos (FTW)": [
     { nome: "100% Whey Protein Refil 1kg", tag: "SHOPEE", tagcls: "shopee", store: "Loja oficial FTW", desc: "FTW · refil 1 kg · R$ 149,90. Proteína de soro do leite.", link: "https://s.shopee.com.br/1VzuOeMiyY?share_channel_code=1" },
